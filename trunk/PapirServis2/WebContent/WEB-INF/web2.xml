@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+    
+	<display-name>papirservis</display-name>
+    <description></description>
+
+	<filter>
+		<filter-name>UTFtransformer</filter-name>
+		<filter-class>com.belex.servlets.UTFtransformer</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UTFtransformer</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+    <context-param>
+      <param-name>driver</param-name>
+      <param-value>org.gjt.mm.mysql.Driver</param-value>
+    </context-param>
+    
+    <context-param>
+      <param-name>conn</param-name>
+      <param-value>jdbc:mysql://192.168.0.254:3306/papirservis</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>useUnicode</param-name>
+      <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>characterEncoding</param-name>
+      <param-value>UTF-8</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>characterSetResults</param-name>
+      <param-value>UTF-8</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>user</param-name>
+      <param-value>root</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>pass</param-name>
+      <param-value>papirservis</param-value>
+    </context-param>
+
+
+    <context-param>
+      <param-name>reportDir</param-name>
+      <param-value>C:\projects\Monolit\PapirServis\papirservis\reports\</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>logo</param-name>
+      <param-value>./images/ps.jpg</param-value>
+    </context-param>
+
+    <context-param>
+      <param-name>logoPdf</param-name>
+      <param-value>C://projects//Monolit//PapirServis//papirservis//images//ps.jpg</param-value>
+    </context-param>
+
+
+	
+	<servlet>
+		<servlet-name>SledenjeServlet</servlet-name>
+		<servlet-class>si.papirservis.SledenjeServlet</servlet-class>
+		<init-param>
+			<param-name>SledenjeServerURL</param-name>
+			<param-value>http://lbs.sledenje.com/gpswinservlets/servlet/GpsPSLpos2orders</param-value>
+		</init-param>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>SledenjeServlet</servlet-name>
+      <url-pattern>/SledenjeServlet</url-pattern>
+    </servlet-mapping>
+
+	
+    <servlet>
+		<servlet-name>SledenjeServer</servlet-name>
+		<servlet-class>si.papirservis.SledenjeServer</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>SledenjeServer</servlet-name>
+      <url-pattern>/SledenjeServer</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+      <session-timeout>30</session-timeout>
+    </session-config>	
+
+</web-app>

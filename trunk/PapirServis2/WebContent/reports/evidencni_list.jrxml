@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="evidencni_list"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2200592"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-12-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.1.2011"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.3.2011"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_enote" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="obdobje" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Obdobje od " + $P{od_datum_str} + " do " + $P{do_datum_str}]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select sum(dob.kolicina) as dob_kol,
+	ifnull(okolje.material, " ") as material, 
+	ifnull(okolje.koda, " ") as koda,
+	ifnull(kupci.naziv, " ") as naziv,
+	concat(kupci.naslov, ", ", kupci.posta,", ",kupci.kraj) as kraj,
+  	ifnull(enote.dovoljenje, " ") as dovoljenje,
+	ifnull(enote.naziv, " ") naziv_enote,
+	concat(enote.naziv, ", ", enote.lokacija) as kraj_prejema
+from $P!{dobLeto} dob 
+ left join okolje on (dob.ewc = okolje.koda),
+ kupci, skup, enote
+where ((dob.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
+      dob.datum >= CAST($P{od_datum} AS DATE) AND 
+     dob.datum <= CAST($P{do_datum} AS DATE) and
+     dob.sif_kupca = kupci.sif_kupca and
+     kupci.sif_enote = enote.sif_enote and
+     ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     kupci.skupina = skup.skupina and
+     ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     okolje.koda is not null
+group by okolje.material, 
+	okolje.koda,
+	kupci.naziv,
+	kraj,
+	enote.naziv,
+	enote.dovoljenje,
+  	kraj_prejema]]></queryString>
+
+	<field name="dob_kol" class="java.lang.Integer"/>
+	<field name="material" class="java.lang.String"/>
+	<field name="koda" class="java.lang.String"/>
+	<field name="naziv" class="java.lang.String"/>
+	<field name="kraj" class="java.lang.String"/>
+	<field name="dovoljenje" class="java.lang.String"/>
+	<field name="naziv_enote" class="java.lang.String"/>
+	<field name="kraj_prejema" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="775"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="7"
+						width="535"
+						height="699"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-193"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="14" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="63"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="10"
+						width="264"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-37"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="14" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ Evidenčni list pošiljke odpadkov	]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="269"
+						y="10"
+						width="120"
+						height="20"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-38"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Zaporedna št. ev. lista]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="392"
+						y="10"
+						width="140"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-107"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="33"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-108"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[1.Pošiljatelj/imetnik odpadka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="33"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-109"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Št. iz	 evidence]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="262"
+						y="33"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-110"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Matična št.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="199"
+						y="33"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-111"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="325"
+						y="33"
+						width="81"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-112"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="409"
+						y="33"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-113"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Šifra dejavnosti]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="472"
+						y="33"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-114"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="63"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-115"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="81"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-116"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naslov]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="81"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-10"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kraj}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="99"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-117"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[2.Prevzemnik odpadka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="99"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-118"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Št. iz	 evidence]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="262"
+						y="99"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-119"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Matična št.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="325"
+						y="99"
+						width="81"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-121"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[522623600]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="409"
+						y="99"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-122"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Šifra dejavnosti]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="472"
+						y="99"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-123"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[38.320]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="129"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-124"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="147"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-125"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naslov]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="165"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-126"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[3.Prevoznik odpadka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="165"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-127"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Št. iz	 evidence]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="262"
+						y="165"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-128"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Matična št.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="199"
+						y="165"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-129"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="325"
+						y="165"
+						width="81"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-130"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="409"
+						y="165"
+						width="60"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-131"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Šifra dejavnosti]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="472"
+						y="165"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-132"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="195"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-133"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="213"
+						width="86"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-134"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naslov]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="92"
+						y="129"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-135"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PAPIR SERVIS, D.O.O. LJUBLJANA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="92"
+						y="147"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-136"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[POD JEŽAMI 3, 1000 LJUBLJANA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="92"
+						y="195"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-137"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="92"
+						y="213"
+						width="440"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-138"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="230"
+						width="127"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-139"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[4.       Odpadek 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="132"
+						y="230"
+						width="117"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-140"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Klasifikacijska številka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="248"
+						width="246"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-141"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Naziv odpadka (klasifikacijski seznam odpadkov)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="266"
+						width="96"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-142"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Tip]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="252"
+						y="230"
+						width="280"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-11"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{koda}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="252"
+						y="248"
+						width="280"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-12"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{material}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="284"
+						width="96"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-143"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Pakiranje (vrsta)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="303"
+						width="96"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-144"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Fizikalne lastnosti (izgled odpadka)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="103"
+						y="266"
+						width="176"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-145"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[primarni]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="103"
+						y="284"
+						width="176"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-146"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[razsuto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="103"
+						y="303"
+						width="176"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-147"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[trdno]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="282"
+						y="266"
+						width="96"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-148"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Količina (kg)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="282"
+						y="284"
+						width="96"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-149"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Št. kosov pakiranja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="282"
+						y="303"
+						width="96"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-150"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Dejavnost nastanka]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="381"
+						y="266"
+						width="152"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-13"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{dob_kol}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="381"
+						y="284"
+						width="152"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-151"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="381"
+						y="303"
+						width="152"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-152"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[iz proizvodnje in storitvene    dejavnosti]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="333"
+						width="127"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-153"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Lokacija nastanka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="132"
+						y="333"
+						width="90"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-154"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naziv lokacije]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="351"
+						width="69"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-155"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naslov]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="369"
+						width="150"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-156"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KO in parcelne številke]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="225"
+						y="333"
+						width="308"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-14"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="75"
+						y="351"
+						width="458"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-15"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kraj}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="387"
+						width="150"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-157"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Izvor odpadka]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="156"
+						y="369"
+						width="377"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-159"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="156"
+						y="387"
+						width="377"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-160"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isPdfEmbedded ="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[R12]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="405"
+						width="127"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-161"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Lokacija objekta    	             za ravnanje z odpadki]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="132"
+						y="405"
+						width="90"
+						height="27"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-162"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naziv lokacije]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="435"
+						width="69"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-163"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Naslov]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="453"
+						width="150"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-164"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KO in parcelne številke]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="75"
+						y="435"
+						width="458"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-17"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kraj_prejema}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="471"
+						width="150"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-165"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Postopek ravnanja z odpadkom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="156"
+						y="453"
+						width="377"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-166"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="156"
+						y="471"
+						width="303"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-167"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[R13]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="489"
+						width="150"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-168"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Opomba	]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="156"
+						y="489"
+						width="377"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-169"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="225"
+						y="405"
+						width="308"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-170"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PAPIR SERVIS, D.O.O. LJUBLJANA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="507"
+						width="530"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-171"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[5. Primopredaja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="525"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-172"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Datum oddaje]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="402"
+						y="525"
+						width="131"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-173"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="269"
+						y="525"
+						width="130"
+						height="27"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="staticText-174"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime, priimek ter podpis in žig pošiljatelja]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="136"
+						y="525"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-18"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{obdobje}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="555"
+						width="130"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-175"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Kraj oddaje]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="555"
+						width="397"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-176"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="573"
+						width="130"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-177"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Opomba pošiljatelja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="573"
+						width="397"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-178"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="591"
+						width="130"
+						height="27"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="staticText-179"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Prevozno sredstvo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="402"
+						y="591"
+						width="131"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-180"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="269"
+						y="591"
+						width="130"
+						height="27"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="staticText-181"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime, priimek ter podpis in žig voznika]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="621"
+						width="130"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-182"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Opomba voznika]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="621"
+						width="397"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-183"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="591"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-184"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[TOVORNO VOZILO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="640"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-185"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Datum prejema/zavrnitve]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="402"
+						y="640"
+						width="131"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-186"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="269"
+						y="640"
+						width="130"
+						height="27"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="staticText-187"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Ime, priimek ter podpis in žig prejemnika]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="136"
+						y="640"
+						width="130"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-19"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{obdobje}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="3"
+						y="670"
+						width="130"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-188"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Kraj prejema]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="136"
+						y="688"
+						width="397"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-189"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="688"
+						width="130"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-190"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Opomba prejemnika]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="136"
+						y="670"
+						width="397"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-20"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv_enote}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="462"
+						y="471"
+						width="50"
+						height="15"
+						forecolor="#3366FF"
+						backcolor="#FFFFFF"
+						key="staticText-191"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Italic" size="10" isItalic="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[#Sprejeto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="515"
+						y="471"
+						width="18"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-192"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Bold" size="10" isBold="true" isItalic="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[X]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="199"
+						y="99"
+						width="60"
+						height="27"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-21"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="3" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dovoljenje}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
