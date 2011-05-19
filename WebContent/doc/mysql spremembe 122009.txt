@@ -1,0 +1,50 @@
+//spraznimo tabelo material okolje
+delete FROM material_okolje;
+
+//dodam polje enota.dovoljenje
+ ALTER TABLE `enote` ADD `dovoljenje` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `lokacija`;
+ 
+//dodam polje dob.ewc za vse tabele
+ALTER TABLE `dob` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `dob2009` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `dob2010` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`; 
+ALTER TABLE `dob2011` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`; 
+ALTER TABLE `dob2012` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `dob2013` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;   
+
+//Referenène integritete
+ALTER TABLE `dob`
+  ADD CONSTRAINT `dob_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dob2009`
+  ADD CONSTRAINT `dob2009_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dob2010`
+  ADD CONSTRAINT `dob2010_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dob2011`
+  ADD CONSTRAINT `dob2011_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dob2012`
+  ADD CONSTRAINT `dob2012_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dob2013`
+  ADD CONSTRAINT `dob2013_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  
+//dodam polje prodaja.ewc za vse tabele
+ALTER TABLE `prodaja` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `prodaja2009` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `prodaja2010` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`; 
+ALTER TABLE `prodaja2011` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`; 
+ALTER TABLE `prodaja2012` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;
+ALTER TABLE `prodaja2013` ADD `EWC` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `koda`;   
+
+//Referenène integritete
+ALTER TABLE `prodaja`
+  ADD CONSTRAINT `prodaja_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `prodaja2009`
+  ADD CONSTRAINT `prodaja2009_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `prodaja2010`
+  ADD CONSTRAINT `prodaja2010_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `prodaja2011`
+  ADD CONSTRAINT `prodaja2011_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `prodaja2012`
+  ADD CONSTRAINT `prodaja2012_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `prodaja2013`
+  ADD CONSTRAINT `prodaja2013_okolje_fk` FOREIGN KEY (`ewc`) REFERENCES `okolje` (`koda`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  

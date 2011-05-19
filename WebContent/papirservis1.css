@@ -1,0 +1,125 @@
+body {
+	background-color: ; /* background color */
+	color: ; /* text color */
+	font-family: 'Times New Roman'; /* font name */
+	font-size: medium; /* font size */
+	margin: 0px 0px 0px 0px; /* top right bottom left */
+}
+
+.jspmaker {
+	color: ; /* text color */
+	font-family: 'Times New Roman'; /* font name */
+	font-size: small; /* font size */	
+}
+
+.jspmaker2 {
+	color: #FF8080; /* text color */
+	font-family: 'Times New Roman'; /* font name */
+	font-size: 50px; /* font size */
+	font-weight: bold;
+}
+
+.jspmakerReport {
+	color: ; /* text color */
+	font-family: 'Times New Roman'; /* font name */
+	font-size: small; /* font size */	
+    font-style: italic
+}
+
+input, textarea, select {	
+	font-family: 'Times New Roman'; /* font name */
+	font-size: medium; /* font size */
+} 
+
+a:active {
+	color: ; /* active link color */
+}
+
+a:link {
+	color: ; /* link color */
+}
+
+a:visited {
+	color: ; /* visited link color */
+}
+
+/* main table */
+.ewTable {
+	width: ; /* table width */	
+	color: ; /* text color */
+	font-family: 'Times New Roman'; /* font name */
+	font-size: small; /* font size */
+	border-collapse: collapse;
+	border: none;
+}
+
+/* main table data cells */
+.ewTable td {
+	font-family: 'Times New Roman'; /* font name */
+	font-size: small; /* font size */
+	padding: 4px; /* cell padding */
+	border: 1px solid; /* cell spacing */
+	border-color: #FFFFFF;  /* table background color */
+}
+
+/* main table header cells */
+.ewTableHeader {
+	background-color: #6060cc; /* header color */
+	color: #FFFFFF; /* header font color */	
+	vertical-align: top;	
+}
+
+.ewTableHeaderMeni {
+	background-color: #FF8080; /* header color */
+	color: #000000; /* header font color */	
+	vertical-align: top;	
+    font-weight: bold;
+ }
+ 
+/* main table data cells */
+#td1 {
+	font-family: 'Times New Roman'; /* font name */
+	font-size: small; /* font size */
+	padding: 4px; /* cell padding */
+	border: 1px solid; /* cell spacing */
+	border-color: #FFFFFF;  /* table background color */
+	width: 200px;
+	min-width: 200px;
+}
+
+
+
+.ewTableHeader a {	
+	color: #FFFFFF; /* header font color */	
+}
+
+/* main table row color */
+.ewTableRow {
+	background-color: #FFFFFF;  /* alt row color 1 */
+}
+
+/* main table alternate row color */
+.ewTableAltRow {
+	background-color: #F0EFE8; /* alt row color 2 */	
+}
+
+/* main table sorting indicator */
+.ewTableOrderIndicator {
+	font-family: 'Times New Roman';	
+}
+
+/* main table footer section */
+.ewTableFooter {
+	background-color: #FFFFE0;	
+}
+
+.ewTableHeader2 {
+	background-color: #594FBF; /* header color */
+	color: #FF0000; /* header font color */	
+	vertical-align: top;	
+	font-family: Courier New; /* font name */
+	font-size: 20px; /* font size */
+}
+
+select {width: 600px;}
+

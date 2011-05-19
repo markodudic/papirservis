@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rekapitulacija_total"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="567"
+		 columnSpacing="0"
+		 leftMargin="14"
+		 rightMargin="14"
+		 topMargin="14"
+		 bottomMargin="14"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="picture" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["./images/ps.jpg"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2008-12-1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2008-12-10"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.12.2008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="potnik" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["9"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_enote" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sort" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_potnik" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA["Vsi potniki"]]></parameterDescription>
+	</parameter>
+	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
+     kupci.`naziv` AS kupci_naziv,
+     concat(kupci.`naslov`, ', ', kupci.`posta`, ' ',  kupci.`kraj`, ' ') AS kupci_naslov
+FROM kupci
+WHERE ((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     ((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1)) and
+     kupci.sif_kupca IN (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE))
+order by kupci_naziv]]></queryString>
+
+	<field name="sif_kupca" class="java.lang.String"/>
+	<field name="kupci_naziv" class="java.lang.String"/>
+	<field name="kupci_naslov" class="java.lang.String"/>
+
+	<variable name="sum_proizvodnja" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{sum_proizvodnja}]]></variableExpression>
+	</variable>
+	<variable name="sum_stroski" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_stroski}]]></variableExpression>
+	</variable>
+	<variable name="sum_zaup" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_zaup}]]></variableExpression>
+	</variable>
+	<variable name="sum_smeti" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_smeti}]]></variableExpression>
+	</variable>
+	<variable name="sum_ravnanje" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_ravnanje}]]></variableExpression>
+	</variable>
+	<variable name="sum_odvoz" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_odvoz}]]></variableExpression>
+	</variable>
+	<variable name="sum_prevoz" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_prevoz}]]></variableExpression>
+	</variable>
+	<variable name="sum_najem" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_najem}]]></variableExpression>
+	</variable>
+	<variable name="skup_stroski" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_stroski}]]></variableExpression>
+	</variable>
+	<variable name="sum_nab" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_nab}]]></variableExpression>
+	</variable>
+	<variable name="sum_prod" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_prod}]]></variableExpression>
+	</variable>
+	<variable name="skup_odvoz" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{skup_odvoz}]]></variableExpression>
+	</variable>
+	<variable name="skupaj" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{skupaj}]]></variableExpression>
+	</variable>
+	<variable name="sum_all" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_all}]]></variableExpression>
+	</variable>
+	<variable name="kalkulacija" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[new Double($V{sum_odvoz}.doubleValue() + $V{sum_najem}.doubleValue() + 
+$V{sum_zaup}.doubleValue() + $V{sum_smeti}.doubleValue() + 
+$V{sum_ravnanje}.doubleValue() + $V{sum_prevoz}.doubleValue()
+ + $V{sum_prod}.doubleValue() - ($V{sum_nab}.doubleValue() + 
+$V{sum_proizvodnja}.doubleValue() +
+$V{sum_stroski}.doubleValue() + $V{skupaj}.doubleValue() +
+$V{sum_all}.doubleValue()))]]></variableExpression>
+	</variable>
+	<variable name="skup_prevoz" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_prevoz}]]></variableExpression>
+	</variable>
+	<variable name="skup_ravnan" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_ravnan}]]></variableExpression>
+	</variable>
+	<variable name="skup_smeti" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_smeti}]]></variableExpression>
+	</variable>
+	<variable name="skup_zaupno" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_zaupno}]]></variableExpression>
+	</variable>
+	<variable name="skup_najem" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_najem}]]></variableExpression>
+	</variable>
+	<variable name="skup_odv" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_odv}]]></variableExpression>
+	</variable>
+	<variable name="skup_proiz" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_proiz}]]></variableExpression>
+	</variable>
+	<variable name="skup_strdod" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_strdod}]]></variableExpression>
+	</variable>
+	<variable name="skup_odkup" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_odkup}]]></variableExpression>
+	</variable>
+	<variable name="skup_prodaj" class="java.lang.Double" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{skup_prodaj}]]></variableExpression>
+	</variable>
+	<variable name="row_dobicek" class="java.lang.Double" resetType="Column" calculation="Nothing">
+		<variableExpression><![CDATA[new Double($V{skupaj}.doubleValue() + $V{sum_all}.doubleValue())]]></variableExpression>
+	</variable>
+	<variable name="total_dobicek" class="java.lang.Double" resetType="Column" calculation="Nothing">
+		<variableExpression><![CDATA[new Double($V{skupaj}.doubleValue() + $V{sum_all}.doubleValue())]]></variableExpression>
+	</variable>
+	<variable name="skup_amort" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{skup_amort}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="200"  isSplitAllowed="false" >
+				<staticText>
+					<reportElement
+						x="6"
+						y="146"
+						width="61"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-20"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Datum od:]]></text>
+				</staticText>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="566"
+						height="56"
+						key="subreport-4"/>
+					<subreportParameter  name="picture">
+						<subreportParameterExpression><![CDATA[$P{picture}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "header.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="86"
+						y="146"
+						width="60"
+						height="17"
+						key="textField-1"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{od_datum_str}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="176"
+						y="146"
+						width="70"
+						height="17"
+						key="textField-2"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{do_datum_str}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="156"
+						y="146"
+						width="10"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-30"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ do]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="6"
+						y="86"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-36"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SKUPINA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="66"
+						y="86"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-37"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="86"
+						y="86"
+						width="400"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-19"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_skupine}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="6"
+						y="106"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-38"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ENOTA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="66"
+						y="106"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-39"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="86"
+						y="106"
+						width="400"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-20"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_enote}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-40"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ODVOZ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="42"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-41"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[AMORT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="84"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-42"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ODKUP]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="126"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-43"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PROIZ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="168"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-44"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[STR.DOD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="210"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-45"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PRODAJA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="252"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-46"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ODVOZ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="294"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-47"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NAJEM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="336"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-48"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ZAUPNO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="378"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-49"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SMETI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="420"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-50"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[RAVNAN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="175"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-51"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PREVOZ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="504"
+						y="175"
+						width="62"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-52"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DOBIČEK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="6"
+						y="126"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-53"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[POTNIK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="66"
+						y="126"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-54"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="86"
+						y="126"
+						width="400"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-36"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_potnik}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="156"
+						y="56"
+						width="250"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-55"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[R E K A P I T U L A C I J A  S K U P A J]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="50"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="516"
+						y="0"
+						width="30"
+						height="20"
+						key="subreport-5"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str">
+						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<returnValue subreportVariable="sum_proizvodnja" toVariable="sum_proizvodnja"/>
+					<returnValue subreportVariable="sum_stroski" toVariable="sum_stroski"/>
+					<returnValue subreportVariable="sum_zaup" toVariable="sum_zaup"/>
+					<returnValue subreportVariable="sum_smeti" toVariable="sum_smeti"/>
+					<returnValue subreportVariable="sum_ravnanje" toVariable="sum_ravnanje"/>
+					<returnValue subreportVariable="sum_odvoz" toVariable="sum_odvoz"/>
+					<returnValue subreportVariable="sum_prevoz" toVariable="sum_prevoz"/>
+					<returnValue subreportVariable="sum_najem" toVariable="sum_najem"/>
+					<returnValue subreportVariable="sum_prihodki" toVariable="skup_stroski"/>
+					<returnValue subreportVariable="sum_prevoz" toVariable="skup_prevoz" calculation="Sum"/>
+					<returnValue subreportVariable="sum_ravnanje" toVariable="skup_ravnan" calculation="Sum"/>
+					<returnValue subreportVariable="sum_smeti" toVariable="skup_smeti" calculation="Sum"/>
+					<returnValue subreportVariable="sum_zaup" toVariable="skup_zaupno" calculation="Sum"/>
+					<returnValue subreportVariable="sum_najem" toVariable="skup_najem" calculation="Sum"/>
+					<returnValue subreportVariable="sum_odvoz" toVariable="skup_odv" calculation="Sum"/>
+					<returnValue subreportVariable="sum_proizvodnja" toVariable="skup_proiz" calculation="Sum"/>
+					<returnValue subreportVariable="sum_stroski" toVariable="skup_strdod" calculation="Sum"/>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_total_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="126"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-3"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_proizvodnja} == null ? new Double(0.0) : $V{sum_proizvodnja}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="168"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-4"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_stroski} == null ? new Double(0.0) : $V{sum_stroski}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="252"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-5"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_odvoz} == null ? new Double(0.0) : $V{sum_odvoz}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="294"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-6"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_najem} == null ? new Double(0.0) : $V{sum_najem}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="336"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-7"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_zaup} == null ? new Double(0.0) : $V{sum_zaup}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="420"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-8"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ravnanje} == null ? new Double(0.0) : $V{sum_ravnanje}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="378"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-9"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_smeti} == null ? new Double(0.0) : $V{sum_smeti}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="462"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-10"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_prevoz} == null ? new Double(0.0) : new Double($V{sum_prevoz}.doubleValue())]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="386"
+						y="0"
+						width="40"
+						height="20"
+						key="subreport-6"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str">
+						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<returnValue subreportVariable="sum_nab" toVariable="sum_nab"/>
+					<returnValue subreportVariable="sum_prod" toVariable="sum_prod"/>
+					<returnValue subreportVariable="sum_nab" toVariable="skup_odkup" calculation="Sum"/>
+					<returnValue subreportVariable="sum_prod" toVariable="skup_prodaj" calculation="Sum"/>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_total_subreport1.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="84"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-12"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_nab} == null ? new Double(0.0) : $V{sum_nab}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="210"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-13"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_prod} == null ? new Double(0.0) : $V{sum_prod}]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="436"
+						y="0"
+						width="30"
+						height="20"
+						key="subreport-7"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str">
+						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<returnValue subreportVariable="skupaj" toVariable="skupaj"/>
+					<returnValue subreportVariable="skupaj" toVariable="skup_odvoz" calculation="Sum"/>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_total_subreport2.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-15"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skupaj} == null ? new Double(0.0) : $V{skupaj}]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="476"
+						y="0"
+						width="30"
+						height="20"
+						key="subreport-8"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str">
+						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<returnValue subreportVariable="sum_all" toVariable="sum_all"/>
+					<returnValue subreportVariable="sum_all" toVariable="skup_amort" calculation="Sum"/>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_total_subreport3.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="42"
+						y="24"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-16"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_all} == null ? new Double(0.0) : $V{sum_all}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="76"
+						y="0"
+						width="300"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-21"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kupci_naziv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="66"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-22"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sif_kupca}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="12"
+						width="376"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-23"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kupci_naslov}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="504"
+						y="24"
+						width="62"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-34"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(
+($V{skupaj} == null ? 0 : $V{skupaj}.doubleValue()) +
+($V{sum_all} == null ? 0 : $V{sum_all}.doubleValue()) +
+($V{sum_nab} == null ? 0 : $V{sum_nab}.doubleValue()) +
+($V{sum_proizvodnja} == null ? 0 : $V{sum_proizvodnja}.doubleValue()) +
+($V{sum_stroski} == null ? 0 : $V{sum_stroski}.doubleValue()) +
+($V{sum_prod} == null ? 0 : $V{sum_prod}.doubleValue()) +
+($V{sum_odvoz} == null ? 0 : $V{sum_odvoz}.doubleValue()) +
+($V{sum_najem} == null ? 0 : $V{sum_najem}.doubleValue()) +
+($V{sum_zaup} == null ? 0 : $V{sum_zaup}.doubleValue()) +
+($V{sum_smeti} == null ? 0 : $V{sum_smeti}.doubleValue()) +
+($V{sum_ravnanje} == null ? 0 : $V{sum_ravnanje}.doubleValue()) +
+($V{sum_prevoz} == null ? 0 : $V{sum_prevoz}.doubleValue()))]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="42"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-11"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_amort} == null ? new Double(0.0) : $V{skup_amort}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-14"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_odvoz} == null ? new Double(0.0) : $V{skup_odvoz}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="462"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-24"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_prevoz} == null ? new Double(0.0) : new Double($V{skup_prevoz}.doubleValue())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="420"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-25"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_ravnan} == null ? new Double(0.0) : $V{skup_ravnan}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="378"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-26"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_smeti} == null ? new Double(0.0) : $V{skup_smeti}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="336"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-27"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_zaupno} == null ? new Double(0.0) : $V{skup_zaupno}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="294"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-28"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_najem} == null ? new Double(0.0) : $V{skup_najem}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="168"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-29"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_strdod} == null ? new Double(0.0) : $V{skup_strdod}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="252"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-30"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_odv} == null ? new Double(0.0) : $V{skup_odv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="126"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-31"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_proiz} == null ? new Double(0.0) : $V{skup_proiz}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="84"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-32"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_odkup} == null ? new Double(0.0) : $V{skup_odkup}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="210"
+						y="26"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-33"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{skup_prodaj} == null ? new Double(0.0) : $V{skup_prodaj}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="504"
+						y="26"
+						width="62"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-35"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(
+($V{skup_odvoz} == null ? 0 : $V{skup_odvoz}.doubleValue()) +
+($V{skup_amort} == null ? 0 : $V{skup_amort}.doubleValue()) +
+($V{skup_odkup} == null ? 0 : $V{skup_odkup}.doubleValue()) +
+($V{skup_proiz} == null ? 0 : $V{skup_proiz}.doubleValue()) +
+($V{skup_strdod} == null ? 0 : $V{skup_strdod}.doubleValue()) +
+($V{skup_prodaj} == null ? 0 : $V{skup_prodaj}.doubleValue()) +
+($V{skup_odv} == null ? 0 : $V{skup_odv}.doubleValue()) +
+($V{skup_najem} == null ? 0 : $V{skup_najem}.doubleValue()) +
+($V{skup_zaupno} == null ? 0 : $V{skup_zaupno}.doubleValue()) +
+($V{skup_smeti} == null ? 0 : $V{skup_smeti}.doubleValue()) +
+($V{skup_ravnan} == null ? 0 : $V{skup_ravnan}.doubleValue()) +
+($V{skup_prevoz} == null ? 0 : $V{skup_prevoz}.doubleValue()))]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rekapitulacija_total_subreport1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="802"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-09-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-12-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1044659"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT 
+IFNULL(sum(-dob.`kolicina` * dob.`cena`), 0) AS nab_vrednost,
+IFNULL(sum(dob.`kolicina` * materiali.pc_nizka), 0) AS prod_vrednost
+FROM 	
+	(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena
+	from
+	((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
+	from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
+         		from $P!{dobLeto} dob
+	           where dob.sif_kupca = $P{sif_str} and
+		      dob.datum >= CAST($P{od_datum} AS DATE) AND
+		      dob.datum <= CAST($P{do_datum}  AS DATE) ) dob 
+	        	left join cenastr
+        	        	on (dob.sif_kupca = cenastr.sif_kupca and
+	    	     cenastr.material_koda = dob.koda and
+	     	     cenastr.veljavnost <= dob.datum))
+	group by dob.st_dob, dob.pozicija) c
+	left join cenastr on
+		cenastr.veljavnost = c.v and
+      		cenastr.id = c.i)
+	group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob,
+     (SELECT materiali.*
+	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
+	WHERE materiali.koda = zadnji.koda and
+	      materiali.zacetek = zadnji.datum) materiali
+WHERE dob.`koda` = materiali.`koda` 
+ORDER BY dob.st_dob, dob.pozicija]]></queryString>
+
+	<field name="nab_vrednost" class="java.lang.Double"/>
+	<field name="prod_vrednost" class="java.lang.Double"/>
+
+	<variable name="sum_nab" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{nab_vrednost}]]></variableExpression>
+	</variable>
+	<variable name="sum_prod" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{prod_vrednost}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
