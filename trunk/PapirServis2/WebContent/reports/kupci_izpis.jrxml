@@ -8,10 +8,10 @@
 		 orientation="Portrait"
 		 pageWidth="595"
 		 pageHeight="842"
-		 columnWidth="537"
+		 columnWidth="535"
 		 columnSpacing="0"
-		 leftMargin="29"
-		 rightMargin="29"
+		 leftMargin="30"
+		 rightMargin="30"
 		 topMargin="20"
 		 bottomMargin="20"
 		 whenNoDataType="NoPages"
@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis\\images\\ps.jpg"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis2\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
@@ -47,8 +47,8 @@
 	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="blokada" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("0")]]></defaultValueExpression>
+	<parameter name="blokada" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_potnik" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vsi potniki"]]></defaultValueExpression>
@@ -108,7 +108,7 @@ order by kupci_naziv]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="-4"
+						y="0"
 						width="537"
 						height="56"
 						key="subreport-4"/>
@@ -272,7 +272,7 @@ order by kupci_naziv]]></queryString>
 						backcolor="#FFFFFF"
 						key="staticText-55"
 						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
@@ -656,7 +656,7 @@ order by kupci_naziv]]></queryString>
 			</band>
 		</columnFooter>
 		<pageFooter>
-			<band height="30"  isSplitAllowed="true" >
+			<band height="29"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="323"

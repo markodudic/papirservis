@@ -69,7 +69,7 @@ function  EW_checkMyForm(EW_this)
 							"/reports/rekapitulacija_total_neodvoz",
 							"/reports/evidencni_list_prodaja",
 							"/reports/vozniki_planirane_dobavnice",
-							"/reports/rekapitulacija_prodaja_skupna",
+							"/reports/rekapitulacija_prodaja_skupaj",
 							"/reports/kupci_izpis"
 							};
 	
@@ -441,8 +441,8 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">Blokada:&nbsp;</td>
 		<td class="ewTableAltRow">
-    		<INPUT type="radio" name="blokada" value="D" checked>Da
-    		<INPUT type="radio" name="blokada" value="N">Ne
+    		<INPUT type="radio" name="blokada" value="N" checked>Ne
+    		<INPUT type="radio" name="blokada" value="D">Da
 		</td>
 	</tr>
 	<tr>
