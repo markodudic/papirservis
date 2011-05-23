@@ -79,7 +79,7 @@ WHERE dob.sif_sof = sofer.sif_sof and
       ((sofer.sif_sof = $P{sif_sofer}) OR ($P{sif_sofer} = -1)) and
       dob.sif_kam = kamion.sif_kam and
       ((kamion.sif_kam = $P{sif_kamion}) OR ($P{sif_kamion} = -1)) and
-	(dob.obdelana = $P{obdelana}) 
+      ((dob.obdelana = $P{obdelana}) or ($P{obdelana} = 2)) 
 order by stranke.naziv]]></queryString>
 
 	<field name="sif_str" class="java.lang.Integer"/>

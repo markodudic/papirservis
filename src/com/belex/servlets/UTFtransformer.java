@@ -30,7 +30,7 @@ ServletResponse arg1, FilterChain arg2)
 	public void doFilter(ServletRequest request, ServletResponse
 response, FilterChain chain) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("Filtering...");
+		//System.out.println("Filtering...");
 		chain.doFilter(request,response);
 	}
 

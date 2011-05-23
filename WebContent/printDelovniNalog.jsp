@@ -170,7 +170,7 @@ function disableSome(EW_this){
 	if ((x_sif_kamioni != null) && (x_sif_kamioni != ""))
 	{
 		String naziv_kamion = "";
-		String sqlwrk_kamioni = "SELECT kamion FROM kamioni where sif_kam = '" + x_sif_kamioni + "'";
+		String sqlwrk_kamioni = "SELECT kamion FROM kamion where sif_kam = '" + x_sif_kamioni + "'";
 	
 		Statement stmtwrk_kamioni = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_kamioni = stmtwrk_kamioni.executeQuery(sqlwrk_kamioni);
@@ -183,13 +183,13 @@ function disableSome(EW_this){
 		stmtwrk_kamioni.close();
 		stmtwrk_kamioni = null;
 
-		parameters.put("sif_kamion", x_sif_kamioni);
-		parameters.put("naziv_kamioni", naziv_kamion);
+		parameters.put("sif_kamion", new Integer(x_sif_kamioni));
+		parameters.put("naziv_kamion", naziv_kamion);
 	}
 	else
 	{
-		parameters.put("sif_kamion", "-1");
-		parameters.put("naziv_kamioni", "Vsi kamioni");
+		parameters.put("sif_kamion", new Integer("-1"));
+		parameters.put("naziv_kamion", "Vsi kamioni");
 	}
 
 
@@ -210,12 +210,12 @@ function disableSome(EW_this){
 		stmtwrk_vozniki.close();
 		stmtwrk_vozniki = null;
 
-		parameters.put("sif_sofer", x_sif_vozniki);
+		parameters.put("sif_sofer", new Integer(x_sif_vozniki));
 		parameters.put("naziv_sofer", naziv_vozniki);
 	}
 	else
 	{
-		parameters.put("sif_sofer", "-1");
+		parameters.put("sif_sofer", new Integer("-1"));
 		parameters.put("naziv_sofer", "Vsi vozniki");
 	}
 
@@ -245,19 +245,21 @@ function disableSome(EW_this){
 	if (Integer.parseInt(reportID) == 20)
 	{
 	    String obdelana = request.getParameter("obdelana");
-	    System.out.println(obdelana);
 	    parameters.put("obdelana", obdelana);
+		 if (obdelana.equals("1")) {
+			 parameters.put("naziv_obdelana", "Odprti");
+		 } else {
+			 parameters.put("naziv_obdelana", "Vsi");
+		 }
 	}
 	
 	if (Integer.parseInt(reportID) == 22)
 	{
 	    String razred = request.getParameter("razred");
-	    System.out.println(razred);
 	    parameters.put("razred", razred);
 	    String blokada = request.getParameter("blokada");
-	    System.out.println(blokada);
 	    parameters.put("blokada", blokada);
-		 if (blokada == "1") {
+		 if (blokada.equals("1")) {
 			 parameters.put("blokada_naziv", "Da");
 		 } else {
 			 parameters.put("blokada_naziv", "Ne");
@@ -364,10 +366,7 @@ function disableSome(EW_this){
 		parameters.put("SUBREPORT_DIR", reportDir);
 	}
 
-	ServletOutputStream ouputStream = response.getOutputStream();
-
-	
-try
+	try
     {
     	
 		if (Integer.parseInt(type) == 1) //PDF
@@ -379,7 +378,7 @@ try
         	{
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
-				JasperRunManager.runReportToPdfStream(reportStream, ouputStream, parameters, conn );
+				JasperRunManager.runReportToPdfStream(reportStream, response.getOutputStream(), parameters, conn );
         	}
         	else
         	{   	
@@ -402,6 +401,7 @@ try
 				byte[] pdfasbytes = pdfReport.toByteArray();
 				response.setContentType("application/pdf");
 				response.setContentLength(pdfasbytes.length);
+				ServletOutputStream ouputStream = response.getOutputStream();
 				ouputStream.write(pdfasbytes, 0, pdfasbytes.length);
         	}
         }
@@ -456,8 +456,8 @@ try
 	    	
 	    }
         
-		ouputStream.flush();
-        ouputStream.close();
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
     catch (JRException e)
     {
@@ -466,7 +466,7 @@ try
       PrintWriter printWriter = new PrintWriter(stringWriter);
       e.printStackTrace(printWriter);
       response.setContentType("text/plain");
-      ouputStream.print(stringWriter.toString());
+      response.getOutputStream().print(stringWriter.toString());
     }
 %>
 

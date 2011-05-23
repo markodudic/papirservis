@@ -77,7 +77,7 @@ order by stranke.sif_os]]></queryString>
 						forecolor="#000000"
 						backcolor="#999999"
 						key="element-22"/>
-					<graphicElement stretchType="NoStretch" pen="Thin"/>
+					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
 				<staticText>
 					<reportElement
@@ -116,7 +116,7 @@ order by stranke.sif_os]]></queryString>
 						mode="Opaque"
 						x="235"
 						y="0"
-						width="64"
+						width="58"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -125,7 +125,7 @@ order by stranke.sif_os]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
 					</textElement>
-				<text><![CDATA[KOLIČINA]]></text>
+				<text><![CDATA[KOL.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -159,6 +159,22 @@ order by stranke.sif_os]]></queryString>
 					</textElement>
 				<text><![CDATA[PERIODIKA]]></text>
 				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="293"
+						y="0"
+						width="6"
+						height="17"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-93"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
 			</band>
 		</columnHeader>
 		<detail>
@@ -172,7 +188,7 @@ order by stranke.sif_os]]></queryString>
 						forecolor="#808080"
 						key="line"
 						positionType="FixRelativeToBottom"/>
-					<graphicElement stretchType="NoStretch" pen="Thin"/>
+					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -191,7 +207,7 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						x="235"
 						y="0"
-						width="64"
+						width="58"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -238,6 +254,19 @@ order by stranke.sif_os]]></queryString>
 						<font fontName="Arial" size="12"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{periodika}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="293"
+						y="0"
+						width="6"
+						height="15"
+						key="textField-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
