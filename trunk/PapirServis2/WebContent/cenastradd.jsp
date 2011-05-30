@@ -235,10 +235,11 @@ if(stranke.equals("0")){
 	kupciQueryFilter = "where potnik = " + session.getAttribute("papirservis1_status_UserID");
 }
 
-
 String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
-String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`" + kupciQueryFilter + " ORDER BY `naziv` ASC";
+String sqlwrk_x_sif_kupca = "SELECT sif_kupca, naziv, naslov FROM kupci" + kupciQueryFilter + 
+//									" ORDER BY `naziv` ASC";
+									" order by " + session.getAttribute("cenastr_kupac") + " asc";
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
 	int rowcntwrk_x_sif_kupca = 0;
@@ -266,7 +267,8 @@ x_material_kodaList = new StringBuffer("<select name=\"x_material_koda\"><option
 String sqlwrk_x_material_koda = "SELECT `materiali`.`koda`, `material` " +
 								"FROM `materiali`, (select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
 								"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
-								"ORDER BY `material` ASC";
+//								"ORDER BY `material` ASC";
+								"order by " + session.getAttribute("cenastr_material_koda") + " asc";
 Statement stmtwrk_x_material_koda = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_material_koda = stmtwrk_x_material_koda.executeQuery(sqlwrk_x_material_koda);
 	int rowcntwrk_x_material_koda = 0;

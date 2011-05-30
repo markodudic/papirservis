@@ -281,7 +281,11 @@ function  EW_checkMyForm(EW_this)
 	if ((reportID == 20))
 	{
 		x_sif_kamioniList = new StringBuffer("<select name=\"x_sif_kamioni\"><option value=\"\">Izberi</option>");
-		String sqlwrk_x_sif_kamioni = "SELECT * FROM kamion ORDER BY kamion ASC";
+		String sqlwrk_x_sif_kamioni = "SELECT kamion.* "+
+											"FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam ) zadnji "+
+											"WHERE kamion.sif_kam = zadnji.sif_kam and "+
+											"      kamion.zacetek = zadnji.datum "+
+											"      ORDER BY kamion ASC";
 		Statement stmtwrk_x_sif_kamioni = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_x_sif_kamioni = stmtwrk_x_sif_kamioni.executeQuery(sqlwrk_x_sif_kamioni);
 		
