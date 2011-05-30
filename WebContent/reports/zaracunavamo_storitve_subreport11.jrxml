@@ -99,9 +99,9 @@ WHERE dob.st_dob = zadnji.st_dob and
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="240"
+						x="252"
 						y="1"
-						width="80"
+						width="68"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -117,7 +117,7 @@ WHERE dob.st_dob = zadnji.st_dob and
 						mode="Opaque"
 						x="0"
 						y="1"
-						width="240"
+						width="252"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -126,7 +126,7 @@ WHERE dob.st_dob = zadnji.st_dob and
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[STORITEV DEPONIRANJA]]></text>
+				<text><![CDATA[STORITEV ODSTRANJEVANJA ODPADKOV]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
