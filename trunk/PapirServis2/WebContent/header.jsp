@@ -63,6 +63,8 @@ if ((meni & ewDriveOut) == ewDriveOut){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=1">Delovni nalog bianko (Izpis)</a></span></td></tr>
 			<% } %>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="sledenje.jsp">Sledenje (Uvoz podatkov)</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=17">Sumarno vozniki</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=20">Vozniki planirane dobavnice</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>
 
@@ -95,8 +97,6 @@ if ((meni & ewProcess) == ewProcess){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=15">Rekapitulacija brez cen</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=12">Zara&#269;unavamo storitve</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=13">Eviden&#269;ni list</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=17">Sumarno vozniki</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=20">Vozniki planirane dobavnice</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport">&nbsp;</span></td></tr>
 			<% } %>
 <%}%>
