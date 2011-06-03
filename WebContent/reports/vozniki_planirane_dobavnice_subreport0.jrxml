@@ -42,6 +42,7 @@
 		<defaultValueExpression ><![CDATA["1"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[select 
+dob.st_dob, 
 stranke.sif_str,
 stranke.naziv,
 stranke.naslov,
@@ -50,6 +51,7 @@ stranke.kraj,
 stranke.sif_os, 
 stranke.kol_os, 
 stranke.opomba,
+sofer.sofer,
 dob.datum
 from 
 	(SELECT dob.st_dob, dob.pozicija, dob.datum, dob.sif_kam, dob.sif_str, dob.sif_sof, dob.obdelana
@@ -68,19 +70,21 @@ LEFT JOIN
 	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.zacetek = zadnji.datum) stranke
 ON
-      	(stranke.sif_str = dob.sif_str),
+      	(stranke.sif_str = dob.sif_str)
+LEFT JOIN
 	(SELECT kamion.*
 	FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion
  	group by sif_kam ) zadnji
 	WHERE kamion.sif_kam = zadnji.sif_kam and
-	      kamion.zacetek = zadnji.datum) kamion,
+	      kamion.zacetek = zadnji.datum) kamion
+ON
+      	(dob.sif_kam = kamion.sif_kam),
    sofer
 WHERE dob.sif_sof = sofer.sif_sof and
       ((sofer.sif_sof = $P{sif_sofer}) OR ($P{sif_sofer} = -1)) and
-      dob.sif_kam = kamion.sif_kam and
       ((kamion.sif_kam = $P{sif_kamion}) OR ($P{sif_kamion} = -1)) and
       ((dob.obdelana = $P{obdelana}) or ($P{obdelana} = 2)) 
-order by stranke.naziv]]></queryString>
+order by sofer.sofer]]></queryString>
 
 	<field name="sif_str" class="java.lang.Integer"/>
 	<field name="naziv" class="java.lang.String"/>
@@ -91,6 +95,8 @@ order by stranke.naziv]]></queryString>
 	<field name="kol_os" class="java.lang.Integer"/>
 	<field name="opomba" class="java.lang.String"/>
 	<field name="datum" class="java.sql.Timestamp"/>
+	<field name="sofer" class="java.lang.String"/>
+	<field name="st_dob" class="java.lang.Integer"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -121,9 +127,9 @@ order by stranke.naziv]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="320"
+						x="299"
 						y="0"
-						width="30"
+						width="59"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -132,14 +138,14 @@ order by stranke.naziv]]></queryString>
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
-				<text><![CDATA[ŠIF.OS]]></text>
+				<text><![CDATA[ŠOFER]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="350"
+						x="358"
 						y="0"
-						width="132"
+						width="124"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -155,7 +161,7 @@ order by stranke.naziv]]></queryString>
 						mode="Opaque"
 						x="0"
 						y="0"
-						width="35"
+						width="40"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -164,14 +170,14 @@ order by stranke.naziv]]></queryString>
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
-				<text><![CDATA[ŠIF.ST.]]></text>
+				<text><![CDATA[ST. DOB.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="35"
+						x="40"
 						y="0"
-						width="120"
+						width="115"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -187,7 +193,7 @@ order by stranke.naziv]]></queryString>
 						mode="Opaque"
 						x="155"
 						y="0"
-						width="70"
+						width="84"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -201,23 +207,7 @@ order by stranke.naziv]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="225"
-						y="0"
-						width="35"
-						height="16"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="element-94"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
-					</textElement>
-				<text><![CDATA[POŠTA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="260"
+						x="239"
 						y="0"
 						width="60"
 						height="16"
@@ -263,22 +253,22 @@ order by stranke.naziv]]></queryString>
 				</line>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="320"
+						x="299"
 						y="0"
-						width="30"
+						width="59"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sif_os}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sofer}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="350"
+						x="358"
 						y="0"
-						width="132"
+						width="124"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -291,20 +281,20 @@ order by stranke.naziv]]></queryString>
 					<reportElement
 						x="0"
 						y="0"
-						width="35"
+						width="40"
 						height="15"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{sif_str}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{st_dob}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="35"
+						x="40"
 						y="0"
-						width="120"
+						width="115"
 						height="15"
 						key="textField-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -317,7 +307,7 @@ order by stranke.naziv]]></queryString>
 					<reportElement
 						x="155"
 						y="0"
-						width="70"
+						width="84"
 						height="15"
 						key="textField-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -328,20 +318,7 @@ order by stranke.naziv]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="225"
-						y="0"
-						width="35"
-						height="15"
-						key="textField-4"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{posta}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="260"
+						x="239"
 						y="0"
 						width="60"
 						height="15"

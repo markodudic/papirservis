@@ -436,7 +436,7 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">Delovni nalogi:&nbsp;</td>
 		<td class="ewTableAltRow">
-    		<INPUT type="radio" name="obdelana" value="1" checked>Odprti
+    		<INPUT type="radio" name="obdelana" value="0" checked>Odprti
     		<INPUT type="radio" name="obdelana" value="2">Vsi
 		</td>
 	</tr>
