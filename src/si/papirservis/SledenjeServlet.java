@@ -132,7 +132,7 @@ public class SledenjeServlet extends InitServlet implements Servlet {
 	    	String query = 	"select dob.st_dob st_dob, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, stranke.radij stranke_radij, stranke.vtez stranke_vtez, " +
 	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.registrska kamion " +
-	    				   	"from (select *, max(dob.zacetek) from dob where dob.datum = CAST('" + datumFormat + "' AS DATE) group by st_dob) dob, " + 
+	    				   	"from (select *, max(dob.zacetek) from dob2009 as dob where date_format(dob.datum, '%Y-%m-%d') = date_format('" + datumFormat + "', '%Y-%m-%d') group by st_dob) dob, " + 
 	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
 	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	enote, " +
