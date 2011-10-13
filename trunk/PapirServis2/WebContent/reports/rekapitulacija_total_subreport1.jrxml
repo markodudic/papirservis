@@ -38,15 +38,20 @@
 	<queryString><![CDATA[SELECT 
 IFNULL(sum(-dob.`kolicina` * dob.`cena`), 0) AS nab_vrednost,
 IFNULL(sum(dob.`kolicina` * materiali.pc_nizka), 0) AS prod_vrednost
-FROM 	
+FROM 
 	(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena
 	from
 	((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
 	from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
-         		from $P!{dobLeto} dob
-	           where dob.sif_kupca = $P{sif_str} and
-		      dob.datum >= CAST($P{od_datum} AS DATE) AND
-		      dob.datum <= CAST($P{do_datum}  AS DATE) ) dob 
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+         					from $P!{dobLeto} dob
+				           where dob.sif_kupca = $P{sif_str}  and
+					      dob.datum >= CAST($P{od_datum} AS DATE) AND
+					      dob.datum <= CAST($P{do_datum}  AS DATE) 
+				group by st_dob, pozicija) zadnji
+		WHERE dob.st_dob = zadnji.st_dob and
+	      		dob.pozicija = zadnji.pozicija and
+	      		dob.zacetek = zadnji.datum ) dob 
 	        	left join cenastr
         	        	on (dob.sif_kupca = cenastr.sif_kupca and
 	    	     cenastr.material_koda = dob.koda and
@@ -57,7 +62,10 @@ FROM
       		cenastr.id = c.i)
 	group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob,
      (SELECT materiali.*
-	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
+	FROM materiali, (SELECT koda, max(zacetek) datum 
+			FROM materiali 
+			WHERE veljavnost <= CAST($P{do_datum}  AS DATE)
+                   	group by koda) zadnji
 	WHERE materiali.koda = zadnji.koda and
 	      materiali.zacetek = zadnji.datum) materiali
 WHERE dob.`koda` = materiali.`koda` 
