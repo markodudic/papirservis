@@ -30,10 +30,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2008-12-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2011-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2008-12-10"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2011-1-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.12.2008"]]></defaultValueExpression>
@@ -42,7 +42,7 @@
 		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="potnik" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["9"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["5"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
@@ -57,7 +57,7 @@
 		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("5")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sort" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("1")]]></defaultValueExpression>
@@ -66,7 +66,7 @@
 		<parameterDescription><![CDATA["Vsi potniki"]]></parameterDescription>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2011"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,

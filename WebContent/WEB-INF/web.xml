@@ -50,4 +50,33 @@
     <param-name>logoPdf</param-name>
     <param-value>C://projects//Monolit//PapirServis//PapirServis2//WebContent//images//ps.jpg</param-value>
   </context-param>
+
+	
+	<servlet>
+		<servlet-name>SledenjeServlet</servlet-name>
+		<servlet-class>si.papirservis.SledenjeServlet</servlet-class>
+		<init-param>
+			<param-name>SledenjeServerURL</param-name>
+			<param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
+		</init-param>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>SledenjeServlet</servlet-name>
+      <url-pattern>/SledenjeServlet</url-pattern>
+    </servlet-mapping>
+
+	
+    <servlet>
+		<servlet-name>SledenjeServer</servlet-name>
+		<servlet-class>si.papirservis.SledenjeServer</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>SledenjeServer</servlet-name>
+      <url-pattern>/SledenjeServer</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+      <session-timeout>30</session-timeout>
+    </session-config>	
+
 </web-app>

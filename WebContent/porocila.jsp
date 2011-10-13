@@ -445,8 +445,8 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">Blokada:&nbsp;</td>
 		<td class="ewTableAltRow">
-    		<INPUT type="radio" name="blokada" value="N" checked>Ne
-    		<INPUT type="radio" name="blokada" value="D">Da
+    		<INPUT type="radio" name="blokada" value="0" checked>Ne
+    		<INPUT type="radio" name="blokada" value="1">Da
 		</td>
 	</tr>
 	<tr>

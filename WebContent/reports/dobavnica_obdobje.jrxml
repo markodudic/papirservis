@@ -30,13 +30,13 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-01-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2011-09-22"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-01-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2011-09-23"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2011"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      dob.`st_dob` AS dob_st_dob,
@@ -87,7 +87,7 @@ WHERE
      kupci.skupina = skup.skupina and
      kupci.potnik = uporabniki.sif_upor and
      obdelana = 0
-ORDER BY dob.st_dob]]></queryString>
+ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 
 	<field name="dob_st_dob" class="java.lang.Integer"/>
 	<field name="dob_datum" class="java.sql.Timestamp"/>
