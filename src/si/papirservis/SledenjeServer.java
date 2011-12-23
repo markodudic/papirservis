@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * vrne pa podatke o opravljenih poteh in casu.
  */
 public class SledenjeServer extends HttpServlet implements Servlet {
-
+ 
 	/*
 	 * (non-Java-doc)
 	 * 
