@@ -227,10 +227,10 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 //Filter by user
 if (whereClause.length() > 0) {
 
-	strsql += " AND (sif_kupca in (select sif_kupca from kupci,uporabniki  " + subQuery + "))" ;
+	strsql += " AND (sif_kupca in (select kupci.sif_kupca from kupci,uporabniki  " + subQuery + "))" ;
 }
 else{
-	strsql += " WHERE (sif_kupca in (select sif_kupca from kupci,uporabniki "  + subQuery +   "))" ;
+	strsql += " WHERE (sif_kupca in (select kupci.sif_kupca from kupci,uporabniki "  + subQuery +   "))" ;
 }
 
 if (OrderBy != null && OrderBy.length() > 0) {

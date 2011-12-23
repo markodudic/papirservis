@@ -306,19 +306,29 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("porocila")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("narocila")) ? "<b>" : ""%>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("narocila","UTF-8") %>">naročila&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("narocila")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("narocila")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("vse")) ? "<b>" : ""%>
-<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("vse","UTF-8") %>">Vse stranke&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("vse")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("vse","UTF-8") %>">vse stranke&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("vse")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("vse")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("enote")) ? "<b>" : ""%>
-<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("enote","UTF-8") %>">Vse enote&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("enote","UTF-8") %>">vse enote&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("enote")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "<b>" : ""%>
-<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","UTF-8") %>">Šifra enote&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","UTF-8") %>">šifra enote&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("sif_kupec")) ? "<b>" : ""%>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("sif_kupec","UTF-8") %>">podjetje&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sif_kupec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("sif_kupec")) ? "</b>" : ""%>
 		</td>
 </tr>
 <%
@@ -364,9 +374,11 @@ while (rs.next() && recCount < stopRec) {
 	String x_meni = "";
 	String x_aktiven = "";
 	String x_porocila = "";
+	String x_narocila = "";
 	String x_vse = "";
 	String x_enote= "";
 	String x_sif_enote = "";
+	String x_sif_kupca = "";
 
 	// Load Key for record
 	String key = "";
@@ -424,6 +436,13 @@ while (rs.next() && recCount < stopRec) {
 		x_porocila = "";
 	}
 
+	// narocila
+	if (rs.getBoolean("narocila")){
+		x_narocila = "X";
+	}else{
+		x_narocila = "";
+	}
+	
 	// vse
 	if (rs.getBoolean("vse")){
 		x_vse = "X";
@@ -440,6 +459,9 @@ while (rs.next() && recCount < stopRec) {
 
 	// sif_enote
 	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+	
+	// sif_kupca
+	x_sif_kupca = String.valueOf(rs.getLong("sif_kupca"));	
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -468,6 +490,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_meni); %>&nbsp;</td>
 		<td><% out.print(x_aktiven);%>&nbsp;</td>
 		<td><% out.print(x_porocila);%>&nbsp;</td>		
+		<td><% out.print(x_narocila);%>&nbsp;</td>		
 		<td><% out.print(x_vse);%>&nbsp;</td>
 		<td><% out.print(x_enote);%>&nbsp;</td>		
 <td><%
@@ -475,6 +498,27 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 	String sqlwrk_where = "";
 	sqlwrk_where = "`sif_enote` = " + x_sif_enote;
 	String sqlwrk = "SELECT `sif_enote`, `naziv` FROM `enote`";
+	if (sqlwrk_where.length() > 0) {
+	sqlwrk += " WHERE " + sqlwrk_where;
+	}
+	Statement stmtwrk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk = stmtwrk.executeQuery(sqlwrk);
+	if (rswrk.next()) {
+		out.print(rswrk.getString("naziv"));
+	}
+	rswrk.close();
+	rswrk = null;
+	stmtwrk.close();
+	stmtwrk = null;
+}
+%>
+&nbsp;</td>
+<td>
+<%
+if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
+	String sqlwrk_where = "";
+	sqlwrk_where = "`sif_kupca` = " + x_sif_kupca;
+	String sqlwrk = "SELECT `sif_kupca`, `naziv` FROM `kupci`";
 	if (sqlwrk_where.length() > 0) {
 	sqlwrk += " WHERE " + sqlwrk_where;
 	}

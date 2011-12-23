@@ -46,7 +46,11 @@ function disableSome(EW_this){
 String tmpfld = null;
 String escapeString = "\\\\'";
 String key = request.getParameter("key");
-if (key == null || key.length() == 0) { response.sendRedirect("uporabnikilist.jsp");}
+if (key == null || key.length() == 0 ) {
+	response.sendRedirect("uporabnikilist.jsp");
+	response.flushBuffer();
+	return;
+}
 
 // Get action
 String a = request.getParameter("a");
@@ -60,9 +64,11 @@ String x_geslo = "";
 String x_tip = "";
 String x_aktiven = "";
 String x_porocila = "";
+String x_narocila = "";
 String x_sif_enote = "";
 String x_vse = "";
 String x_enote = "";
+String x_sif_kupca = "";
 
 
 // Open Connection to the database
@@ -72,10 +78,10 @@ try{
 	if (a.equals("I")) {// Get a record to display
 		String tkey = "" + key.replaceAll("'",escapeString) + "";
 		String strsql = "SELECT * FROM `uporabniki` WHERE `sif_upor`=" + tkey;
-		Integer userLevel = (Integer) session.getAttribute("papirservis1_status_UserLevel");
-		if (userLevel != null && userLevel.intValue() != -1) { // Non system admin
-			strsql += " AND (`sif_upor` = " + (String) session.getAttribute("papirservis1_status_UserID") + ")";
-		}
+		//Integer userLevel = (Integer) session.getAttribute("papirservis1_status_UserLevel");
+		//if (userLevel != null && userLevel.intValue() != -1) { // Non system admin
+		//	strsql += " AND (`sif_upor` = " + (String) session.getAttribute("papirservis1_status_UserID") + ")";
+		//}
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			out.clear();
@@ -130,6 +136,13 @@ try{
 			x_porocila = "";
 		}
 
+		// narocila
+		if (rs.getBoolean("narocila")){
+			x_narocila = "X";
+		}else{
+			x_narocila = "";
+		}
+		
 		// vse
 		if (rs.getBoolean("vse")){
 			x_vse= "X";
@@ -146,6 +159,8 @@ try{
 		// sif_enote
 		x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
 		
+		// sif_kupca
+		x_sif_kupca = String.valueOf(rs.getLong("sif_kupca"));	
 	}
 %>
 <%@ include file="header.jsp" %>
@@ -178,6 +193,10 @@ try{
 		<td class="ewTableAltRow"><%out.print(x_porocila);%>&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">naročila&nbsp;</td>
+		<td class="ewTableAltRow"><%out.print(x_narocila);%>&nbsp;</td>
+	</tr>
+	<tr>
 		<td class="ewTableHeader">vse&nbsp;</td>
 		<td class="ewTableAltRow"><%out.print(x_vse);%>&nbsp;</td>
 	</tr>
@@ -186,7 +205,7 @@ try{
 		<td class="ewTableAltRow"><%out.print(x_enote);%>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra enote&nbsp;</td>
+		<td class="ewTableHeader">šifra enote&nbsp;</td>
 		<td class="ewTableAltRow"><%
 if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 	String sqlwrk_where = "";
@@ -207,7 +226,31 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 }
 %>
 &nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">podjetje&nbsp;</td>
+		<td class="ewTableAltRow"><%
+if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
+	String sqlwrk_where = "";
+	sqlwrk_where = "`sif_kupca` = " + x_sif_kupca;
+	String sqlwrk = "SELECT `sif_kupca`, `naziv` FROM `kupci`";
+	if (sqlwrk_where.length() > 0) {
+	sqlwrk += " WHERE " + sqlwrk_where;
+	}
+	Statement stmtwrk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk = stmtwrk.executeQuery(sqlwrk);
+	if (rswrk.next()) {
+		out.print(rswrk.getString("naziv"));
+	}
+	rswrk.close();
+	rswrk = null;
+	stmtwrk.close();
+	stmtwrk = null;
+}
+%>
+&nbsp;</td>
 	</tr></table>
+	
 </form>
 <p>
 <%

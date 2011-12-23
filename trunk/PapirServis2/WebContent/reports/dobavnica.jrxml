@@ -917,7 +917,7 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[OSNOVNA SREDSTAVA : ]]></text>
+				<text><![CDATA[OSNOVNA SREDSTVA : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
