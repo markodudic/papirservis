@@ -74,7 +74,16 @@
       <servlet-name>SledenjeServer</servlet-name>
       <url-pattern>/SledenjeServer</url-pattern>
     </servlet-mapping>
-    
+
+	<servlet>
+		<servlet-name>StrankeServlet</servlet-name>
+		<servlet-class>si.papirservis.StrankeServlet</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>StrankeServlet</servlet-name>
+      <url-pattern>/StrankeServlet</url-pattern>
+    </servlet-mapping>
+        
     <session-config>
       <session-timeout>30</session-timeout>
     </session-config>	

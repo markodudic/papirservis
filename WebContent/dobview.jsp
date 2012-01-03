@@ -81,6 +81,8 @@ String x_skupina_text = "";
 String x_opomba = "";
 String x_stev_km_sled = "";
 String x_stev_ur_sled = "";
+String x_stev_km_norm = "";
+String x_stev_ur_norm = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
 
@@ -241,6 +243,12 @@ try{
 		// stev_ur_sled
 		x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
 
+		// stev_km_norm
+		x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+
+		// stev_ur_norm
+		x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+		
 		// zacetek
 		if (rs.getTimestamp("zacetek") != null){
 			x_zacetek = rs.getTimestamp("zacetek");
@@ -512,6 +520,14 @@ if (x_skupina!=null && ((String)x_skupina).length() > 0) {
 		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_stev_ur_sled); %>&nbsp;</td>
 	</tr>
+	<tr>
+		<td class="ewTableHeader">Število km normativ&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_stev_km_norm); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_stev_ur_norm); %>&nbsp;</td>
+	</tr>	
 </table>
 </form>
 <p>

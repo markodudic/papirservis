@@ -433,6 +433,7 @@ String z_stev_ur = request.getParameter("z_stev_ur");
 		}
 	}
 
+	
 // stroski
 String ascrh_x_stroski = request.getParameter("x_stroski");
 String z_stroski = request.getParameter("z_stroski");
@@ -751,6 +752,48 @@ String z_stev_ur_sled = request.getParameter("z_stev_ur_sled");
 	if (a_search.length() > 4) {
 		a_search = a_search.substring(0, a_search.length()-4);
 	}
+	
+// stev_km_norm
+String ascrh_x_stev_km_norm = request.getParameter("x_stev_km_norm");
+String z_stev_km_norm = request.getParameter("z_stev_km_norm");
+	if (z_stev_km_norm != null && z_stev_km_norm.length() > 0 ) {
+		String [] arrfieldopr_x_stev_km_norm = z_stev_km_norm.split(",");
+		if (ascrh_x_stev_km_norm != null && ascrh_x_stev_km_norm.length() > 0) {
+			ascrh_x_stev_km_norm = ascrh_x_stev_km_norm.replaceAll("'",escapeString);
+			ascrh_x_stev_km_norm = ascrh_x_stev_km_norm.replaceAll("\\[","[[]");
+			a_search += "`stev_km_norm` "; // Add field
+			a_search += arrfieldopr_x_stev_km_norm[0].trim() + " "; // Add operator
+			if (arrfieldopr_x_stev_km_norm.length >= 2) {
+				a_search += arrfieldopr_x_stev_km_norm[1].trim(); // Add search prefix
+			}
+			a_search += ascrh_x_stev_km_norm; // Add input parameter
+			if (arrfieldopr_x_stev_km_norm.length >= 3) {
+				a_search += arrfieldopr_x_stev_km_norm[2].trim(); // Add search suffix
+			}
+			a_search += " AND ";
+		}
+	}
+
+// stev_ur_norm
+String ascrh_x_stev_ur_norm = request.getParameter("x_stev_ur_norm");
+String z_stev_ur_norm = request.getParameter("z_stev_ur_norm");
+	if (z_stev_ur_norm != null && z_stev_ur_norm.length() > 0 ) {
+		String [] arrfieldopr_x_stev_ur_norm = z_stev_ur_norm.split(",");
+		if (ascrh_x_stev_ur_norm != null && ascrh_x_stev_ur_norm.length() > 0) {
+			ascrh_x_stev_ur_norm = ascrh_x_stev_ur_norm.replaceAll("'",escapeString);
+			ascrh_x_stev_ur_norm = ascrh_x_stev_ur_norm.replaceAll("\\[","[[]");
+			a_search += "`stev_ur_norm` "; // Add field
+			a_search += arrfieldopr_x_stev_ur_norm[0].trim() + " "; // Add operator
+			if (arrfieldopr_x_stev_ur_norm.length >= 2) {
+				a_search += arrfieldopr_x_stev_ur_norm[1].trim(); // Add search prefix
+			}
+			a_search += ascrh_x_stev_ur_norm; // Add input parameter
+			if (arrfieldopr_x_stev_ur_norm.length >= 3) {
+				a_search += arrfieldopr_x_stev_ur_norm[2].trim(); // Add search suffix
+			}
+			a_search += " AND ";
+		}
+	}	
 %>
 <%
 
@@ -1380,14 +1423,24 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("dod_stroski")) ? "</b>" : ""%>
 		</td>
 		<td>
-<%=(OrderBy != null && OrderBy.equals("stev_km")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_sled","UTF-8") %>">Število kilometrov sled&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("stev_km")) ? "</b>" : ""%>
+<%=(OrderBy != null && OrderBy.equals("stev_km_sled")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_sled","UTF-8") %>">Število km sledenje&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stev_km_sled")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("stev_ur_sled")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur_sled","UTF-8") %>">Število ur sledenja&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur_sled","UTF-8") %>">Število ur sledenje&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("stev_ur_sled")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_norm","UTF-8") %>">Število km normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("stev_ur_norm")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur_norm","UTF-8") %>">Število ur normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stev_ur_norm")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
@@ -1472,6 +1525,8 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_dod_stroski = "";
 	String x_stev_km_sled = "";
 	String x_stev_ur_sled = "";
+	String x_stev_km_norm = "";
+	String x_stev_ur_norm = "";
 	Object x_zacetek = null;
 	
 	String x_uporabnik = "";
@@ -1622,6 +1677,12 @@ while (rs.next() ){//&& recCount < stopRec) {
 	// stev_ur_sled
 	x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
 
+	// stev_km_norm
+	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+
+	// stev_ur_norm
+	x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+
 	// zacetek
 	if (rs.getTimestamp("zacetek") != null){
 		x_zacetek = rs.getTimestamp("zacetek");
@@ -1704,6 +1765,8 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(EW_FormatNumber("" + x_dod_stroski, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(x_stev_km_sled); %>&nbsp;</td>
 		<td><% out.print(x_stev_ur_sled); %>&nbsp;</td>
+		<td><% out.print(x_stev_km_norm); %>&nbsp;</td>
+		<td><% out.print(x_stev_ur_norm); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("u.ime_in_priimek"));%>&nbsp;</td>
 	</tr>

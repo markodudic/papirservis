@@ -3,7 +3,7 @@
 	<title>PAPIR SERVIS - Podpora logistiki odvoza surovin</title>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="papirservis1.css" rel="stylesheet" type="text/css" />
-<link href="Master.css" rel="stylesheet" type="text/css" />
+<link href="master.css" rel="stylesheet" type="text/css" />
 <meta name="generator" content="JSPMaker v1.0.0.0" />
 </head>
 <body onload="disableSome();">
