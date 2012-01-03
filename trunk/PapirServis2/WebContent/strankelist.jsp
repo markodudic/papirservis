@@ -26,9 +26,11 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 %>
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
+<script language="JavaScript" src="papirservis.js"></script>
 <script language="JavaScript">
 function disableSome(EW_this){
 }
+
 </script>
 
 <%
@@ -324,7 +326,7 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 %>
 <%@ include file="header.jsp" %>
 <p><span class="jspmaker">Pregled: stranke</span></p>
-<form action="strankelist.jsp">
+<form action="strankelist.jsp" name="strankelist" id="strankelist">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
@@ -335,7 +337,12 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		&nbsp;&nbsp;<a href="strankelist.jsp?cmd=top">Prikaži zadnje</a>
 		</span></td>
 	</tr>
-	<!-- tr><td>&nbsp;</td><td><span class="jspmaker"><input type="radio" name="psearchtype" value="" checked>Exact phrase&nbsp;&nbsp;<input type="radio" name="psearchtype" value="AND">All words&nbsp;&nbsp;<input type="radio" name="psearchtype" value="OR">Any word</span></td></tr-->
+	<tr>
+		<td><span class="jspmaker">Uvoz podatkov o strankah(csv)</span></td>
+		<td><span class="jspmaker">
+			<input type="file" name="csvfile" id="csvfile" onchange='handleFileSelect(window.event);')">
+		</span></td>
+	</tr>
 </table>
 </form>
 <table>
@@ -510,6 +517,16 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("vtez")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_norm","UTF-8") %>">Število km normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("stev_ur_norm")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur_norm","UTF-8") %>">Število ur normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stev_ur_norm")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
 <a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("zacetek","UTF-8") %>">Začetek&nbsp;<% if (OrderBy != null && OrderBy.equals("zacetek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "</b>" : ""%>
@@ -585,6 +602,8 @@ while (rs.next() && recCount < stopRec) {
 	String x_y_koord = "";
 	String x_radij = "";	
 	String x_vtez = "";	
+	String x_stev_km_norm = "";
+	String x_stev_ur_norm = "";
 	
 	// Load Key for record
 	String key = "";
@@ -809,6 +828,14 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_vtez = "";
 	}	
+
+
+	// stev_km_norm
+	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+
+	// stev_ur_norm
+	x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -910,6 +937,8 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 		<td><% out.print(x_y_koord); %>&nbsp;</td>
 		<td><% out.print(x_radij); %>&nbsp;</td>
 		<td><% out.print(x_vtez); %>&nbsp;</td>
+		<td><% out.print(x_stev_km_norm); %>&nbsp;</td>
+		<td><% out.print(x_stev_ur_norm); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%
 if (x_uporabnik!=null && ((String)x_uporabnik).length() > 0) {

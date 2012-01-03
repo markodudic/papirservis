@@ -81,6 +81,8 @@ Object x_opomba = null;
 Object x_stev_km_sled = null;
 Object x_stev_ur_sled = null;
 Object x_dod_stroski = null;
+Object x_stev_km_norm = null;
+Object x_stev_ur_norm = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 
@@ -211,6 +213,8 @@ try{
 			x_dod_stroski = String.valueOf(rs.getDouble("dod_stroski"));
 			x_stev_km_sled = String.valueOf(rs.getDouble("stev_km_sled"));
 			x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
+			x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+			x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
 			if (rs.getTimestamp("zacetek") != null){
 				x_zacetek = rs.getTimestamp("zacetek");
 			}else{
@@ -366,6 +370,16 @@ try{
 		}else{
 			x_stev_ur_sled = "";
 		}
+		if (request.getParameter("x_stev_km_norm") != null){
+			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
+		}else{
+			x_stev_km_norm = "";
+		}		
+		if (request.getParameter("x_stev_ur_norm") != null){
+			x_stev_ur_norm = (String) request.getParameter("x_stev_ur_norm");
+		}else{
+			x_stev_ur_norm = "";
+		}		
 		if (request.getParameter("x_dod_stroski") != null){
 			x_dod_stroski = (String) request.getParameter("x_dod_stroski");
 		}else{
@@ -726,6 +740,26 @@ try{
 			rs.updateDouble("stev_ur_sled",Double.parseDouble(tmpfld));
 		}
 		updateSql += "stev_ur_sled= " + tmpfld + ", ";
+
+		// Field stev_km_norm
+		tmpfld = ((String) x_stev_km_norm).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("stev_km_norm");
+		} else {
+			rs.updateDouble("stev_km_norm",Double.parseDouble(tmpfld));
+		}
+		updateSql += "stev_km_norm= " + tmpfld + ", ";
+
+		// Field stev_ur_norm
+		tmpfld = ((String) x_stev_ur_norm).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("stev_ur_norm");
+		} else {
+			rs.updateDouble("stev_ur_norm",Double.parseDouble(tmpfld));
+		}
+		updateSql += "stev_ur_norm= " + tmpfld + ", ";
 
 		// Field dod_stroski
 		tmpfld = ((String) x_dod_stroski).trim();
@@ -1224,8 +1258,16 @@ if (EW_this.x_stev_ur_sled && !EW_checknumber(EW_this.x_stev_ur_sled.value)) {
         if (!EW_onError(EW_this, EW_this.x_stev_ur_sled, "TEXT", "Napačna številka - stev ur sled"))
             return false; 
         }
+if (EW_this.x_stev_km_norm && !EW_checknumber(EW_this.x_stev_km_norm.value)) {
+    if (!EW_onError(EW_this, EW_this.x_stev_km_norm, "TEXT", "Napačna številka - stev km normativ"))
+        return false; 
+    }
+if (EW_this.x_stev_ur_norm && !EW_checknumber(EW_this.x_stev_ur_norm.value)) {
+    if (!EW_onError(EW_this, EW_this.x_stev_ur_norm, "TEXT", "Napačna številka - stev ur normativ"))
+        return false; 
+    }
 if (EW_this.x_dod_stroski && !EW_checknumber(EW_this.x_dod_stroski.value)) {
-        if (!EW_onError(EW_this, EW_this.x_dod_stroski, "TEXT", "Napačna številka - stev ur sled"))
+        if (!EW_onError(EW_this, EW_this.x_dod_stroski, "TEXT", "Napačna številka - dodatni stroški"))
             return false; 
         }
 return true;
@@ -1405,6 +1447,15 @@ return true;
 		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_sled" size="30" value="<%= HTMLEncode((String)x_stev_ur_sled) %>">&nbsp;</td>
 	</tr>
+	<tr>
+		<td class="ewTableHeader">Število km normativ&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
+	</tr>
+
 </table>
 <p>
 <input type="submit" name="Action" value="Potrdi" tabindex=1>

@@ -77,6 +77,8 @@ String x_x_koord = "";
 String x_y_koord = "";
 String x_radij = "";
 String x_vtez = "";
+String x_stev_km_norm = "";
+String x_stev_ur_norm = "";
 
 // Open Connection to the database
 try{
@@ -317,6 +319,12 @@ try{
 		x_vtez = "";
 	}	
 	
+	// stev_km_norm
+	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+
+	// stev_ur_norm
+	x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+	
 }
 %>
 <%@ include file="header.jsp" %>
@@ -478,7 +486,15 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 		<td class="ewTableHeader">Vtez&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_vtez); %>&nbsp;</td>
 	</tr>
-</table>
+	<tr>
+		<td class="ewTableHeader">Število km normativ&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_stev_km_norm); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_stev_ur_norm); %>&nbsp;</td>
+	</tr>
+	</table>
 </form>
 <p>
 <%

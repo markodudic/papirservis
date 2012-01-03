@@ -108,7 +108,7 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 	<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="papirservis1.css" rel="stylesheet" type="text/css" />
-<link href="Master.css" rel="stylesheet" type="text/css" />
+<link href="master.css" rel="stylesheet" type="text/css" />
 <meta name="generator" content="JSPMaker v1.0.0.0" />
 </head>
 <script language="JavaScript" src="ew.js"></script>
