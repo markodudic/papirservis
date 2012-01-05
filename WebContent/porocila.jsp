@@ -70,7 +70,8 @@ function  EW_checkMyForm(EW_this)
 							"/reports/evidencni_list_prodaja",
 							"/reports/vozniki_planirane_dobavnice",
 							"/reports/rekapitulacija_prodaja_skupaj",
-							"/reports/kupci_izpis"
+							"/reports/kupci_izpis",
+							"/reports/dobavnice_km_ure"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -278,7 +279,7 @@ function  EW_checkMyForm(EW_this)
 	//preberem vse kamione iz baze
 	StringBuffer x_sif_kamioniList = null;
 
-	if ((reportID == 20))
+	if ((reportID == 20) || (reportID == 23))
 	{
 		x_sif_kamioniList = new StringBuffer("<select name=\"x_sif_kamioni\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_kamioni = "SELECT kamion.* "+
@@ -310,7 +311,7 @@ function  EW_checkMyForm(EW_this)
 	//preberem vse voznike iz baze
 	StringBuffer x_sif_voznikiList = null;
 
-	if ((reportID == 20))
+	if ((reportID == 20) || (reportID == 23))
 	{
 		x_sif_voznikiList = new StringBuffer("<select name=\"x_sif_vozniki\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_vozniki = "SELECT * FROM sofer ORDER BY sofer ASC";
@@ -394,13 +395,13 @@ function  EW_checkMyForm(EW_this)
 		<td class="ewTableAltRow"><%out.println(x_sif_osnovnaList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 20)) {%>
+	<%if ((reportID == 20) || (reportID == 23)) {%>
 	<tr>
 		<td class="ewTableHeader">Kamion&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kamioniList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 20)) {%>
+	<%if ((reportID == 20) || (reportID == 23)) {%>
 	<tr>
 		<td class="ewTableHeader">Vozniki&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_voznikiList);%>&nbsp;</td>

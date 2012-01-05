@@ -3,7 +3,7 @@
 String xDb_Conn_Str = getServletContext().getInitParameter("conn")+ "?useUnicode=" + getServletContext().getInitParameter("useUnicode") + "&characterEncoding=" + getServletContext().getInitParameter("characterEncoding") + "&characterSetResults=" + getServletContext().getInitParameter("characterSetResults");
 String user = getServletContext().getInitParameter("user");
 String pass = getServletContext().getInitParameter("pass");
-//System.out.println("DB");
+//System.out.println("DB"+xDb_Conn_Str);
 Connection conn = (Connection) session.getAttribute("connnection");
 try{
 	

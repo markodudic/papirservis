@@ -62,9 +62,10 @@ if ((meni & ewDriveOut) == ewDriveOut){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=9">Delovni nalog (Izpis)</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=1">Delovni nalog bianko (Izpis)</a></span></td></tr>
 			<% } %>
-			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="sledenje.jsp">Sledenje (Uvoz podatkov)</a></span></td></tr>
+			<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="sledenje.jsp">Sledenje (Uvoz podatkov)</a></span></td></tr-->
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=17">Sumarno vozniki</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=20">Vozniki planirane dobavnice</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=23">Dobavnice ure in kilometri</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>
 
