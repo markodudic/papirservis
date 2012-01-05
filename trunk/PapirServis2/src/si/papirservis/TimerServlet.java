@@ -1,152 +1,130 @@
 package si.papirservis;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
-import java.net.*;
 
 import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.*;
 
 import org.apache.commons.httpclient.HttpException;
 
-
-import si.papirservis.InitServlet;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-
-public class SledenjeServlet extends InitServlet implements Servlet {
-
+/**
+ * Servlet implementation class TimerServlet
+ */
+@WebServlet("/TimerServlet")
+public class TimerServlet extends InitServlet implements Servlet {
 	Locale locale = Locale.getDefault();
 	
-	/*
-	 * (non-Java-doc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#HttpServlet()
-	 */
-	public SledenjeServlet() {
-		super();
-	}
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public TimerServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	/*
-	 * (non-Java-doc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest arg0,
-	 *      HttpServletResponse arg1)
+    public void init() throws ServletException
+    {
+          /// Automatically java script can run here
+          System.out.println("************");
+          System.out.println("*** Timer Initialized successfully ***..");
+          System.out.println("***********");
+          
+          // repeat every sec. 
+          int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
+          int delay = 5000;   // delay for 5 sec.
+          Timer timer = new Timer();
+
+          timer.scheduleAtFixedRate(new TimerTask() {
+                  public void run() {
+	                	Calendar runTime = Calendar.getInstance();
+	        			System.out.println("Sledenje sinhronization at: " + runTime.toString());
+	        			Vector data = getData();
+	        			System.out.println("DATA="+data);	
+	
+	        			//posljemo na server sledenja
+	        			try
+	        			{
+		        			Vector result = null;
+		        			if ((data != null) && (data.size() > 0))
+		        			{
+		        				String url = (String) getServletContext().getInitParameter("SledenjeServerURL");
+		        				String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
+		        				result = getSledenje(url, datum, data);
+		        				System.out.println("RESULT="+result);	
+		        			}
+	        			}
+	        			catch (Exception e)
+	        			{
+	        				e.printStackTrace();
+	        				
+	        			}        			
+                  }
+              }, delay, period);          
+
+    }
+    
+    /**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
-	/*
-	 * (non-Java-doc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest arg0,
-	 *      HttpServletResponse arg1)
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("SERVLET");		
-		try
-		{
-			//preberem lokacijo sledenja serverja
-			String url = (String) getServletContext().getInitParameter("SledenjeServerURL");
-			System.out.println("url="+url);		
+		// TODO Auto-generated method stub
+	}
 
-
-			//preberemo parametre
-			String x_sif_kupca = (String) request.getParameter("x_sif_kupca");
-			String x_sif_enote = (String) request.getParameter("x_sif_enote");
-			String x_sif_skupine = (String) request.getParameter("x_sif_skupine");
-			String datum = (String) request.getParameter("datum");
-			
-			if ((x_sif_kupca == null) || (x_sif_kupca.equals(""))) x_sif_kupca = "-1";
-			if ((x_sif_enote == null) || (x_sif_enote.equals(""))) x_sif_enote = "-1";
-			if ((x_sif_skupine == null) || (x_sif_skupine.equals(""))) x_sif_skupine = "-1";
-			System.out.println(x_sif_kupca+"  "+x_sif_enote+"  "+x_sif_skupine+"  "+datum);		
-
-			//dobimo podatke iz baze
-			Vector data = getData(x_sif_kupca, x_sif_enote, x_sif_skupine, datum);
-			System.out.println("DATA="+data);	
-
-			//posljemo na server sledenja
-			Vector result = null;
-			if ((data != null) && (data.size() > 0))
-			{
-				result = getSledenje(url, datum, data);
-				System.out.println("RESULT="+result);	
-			}
-			
-			//vrnemo rezultat
-			HttpSession session = request.getSession(true);
-			session.setAttribute("data", data);
-			session.setAttribute("result", result);
-			response.sendRedirect("sledenjeResult.jsp"); 
-			response.flushBuffer(); 
-			return;
-
-			
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			
-		}
 	
-	}	
-	
-
-	private Vector getData(String x_sif_kupca, String x_sif_enote, String x_sif_skupine, String datum) {
+	private Vector getData() {
     	Vector dataVector = new Vector();
 
-//    	Connection conn = null;
     	ResultSet rs = null;
 	    Statement stmt = null;
 
 	    try {
 	    	connectionMake();
-//	    	conn = DbManager.dbManager.getDS().getConnection();
-//	    	System.out.println("conn="+conn);
 
-			String datumFormat = EW_UnFormatDateTime((String)datum,"EURODATE", locale).toString();	
-			String dobLeto = datum.substring(datum.lastIndexOf(".")+1);
+			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
 	    	String query = 	"select distinct dob.st_dob st_dob, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, stranke.radij stranke_radij, stranke.vtez stranke_vtez, " +
 	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.registrska kamion " +
-	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') = DATE_FORMAT('" + datumFormat + "', '%Y-%m-%d') group by st_dob) dob, " + 
+	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
 	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
 	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	enote, " +
 	    					"	kupci, " +
 	    					"	(SELECT kamion.* " +
-	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT('" + datumFormat + "', '%Y-%m-%d') group by sif_kam) zadnji " +
+	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"			      kamion.zacetek = zadnji.datum) kamion " +
-	    					"where  ((dob.sif_str = " + x_sif_kupca + ")  or (-1 = " + x_sif_kupca + "))  and " +
-	    					"		((dob.skupina = " + x_sif_skupine + ")  or (-1 = " + x_sif_skupine + "))  and " +
+	    					"where  ((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
 	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
-							"		((kupci.sif_enote = " + x_sif_enote + ")  or (-1 = " + x_sif_enote + ")) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
 							"		(dob.sif_kam = kamion.sif_kam)";
 
@@ -198,12 +176,6 @@ public class SledenjeServlet extends InitServlet implements Servlet {
 	    		if (stmt != null) {
 	    			stmt.close();
 	    		}
-/*				if (con != null) {
-					try {
-						con.close();
-					} catch (SQLException e) {
-					}
-				}*/
 			} catch (Exception e) {
 			}
 	    }
@@ -223,11 +195,10 @@ public class SledenjeServlet extends InitServlet implements Servlet {
 	 */
 	private Vector getSledenje(String server, String datum, Vector data) throws FileNotFoundException, IOException, HttpException {
 
-	   	String serv =  server;
-    	Vector vectin = null;
+	   	Vector vectin = null;
     	try 
     	{
-          URL  url = new URL(serv);
+          URL  url = new URL(server);
           URLConnection con = url.openConnection();
 
           con.setDoInput(true);
@@ -259,30 +230,48 @@ public class SledenjeServlet extends InitServlet implements Servlet {
 
 
 	
-	
-	private java.sql.Timestamp EW_UnFormatDateTime(String ADate,String dateFormat, Locale locale){
-		if (ADate == null) return null;
-		DateFormat df = DateFormat.getInstance();
-		String format = "";
-		ADate = ADate.trim().replaceAll("  ", " ");
+	private void setData(Vector result) {
+		//vpisem podatke iz result v bazo
+	    Statement stmt = null;
+		try
+		{
+	    	connectionMake();
+			stmt = con.createStatement();
 
-		String [] arDateTime = ADate.split(" ");
-		if (arDateTime.length == 0) {
-			return null;
-		}
-		if (dateFormat.equals("USDATE")){format = "MM/dd/yyyy";}
-		else if (dateFormat.equals("DATE")){format = "yyyy/MM/dd";}
-		else if (dateFormat.equals("EURODATE")){format = "dd.MM.yyyy";}
+			for (int i=0; i<result.size(); i++)
+			{		
+				Vector resultRecord = (Vector) result.get(i);
+				
+				int pot = ((Integer) resultRecord.get(1)).intValue()/1000;
+				String cas = ((Integer) resultRecord.get(2)).toString();
+				int ura = Integer.parseInt(cas) / 3600;	
+				int min = (Integer.parseInt(cas) / 60) % 60;
+				if (min <= 30) cas = Integer.toString(ura);
+				else cas = Integer.toString(ura) + ".5";
+				
+				int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 
-		try{
-			if (format.length() > 0) {
-				df = new SimpleDateFormat(format, locale);
-				return new java.sql.Timestamp(((SimpleDateFormat) df).parse(ADate).getTime());
-			}else{
-				return new java.sql.Timestamp(df.parse(ADate).getTime());
+				String sql = "update dob"+dobLeto+
+							 " set " +
+							 "	stev_km_sled = " + pot + 
+							 ", stev_ur_sled = " + cas +
+							 " where st_dob = " + (Integer) resultRecord.get(0);
+				System.out.println("UPDATE SLEDENJE="+sql);
+				stmt.executeUpdate(sql);
 			}
-		}catch (Exception e){
-			return null;
 		}
+		catch (Exception e)
+		{
+			System.out.println("NAPAKA="+e);
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+	
+		return;
 	}
 }

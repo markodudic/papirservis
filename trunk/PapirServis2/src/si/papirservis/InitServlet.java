@@ -16,12 +16,11 @@ package si.papirservis;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-import javax.servlet.http.*;
-import java.sql.*;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServlet;
 
 public class InitServlet extends HttpServlet {
 
@@ -82,7 +81,8 @@ public class InitServlet extends HttpServlet {
 	    {
 	        System.out.println("INIT="+ url+" "+user+" "+pass);
 	        try { 
-				con = DriverManager.getConnection(url,user,pass);
+				Class.forName(driver);
+	        	con = DriverManager.getConnection(url,user,pass);
 	        }
 	        catch (Exception e) {
 	            System.out.println( "Napaka:" + e.toString());

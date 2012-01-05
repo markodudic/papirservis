@@ -14,6 +14,11 @@
     <filter-name>UTFtransformer</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+  <context-param>
+    <param-name>driver</param-name>
+    <param-value>org.gjt.mm.mysql.Driver</param-value>
+  </context-param>
   <context-param>
     <param-name>conn</param-name>
     <param-value>jdbc:mysql://192.168.9.82:3306/papirservis</param-value>
@@ -40,7 +45,7 @@
   </context-param>
   <context-param>
     <param-name>reportDir</param-name>
-    <param-value>C:\projects\Monolit\PapirServis\PapirServis2\WebContent\reports\</param-value>
+    <param-value>C:\projects\Monolit\PapirServis\PapirServis\WebContent\reports\</param-value>
   </context-param>
   <context-param>
     <param-name>logo</param-name>
@@ -48,17 +53,30 @@
   </context-param>
   <context-param>
     <param-name>logoPdf</param-name>
-    <param-value>C://projects//Monolit//PapirServis//PapirServis2//WebContent//images//ps.jpg</param-value>
+    <param-value>C://projects//Monolit//PapirServis//PapirServis//WebContent//images//ps.jpg</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>SledenjeServerURL</param-name>
+	 <param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
   </context-param>
 
+  <servlet>
+    <servlet-name>TimerServlet</servlet-name>
+    <servlet-class>si.papirservis.TimerServlet</servlet-class>
+	 <init-param>
+	   <param-name>period</param-name>
+		<param-value>60000</param-value>
+	 </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>  
+  <servlet-mapping>
+    <servlet-name>TimerServlet</servlet-name>
+    <url-pattern>/TimerServlet</url-pattern>
+  </servlet-mapping>
 	
 	<servlet>
 		<servlet-name>SledenjeServlet</servlet-name>
 		<servlet-class>si.papirservis.SledenjeServlet</servlet-class>
-		<init-param>
-			<param-name>SledenjeServerURL</param-name>
-			<param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
-		</init-param>
 	</servlet>
     <servlet-mapping>
       <servlet-name>SledenjeServlet</servlet-name>
