@@ -326,7 +326,7 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 %>
 <%@ include file="header.jsp" %>
 <p><span class="jspmaker">Pregled: stranke</span></p>
-<form action="strankelist.jsp" name="strankelist" id="strankelist">
+<form action="strankelist.jsp" name="strankelist" id="strankelist" method='post'>
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
@@ -337,6 +337,14 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		&nbsp;&nbsp;<a href="strankelist.jsp?cmd=top">Prikaži zadnje</a>
 		</span></td>
 	</tr>
+	<tr>
+		<td><span class="jspmaker">Izvoz podatkov o strankah(csv)</span></td>
+		<td><span class="jspmaker">
+			<button type="button" onclick='strankeExport();'>Izvoz</button>
+			<INPUT type="radio" id="vsi" name="tipizvoza" value="1" checked>Vsi
+    		<INPUT type="radio" id="novi" name="tipizvoza" value="2">Nove
+		</span></td>
+	</tr>	
 	<tr>
 		<td><span class="jspmaker">Uvoz podatkov o strankah(csv)</span></td>
 		<td><span class="jspmaker">

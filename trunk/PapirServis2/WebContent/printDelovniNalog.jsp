@@ -366,6 +366,12 @@ function disableSome(EW_this){
 		parameters.put("SUBREPORT_DIR", reportDir);
 	}
 
+	if (Integer.parseInt(reportID) == 23)
+	{
+		String sort = request.getParameter("sort");
+		parameters.put("sort", sort);
+	}
+	
 	try
     {
     	

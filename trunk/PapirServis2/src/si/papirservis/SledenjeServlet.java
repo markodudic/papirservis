@@ -65,7 +65,7 @@ public class SledenjeServlet extends InitServlet implements Servlet {
 	 *      HttpServletResponse arg1)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("SERVLET");		
+		System.out.println("SERVLET POST");		
 		try
 		{
 			//preberem lokacijo sledenja serverja
