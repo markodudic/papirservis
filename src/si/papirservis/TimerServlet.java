@@ -12,7 +12,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -52,7 +54,7 @@ public class TimerServlet extends InitServlet implements Servlet {
           
           // repeat every sec. 
           int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
-          int delay = 5000;   // delay for 5 sec.
+          int delay = 30000;   // delay for 30 sec.
           Timer timer = new Timer();
 
           timer.scheduleAtFixedRate(new TimerTask() {
@@ -65,13 +67,24 @@ public class TimerServlet extends InitServlet implements Servlet {
 	        			//posljemo na server sledenja
 	        			try
 	        			{
-		        			Vector result = null;
 		        			if ((data != null) && (data.size() > 0))
 		        			{
-		        				String url = (String) getServletContext().getInitParameter("SledenjeServerURL");
+		        				//String url = (String) getServletContext().getInitParameter("SledenjeServerURL");
+		        				String url = "http://localhost:8080/papirservis/SledenjeServer";
+		        				
 		        				String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
-		        				result = getSledenje(url, datum, data);
-		        				System.out.println("RESULT="+result);	
+		        				
+			        			Vector result = null;
+		        				for (int i=0; i<data.size(); i++) {
+		        					Map res = (Map) data.get(i);
+		        					result = getSledenje(url, datum, (Vector) res.get("data"));
+		        					if (result == null) {
+			        					System.out.println("Napaka pri povezavi na seldenje. Počakam time out.");	
+		        						break;
+		        					}
+		        					System.out.println("RESULT="+result);	
+		        					setSledenjeData(result, (String) res.get("st_dob"));
+		        				}
 		        			}
 	        			}
 	        			catch (Exception e)
@@ -110,7 +123,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
-	    	String query = 	"select distinct dob.st_dob st_dob, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
+	    	String query = 	"select distinct dob.st_dob st_dob, dob.datum datum, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, stranke.radij stranke_radij, stranke.vtez stranke_vtez, " +
 	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.registrska kamion " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
@@ -126,43 +139,53 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
-							"		(dob.sif_kam = kamion.sif_kam)";
+							"		(dob.sif_kam = kamion.sif_kam) and " +
+							"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							"		(dob.error = 0)";
 
-	    	System.out.println(query);	           
+	    	//System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
 
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
 	    		String stranke_sif_str = rs.getString("stranke_sif_str");
-	    		String stranke_naziv = rs.getString("stranke_naziv");
-	    		String stranke_x_koord = rs.getString("stranke_x_koord");
-	    		String stranke_y_koord = rs.getString("stranke_y_koord");
-	    		String stranke_radij = rs.getString("stranke_radij");
-	    		String stranke_vtez = rs.getString("stranke_vtez");
+	    		//String stranke_naziv = rs.getString("stranke_naziv");
+	    		//String stranke_x_koord = rs.getString("stranke_x_koord");
+	    		//String stranke_y_koord = rs.getString("stranke_y_koord");
+	    		//String stranke_radij = rs.getString("stranke_radij");
+	    		//String stranke_vtez = rs.getString("stranke_vtez");
 	    		String enote_x_koord = rs.getString("enote_x_koord");
 	    		String enote_y_koord = rs.getString("enote_y_koord");
-	    		String enote_radij = rs.getString("enote_radij");
+	    		//String enote_radij = rs.getString("enote_radij");
+	    		String datum = rs.getString("datum");
 	    		String kamion = rs.getString("kamion");
 
-	    		if ((st_dob == null) || (stranke_x_koord == null) || (stranke_y_koord == null) ||
+/*	    		if ((st_dob == null) || (stranke_x_koord == null) || (stranke_y_koord == null) ||
 	    			(stranke_radij == null) || (stranke_vtez == null) || (enote_x_koord == null) || 
 	    			(enote_y_koord == null) || (enote_radij == null) || (kamion == null))
 	    			continue;
-	    		
+*/
+	    		if ((enote_x_koord == null) || (enote_y_koord == null) || (datum == null) || (kamion == null))
+		    			continue;
+
 		    	Vector dataRecord = new Vector(11);
-	    		dataRecord.add(st_dob);
+	    		//dataRecord.add(st_dob);
 	    		dataRecord.add(stranke_sif_str);
-	    		dataRecord.add(stranke_naziv);
-	    		dataRecord.add(stranke_x_koord);
-	    		dataRecord.add(stranke_y_koord);
-	    		dataRecord.add(stranke_radij);
-	    		dataRecord.add(stranke_vtez);
+	    		//dataRecord.add(stranke_naziv);
+	    		//dataRecord.add(stranke_x_koord);
+	    		//dataRecord.add(stranke_y_koord);
+	    		//dataRecord.add(stranke_radij);
+	    		//dataRecord.add(stranke_vtez);
 	    		dataRecord.add(enote_x_koord);
 	    		dataRecord.add(enote_y_koord);
-	    		dataRecord.add(enote_radij);    		
+	    		//dataRecord.add(enote_radij);    		
+	    		dataRecord.add(datum);
 	    		dataRecord.add(kamion);
-	    		dataVector.add(dataRecord);
+				Map inputs = new HashMap();
+				inputs.put("st_dob", st_dob);
+				inputs.put("data", dataRecord);
+	    		dataVector.add(inputs);
 	    	}
 	    	
 	    } catch (Exception theException) {
@@ -195,7 +218,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	 */
 	private Vector getSledenje(String server, String datum, Vector data) throws FileNotFoundException, IOException, HttpException {
 
-	   	Vector vectin = null;
+	   	Vector vectin = new Vector();
     	try 
     	{
           URL  url = new URL(server);
@@ -222,6 +245,7 @@ public class TimerServlet extends InitServlet implements Servlet {
     	catch(Exception e) 
     	{ 
     		System.out.println(e); 
+    		return null;
     	}
     	
     	return vectin;
@@ -230,39 +254,34 @@ public class TimerServlet extends InitServlet implements Servlet {
 
 
 	
-	private void setData(Vector result) {
-		//vpisem podatke iz result v bazo
-	    Statement stmt = null;
-		try
-		{
+	
+	
+	private void setSledenjeData(Vector result, String st_dob) {
+
+    	Statement stmt = null;
+
+	    try {
 	    	connectionMake();
-			stmt = con.createStatement();
+			stmt = con.createStatement();   	
 
-			for (int i=0; i<result.size(); i++)
-			{		
-				Vector resultRecord = (Vector) result.get(i);
-				
-				int pot = ((Integer) resultRecord.get(1)).intValue()/1000;
-				String cas = ((Integer) resultRecord.get(2)).toString();
-				int ura = Integer.parseInt(cas) / 3600;	
-				int min = (Integer.parseInt(cas) / 60) % 60;
-				if (min <= 30) cas = Integer.toString(ura);
-				else cas = Integer.toString(ura) + ".5";
-				
-				int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
+			int pot = (Integer.parseInt((String)result.get(0)))/1000;
+			String cas = (String) result.get(1);
+			int ura = Integer.parseInt(cas) / 3600;	
+			int min = (Integer.parseInt(cas) / 60) % 60;
+			if (min <= 30) cas = Integer.toString(ura);
+			else cas = Integer.toString(ura) + ".5";
+			
+			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 
-				String sql = "update dob"+dobLeto+
-							 " set " +
-							 "	stev_km_sled = " + pot + 
-							 ", stev_ur_sled = " + cas +
-							 " where st_dob = " + (Integer) resultRecord.get(0);
-				System.out.println("UPDATE SLEDENJE="+sql);
-				stmt.executeUpdate(sql);
-			}
-		}
-		catch (Exception e)
-		{
-			System.out.println("NAPAKA="+e);
+			String sql = "update dob" + dobLeto + " " +
+						 "set " +
+						 "	stev_km_sled = " + pot + 
+						 ", stev_ur_sled = " + cas +
+						 " where st_dob = " + st_dob;
+			//System.out.println("UPDATE SLEDENJE="+sql);
+			stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
 	    } finally {
 	    	try {
 	    		if (stmt != null) {
@@ -271,7 +290,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 			} catch (Exception e) {
 			}
 	    }
-	
+		
+		
 		return;
 	}
+	
 }

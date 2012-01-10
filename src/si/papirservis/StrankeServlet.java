@@ -32,9 +32,9 @@ public class StrankeServlet extends InitServlet implements Servlet {
 	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest arg0,
 	 *      HttpServletResponse arg1)
 	 */
-	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		System.out.println("SERVLET GET");		
 	}
 
 	/*
@@ -44,56 +44,85 @@ public class StrankeServlet extends InitServlet implements Servlet {
 	 *      HttpServletResponse arg1)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("SERVLET post");		
-		try
-		{
-			//preberemo parametre
-			String csv = (String) request.getParameter("csv");
-
-			String [] csvs = csv.split("\n");
-			for(int i=0; i<csvs.length; i++) {
-				System.out.println(csvs[i]);	
-				String[] stranka = csvs[i]. split(";");
-				if (stranka.length != 8) continue;
-				String sif_str = stranka[0].equals("") ? "0" : stranka[0];
-				String naziv = stranka[1].equals("") ? "null" : stranka[1];
-				String naslov = stranka[2].equals("") ? "null" : stranka[2];
-				String posta = stranka[3].equals("") ? "null" : stranka[3];
-				String kraj = stranka[4].equals("") ? "null" : stranka[4];
-				String km_norm = stranka[5].equals("") ? "0" : stranka[5];
-				String ur_norm = stranka[6].equals("") ? "0" : stranka[6];
-				
-				if (updateCustomer(sif_str, naziv, naslov, posta, kraj, km_norm, ur_norm) == -1) {
-					throw new Exception("napaka");
+		String type = (String) request.getParameter("type");
+		
+		if (type.equals("import")) {
+			try
+			{
+				//preberemo parametre
+				String csv = (String) request.getParameter("csv");
+	
+				String [] csvs = csv.split("\n");
+				for(int i=0; i<csvs.length; i++) {
+					System.out.println(csvs[i]);	
+					String[] stranka = csvs[i]. split(";");
+					if (stranka.length != 9) continue;
+					String sif_str = stranka[0].equals("") ? "0" : stranka[0].replaceAll("\"", "");
+					String y = stranka[1].equals("") ? "null" : stranka[1].replaceAll("\"", "");
+					String x = stranka[2].equals("") ? "null" : stranka[2].replaceAll("\"", "");
+					String naziv = stranka[3].equals("") ? "null" : stranka[3].replaceAll("\"", "");
+					String naslov = stranka[4].equals("") ? "null" : stranka[4].replaceAll("\"", "");
+					String posta = stranka[5].equals("") ? "null" : stranka[5].substring(0, stranka[5].indexOf(" ")).replaceAll("\"", "");
+					String kraj = stranka[5].equals("") ? "null" : stranka[5].substring(stranka[5].indexOf(" ")+1).replaceAll("\"", "");
+					String drzava = stranka[6].equals("") ? "null" : stranka[6].replaceAll("\"", "");
+					String km_norm = stranka[7].equals("") ? "0" : stranka[7].replaceAll("\"", "");
+					String ur_norm = stranka[8].equals("") ? "0" : stranka[8].replaceAll("\"", "");
+					
+					if (updateCustomer(sif_str, x, y, naziv, naslov, posta, kraj, drzava, km_norm, ur_norm) == -1) {
+						throw new Exception("napaka");
+					}
 				}
 				
+				//vrnemo rezultat
+				OutputStream out = response.getOutputStream();
+				out.write("true".getBytes("utf-8"));
+				out.flush();
+				out.close();
+	
+				
 			}
-			
-
-			
-			
-			//vrnemo rezultat
-			OutputStream out = response.getOutputStream();
-			out.write("true".getBytes("utf-8"));
-			out.flush();
-			out.close();
-
-			
-		}
-		catch (Exception e)
-		{
-			OutputStream out = response.getOutputStream();
-			out.write("false".getBytes("utf-8"));
-			out.flush();
-			out.close();
-			e.printStackTrace();
+			catch (Exception e)
+			{
+				OutputStream out = response.getOutputStream();
+				out.write("false".getBytes("utf-8"));
+				out.flush();
+				out.close();
+				e.printStackTrace();
+				
+			}
+		} else {
+			String tipizvoza = (String) request.getParameter("tipizvoza");
+			response.setContentType("text/csv");
+			response.setHeader("Content-disposition", "attachment; filename=stranke.csv");
+			OutputStream out = null;
+			try {
+				
+				String csv = getCustomers(tipizvoza);
+				
+				out = response.getOutputStream();	
+				out.write(csv.getBytes("utf-8"));
+				out.flush();
+				out.close();
+				
+			} catch (Exception e) {
+				response.setContentType("text/html");
+				response.setHeader("Content-disposition", null);
+				try {
+					e.printStackTrace();
+					out.write("Prišlo je do napake pri pridobivanju podatkov.".getBytes());
+					out.flush();
+					out.close();
+				} catch (IOException e1) {}
+			} finally {
+				if (out!= null) try { out.close(); } catch (IOException e) {}
+			}
 			
 		}
 	
 	}	
 	
 
-	private int updateCustomer(String sif_str, String naziv, String naslov, String posta, String kraj, String km_norm, String ur_norm) {
+	private int updateCustomer(String sif_str, String x, String y, String naziv, String naslov, String posta, String kraj, String drzava, String km_norm, String ur_norm) {
 
     	Statement stmt = null;
 
@@ -102,6 +131,8 @@ public class StrankeServlet extends InitServlet implements Servlet {
 
 	    	String query = 	"UPDATE stranke " +
 	    					"SET naziv = '" + naziv + "', " +
+	    					"	 x_koord = " + x + ", " +
+	    					"	 y_koord = " + y + ", " +
 	    					"	 naslov = '" + naslov + "', " +
 	    					"	 posta = " + posta + ", " +
 	    					"	 kraj = '" + kraj + "', " +
@@ -129,6 +160,56 @@ public class StrankeServlet extends InitServlet implements Servlet {
 		return -1;
 	}
 	
+	private String getCustomers(String tip) {
+
+    	Statement stmt = null;
+    	ResultSet rs = null;
+
+	    try {
+	    	connectionMake();
+
+	    	String query = 	"SELECT sif_str, naziv, x_koord, y_koord, naslov, posta, kraj, stev_km_norm, stev_ur_norm " +
+	    					"FROM stranke ";
+	    	
+	    	if (tip.equals("novi")) {
+	    		query += "WHERE x_koord is null or y_koord is null";
+	    	}
+	    	
+	    	System.out.println(query);	           
+	    	stmt = con.createStatement();   	
+	    	rs = stmt.executeQuery(query);
+	    	String csv = "";
+	    	while (rs.next()) {
+	    		csv += "\"" + rs.getString("sif_str") + "\";";
+	    		csv += "\"" + (rs.getString("y_koord")==null?"":rs.getString("y_koord")) + "\";";
+	    		csv += "\"" + (rs.getString("x_koord")==null?"":rs.getString("x_koord")) + "\";";
+	    		csv += "\"" + (rs.getString("naziv")==null?"":rs.getString("naziv")) + "\";";
+	    		csv += "\"" + (rs.getString("naslov")==null?"":rs.getString("naslov")) + "\";";
+	    		csv += "\"" + rs.getString("posta") + " " + rs.getString("kraj") + "\";";
+	    		csv += "\"" + "\";";
+	    		csv += "\"" + (rs.getString("stev_km_norm")==null?"":rs.getString("stev_km_norm")) + "\";";
+	    		csv += "\"" + (rs.getString("stev_km_norm")==null?"":rs.getString("stev_ur_norm")) + "\"\n";
+	    	}
+	    	
+	    	return csv;
+	    	
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+		
+		
+		return "";
+	}
 	
 	
 }

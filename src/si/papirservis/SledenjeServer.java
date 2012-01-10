@@ -29,6 +29,7 @@ public class SledenjeServer extends HttpServlet implements Servlet {
 
 	
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) 	throws ServletException, IOException {
+		System.out.println("SledenjeServer GET"); 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -55,19 +56,9 @@ public class SledenjeServer extends HttpServlet implements Servlet {
 	            //podatki so v obliki
 	            //[[sifra, pot, cas]]
 	            //dummy data
-	            Vector result = new Vector(2);
-	            Vector resultRecord = new Vector(3);
-	            resultRecord.add("158");
-	            resultRecord.add("22222");
-	            resultRecord.add("2222");
-	            result.add(resultRecord);
-	            resultRecord = new Vector(3);
-	            resultRecord.add("159");
-	            resultRecord.add("4321");
-	            resultRecord.add("1234");
-	            result.add(resultRecord);
-	            
-	            
+	            Vector result = new Vector(3);
+	            result.add("22222");
+	            result.add("2222");
 	            
 	            //send results to the papirservis server
 	            out.writeObject(result);

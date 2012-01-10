@@ -65,7 +65,7 @@
     <servlet-class>si.papirservis.TimerServlet</servlet-class>
 	 <init-param>
 	   <param-name>period</param-name>
-		<param-value>60000</param-value>
+		<param-value>30000</param-value>
 	 </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  

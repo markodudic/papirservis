@@ -56,6 +56,9 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sort" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["delta"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[select now()]]></queryString>
 
 	<field name="now()" class="java.sql.Timestamp"/>
@@ -139,8 +142,8 @@
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="dobLeto">
-						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					<subreportParameter  name="sort">
+						<subreportParameterExpression><![CDATA[$P{sort}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "dobavnice_km_ure_subreport0.jasper"]]></subreportExpression>

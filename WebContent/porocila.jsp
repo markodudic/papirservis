@@ -459,6 +459,15 @@ function  EW_checkMyForm(EW_this)
 		</td>
 	</tr>
 	<%}%>
+	<%if ((reportID == 23)) {%>
+	<tr>
+		<td class="ewTableHeader">Sortiranje:&nbsp;</td>
+		<td class="ewTableAltRow">
+    		<INPUT type="radio" name="sort" value="st_dob" checked>Št. dobavnice
+    		<INPUT type="radio" name="sort" value="delta">Delta
+		</td>
+	</tr>
+	<%}%>
 		
 	<tr>
 		<td class="ewTableHeader">Tip poro&#269;ila:&nbsp;</td>

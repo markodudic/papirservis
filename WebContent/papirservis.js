@@ -17,7 +17,7 @@ function handleFileSelect(evt) {
     	var csv = e.target.result;
     	alert(csv);  
 
-    	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('csv='+csv));
+    	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('type=import&csv='+csv));
     	if(result = true) {
     		alert("Podatki uspešno shranjeni.");
     		document.getElementById('strankelist').submit();
@@ -29,6 +29,20 @@ function handleFileSelect(evt) {
 
     var xml = reader.readAsText(f);
 };
+
+function strankeExport() {
+	var vsi = document.getElementById('vsi').checked;
+	var novi = document.getElementById('novi').checked;
+	var tipizvoza="vsi";
+	if (novi) tipizvoza="novi";
+	
+	document.getElementById('strankelist').action = '/papirservis/StrankeServlet?type=export&tipizvoza='+tipizvoza;
+	document.getElementById('strankelist').submit();
+	
+//	var result = syncAjax('/papirservis/StrankeServlet', 'text/csv', true, ('type=export&tipizvoza='+tipizvoza));
+//	alert(result);
+}
+
 
 
 syncAjax = function (url, contentType, isPost, postContent) {
@@ -73,3 +87,7 @@ syncAjax = function (url, contentType, isPost, postContent) {
 	   		return false;
 	   }
 	}
+
+
+
+
