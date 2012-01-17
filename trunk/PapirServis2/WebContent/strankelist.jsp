@@ -26,7 +26,7 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 %>
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
-<script language="JavaScript" src="papirservis.js"></script>
+
 <script language="JavaScript">
 function disableSome(EW_this){
 }
@@ -348,7 +348,7 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 	<tr>
 		<td><span class="jspmaker">Uvoz podatkov o strankah(csv)</span></td>
 		<td><span class="jspmaker">
-			<input type="file" name="csvfile" id="csvfile" onchange='handleFileSelect(window.event);')">
+			<input type="file" name="csvfile" id="csvfile">
 		</span></td>
 	</tr>
 </table>
@@ -1057,4 +1057,7 @@ if (totalRecs > 0) {
 </p>
 <% } %>
 </td></tr></table>
+
+<script language="JavaScript" src="papirservis.js"></script>
+
 <%@ include file="footer.jsp" %>

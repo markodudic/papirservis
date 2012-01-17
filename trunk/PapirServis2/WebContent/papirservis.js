@@ -1,3 +1,10 @@
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+	//Great success! All the File APIs are supported.
+} else {
+	alert('The File APIs are not fully supported in this browser.');
+}
+
+document.getElementById('csvfile').addEventListener('change', handleFileSelect, false);
 
 function handleFileSelect(evt) {
 	var files = evt.target.files; // FileList object
@@ -15,7 +22,7 @@ function handleFileSelect(evt) {
     reader.onload = (function(theFile) {
       return function(e) {
     	var csv = e.target.result;
-    	alert(csv);  
+//    	alert(csv);  
 
     	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('type=import&csv='+csv));
     	if(result = true) {

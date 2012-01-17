@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://192.168.9.82:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -58,6 +58,22 @@
   <context-param>
 	 <param-name>SledenjeServerURL</param-name>
 	 <param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>http_username</param-name>
+	 <param-value>sledenjews1</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>http_password</param-name>
+	 <param-value>sledenjews12</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>sledenje_username</param-name>
+	 <param-value>papirservis</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>sledenje_password</param-name>
+	 <param-value>papirvozila</param-value>
   </context-param>
 
   <servlet>
