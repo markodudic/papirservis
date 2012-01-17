@@ -2,17 +2,14 @@ package si.papirservis;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
@@ -28,13 +25,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpException;
 
+import com.sledenje.ws.AuToken;
+import com.sledenje.ws.SledenjeAuTokenWS;
+import com.sledenje.ws.SledenjeTravelOrdersWS;
+import com.sledenje.ws.TravelOrderRelation;
+
 /**
  * Servlet implementation class TimerServlet
  */
 @WebServlet("/TimerServlet")
 public class TimerServlet extends InitServlet implements Servlet {
 	Locale locale = Locale.getDefault();
-	
+    private SledenjeAuTokenWS sledenjeAuTokenWS = null;
+    private SledenjeTravelOrdersWS sledenjeTravelOrdersWS = null;
+    private String sledenje_username;
+    private String sledenje_password;
+    
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -52,39 +58,174 @@ public class TimerServlet extends InitServlet implements Servlet {
           System.out.println("*** Timer Initialized successfully ***..");
           System.out.println("***********");
           
+          String http_username = (String) getServletContext().getInitParameter("http_username");
+          String http_password = (String) getServletContext().getInitParameter("http_password");
+          sledenje_username = (String) getServletContext().getInitParameter("sledenje_username");
+          sledenje_password = (String) getServletContext().getInitParameter("sledenje_password");
+			
+          try {
+	          sledenjeAuTokenWS = (new com.sledenje.ws.SledenjeAuTokenWSServiceLocator()).getSledenjeAuTokenWSPort();
+	    	  org.apache.axis.client.Stub sledenjeAuTokenWSStub = (org.apache.axis.client.Stub)sledenjeAuTokenWS; 
+	          sledenjeAuTokenWSStub.setMaintainSession(true);
+	          sledenjeAuTokenWSStub.setUsername(http_username);
+	          sledenjeAuTokenWSStub.setPassword(http_password);
+			  
+	          sledenjeTravelOrdersWS = (new com.sledenje.ws.SledenjeTravelOrdersWSServiceLocator()).getSledenjeTravelOrdersWSPort();
+	    	  org.apache.axis.client.Stub sledenjeTravelOrdersWSStub = (org.apache.axis.client.Stub)sledenjeTravelOrdersWS; 
+	    	  sledenjeTravelOrdersWSStub.setMaintainSession(true);
+	    	  sledenjeTravelOrdersWSStub.setUsername(http_username);
+	    	  sledenjeTravelOrdersWSStub.setPassword(http_password);
+          } catch (Exception e) {
+        	  e.printStackTrace();
+          }
+                    
           // repeat every sec. 
           int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
-          int delay = 30000;   // delay for 30 sec.
+          int delay = 10000;   // delay for 30 sec.
           Timer timer = new Timer();
 
           timer.scheduleAtFixedRate(new TimerTask() {
                   public void run() {
 	                	Calendar runTime = Calendar.getInstance();
 	        			System.out.println("Sledenje sinhronization at: " + runTime.toString());
-	        			Vector data = getData();
-	        			System.out.println("DATA="+data);	
+	        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
+	        			List orders = getOrderData();
+	        			//pridobim vse datume in vozila, ki imajo dobavnice
+	        			List ordersDates = getDateData();
 	
 	        			//posljemo na server sledenja
 	        			try
 	        			{
-		        			if ((data != null) && (data.size() > 0))
+		        			if ((orders != null) && (orders.size() > 0))
 		        			{
-		        				//String url = (String) getServletContext().getInitParameter("SledenjeServerURL");
-		        				String url = "http://localhost:8080/papirservis/SledenjeServer";
-		        				
 		        				String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
 		        				
+		        				//pridobim vsa vozila iz sledenja za papir servis
+		        				Map vozila = getSledenjeVozila();
+	        					if ((vozila == null) || (vozila.size() == 0)) {
+		        					System.out.println("Ni vozil. Počakam time out.");	
+	        						return;
+	        					}
+		        				
 			        			Vector result = null;
-		        				for (int i=0; i<data.size(); i++) {
-		        					Map res = (Map) data.get(i);
-		        					result = getSledenje(url, datum, (Vector) res.get("data"));
-		        					if (result == null) {
+		        				for (int i=0; i<ordersDates.size(); i++) {
+		        					//preverim ali vozilo z dobavnico obstaja v sistemu sledenja
+		        					Order ordersDate = (Order) ordersDates.get(i);
+		        					String ident = (String) vozila.get(ordersDate.getKamion());
+		        					if (ident == null)
+		        						continue;
+		        					System.out.println("SLEDENJE="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
+		        					
+		        					//za vozilo in datum poiščem njegove postanke
+		        					TravelOrderRelation[] relations = getSledenje(ordersDate.getZacetek(), ordersDate.getKonec(), ident);
+		        					if (relations == null) {
 			        					System.out.println("Napaka pri povezavi na seldenje. Počakam time out.");	
 		        						break;
 		        					}
-		        					System.out.println("RESULT="+result);	
-		        					setSledenjeData(result, (String) res.get("st_dob"));
+		        					
+		        					//Če ni relacij grem na drugo vozilo, za to vozilo pa vpišem error = 1
+		        					if (relations.length == 0) {
+		        						setDobError(ordersDate.getKamion(), ordersDate.getZacetek(), "1");
+		        						continue;
+		        					}
+		        					
+		        					//poiščem vse dobavnice in podatke, ki so bile izvedene za ta kamion na ta dan
+		        					List ordersForDateVehicle = new ArrayList();
+		        					for (int j=0; j<orders.size(); j++) {
+			        					Order order = (Order) orders.get(j);
+			        					System.out.println("order sarch="+order.getZacetek()+" "+ordersDate.getZacetek()+"-"+order.getKamion()+" "+ordersDate.getKamion());
+		        						if ((order.getZacetek().equals(ordersDate.getZacetek())) && (order.getKamion().equals(ordersDate.getKamion()))) {
+			        						System.out.println("order="+order.getStDob());
+			        						ordersForDateVehicle.add(order);
+          								}	        					
+		        					}
+		        					
+		        					//Če ni orderjev za kamion v določenem dnevu
+		        					if (ordersForDateVehicle.size() == 0) {
+		        						continue;
+		        					}
+		        					
+		        					
+		        					boolean start_find = false;
+		        					int meters = 0;
+		        					List orders_relations = new ArrayList();
+		        					List orders_with_data = new ArrayList(); 
+		        					//primerjam podatke o lokacijah iz dobavnice in izhodišča s podatki iz sledenja
+		        					for (int ii=0; ii<relations.length; ii++) {
+		        						TravelOrderRelation relation = relations[ii];
+		        						System.out.println("relation="+relation.getAvg_sdo_x() + " " + relation.getAvg_sdo_y() + " " + relation.getTime_from() + " " + relation.getTime_to() + " " + relation.getDist_km());
+	        							meters = meters + relation.getDist_km();
+		        						
+		        						//poiščem ujemanje točk
+		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
+		        							Order order = (Order) ordersForDateVehicle.get(j);
+		        							//razdalja do tocke
+				        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
+				        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
+				        							
+		        							if ((dist_x < 0.001) && (dist_y < 0.001) && start_find) {
+					        					//kamion je pri stranki
+		        								System.out.println("STRANKA="+dist_x+" "+dist_y);
+		        								Order order_relation = new Order();
+		        								order_relation.setStDob(order.getStDob());
+		        								order_relation.setZacetek(relation.getTime_from());
+		        								order_relation.setMeters(meters);
+		        								orders_relations.add(order_relation);
+		        								start_find = false;
+		        								meters = 0;
+		        								break;
+		        							}
+
+		        							//razdalja do enote izhodisca
+				        					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
+				        					Double dist_y_enota = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getEnote_y_koord()));
+				        							
+		        							if ((dist_x_enota < 0.001) && (dist_y_enota < 0.001) && !start_find) {
+		        								//kamion je na izhodiscu
+					        					System.out.println("IZHODISCE="+dist_x_enota+" "+dist_y_enota);
+		        								Order order_relation = new Order();
+		        								order_relation.setStDob("-1");
+		        								order_relation.setZacetek(relation.getTime_from());
+		        								order_relation.setMeters(meters);
+		        								orders_relations.add(order_relation);
+		        								start_find = true;
+		        								meters = 0;
+		        								break;
+		        							}
+		        							
+		        						}
+			        					//setSledenjeData(result, (String) res.get("st_dob"));*/
+		        					}
+		        					
+		        					//zracunam podatke o casu in metrih po dobavnici. za dobavnice, ki nimajo podatkov dam error 1
+		        					for (int l=0; l<orders_relations.size(); l=l+2) {
+        								if (l+2>=orders_relations.size()) {
+        									break;
+        								}
+        								Order start = (Order) orders_relations.get(l);
+        								Order stranka = (Order) orders_relations.get(l+1);
+        								Order cilj = (Order) orders_relations.get(l+2);
+        								
+        								String st_dob = stranka.getStDob();
+        								int met = stranka.getMeters() + cilj.getMeters();
+        								String date_end = cilj.getZacetek();
+        								String date_start = start.getZacetek();
+        								orders_with_data.add(st_dob);
+        								
+        								System.out.println("final="+st_dob + " " + met + " " + date_start +" "+date_end);
+        								setSledenjeData(st_dob, met, date_start, date_end);
+		        						
+	        						}
+		 
+		        					//za dobavnice, ki nimajo podatkov (niso v orders_relations) dam error 1
+			        				for (int m=0; m<ordersForDateVehicle.size(); m++) {
+			        					Order order = (Order) ordersForDateVehicle.get(m);
+			        					if (!orders_with_data.contains(order.getStDob())) {
+			        						setDobError(order.getStDob(), "1");
+			        					}
+			        				}
 		        				}
+		        				
 		        			}
 	        			}
 	        			catch (Exception e)
@@ -112,11 +253,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 	}
 
 	
-	private Vector getData() {
-    	Vector dataVector = new Vector();
-
+	private List getOrderData() {
     	ResultSet rs = null;
 	    Statement stmt = null;
+	    List orders = new ArrayList();
 
 	    try {
 	    	connectionMake();
@@ -125,7 +265,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	
 	    	String query = 	"select distinct dob.st_dob st_dob, dob.datum datum, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, stranke.radij stranke_radij, stranke.vtez stranke_vtez, " +
-	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.registrska kamion " +
+	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.registrska kamion, " +
+	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
 	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
 	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
@@ -141,51 +282,41 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(kupci.sif_enote = enote.sif_enote) and " +
 							"		(dob.sif_kam = kamion.sif_kam) and " +
 							"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
-							"		(dob.error = 0)";
+							"		(dob.error = 0) and " +
+							"		(dob.datum < now()-1)";
 
-	    	//System.out.println(query);	           
+	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
+	    	int i = 0;
 
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
 	    		String stranke_sif_str = rs.getString("stranke_sif_str");
-	    		//String stranke_naziv = rs.getString("stranke_naziv");
-	    		//String stranke_x_koord = rs.getString("stranke_x_koord");
-	    		//String stranke_y_koord = rs.getString("stranke_y_koord");
-	    		//String stranke_radij = rs.getString("stranke_radij");
-	    		//String stranke_vtez = rs.getString("stranke_vtez");
+	    		String stranke_x_koord = rs.getString("stranke_x_koord");
+	    		String stranke_y_koord = rs.getString("stranke_y_koord");
 	    		String enote_x_koord = rs.getString("enote_x_koord");
 	    		String enote_y_koord = rs.getString("enote_y_koord");
-	    		//String enote_radij = rs.getString("enote_radij");
 	    		String datum = rs.getString("datum");
 	    		String kamion = rs.getString("kamion");
+	    		String zacetek = rs.getString("zacetek");
 
-/*	    		if ((st_dob == null) || (stranke_x_koord == null) || (stranke_y_koord == null) ||
-	    			(stranke_radij == null) || (stranke_vtez == null) || (enote_x_koord == null) || 
-	    			(enote_y_koord == null) || (enote_radij == null) || (kamion == null))
-	    			continue;
-*/
-	    		if ((enote_x_koord == null) || (enote_y_koord == null) || (datum == null) || (kamion == null))
+	    		if ((stranke_x_koord == null) || (stranke_y_koord == null) || (enote_x_koord == null) || (enote_y_koord == null) || (datum == null) || (kamion == null))
 		    			continue;
 
-		    	Vector dataRecord = new Vector(11);
-	    		//dataRecord.add(st_dob);
-	    		dataRecord.add(stranke_sif_str);
-	    		//dataRecord.add(stranke_naziv);
-	    		//dataRecord.add(stranke_x_koord);
-	    		//dataRecord.add(stranke_y_koord);
-	    		//dataRecord.add(stranke_radij);
-	    		//dataRecord.add(stranke_vtez);
-	    		dataRecord.add(enote_x_koord);
-	    		dataRecord.add(enote_y_koord);
-	    		//dataRecord.add(enote_radij);    		
-	    		dataRecord.add(datum);
-	    		dataRecord.add(kamion);
-				Map inputs = new HashMap();
-				inputs.put("st_dob", st_dob);
-				inputs.put("data", dataRecord);
-	    		dataVector.add(inputs);
+		    	Order order = new Order();
+		    	order.setStDob(st_dob);
+		    	order.setStranke_sif_str(stranke_sif_str);
+		    	order.setStranke_x_koord(stranke_x_koord);
+		    	order.setStranke_y_koord(stranke_y_koord);
+		    	order.setEnote_x_koord(enote_x_koord);
+		    	order.setEnote_y_koord(enote_y_koord);
+		    	order.setDatum(datum);
+		    	order.setKamion(kamion);
+		    	order.setZacetek(zacetek);
+		    	
+		    	orders.add(order);
+		    	i++;
 	    	}
 	    	
 	    } catch (Exception theException) {
@@ -204,11 +335,101 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    }
 		
 		
-		return dataVector;
+		return orders;
 	}
 	
+
+	private List getDateData() {
+    	ResultSet rs = null;
+	    Statement stmt = null;
+	    List orders = new ArrayList();
+
+	    try {
+	    	connectionMake();
+
+			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
+	    	
+	    	String query = 	"select DISTINCT DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.registrska kamion " +
+	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
+	    				   	"	(SELECT kamion.* " +
+	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
+	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
+	    					"			      kamion.zacetek = zadnji.datum) kamion " +
+	    					"where  ((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"		(dob.sif_kam = kamion.sif_kam) and " +
+							"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							"		(dob.error = 0) and " +
+							"		(dob.datum < now()-1)";
+
+	    	System.out.println(query);	           
+	    	stmt = con.createStatement();   	
+	    	rs = stmt.executeQuery(query);
+	    	int i = 0;
+
+	    	while (rs.next()) {
+	    		String zacetek = rs.getString("zacetek");
+	    		String konec = rs.getString("konec");
+	    		String kamion = rs.getString("kamion");
+
+	    		if ((zacetek == null) || (konec == null) || (kamion == null))
+		    			continue;
+
+		    	Order order = new Order();
+		    	order.setZacetek(zacetek);
+		    	order.setKonec(konec);
+		    	order.setKamion(kamion);
+		    	
+		    	orders.add(order);
+		    	i++;
+	    	}
+	    	
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+		
+		
+		return orders;
+	}
+
 	
-	
+	private Map getSledenjeVozila() throws IOException {
+
+	   	Map vozila = new HashMap();
+    	try 
+    	{
+          //WS
+    	  Integer login = (Integer) sledenjeAuTokenWS.login(sledenje_username,sledenje_password);
+    	  AuToken[] tokens = sledenjeAuTokenWS.getAuTokens(null, null, null);
+    	  for (int i=0; i<tokens.length; i++) {
+    		  AuToken token = tokens[i];
+    		  //System.out.println(token.getVozilo_sifra()+" "+token.getIdent_naprave());
+    		  vozila.put(token.getVozilo_sifra(), token.getIdent_naprave());
+    	  }
+    	  sledenjeAuTokenWS.logout();
+
+    	}
+    	catch(Exception e) 
+    	{ 
+    		System.out.println(e); 
+    		e.printStackTrace();
+    		return null;
+    	}
+    	
+    	return vozila;
+       
+	}
+
 	/**
 	 * @param url
 	 * @param params
@@ -216,47 +437,34 @@ public class TimerServlet extends InitServlet implements Servlet {
 	 * @throws IOException
 	 * @throws HttpException
 	 */
-	private Vector getSledenje(String server, String datum, Vector data) throws FileNotFoundException, IOException, HttpException {
+	private TravelOrderRelation[] getSledenje(String zacetek, String konec, String ident) throws FileNotFoundException, IOException, HttpException {
 
-	   	Vector vectin = new Vector();
+		TravelOrderRelation[] relations = null;
     	try 
     	{
-          URL  url = new URL(server);
-          URLConnection con = url.openConnection();
+          //WS
+    	  System.out.println("SLEDENJE LOGIN");
+          
+    	  Integer login = (Integer) sledenjeTravelOrdersWS.login("papirservis","papirvozila");
+    	  System.out.println("LOGIN="+login);
 
-          con.setDoInput(true);
-          con.setDoOutput(true);
-          con.setUseCaches(false);
-          con.setDefaultUseCaches(false);
-          con.setRequestProperty("Content-Type", "application/java");
-
-          ObjectOutputStream out = new ObjectOutputStream(con.getOutputStream());
-          out.writeObject(datum);
-          out.writeObject(data);
-          out.flush();
-          out.close();
-    		
-          ObjectInputStream in = new ObjectInputStream(con.getInputStream());
-          Object o = in.readObject();
-          vectin = (Vector)o;
-
-          in.close();
+    	  relations = sledenjeTravelOrdersWS.getTravelOrderStopsIdent(zacetek, konec, ident, null, null, null, null, null);
+    	  
+    	  sledenjeTravelOrdersWS.logout();
     	}
     	catch(Exception e) 
     	{ 
     		System.out.println(e); 
+    		e.printStackTrace();
     		return null;
     	}
     	
-    	return vectin;
+    	return relations;
        
 	}
 
 
-	
-	
-	
-	private void setSledenjeData(Vector result, String st_dob) {
+	private void setDobError(String st_kam, String datum, String error) {
 
     	Statement stmt = null;
 
@@ -264,21 +472,13 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			int pot = (Integer.parseInt((String)result.get(0)))/1000;
-			String cas = (String) result.get(1);
-			int ura = Integer.parseInt(cas) / 3600;	
-			int min = (Integer.parseInt(cas) / 60) % 60;
-			if (min <= 30) cas = Integer.toString(ura);
-			else cas = Integer.toString(ura) + ".5";
-			
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 
 			String sql = "update dob" + dobLeto + " " +
-						 "set " +
-						 "	stev_km_sled = " + pot + 
-						 ", stev_ur_sled = " + cas +
-						 " where st_dob = " + st_dob;
-			//System.out.println("UPDATE SLEDENJE="+sql);
+						 "set error = " + error +
+						 " where st_kam = '" + st_kam + "' and " +
+						 "		datum = DATE_FORMAT('" + datum + "', '%Y-%m-%d 00:00:00')";
+			System.out.println("setDobError="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
@@ -294,5 +494,83 @@ public class TimerServlet extends InitServlet implements Servlet {
 		
 		return;
 	}
+
+	
+	
+	private void setSledenjeData(String st_dob, int meters, String zacetek, String konec) {
+
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			int pot = meters/1000;
+			
+			String myFormatString = "dd.MM.yyyy kk:mm:ss";
+			SimpleDateFormat df = new SimpleDateFormat(myFormatString);
+			Date date1 = df.parse(zacetek);
+			Date date2 = df.parse(konec);
+			long cas = (date2.getTime() - date1.getTime()) / 1000;
+			long ura = cas / 3600;	
+			long min = (cas / 60) % 60;
+			String ur;
+			if (min <= 30) ur = ura + "";
+			else ur = ura + ".5";
+			
+			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
+
+			String sql = "update dob" + dobLeto + " " +
+						 "set " +
+						 "	stev_km_sled = " + pot + 
+						 ", stev_ur_sled = " + ur +
+						 " where st_dob = " + st_dob;
+			System.out.println("UPDATE SLEDENJE="+sql);
+			stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+		
+		
+		return;
+	}
+	
+	private void setDobError(String st_dob, String error) {
+
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
+
+			String sql = "update dob" + dobLeto + " " +
+						 "set error = " + error +
+						 " where st_dob = " + st_dob;
+			System.out.println("setDobError="+sql);
+			stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+		
+		
+		return;
+	}
+	
 	
 }
