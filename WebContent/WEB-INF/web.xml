@@ -75,6 +75,11 @@
 	 <param-name>sledenje_password</param-name>
 	 <param-value>papirvozila</param-value>
   </context-param>
+  <context-param>
+	 <param-name>distance</param-name>
+	 <param-value>0.002</param-value>
+  </context-param>
+
 
   <servlet>
     <servlet-name>TimerServlet</servlet-name>

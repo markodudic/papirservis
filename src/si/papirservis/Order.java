@@ -12,6 +12,8 @@ public class Order {
 
 	private String datum;
 
+	private String sif_kam;
+
 	private String kamion;
 
 	private String stranke_sif_str;
@@ -116,6 +118,14 @@ public class Order {
 
 	public void setMeters(int meters) {
 		this.meters = meters;
+	}
+
+	public String getSif_kam() {
+		return sif_kam;
+	}
+
+	public void setSif_kam(String sif_kam) {
+		this.sif_kam = sif_kam;
 	}
 
 
