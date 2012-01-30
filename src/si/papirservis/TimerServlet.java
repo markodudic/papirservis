@@ -35,13 +35,23 @@ import com.sledenje.ws.TravelOrderRelation;
  */
 @WebServlet("/TimerServlet")
 public class TimerServlet extends InitServlet implements Servlet {
+	
+	
 	Locale locale = Locale.getDefault();
     private SledenjeAuTokenWS sledenjeAuTokenWS = null;
     private SledenjeTravelOrdersWS sledenjeTravelOrdersWS = null;
     private String sledenje_username;
     private String sledenje_password;
-    private double distance;
-    
+    private double distanceLocation;
+    private double distanceCustomer;
+	
+	private static final int ERROR_NO_STOPS_IN_SLEDENJE = 1;
+	private static final int ERROR_NO_DATA_IN_SLEDENJE = 2;
+	private static final int ERROR_NO_FINISH_LOCATION_IN_SLEDENJE = 3;
+	private static final int ERROR_VEHICLE_NOT_IN_SLEDENJE = 4;
+	private static final int ERROR_OTHER_POSITION = 8;
+	private static final int ERROR_DATA_OK = 9;
+
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -63,7 +73,8 @@ public class TimerServlet extends InitServlet implements Servlet {
           String http_password = (String) getServletContext().getInitParameter("http_password");
           sledenje_username = (String) getServletContext().getInitParameter("sledenje_username");
           sledenje_password = (String) getServletContext().getInitParameter("sledenje_password");
-          distance = Double.parseDouble((String) getServletContext().getInitParameter("distance"));
+          distanceCustomer = Double.parseDouble((String) getServletContext().getInitParameter("distance_customer"));
+          distanceLocation = Double.parseDouble((String) getServletContext().getInitParameter("distance_location"));
 			
           try {
 	          sledenjeAuTokenWS = (new com.sledenje.ws.SledenjeAuTokenWSServiceLocator()).getSledenjeAuTokenWSPort();
@@ -94,13 +105,17 @@ public class TimerServlet extends InitServlet implements Servlet {
 	        			List orders = getOrderData();
 	        			//pridobim vse datume in vozila, ki imajo dobavnice
 	        			List ordersDates = getDateData();
+	        			//vse pozicije, ki niso 1, jim dam error=8
+	        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
+	        		    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+	        			SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
 	
 	        			//posljemo na server sledenja
 	        			try
 	        			{
 		        			if ((orders != null) && (orders.size() > 0))
 		        			{
-		        				String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
+		        				//String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
 		        				
 		        				//pridobim vsa vozila iz sledenja za papir servis
 		        				Map vozila = getSledenjeVozila();
@@ -114,10 +129,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					//preverim ali vozilo z dobavnico obstaja v sistemu sledenja
 		        					Order ordersDate = (Order) ordersDates.get(i);
 		        					String ident = (String) vozila.get(ordersDate.getKamion());
-		        					//če vozila ni v sistemu sledenja mu zapišem error=4
+		        					//če vozila ni v sistemu sledenja mu zapišem ERROR_VEHICLE_NOT_IN_SLEDENJE
 		        					if (ident == null) {
 		        						System.out.println("NI VOZILA V SLEDENJU ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), "4");
+		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), ERROR_VEHICLE_NOT_IN_SLEDENJE);
 		        						continue;
 		        					}
 		        					System.out.println("******************START="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
@@ -129,10 +144,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        						break;
 		        					}
 		        					
-		        					//Če ni relacij za vozilo, grem na drugo vozilo, za to vozilo pa vpišem error = 2
+		        					//Če ni relacij za vozilo za izbrani dan, grem na drugo vozilo, za to vozilo pa vpišem error ERROR_NO_DATA_IN_SLEDENJE
 		        					if (relations.length == 0) {
 		        						System.out.println("NI RELACIJ ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), "2");
+		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
 		        						continue;
 		        					}
 		        					
@@ -148,13 +163,14 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					
 		        					//Če ni orderjev za kamion v določenem dnevu, grem na drugo vozilo, vse take dobavnice označim z error = 3
 		        					if (ordersForDateVehicle.size() == 0) {
-		        						//System.out.println("NI ORDERJEV ZA="+ordersDate.getSif_kam()+ordersDate.getKamion()+" "+ordersDate.getDatum());
+		        						System.out.println("NI ORDERJEV ZA="+ordersDate.getSif_kam()+ordersDate.getKamion()+" "+ordersDate.getDatum());
 		        						//setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), "3");
 		        						continue;
 		        					}
 		        					
 		        					
 		        					boolean start_find = false;
+		        					//int start_find_id = -2;
 		        					int meters = 0;
 		        					List orders_relations = new ArrayList();
 		        					List orders_with_data = new ArrayList(); 
@@ -167,13 +183,19 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        						//poiščem ujemanje točk
 		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
 		        							Order order = (Order) ordersForDateVehicle.get(j);
+		        							//ce je order ze najden in ce se ne isce izhodisce preskocim
+		        							if (order.isChecked() && start_find) continue;
+		        							
 		        							//razdalja do tocke
 				        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
 				        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
 				        							
-		        							if ((dist_x < distance) && (dist_y < distance) && start_find) {
+		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer) && start_find) {
 					        					//kamion je pri stranki
 		        								System.out.println("STRANKA="+dist_x+" "+dist_y);
+		        								order.setChecked(true);
+		        								ordersForDateVehicle.set(j, order);
+		        								
 		        								Order order_relation = new Order();
 		        								order_relation.setStDob(order.getStDob());
 		        								order_relation.setZacetek(relation.getTime_from());
@@ -187,16 +209,24 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        							//razdalja do enote izhodisca
 				        					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
 				        					Double dist_y_enota = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getEnote_y_koord()));
-				        							
-		        							if ((dist_x_enota < distance) && (dist_y_enota < distance) && !start_find) {
+				        					
+				        					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
 		        								//kamion je na izhodiscu
 					        					System.out.println("IZHODISCE="+dist_x_enota+" "+dist_y_enota);
 		        								Order order_relation = new Order();
 		        								order_relation.setStDob("-1");
 		        								order_relation.setZacetek(relation.getTime_from());
 		        								order_relation.setMeters(meters);
-		        								orders_relations.add(order_relation);
+		        								
+		        								//ce je naslednji postanek tudi na izhodiscu vzamem tega
+		        								if (start_find) {
+		        									orders_relations.set(orders_relations.size()-1, order_relation);
+		        								} else {
+			        								orders_relations.add(order_relation);
+		        								}
+		        								
 		        								start_find = true;
+		        								//start_find_id = j;
 		        								meters = 0;
 		        								break;
 		        							}
@@ -205,10 +235,20 @@ public class TimerServlet extends InitServlet implements Servlet {
 			        					//setSledenjeData(result, (String) res.get("st_dob"));*/
 		        					}
 		        					
-		        					//zracunam podatke o casu in metrih po dobavnici. za dobavnice, ki nimajo podatkov dam error 1
+		        					//zracunam podatke o casu in metrih po dobavnici
+		        					//ce je ena dobavnica veckrat, sestejem podatke
+		        					List finalOrders = new ArrayList(); 
 		        					for (int l=0; l<orders_relations.size(); l=l+2) {
         								if (l+2>=orders_relations.size()) {
-        									break;
+        									if ((l+2)==orders_relations.size()) {
+        										Order stranka = (Order) orders_relations.get(l+1);
+        										String st_dob = stranka.getStDob();
+        										String datum = stranka.getZacetek();
+        										Date date = df.parse(datum);
+        										System.out.println("ZADNJI ORDER SE NE VRNE NA IZHODISCE="+st_dob);
+        										setDobOkError(st_dob, dfYear.format(date), ERROR_NO_FINISH_LOCATION_IN_SLEDENJE);
+        									}
+    		        						break;
         								}
         								Order start = (Order) orders_relations.get(l);
         								Order stranka = (Order) orders_relations.get(l+1);
@@ -218,18 +258,43 @@ public class TimerServlet extends InitServlet implements Servlet {
         								int met = stranka.getMeters() + cilj.getMeters();
         								String date_end = cilj.getZacetek();
         								String date_start = start.getZacetek();
-        								orders_with_data.add(st_dob);
+        								//zracun razliko casa v sekundah
+        								Date date1 = df.parse(date_start);
+        								Date date2 = df.parse(date_end);
+        								long cas = (date2.getTime() - date1.getTime()) / 1000;
         								
-        								System.out.println("final="+st_dob + " " + met + " " + date_start +" "+date_end);
-        								setSledenjeData(st_dob, met, date_start, date_end);
-		        						
-	        						}
+        								
+        								if (orders_with_data.contains(st_dob)) {
+        									int pos = orders_with_data.indexOf(st_dob);
+        									Order exsistOrder = (Order) finalOrders.get(pos);
+        									exsistOrder.setMeters(exsistOrder.getMeters() + met);
+        									exsistOrder.setSeconds(exsistOrder.getSeconds() + cas);
+        									finalOrders.set(pos, exsistOrder);
+        								} else {
+            								Order finalOrder = new Order();
+            								finalOrder.setStDob(st_dob);
+            								finalOrder.setSeconds(cas);
+            								finalOrder.setMeters(met);
+            								finalOrder.setLeto(dfYear.format(date1));
+            								finalOrders.add(finalOrder);
+            								
+            								orders_with_data.add(st_dob);       									
+        								}
+        								
+ 	        						}
 		 
-		        					//za dobavnice, ki nimajo podatkov (niso v orders_relations) dam error 1
+		        					//koncne izracune zapisem v bazo
+		        					for (int f=0; f<finalOrders.size(); f++) {
+		        						Order finalOrder = (Order) finalOrders.get(f);
+        								System.out.println("final="+finalOrder.getStDob() + " " + finalOrder.getMeters() + " " + finalOrder.getSeconds());
+        								setSledenjeData(finalOrder.getStDob(), finalOrder.getMeters(), finalOrder.getSeconds(), finalOrder.getLeto());
+		        					}
+		        					
+		        					//za dobavnice, ki nimajo podatkov (niso v orders_relations) dam error ERROR_NO_STOPS_IN_SLEDENJE
 			        				for (int m=0; m<ordersForDateVehicle.size(); m++) {
 			        					Order order = (Order) ordersForDateVehicle.get(m);
 			        					if (!orders_with_data.contains(order.getStDob())) {
-			        						setDobError(order.getStDob(), order.getDatum());
+			        						setDobOkError(order.getStDob(), order.getDatum(), ERROR_NO_STOPS_IN_SLEDENJE);
 			        					}
 			        				}
 		        				}
@@ -293,7 +358,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
 							"		(dob.sif_kam = kamion.sif_kam) and " +
-							"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							//"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
 							"		(dob.datum < now()-1)";
 
@@ -371,7 +437,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"			      kamion.zacetek = zadnji.datum) kamion " +
 	    					"where  ((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
 	    					"		(dob.sif_kam = kamion.sif_kam) and " +
-							"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							//"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
+							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
 							"		(dob.datum < now()-1)";
 
@@ -476,8 +543,8 @@ public class TimerServlet extends InitServlet implements Servlet {
        
 	}
 
-
-	private void setDobError(String sif_kam, String datum, String error) {
+	
+	private void setOrdersOtherPositions(int datum, int error) {
 
     	Statement stmt = null;
 
@@ -485,11 +552,11 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			String sql = "update dob" + datum.substring(0, 4) + " " +
+			String sql = "update dob" + datum + " " +
 						 "set error = " + error +
-						 " where sif_kam = " + sif_kam + " and " +
-						 "		datum = '" + datum + "'";
-			System.out.println("setDobError="+sql);
+						 " where pozicija = 2 and error = 0";
+			
+			System.out.println("setOrdersOtherPositions="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
@@ -505,10 +572,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 		
 		return;
 	}
-
 	
 	
-	private void setSledenjeData(String st_dob, int meters, String zacetek, String konec) {
+	private void setSledenjeData(String st_dob, int meters, long cas, String year) {
 
     	Statement stmt = null;
 
@@ -516,27 +582,22 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			int pot = meters/1000;
+			double metersD = meters;
+			long pot = Math.round(metersD/1000);
 			
-			String myFormatString = "dd.MM.yyyy kk:mm:ss";
-			SimpleDateFormat df = new SimpleDateFormat(myFormatString);
-			Date date1 = df.parse(zacetek);
-			Date date2 = df.parse(konec);
-			long cas = (date2.getTime() - date1.getTime()) / 1000;
 			long ura = cas / 3600;	
 			long min = (cas / 60) % 60;
 			String ur;
 			if (min <= 30) ur = ura + "";
 			else ur = ura + ".5";
 
-			SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
-			
-			
-			String sql = "update dob" +  simpleDateformat.format(date1) + " " +
+			String sql = "update dob" + year + " " +
 						 "set " +
 						 "	stev_km_sled = " + pot + 
 						 ", stev_ur_sled = " + ur +
-						 " where st_dob = " + st_dob;
+						 ", error = " + ERROR_DATA_OK +
+						 " where pozicija = 1 and " +
+						 "		st_dob = " + st_dob;
 			System.out.println("UPDATE SLEDENJE="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
@@ -548,13 +609,12 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    		}
 			} catch (Exception e) {
 			}
-	    }
-		
+	    }		
 		
 		return;
 	}
 	
-	private void setDobError(String st_dob, String datum) {
+	private void setDobError(String sif_kam, String datum, int error) {
 
     	Statement stmt = null;
 
@@ -563,8 +623,11 @@ public class TimerServlet extends InitServlet implements Servlet {
 			stmt = con.createStatement();   	
 
 			String sql = "update dob" + datum.substring(0, 4) + " " +
-						 "set error = 1 " +
-						 " where st_dob = " + st_dob;
+						 "set error = " + error +
+						 " where pozicija = 1 and " +
+						 "		sif_kam = " + sif_kam + " and " +
+						 "		datum = '" + datum + "' and " +
+						 "		error = 0";
 			System.out.println("setDobError="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
@@ -576,8 +639,38 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    		}
 			} catch (Exception e) {
 			}
-	    }
+	    }	
 		
+		return;
+	}
+
+
+	
+	private void setDobOkError(String st_dob, String datum, int error) {
+
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			String sql = "update dob" + datum.substring(0, 4) + " " +
+						 "set error = " + error +
+						 " where pozicija = 1 and " +
+						 "		st_dob = " + st_dob + " and " +
+			 			 "		error = 0";
+			System.out.println("setDobError="+sql);
+			stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }	
 		
 		return;
 	}

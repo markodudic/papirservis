@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -76,7 +76,11 @@
 	 <param-value>papirvozila</param-value>
   </context-param>
   <context-param>
-	 <param-name>distance</param-name>
+	 <param-name>distance_customer</param-name>
+	 <param-value>0.004</param-value>
+  </context-param>
+  <context-param>
+	 <param-name>distance_location</param-name>
 	 <param-value>0.002</param-value>
   </context-param>
 
