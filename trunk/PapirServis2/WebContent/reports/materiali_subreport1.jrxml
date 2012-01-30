@@ -66,7 +66,9 @@ LEFT JOIN
 			FROM cenastr 
 			WHERE cenastr.veljavnost <= CAST($P{do_datum} AS DATE)
 			group by sif_kupca, material_koda) zadnji
-	WHERE cenastr.id = zadnji.id )  cenastr ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
+	WHERE cenastr.material_koda = zadnji.material_koda and 
+		cenastr.zacetek = zadnji.datum )  cenastr 
+ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
      kupci 
 WHERE dob.`ewc` = okolje.`koda` and
 	dob.sif_kupca = kupci.sif_kupca and

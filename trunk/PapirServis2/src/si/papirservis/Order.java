@@ -32,6 +32,12 @@ public class Order {
 	
 	private int meters;
 
+	private long seconds;
+
+	private String leto;
+	
+	private boolean checked;
+
 	public String getStDob() {
 		return stDob;
 	}
@@ -126,6 +132,30 @@ public class Order {
 
 	public void setSif_kam(String sif_kam) {
 		this.sif_kam = sif_kam;
+	}
+
+	public long getSeconds() {
+		return seconds;
+	}
+
+	public void setSeconds(long seconds) {
+		this.seconds = seconds;
+	}
+
+	public String getLeto() {
+		return leto;
+	}
+
+	public void setLeto(String leto) {
+		this.leto = leto;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 
