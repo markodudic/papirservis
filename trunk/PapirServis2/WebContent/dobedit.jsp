@@ -78,8 +78,8 @@ Object x_sit_smet = null;
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_opomba = null;
-Object x_stev_km_sled = null;
-Object x_stev_ur_sled = null;
+//Object x_stev_km_sled = null;
+//Object x_stev_ur_sled = null;
 Object x_stev_km_norm = null;
 Object x_stev_ur_norm = null;
 Object x_dod_stroski = null;
@@ -211,8 +211,8 @@ try{
 			}
 			
 			x_dod_stroski = String.valueOf(rs.getDouble("dod_stroski"));
-			x_stev_km_sled = String.valueOf(rs.getDouble("stev_km_sled"));
-			x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
+			//x_stev_km_sled = String.valueOf(rs.getDouble("stev_km_sled"));
+			//x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
 			x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 			x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
 			if (rs.getTimestamp("zacetek") != null){
@@ -360,7 +360,7 @@ try{
 		}else{
 			x_opomba = "";
 		}
-		if (request.getParameter("x_stev_km_sled") != null){
+		/*if (request.getParameter("x_stev_km_sled") != null){
 			x_stev_km_sled = (String) request.getParameter("x_stev_km_sled");
 		}else{
 			x_stev_km_sled = "";
@@ -369,7 +369,7 @@ try{
 			x_stev_ur_sled = (String) request.getParameter("x_stev_ur_sled");
 		}else{
 			x_stev_ur_sled = "";
-		}
+		}*/
 		if (request.getParameter("x_stev_km_norm") != null){
 			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
 		}else{
@@ -722,7 +722,7 @@ try{
 		updateSql += "opomba= '" + tmpfld + "', ";
 
 		// Field stev_km_sled
-		tmpfld = ((String) x_stev_km_sled).trim();
+		/*tmpfld = ((String) x_stev_km_sled).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
 		if (tmpfld == null) {
 			rs.updateNull("stev_km_sled");
@@ -734,13 +734,14 @@ try{
 		// Field stev_ur_sled
 		tmpfld = ((String) x_stev_ur_sled).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+
 		if (tmpfld == null) {
 			rs.updateNull("stev_ur_sled");
 		} else {
 			rs.updateDouble("stev_ur_sled",Double.parseDouble(tmpfld));
 		}
 		updateSql += "stev_ur_sled= " + tmpfld + ", ";
-
+*/
 		// Field stev_km_norm
 		tmpfld = ((String) x_stev_km_norm).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -1147,123 +1148,115 @@ function disableSome(){
 }
 function  EW_checkMyForm(EW_this) {
 if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
-            if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
+            if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "NapaÄŤna Ĺˇtevilka - st dob"))
                 return false; 
         }
 if (EW_this.x_st_dob && !EW_checkinteger(EW_this.x_st_dob.value)) {
-        if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
+        if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "NapaÄŤna Ĺˇtevilka - st dob"))
             return false; 
         }
 if (EW_this.x_pozicija && !EW_hasValue(EW_this.x_pozicija, "TEXT" )) {
-            if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
+            if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "NapaÄŤna Ĺˇtevilka - pozicija"))
                 return false; 
         }
 if (EW_this.x_pozicija && !EW_checkinteger(EW_this.x_pozicija.value)) {
-        if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
+        if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "NapaÄŤna Ĺˇtevilka - pozicija"))
             return false; 
         }
 if (EW_this.x_datum && !EW_checkeurodate(EW_this.x_datum.value)) {
-        if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
+        if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "NapaÄŤen datum (dd.mm.yyyy) - datum"))
             return false; 
         }
 if (EW_this.x_sif_str && !EW_hasValue(EW_this.x_sif_str, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "Napačna številka - sif str"))
+            if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "NapaÄŤna Ĺˇtevilka - sif str"))
                 return false; 
         }
 if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
+            if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "NapaÄŤan vnos - sif kupca"))
                 return false; 
         }
 if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "Napačan vnos - sif kam"))
+            if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "NapaÄŤan vnos - sif kam"))
                 return false; 
         }
 if (EW_this.x_cena_km && !EW_checknumber(EW_this.x_cena_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena_km, "TEXT", "Napačna številka - cena km"))
+        if (!EW_onError(EW_this, EW_this.x_cena_km, "TEXT", "NapaÄŤna Ĺˇtevilka - cena km"))
             return false; 
         }
 if (EW_this.x_cena_ura && !EW_checknumber(EW_this.x_cena_ura.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena_ura, "TEXT", "Napačna številka - cena ura"))
+        if (!EW_onError(EW_this, EW_this.x_cena_ura, "TEXT", "NapaÄŤna Ĺˇtevilka - cena ura"))
             return false; 
         }
 if (EW_this.x_c_km && !EW_checknumber(EW_this.x_c_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_c_km, "TEXT", "Napačna številka - c km"))
+        if (!EW_onError(EW_this, EW_this.x_c_km, "TEXT", "NapaÄŤna Ĺˇtevilka - c km"))
             return false; 
         }
 if (EW_this.x_c_ura && !EW_checknumber(EW_this.x_c_ura.value)) {
-        if (!EW_onError(EW_this, EW_this.x_c_ura, "TEXT", "Napačna številka - c ura"))
+        if (!EW_onError(EW_this, EW_this.x_c_ura, "TEXT", "NapaÄŤna Ĺˇtevilka - c ura"))
             return false; 
         }
 if (EW_this.x_stev_km && !EW_checknumber(EW_this.x_stev_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_km, "TEXT", "Napačna številka - stev km"))
+        if (!EW_onError(EW_this, EW_this.x_stev_km, "TEXT", "NapaÄŤna Ĺˇtevilka - stev km"))
             return false; 
         }
 if (EW_this.x_stev_ur && !EW_checknumber(EW_this.x_stev_ur.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_ur, "TEXT", "Napačna številka - stev ur"))
+        if (!EW_onError(EW_this, EW_this.x_stev_ur, "TEXT", "NapaÄŤna Ĺˇtevilka - stev ur"))
             return false; 
         }
 if (EW_this.x_stroski && !EW_checknumber(EW_this.x_stroski.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stroski, "TEXT", "Napačna številka - stroski"))
+        if (!EW_onError(EW_this, EW_this.x_stroski, "TEXT", "NapaÄŤna Ĺˇtevilka - stroski"))
             return false; 
         }
 if (EW_this.x_koda && !EW_hasValue(EW_this.x_koda, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_koda, "SELECT", "Napačan vnos - koda"))
+            if (!EW_onError(EW_this, EW_this.x_koda, "SELECT", "NapaÄŤan vnos - koda"))
                 return false; 
         }
 if (EW_this.x_ewc && !EW_hasValue(EW_this.x_ewc, "SELECT" )) {
-    if (!EW_onError(EW_this, EW_this.x_ewc, "SELECT", "Napačan vnos - ewc"))
+    if (!EW_onError(EW_this, EW_this.x_ewc, "SELECT", "NapaÄŤan vnos - ewc"))
         return false; 
 }
 if (EW_this.x_kolicina && !EW_checkinteger(EW_this.x_kolicina.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kolicina, "TEXT", "Napačna številka - kolicina"))
+        if (!EW_onError(EW_this, EW_this.x_kolicina, "TEXT", "NapaÄŤna Ĺˇtevilka - kolicina"))
             return false; 
         }
 if (EW_this.x_cena && !EW_checknumber(EW_this.x_cena.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena, "TEXT", "Napačna številka - cena"))
+        if (!EW_onError(EW_this, EW_this.x_cena, "TEXT", "NapaÄŤna Ĺˇtevilka - cena"))
             return false; 
         }
 if (EW_this.x_kg_zaup && !EW_checkinteger(EW_this.x_kg_zaup.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kg_zaup, "TEXT", "Napačna številka - kg zaup"))
+        if (!EW_onError(EW_this, EW_this.x_kg_zaup, "TEXT", "NapaÄŤna Ĺˇtevilka - kg zaup"))
             return false; 
         }
 if (EW_this.x_sit_zaup && !EW_checknumber(EW_this.x_sit_zaup.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_zaup, "TEXT", "Napačna številka - sit zaup"))
+        if (!EW_onError(EW_this, EW_this.x_sit_zaup, "TEXT", "NapaÄŤna Ĺˇtevilka - sit zaup"))
             return false; 
         }
 if (EW_this.x_kg_sort && !EW_checkinteger(EW_this.x_kg_sort.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kg_sort, "TEXT", "Napačna številka - kg sort"))
+        if (!EW_onError(EW_this, EW_this.x_kg_sort, "TEXT", "NapaÄŤna Ĺˇtevilka - kg sort"))
             return false; 
         }
 if (EW_this.x_sit_sort && !EW_checknumber(EW_this.x_sit_sort.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_sort, "TEXT", "Napačna številka - sit sort"))
+        if (!EW_onError(EW_this, EW_this.x_sit_sort, "TEXT", "NapaÄŤna Ĺˇtevilka - sit sort"))
             return false; 
         }
 if (EW_this.x_sit_smet && !EW_checknumber(EW_this.x_sit_smet.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_smet, "TEXT", "Napačna številka - sit smet"))
+        if (!EW_onError(EW_this, EW_this.x_sit_smet, "TEXT", "NapaÄŤna Ĺˇtevilka - sit smet"))
             return false; 
         }
 if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
+            if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "NapaÄŤna Ĺˇtevilka - skupina"))
                 return false; 
         }
-if (EW_this.x_stev_km_sled && !EW_checknumber(EW_this.x_stev_km_sled.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_km_sled, "TEXT", "Napačna številka - stev km sled"))
-            return false; 
-        }
-if (EW_this.x_stev_ur_sled && !EW_checknumber(EW_this.x_stev_ur_sled.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_ur_sled, "TEXT", "Napačna številka - stev ur sled"))
-            return false; 
-        }
 if (EW_this.x_stev_km_norm && !EW_checknumber(EW_this.x_stev_km_norm.value)) {
-    if (!EW_onError(EW_this, EW_this.x_stev_km_norm, "TEXT", "Napačna številka - stev km normativ"))
+    if (!EW_onError(EW_this, EW_this.x_stev_km_norm, "TEXT", "NapaÄŤna Ĺˇtevilka - stev km normativ"))
         return false; 
     }
 if (EW_this.x_stev_ur_norm && !EW_checknumber(EW_this.x_stev_ur_norm.value)) {
-    if (!EW_onError(EW_this, EW_this.x_stev_ur_norm, "TEXT", "Napačna številka - stev ur normativ"))
+    if (!EW_onError(EW_this, EW_this.x_stev_ur_norm, "TEXT", "NapaÄŤna Ĺˇtevilka - stev ur normativ"))
         return false; 
     }
 if (EW_this.x_dod_stroski && !EW_checknumber(EW_this.x_dod_stroski.value)) {
-        if (!EW_onError(EW_this, EW_this.x_dod_stroski, "TEXT", "Napačna številka - stev ur sled"))
+        if (!EW_onError(EW_this, EW_this.x_dod_stroski, "TEXT", "NapaÄŤna Ĺˇtevilka - stev ur sled"))
             return false; 
         }
 return true;
@@ -1288,7 +1281,7 @@ return true;
 		<td class="ewTableAltRow"><% out.print(x_id); %>&nbsp;</td>
 	</tr -->
 	<tr>
-		<td class="ewTableHeader">Številka dobavnice&nbsp;</td>
+		<td class="ewTableHeader">Ĺ tevilka dobavnice&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_st_dob_ll" size="30" value="<%= HTMLEncode((String)x_st_dob) %>" disabled>&nbsp;</td>
 	</tr>
 	<tr>
@@ -1300,28 +1293,28 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
+		<td class="ewTableHeader">Ĺ ifra stranke&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Stranka&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="150" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=vse");%>">vse</a>&nbsp;</span-->&nbsp;</td>
+		<td class="ewTableHeader">Ĺ ifra kupca&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=vse");%>">vse</a>&nbsp;</span-->&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">šofer</a>&nbsp;</td>
+		<td class="ewTableHeader">Ĺ ifra Ĺˇoferja&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">Ĺˇofer</a>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šofer&nbsp;</td>
+		<td class="ewTableHeader">Ĺ ofer&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sofer" size="30" maxlength="255" value="<%= HTMLEncode((String)x_sofer) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra kamiona&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=sif_kam");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=kamion");%>">kamion</a>&nbsp;</td>
+		<td class="ewTableHeader">Ĺ ifra kamiona&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=sif_kam");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=kamion");%>">kamion</a>&nbsp;</td>
 
 	</tr>
 	<tr>
@@ -1345,15 +1338,15 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_c_ura" size="30" value="<%= HTMLEncode((String)x_c_ura) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Število kilometrov&nbsp;</td>
+		<td class="ewTableHeader">Ĺ tevilo kilometrov&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_km" size="30" value="<%= HTMLEncode((String)x_stev_km) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Število ur&nbsp;</td>
+		<td class="ewTableHeader">Ĺ tevilo ur&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur" size="30" value="<%= HTMLEncode((String)x_stev_ur) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Stroški&nbsp;</td>
+		<td class="ewTableHeader">StroĹˇki&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stroski" size="30" value="<%= HTMLEncode((String)x_stroski) %>">&nbsp;</td>
 	</tr>
 	<tr>
@@ -1367,7 +1360,7 @@ return true;
 		<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_okolje=koda");%>">ewc</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_okolje=material");%>">material</a></td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Količina&nbsp;</td>
+		<td class="ewTableHeader">KoliÄŤina&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kolicina" size="30" value="<%= HTMLEncode((String)x_kolicina) %>">&nbsp;</td>
 	</tr>
 	<tr>
@@ -1407,23 +1400,15 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Dodatni stroški&nbsp;</td>
+		<td class="ewTableHeader">Dodatni stroĹˇki&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_dod_stroski" size="30" value="<%= HTMLEncode((String)x_dod_stroski) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Število km sled&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_km_sled" size="30" value="<%= HTMLEncode((String)x_stev_km_sled) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_sled" size="30" value="<%= HTMLEncode((String)x_stev_ur_sled) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število km normativ&nbsp;</td>
+		<td class="ewTableHeader">Ĺ tevilo km normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
+		<td class="ewTableHeader">Ĺ tevilo ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
 	</tr>
 	

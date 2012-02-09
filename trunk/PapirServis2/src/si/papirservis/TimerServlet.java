@@ -94,6 +94,7 @@ public class TimerServlet extends InitServlet implements Servlet {
                     
           // repeat every sec. 
           int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
+          //int period = 60000;
           int delay = 10000;   // delay for 30 sec.
           Timer timer = new Timer();
 
@@ -102,7 +103,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	                	Calendar runTime = Calendar.getInstance();
 	        			System.out.println("**********************Sledenje sinhronization start at: " + runTime.toString());
 	        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
-	        			List orders = getOrderData();
+	        			List ordersAll = getOrderData();
 	        			//pridobim vse datume in vozila, ki imajo dobavnice
 	        			List ordersDates = getDateData();
 	        			//vse pozicije, ki niso 1, jim dam error=8
@@ -113,10 +114,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 	        			//posljemo na server sledenja
 	        			try
 	        			{
-		        			if ((orders != null) && (orders.size() > 0))
+	        		    	System.out.println("SIZE="+ordersAll.size()+"-"+ordersDates.size());	           
+		        			if ((ordersAll != null) && (ordersAll.size() > 0))
 		        			{
-		        				//String datum = runTime.get(Calendar.DATE)+"."+(runTime.get(Calendar.MONTH)+1)+"."+runTime.get(Calendar.YEAR);
-		        				
 		        				//pridobim vsa vozila iz sledenja za papir servis
 		        				Map vozila = getSledenjeVozila();
 	        					if ((vozila == null) || (vozila.size() == 0)) {
@@ -153,8 +153,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					
 		        					//poiščem vse dobavnice in podatke, ki so bile izvedene za ta kamion na ta dan
 		        					List ordersForDateVehicle = new ArrayList();
-		        					for (int j=0; j<orders.size(); j++) {
-			        					Order order = (Order) orders.get(j);
+		        					for (int j=0; j<ordersAll.size(); j++) {
+			        					Order order = (Order) ordersAll.get(j);
 			        					if ((order.getZacetek().equals(ordersDate.getZacetek())) && (order.getSif_kam().equals(ordersDate.getSif_kam()))) {
 			        						System.out.println("ORDER="+order.getStDob());
 			        						ordersForDateVehicle.add(order);
@@ -341,8 +341,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
 	    	String query = 	"select distinct dob.st_dob st_dob, dob.datum datum, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
-	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, stranke.radij stranke_radij, stranke.vtez stranke_vtez, " +
-	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, enote.radij enote_radij, kamion.sif_kam sif_kam, kamion.registrska kamion, " +
+	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, " +
+	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, kamion.sif_kam sif_kam, kamion.registrska kamion, " +
 	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
 	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
@@ -353,7 +353,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"			      kamion.zacetek = zadnji.datum) kamion " +
-	    					"where  ((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"where  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
+	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
 	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
@@ -366,7 +367,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
-	    	int i = 0;
 
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
@@ -396,8 +396,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 		    	order.setSif_kam(sif_kam);
 		    	
 		    	orders.add(order);
-		    	i++;
 	    	}
+	    	System.out.println("SIZE2="+orders.size());	           
+	    	
 	    	
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
@@ -431,13 +432,20 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	
 	    	String query = 	"select DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
+	    				   	"	   (SELECT st.* " +
+	    				   	"		FROM stranke st, ( " +
+	    				   	"		SELECT sif_str, MAX(zacetek) z " +
+	    				   	"		FROM stranke " +
+	    				   	"		GROUP BY sif_str) s " +
+	    				   	"		WHERE st.sif_str = s.sif_str AND st.zacetek = s.z) stranke,  " +
 	    				   	"	(SELECT kamion.* " +
 	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"			      kamion.zacetek = zadnji.datum) kamion " +
-	    					"where  ((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"where  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
+	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"		(dob.`sif_str` = stranke.`sif_str`) AND " +
 	    					"		(dob.sif_kam = kamion.sif_kam) and " +
-							//"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
 							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
 							"		(dob.datum < now()-1)";
@@ -445,7 +453,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
-	    	int i = 0;
 
 	    	while (rs.next()) {
 	    		String datum = rs.getString("datum");
@@ -465,7 +472,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 		    	order.setSif_kam(sif_kam);
 		    	
 		    	orders.add(order);
-		    	i++;
 	    	}
 	    	
 	    } catch (Exception theException) {

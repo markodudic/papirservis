@@ -70,7 +70,8 @@ from
 			group by st_dob, pozicija) zadnji
 	WHERE dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum ) dob
+	      dob.zacetek = zadnji.datum and 
+	      dob.obdelana = 1) dob
 LEFT JOIN
 	(SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
