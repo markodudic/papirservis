@@ -1,6 +1,6 @@
 body {
 	background-color: ; /* background color */
-	color: ; /* text color */
+	color: #000000; /* font color */	
 	font-family: Courier New; /* font name */
 	font-size: medium; /* font size */
 	margin: 0px 0px 0px 0px; /* top right bottom left */
@@ -32,7 +32,7 @@ a:visited {
 /* main table */
 .ewTable {
 	width: ; /* table width */	
-	color: ; /* text color */
+	color: #000000; /* font color */	
 	font-family: Courier New; /* font name */
 	font-size: medium; /* font size */
 	border-collapse: collapse;
@@ -44,6 +44,7 @@ a:visited {
 	padding: 4px; /* cell padding */
 	border: 1px solid; /* cell spacing */
 	border-color: #CCCCCC;  /* table background color */
+	color: #000000; /* font color */	
 }
 
 /* main table header cells */

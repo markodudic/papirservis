@@ -79,8 +79,8 @@ Object x_sit_smet = null;
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_opomba = null;
-Object x_stev_km_sled = null;
-Object x_stev_ur_sled = null;
+//Object x_stev_km_sled = null;
+//Object x_stev_ur_sled = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 
@@ -201,8 +201,8 @@ try{
 	}else{
 		x_opomba = "";
 	}
-	x_stev_km_sled = String.valueOf(rs.getDouble("stev_km_sled"));
-	x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
+//	x_stev_km_sled = String.valueOf(rs.getDouble("stev_km_sled"));
+//	x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
 	if (rs.getTimestamp("zacetek") != null){
 		x_zacetek = rs.getTimestamp("zacetek");
 	}else{
@@ -346,7 +346,7 @@ try{
 		}else{
 			x_opomba = "";
 		}
-		if (request.getParameter("x_stev_km_sled") != null){
+/*		if (request.getParameter("x_stev_km_sled") != null){
 			x_stev_km_sled = (String) request.getParameter("x_stev_km_sled");
 		}else{
 			x_stev_km_sled = "";
@@ -355,7 +355,7 @@ try{
 			x_stev_ur_sled = (String) request.getParameter("x_stev_ur_sled");
 		}else{
 			x_stev_ur_sled = "";
-		}
+		}*/
 		if (request.getParameter("x_zacetek") != null){
 			x_zacetek = (String) request.getParameter("x_zacetek");
 		}else{
@@ -365,7 +365,7 @@ try{
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, obdelana, uporabnik) values (";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, obdelana, uporabnik) values (";
 
 
 		// Open record
@@ -759,29 +759,31 @@ try{
 			strsql += tmpfld + ", ";
 
 		// Field stev_km_sled
-		tmpfld = ((String) x_stev_km_sled).trim();
+/*		tmpfld = ((String) x_stev_km_sled).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
+
 		if (tmpfld == null) {
 			rs.updateNull("stev_km_sled");
 		} else {
 			rs.updateInt("stev_km_sled",Integer.parseInt(tmpfld));
 		}
-*/
+		
 		strsql += tmpfld + ", ";
 
 		// Field stev_ur_sled
 		tmpfld = ((String) x_stev_ur_sled).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
+
 		if (tmpfld == null) {
 			rs.updateNull("stev_ur_sled");
 		} else {
 			rs.updateInt("stev_ur_sled",Integer.parseInt(tmpfld));
 		}
-*/
-		strsql += tmpfld + ", 1, "; //obdelana
 
+		strsql += tmpfld + ", ";
+*/
+		strsql += "1, "; //obdelana
+		
 
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
@@ -1230,14 +1232,14 @@ if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
                 return false; 
         }
-if (EW_this.x_stev_km_sled && !EW_checknumber(EW_this.x_stev_km_sled.value)) {
+/*if (EW_this.x_stev_km_sled && !EW_checknumber(EW_this.x_stev_km_sled.value)) {
         if (!EW_onError(EW_this, EW_this.x_stev_km_sled, "TEXT", "Napačna številka - stev km sled"))
             return false; 
         }
 if (EW_this.x_stev_ur_sled && !EW_checknumber(EW_this.x_stev_ur_sled.value)) {
         if (!EW_onError(EW_this, EW_this.x_stev_ur_sled, "TEXT", "Napačna številka - stev ur sled"))
             return false; 
-        }
+        }*/
 return true;
 }
 
@@ -1379,30 +1381,9 @@ return true;
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_skupinaList);%>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Skupina&nbsp;</td>
-		<td class="ewTableAltRow"-->
+
 	<input type="hidden" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;
-	<!--/td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Opomba&nbsp;</td>
-		<td class="ewTableAltRow"-->
 	<input type="hidden" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;
-	<!--/td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število kilometrov sled&nbsp;</td>
-		<td class="ewTableAltRow"-->
-	<input type="hidden" name="x_stev_km_sled" size="30" value="<%= HTMLEncode((String)x_stev_km_sled) %>">&nbsp;
-	<!--/td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
-		<td class="ewTableAltRow"-->
-	<input type="hidden" name="x_stev_ur_sled" size="30" value="<%= HTMLEncode((String)x_stev_ur_sled) %>">&nbsp;
-	<!--/td>
-	</tr-->
 </table>
 <p>
 <input type="submit" name="Action" value="Dodaj">
