@@ -76,7 +76,7 @@ public class InitServlet extends HttpServlet {
     
     try
     {
-        //System.out.println( "connectionMake:" + con);
+        System.out.println( "connectionMake:" + con);
 	    if ((con == null) || (con.isClosed()))
 	    {
 	        System.out.println("INIT="+ url+" "+user+" "+pass);
@@ -89,7 +89,7 @@ public class InitServlet extends HttpServlet {
 	            e.printStackTrace();
 	        }
 	    }
-    } catch (SQLException e)
+    } catch (Exception e)
     {
         System.out.println( "Napaka:" + e.toString());
         e.printStackTrace();
