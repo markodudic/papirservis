@@ -342,7 +342,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	
 	    	String query = 	"select distinct dob.st_dob st_dob, dob.datum datum, stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, " +
-	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, kamion.sif_kam sif_kam, kamion.registrska kamion, " +
+	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, " +
+	    					"		kamion.sif_kam sif_kam, kamion.registrska kamion, " +
 	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
 	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
@@ -365,8 +366,11 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(dob.datum < now()-1)";
 
 	    	System.out.println(query);	           
+	    	System.out.println("CON="+con);	           
 	    	stmt = con.createStatement();   	
+	    	System.out.println("STMT="+stmt);	           
 	    	rs = stmt.executeQuery(query);
+	    	System.out.println("RS="+rs);	           
 
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
@@ -401,6 +405,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	
 	    	
 	    } catch (Exception theException) {
+	    	System.out.println("ERROR="+theException.getMessage());	  
 	    	theException.printStackTrace();
 	    } finally {
 	    	try {
@@ -432,12 +437,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	
 	    	String query = 	"select DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
 	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
-	    				   	"	   (SELECT st.* " +
-	    				   	"		FROM stranke st, ( " +
-	    				   	"		SELECT sif_str, MAX(zacetek) z " +
-	    				   	"		FROM stranke " +
-	    				   	"		GROUP BY sif_str) s " +
-	    				   	"		WHERE st.sif_str = s.sif_str AND st.zacetek = s.z) stranke,  " +
+	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
+	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	(SELECT kamion.* " +
 	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
