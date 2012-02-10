@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +52,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	private static final int ERROR_VEHICLE_NOT_IN_SLEDENJE = 4;
 	private static final int ERROR_OTHER_POSITION = 8;
 	private static final int ERROR_DATA_OK = 9;
+	private static final String PREVOZ_ZA_LASTNE_POTREBE = "PREVOZ ZA LASTNE POTREBE";
 
 	private static final long serialVersionUID = 1L;
        
@@ -76,6 +78,7 @@ public class TimerServlet extends InitServlet implements Servlet {
           distanceCustomer = Double.parseDouble((String) getServletContext().getInitParameter("distance_customer"));
           distanceLocation = Double.parseDouble((String) getServletContext().getInitParameter("distance_location"));
 			
+          
           try {
 	          sledenjeAuTokenWS = (new com.sledenje.ws.SledenjeAuTokenWSServiceLocator()).getSledenjeAuTokenWSPort();
 	    	  org.apache.axis.client.Stub sledenjeAuTokenWSStub = (org.apache.axis.client.Stub)sledenjeAuTokenWS; 
@@ -102,13 +105,17 @@ public class TimerServlet extends InitServlet implements Servlet {
                   public void run() {
 	                	Calendar runTime = Calendar.getInstance();
 	        			System.out.println("**********************Sledenje sinhronization start at: " + runTime.toString());
-	        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
-	        			List ordersAll = getOrderData();
 	        			//pridobim vse datume in vozila, ki imajo dobavnice
 	        			List ordersDates = getDateData();
+	        			//za vsa takšna vozila in datume resetiram podatke
+	        			resetSledenjeData(ordersDates, runTime.get(Calendar.YEAR));
+	        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
+	        			List ordersAll = getOrderData();
 	        			//vse pozicije, ki niso 1, jim dam error=8
 	        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
+	        			
 	        		    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+	        		    SimpleDateFormat dfTime = new SimpleDateFormat("kk:mm:ss");
 	        			SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
 	
 	        			//posljemo na server sledenja
@@ -172,13 +179,18 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					boolean start_find = false;
 		        					//int start_find_id = -2;
 		        					int meters = 0;
+		        					long time = 0;
+		        					int metersLastnePotrebe = 0;
+		        					long casLastnePotrebe = 0L;
 		        					List orders_relations = new ArrayList();
 		        					List orders_with_data = new ArrayList(); 
 		        					//primerjam podatke o lokacijah iz dobavnice in izhodišča s podatki iz sledenja
 		        					for (int ii=0; ii<relations.length; ii++) {
 		        						TravelOrderRelation relation = relations[ii];
 		        						System.out.println("relation="+relation.getAvg_sdo_x() + " " + relation.getAvg_sdo_y() + " " + relation.getTime_from() + " " + relation.getTime_to() + " " + relation.getDist_km());
-	        							meters = meters + relation.getDist_km();
+	        							meters += relation.getDist_km();
+	        							Date timeD = dfTime.parse(relation.getTime_diff().trim());
+	        							time += getSecondsSinceMidnight(timeD);
 		        						
 		        						//poiščem ujemanje točk
 		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
@@ -203,6 +215,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        								orders_relations.add(order_relation);
 		        								start_find = false;
 		        								meters = 0;
+		        								time = 0;
 		        								break;
 		        							}
 
@@ -216,11 +229,15 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        								Order order_relation = new Order();
 		        								order_relation.setStDob("-1");
 		        								order_relation.setZacetek(relation.getTime_from());
+		        								order_relation.setKonec(relation.getTime_to());
 		        								order_relation.setMeters(meters);
 		        								
-		        								//ce je naslednji postanek tudi na izhodiscu vzamem tega
+		        								//ce je naslednji postanek tudi na izhodiscu vzamem tega, metre in cas pa prisetjem v PREVOZ ZA LASTNE POTREBE
 		        								if (start_find) {
 		        									orders_relations.set(orders_relations.size()-1, order_relation);
+		        									metersLastnePotrebe += meters;
+		        									//zracun razliko casa v sekundah
+		        									casLastnePotrebe += time;
 		        								} else {
 			        								orders_relations.add(order_relation);
 		        								}
@@ -228,14 +245,15 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        								start_find = true;
 		        								//start_find_id = j;
 		        								meters = 0;
+		        								time = 0;
 		        								break;
 		        							}
 		        							
 		        						}
-			        					//setSledenjeData(result, (String) res.get("st_dob"));*/
 		        					}
+
 		        					
-		        					//zracunam podatke o casu in metrih po dobavnici
+	        						//zracunam podatke o casu in metrih po dobavnici
 		        					//ce je ena dobavnica veckrat, sestejem podatke
 		        					List finalOrders = new ArrayList(); 
 		        					for (int l=0; l<orders_relations.size(); l=l+2) {
@@ -297,6 +315,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 			        						setDobOkError(order.getStDob(), order.getDatum(), ERROR_NO_STOPS_IN_SLEDENJE);
 			        					}
 			        				}
+			        				
+		        					//nastavim podatke za PREVOZ ZA LASTNE POTREBE
+		        					setPrevozLastnePotrebe(ordersDate.getSif_kam(), ordersDate.getDatum(), metersLastnePotrebe, casLastnePotrebe);
+
 		        				}
 		        				
 		        			}
@@ -329,7 +351,53 @@ public class TimerServlet extends InitServlet implements Servlet {
 		// TODO Auto-generated method stub
 	}
 
+	public int getSecondsSinceMidnight(Date date) {         
+	    DateFormat dateFormat = new SimpleDateFormat();      
+	    
+	    dateFormat = new SimpleDateFormat("HH");
+	    int hour = Integer.parseInt(dateFormat.format(date));         
+
+	    dateFormat = new SimpleDateFormat("mm");
+	    int minute = Integer.parseInt(dateFormat.format(date));
+
+	    dateFormat = new SimpleDateFormat("ss");
+	    int second = Integer.parseInt(dateFormat.format(date));   
+
+	    return (hour* 3600) + (minute * 60) + second;      
+	 }
 	
+	private void resetSledenjeData(List ordersDates, int datum) {
+	    	Statement stmt = null;
+
+		    try {
+		    	connectionMake();
+				stmt = con.createStatement();   	
+
+				for (int i=0; i<ordersDates.size(); i++) {
+					Order ordersDate = (Order) ordersDates.get(i);
+					String kamion = ordersDate.getSif_kam();
+					String datumDob = ordersDate.getDatum();
+
+					String sql = "update dob" + datum + " " +
+								"set stev_km_sled=null, stev_ur_sled=null, error = 0 " +
+								" where sif_kam = '" + kamion + "'" +
+								"		and datum = '" + datumDob + "'";
+				
+					System.out.println("resetData="+sql);
+					stmt.executeUpdate(sql);
+				}
+		    } catch (Exception theException) {
+		    	theException.printStackTrace();
+		    } finally {
+		    	try {
+		    		if (stmt != null) {
+		    			stmt.close();
+		    		}
+				} catch (Exception e) {
+				}
+		    }
+	}					
+					
 	private List getOrderData() {
     	ResultSet rs = null;
 	    Statement stmt = null;
@@ -360,7 +428,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
 							"		(dob.sif_kam = kamion.sif_kam) and " +
-							//"		((dob.stev_km_sled is null) or (dob.stev_ur_sled is null)) and " +
 							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
 							"		(dob.datum < now()-1)";
@@ -372,6 +439,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	rs = stmt.executeQuery(query);
 	    	System.out.println("RS="+rs);	           
 
+	    	System.out.println("WHILE");	           
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
 	    		String stranke_sif_str = rs.getString("stranke_sif_str");
@@ -683,4 +751,71 @@ public class TimerServlet extends InitServlet implements Servlet {
 	}
 	
 	
+	//nastavim podatke za PREVOZ ZA LASTNE POTREBE
+	// za tiste lastne potrebe, ki nimajo podatka ze dolocenega error!=9
+	private void setPrevozLastnePotrebe(String sifKam, String datum, int metersLastnePotrebe, long casLastnePotrebe) {
+
+    	Statement stmt = null;
+    	ResultSet rs = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			
+			String sql = "SELECT count(*) as cnt " +
+						"from dob" + datum.substring(0, 4) + " " +
+						"WHERE stranka LIKE '%"+PREVOZ_ZA_LASTNE_POTREBE+"%' AND " +
+						"	error != 9 AND " +
+						"	pozicija = 1 AND " +	
+						"	sif_kam = " + sifKam + " and " +		
+						"	datum = '" + datum + "'";
+				 
+	    	System.out.println(sql);	           
+	    	stmt = con.createStatement();   	
+	    	rs = stmt.executeQuery(sql);
+	    	int cnt = 1;
+	    	
+	    	if (rs.next()) {
+	    		cnt = rs.getInt("cnt");
+	    	}
+	    	
+			double metersD = metersLastnePotrebe / cnt;
+			long pot = Math.round(metersD/1000);
+			
+			long ura = casLastnePotrebe / (3600 * cnt);	
+			long min = (casLastnePotrebe / 60) % 60;
+			String ur;
+			if (min <= 30) ur = ura + "";
+			else ur = ura + ".5";
+
+			sql = "update dob" + datum.substring(0, 4) + " " +
+					 "set " +
+					 "	stev_km_sled = " + pot + 
+					 ", stev_ur_sled = " + ur +
+					 ", error = 7 " +
+					 " where stranka like '%"+PREVOZ_ZA_LASTNE_POTREBE+"%' and " +
+					 "		error != 9 and " +
+					 "		pozicija = 1 and " +
+					 "		sif_kam = " + sifKam + " and " +
+					 "		datum = '" + datum + "'";
+			
+			System.out.println("setPrevozLastnePotrebe="+sql);
+			stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }	
+		
+		return;
+	}		
 }
