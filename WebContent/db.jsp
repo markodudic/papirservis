@@ -12,7 +12,7 @@ try{
 	}
 	else {
 	if(conn.isClosed()) 
-		System.out.println("Opening....." + xDb_Conn_Str);
+		//System.out.println("Opening....." + xDb_Conn_Str);
 		
 		conn = DriverManager.getConnection(xDb_Conn_Str,user,pass);
 	}
