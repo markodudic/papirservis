@@ -76,10 +76,10 @@ public class InitServlet extends HttpServlet {
     
     try
     {
-        System.out.println( "connectionMake:" + con);
+        //System.out.println( "connectionMake:" + con);
 	    if ((con == null) || (con.isClosed()))
 	    {
-	        System.out.println("INIT="+ url+" "+user+" "+pass);
+	        //System.out.println("INIT="+ url+" "+user+" "+pass);
 	        try { 
 				Class.forName(driver);
 	        	con = DriverManager.getConnection(url,user,pass);

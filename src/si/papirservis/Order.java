@@ -38,6 +38,10 @@ public class Order {
 	
 	private boolean checked;
 
+	private int stev_km_norm;
+
+	private double stev_ur_norm;
+
 	public String getStDob() {
 		return stDob;
 	}
@@ -156,6 +160,22 @@ public class Order {
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+
+	public int getStev_km_norm() {
+		return stev_km_norm;
+	}
+
+	public void setStev_km_norm(int stev_km_norm) {
+		this.stev_km_norm = stev_km_norm;
+	}
+
+	public double getStev_ur_norm() {
+		return stev_ur_norm;
+	}
+
+	public void setStev_ur_norm(double stev_ur_norm) {
+		this.stev_ur_norm = stev_ur_norm;
 	}
 
 
