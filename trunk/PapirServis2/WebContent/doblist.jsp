@@ -963,31 +963,24 @@ if (startRec==0) {
 
 // Check for a START parameter
 if (request.getParameter("start") != null && Integer.parseInt(request.getParameter("start")) > 0) {
-	System.out.println("1");
 	startRec = Integer.parseInt(request.getParameter("start"));
 	session.setAttribute("dob_REC", new Integer(startRec));
 }else if (request.getParameter("pageno") != null && Integer.parseInt(request.getParameter("pageno")) > 0) {
-	System.out.println("2");
 	pageno = Integer.parseInt(request.getParameter("pageno"));
 	if (IsNumeric(request.getParameter("pageno"))) {
-		System.out.println("22");
 		startRec = (pageno-1)*displayRecs+1;
 		if (startRec <= 0) {
-			System.out.println("221");
 			startRec = 1;
 		}else if (startRec >= ((totalRecs-1)/displayRecs)*displayRecs+1) {
-			System.out.println("2211");
 			startRec =  ((totalRecs-1)/displayRecs)*displayRecs+1;
 		}
 	}else {
-		System.out.println("222");
 		startRec = ((Integer) session.getAttribute("dob_REC")).intValue();
 		if (startRec <= 0) {
 			startRec = 1; // Reset start record counter
 		}
 	}
 }else{
-	System.out.println("3");
 	if (session.getAttribute("dob_REC") != null)
 		startRec = ((Integer) session.getAttribute("dob_REC")).intValue();
 	if (startRec==0) {
