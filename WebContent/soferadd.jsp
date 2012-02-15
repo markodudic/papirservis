@@ -49,7 +49,7 @@ if (a == null || a.length() == 0) {
 }
 Object x_sif_sof = null;
 Object x_sofer = null;
-Object x_ure = null;
+Object x_kljuc = null;
 
 // Open Connection to the database
 try{
@@ -84,7 +84,11 @@ try{
 	}else{
 		x_sofer = "";
 	}
-	x_ure = String.valueOf(rs.getLong("ure"));
+	if (rs.getString("kljuc") != null){
+		x_kljuc = rs.getString("kljuc");
+	}else{
+		x_kljuc = "";
+	}
 		rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
@@ -100,10 +104,10 @@ try{
 		}else{
 			x_sofer = "";
 		}
-		if (request.getParameter("x_ure") != null){
-			x_ure = (String) request.getParameter("x_ure");
+		if (request.getParameter("x_kljuc") != null){
+			x_kljuc = (String) request.getParameter("x_kljuc");
 		}else{
-			x_ure = "";
+			x_kljuc = "";
 		}
 
 		// Open record
@@ -145,13 +149,15 @@ try{
 			rs.updateString("sofer", tmpfld);
 		}
 
-		// Field ure
-		tmpfld = ((String) x_ure).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		// Field kljuc
+		tmpfld = ((String) x_kljuc);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = "";
+		}
 		if (tmpfld == null) {
-			rs.updateNull("ure");
-		} else {
-			rs.updateInt("ure",Integer.parseInt(tmpfld));
+			rs.updateNull("kljuc");
+		}else{
+			rs.updateString("kljuc", tmpfld);
 		}
 		rs.insertRow();
 		rs.close();
@@ -192,10 +198,10 @@ if (EW_this.x_sofer && !EW_hasValue(EW_this.x_sofer, "TEXT" )) {
             if (!EW_onError(EW_this, EW_this.x_sofer, "TEXT", "Napačan vnos - sofer"))
                 return false; 
         }
-if (EW_this.x_ure && !EW_checkinteger(EW_this.x_ure.value)) {
-        if (!EW_onError(EW_this, EW_this.x_ure, "TEXT", "Napačna številka - ure"))
-            return false; 
-        }
+if (EW_this.x_kljuc && !EW_hasValue(EW_this.x_kljuc, "TEXT" )) {
+    if (!EW_onError(EW_this, EW_this.x_kljuc, "TEXT", "Napačan vnos - ključ"))
+        return false; 
+		}
 return true;
 }
 
@@ -213,10 +219,10 @@ return true;
 		<td class="ewTableHeader">Šofer&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sofer" size="30" maxlength="255" value="<%= HTMLEncode((String)x_sofer) %>">&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Ure&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_ure" size="30" value="<%= HTMLEncode((String)x_ure) %>">&nbsp;</td>
-	</tr-->
+	<tr>
+		<td class="ewTableHeader">Ključ&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_kljuc" size="30"  maxlength="50" value="<%= HTMLEncode((String)x_kljuc) %>">&nbsp;</td>
+	</tr>
 </table>
 <p>
 <input type="submit" name="Action" value="Dodaj">

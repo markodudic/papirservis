@@ -269,6 +269,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <a href="soferlist.jsp?order=<%= java.net.URLEncoder.encode("sofer","UTF-8") %>">Šofer&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sofer")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("sofer_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("sofer_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sofer")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kljuc")) ? "<b>" : ""%>
+<a href="soferlist.jsp?order=<%= java.net.URLEncoder.encode("kljuc","UTF-8") %>">Ključ&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("kljuc")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("sofer_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("sofer_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kljuc")) ? "</b>" : ""%>
+		</td>
 		<!--td>
 <%=(OrderBy != null && OrderBy.equals("ure")) ? "<b>" : ""%>
 <a href="soferlist.jsp?order=<%= java.net.URLEncoder.encode("ure","UTF-8") %>">Ure&nbsp;<% if (OrderBy != null && OrderBy.equals("ure")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("sofer_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("sofer_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -312,6 +317,7 @@ while (rs.next() && recCount < stopRec) {
 <%
 	String x_sif_sof = "";
 	String x_sofer = "";
+	String x_kljuc = "";
 	String x_ure = "";
 
 	// Load Key for record
@@ -332,6 +338,13 @@ while (rs.next() && recCount < stopRec) {
 		x_sofer = rs.getString("sofer");
 	}else{
 		x_sofer = "";
+	}
+
+	// sofer
+	if (rs.getString("kljuc") != null){
+		x_kljuc = rs.getString("kljuc");
+	}else{
+		x_kljuc = "";
 	}
 
 	// ure
@@ -367,6 +380,7 @@ if (key != null && key.length() > 0) {
 <% } %>
 		<td nowrap><% out.print(x_sif_sof); %>&nbsp;</td>
 		<td><% out.print(x_sofer); %>&nbsp;</td>
+		<td><% out.print(x_kljuc); %>&nbsp;</td>
 		<!--td><% out.print(x_ure); %>&nbsp;</td-->
 	</tr>
 <%

@@ -188,5 +188,11 @@ public class SledenjeTravelOrdersWSProxy implements com.sledenje.ws.SledenjeTrav
     return sledenjeTravelOrdersWS.getUserID();
   }
   
+  public java.lang.String appBuildDate() throws java.rmi.RemoteException{
+    if (sledenjeTravelOrdersWS == null)
+      _initSledenjeTravelOrdersWSProxy();
+    return sledenjeTravelOrdersWS.appBuildDate();
+  }
+  
   
 }

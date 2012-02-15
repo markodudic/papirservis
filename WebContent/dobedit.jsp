@@ -1281,7 +1281,7 @@ return true;
 		<td class="ewTableAltRow"><% out.print(x_id); %>&nbsp;</td>
 	</tr -->
 	<tr>
-		<td class="ewTableHeader">Ĺ tevilka dobavnice&nbsp;</td>
+		<td class="ewTableHeader">Številka dobavnice&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_st_dob_ll" size="30" value="<%= HTMLEncode((String)x_st_dob) %>" disabled>&nbsp;</td>
 	</tr>
 	<tr>
@@ -1293,28 +1293,28 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ ifra stranke&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
+		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Stranka&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="150" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ ifra kupca&nbsp;</td>
+		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=vse");%>">vse</a>&nbsp;</span-->&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ ifra Ĺˇoferja&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">Ĺˇofer</a>&nbsp;</td>
+		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">šofer</a>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ ofer&nbsp;</td>
+		<td class="ewTableHeader">Šofer&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sofer" size="30" maxlength="255" value="<%= HTMLEncode((String)x_sofer) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ ifra kamiona&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=sif_kam");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=kamion");%>">kamion</a>&nbsp;</td>
+		<td class="ewTableHeader">Šifra kamiona&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=sif_kam");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=kamion");%>">kamion</a>&nbsp;</td>
 
 	</tr>
 	<tr>
@@ -1338,15 +1338,15 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_c_ura" size="30" value="<%= HTMLEncode((String)x_c_ura) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ tevilo kilometrov&nbsp;</td>
+		<td class="ewTableHeader">Število kilometrov&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_km" size="30" value="<%= HTMLEncode((String)x_stev_km) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ tevilo ur&nbsp;</td>
+		<td class="ewTableHeader">Število ur&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur" size="30" value="<%= HTMLEncode((String)x_stev_ur) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">StroĹˇki&nbsp;</td>
+		<td class="ewTableHeader">Stroški&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stroski" size="30" value="<%= HTMLEncode((String)x_stroski) %>">&nbsp;</td>
 	</tr>
 	<tr>
@@ -1360,7 +1360,7 @@ return true;
 		<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_okolje=koda");%>">ewc</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_okolje=material");%>">material</a></td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">KoliÄŤina&nbsp;</td>
+		<td class="ewTableHeader">Količina&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kolicina" size="30" value="<%= HTMLEncode((String)x_kolicina) %>">&nbsp;</td>
 	</tr>
 	<tr>
@@ -1400,15 +1400,15 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Dodatni stroĹˇki&nbsp;</td>
+		<td class="ewTableHeader">Dodatni stroški&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_dod_stroski" size="30" value="<%= HTMLEncode((String)x_dod_stroski) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ tevilo km normativ&nbsp;</td>
+		<td class="ewTableHeader">Število km normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Ĺ tevilo ur normativ&nbsp;</td>
+		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
 	</tr>
 	

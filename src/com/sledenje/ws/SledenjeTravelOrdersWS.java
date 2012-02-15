@@ -32,4 +32,5 @@ public interface SledenjeTravelOrdersWS extends java.rmi.Remote {
     public com.sledenje.ws.Driver[] getCompanyDriversLogin() throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException;
     public java.lang.Integer getCompanyID() throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException;
     public java.lang.Integer getUserID() throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException;
+    public java.lang.String appBuildDate() throws java.rmi.RemoteException;
 }
