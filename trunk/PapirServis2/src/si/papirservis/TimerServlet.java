@@ -210,7 +210,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 				        							
 		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
 							        			//kamion je pri stranki
-		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+time);
+		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+time+"-"+relation.getDriver_key());
 		        								start_find = false;
 		        								order.setChecked(true);
 		        								ordersForDateVehicle.set(j, order);
@@ -254,6 +254,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        									finalOrder.put("km_norm_sum", km_norm_sum);
 		        									finalOrder.put("sec", time);
 		        									finalOrder.put("ur_norm_sum", ur_norm_sum);
+		        									finalOrder.put("driver_key", relation.getDriver_key());
 		        									finalOrder.put("tip", 0);
 		        									finalOrders.add(finalOrder);
 		        									
@@ -279,13 +280,14 @@ public class TimerServlet extends InitServlet implements Servlet {
     									finalOrder.put("km_norm_sum", 0);
     									finalOrder.put("sec", 0L);
     									finalOrder.put("ur_norm_sum", 0D);
+    									finalOrder.put("driver_key", "0");
     									finalOrder.put("tip", -1);
     									finalOrders.add(finalOrder);
           							}
 		        					
 		        					for (int l=0; l<finalOrders.size(); l++) {
 		        						Map finalOrder = (Map) finalOrders.get(l);
-        								System.out.println("ORDER="+((List)finalOrder.get("dob")).size()+"-"+finalOrder.get("km")+"-"+finalOrder.get("km_norm_sum")+"-"+finalOrder.get("sec")+"-"+finalOrder.get("ur_norm_sum")+"-"+finalOrder.get("tip"));
+        								System.out.println("ORDER="+((List)finalOrder.get("dob")).size()+"-"+finalOrder.get("km")+"-"+finalOrder.get("km_norm_sum")+"-"+finalOrder.get("sec")+"-"+finalOrder.get("ur_norm_sum")+"-"+finalOrder.get("tip")+"-"+finalOrder.get("driver_key"));
         								
         								if ((Integer)finalOrder.get("tip") == -1) {
         									//tisti ki nimajo izhodisca na koncu, nastavim error
@@ -296,6 +298,7 @@ public class TimerServlet extends InitServlet implements Servlet {
         									}
         								} else {
         									List orders = (List)finalOrder.get("dob");
+        									String sofer = (String)finalOrder.get("driver_key");
         									int km = (Integer)finalOrder.get("km");
         									int sum_km_norm = (Integer)finalOrder.get("km_norm_sum");
         									long sec = (Long)finalOrder.get("sec");
@@ -312,7 +315,7 @@ public class TimerServlet extends InitServlet implements Servlet {
         											sec_norm = Math.round(sec * order.getStev_ur_norm() / sum_ur_norm);
         										
         										System.out.println("final="+order.getStDob() + " " + km + " " + km_norm + " " + sec + " " + sec_norm);
-                								setSledenjeData(order.getStDob(), km_norm, sec_norm, dfYear.format(df.parse(order.getZacetek())));
+                								setSledenjeData(order.getStDob(), km_norm, sec_norm, sofer, dfYear.format(df.parse(order.getZacetek())));
         									
         									}
         									
@@ -665,7 +668,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	}
 	
 	
-	private void setSledenjeData(String st_dob, int meters, long cas, String year) {
+	private void setSledenjeData(String st_dob, int meters, long cas, String sofer, String year) {
 
     	Statement stmt = null;
 
@@ -686,6 +689,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "set " +
 						 "	stev_km_sled = " + pot + 
 						 ", stev_ur_sled = " + ur +
+						 ", sofer_sled = " + sofer +
 						 ", error = " + ERROR_DATA_OK +
 						 " where pozicija = 1 and " +
 						 "		st_dob = " + st_dob;

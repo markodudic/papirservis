@@ -390,9 +390,11 @@ function disableSome(EW_this){
         	{   	
 	        	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
 	    		JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
+	    		byte b = 2;
+	    		jasperDesign.setOrientation(b);
 	    		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 	    		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
-	        
+	    		jasperPrint.setOrientation(b);
 				JRPdfExporter exporter = new JRPdfExporter();
 				ByteArrayOutputStream pdfReport = new ByteArrayOutputStream();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);

@@ -49,7 +49,7 @@ if (a == null || a.length() == 0) {
 }
 String x_sif_sof = "";
 String x_sofer = "";
-String x_ure = "";
+String x_kljuc = "";
 
 // Open Connection to the database
 try{
@@ -82,8 +82,12 @@ try{
 			x_sofer = "";
 		}
 
-		// ure
-		x_ure = String.valueOf(rs.getLong("ure"));
+		// kljuc
+		if (rs.getString("kljuc") != null){
+			x_kljuc = rs.getString("kljuc");
+		}else{
+			x_kljuc = "";
+		}
 	}
 %>
 <%@ include file="header.jsp" %>
@@ -99,10 +103,10 @@ try{
 		<td class="ewTableHeader">Šofer&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_sofer); %>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Ure&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_ure); %>&nbsp;</td>
-	</tr-->
+	<tr>
+		<td class="ewTableHeader">Ključ&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_kljuc); %>&nbsp;</td>
+	</tr>
 </table>
 </form>
 <p>

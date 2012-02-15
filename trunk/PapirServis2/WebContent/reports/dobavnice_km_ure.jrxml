@@ -5,10 +5,10 @@
 		 name="dobavnice_km_ure"
 		 columnCount="1"
 		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="595"
-		 pageHeight="842"
-		 columnWidth="535"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
 		 columnSpacing="0"
 		 leftMargin="30"
 		 rightMargin="30"
@@ -73,7 +73,7 @@
 					<reportElement
 						x="0"
 						y="-2"
-						width="534"
+						width="782"
 						height="0"
 						key="line"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -92,8 +92,8 @@
 			<band height="300"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="110"
-						y="78"
+						x="270"
+						y="80"
 						width="280"
 						height="17"
 						forecolor="#000000"
@@ -126,7 +126,7 @@
 						mode="Opaque"
 						x="0"
 						y="250"
-						width="535"
+						width="782"
 						height="38"
 						backcolor="#FFFFFF"
 						key="subreport-1"/>
@@ -153,7 +153,7 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="534"
+						width="782"
 						height="73"
 						key="subreport-4"/>
 					<subreportParameter  name="picture">
@@ -165,8 +165,8 @@
 				</elementGroup><!-- End 1 !-->
 				<staticText>
 					<reportElement
-						x="230"
-						y="181"
+						x="478"
+						y="179"
 						width="55"
 						height="17"
 						forecolor="#000000"
@@ -180,8 +180,8 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="313"
-						y="181"
+						x="561"
+						y="179"
 						width="217"
 						height="17"
 						forecolor="#000000"
@@ -195,8 +195,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="230"
-						y="201"
+						x="478"
+						y="199"
 						width="50"
 						height="17"
 						forecolor="#000000"
@@ -210,8 +210,8 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="313"
-						y="201"
+						x="561"
+						y="199"
 						width="217"
 						height="17"
 						forecolor="#000000"
@@ -225,8 +225,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="230"
-						y="220"
+						x="478"
+						y="218"
 						width="61"
 						height="17"
 						forecolor="#000000"
@@ -240,8 +240,8 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="313"
-						y="220"
+						x="561"
+						y="218"
 						width="67"
 						height="17"
 						key="textField-9"/>
@@ -253,8 +253,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="415"
-						y="220"
+						x="663"
+						y="218"
 						width="80"
 						height="17"
 						key="textField-10"/>
@@ -266,8 +266,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="390"
-						y="220"
+						x="638"
+						y="218"
 						width="20"
 						height="17"
 						forecolor="#000000"
@@ -289,7 +289,7 @@
 			<band height="30"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="325"
+						x="567"
 						y="5"
 						width="170"
 						height="19"
@@ -304,7 +304,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="499"
+						x="743"
 						y="5"
 						width="36"
 						height="19"
@@ -321,7 +321,7 @@
 					<reportElement
 						x="0"
 						y="5"
-						width="535"
+						width="782"
 						height="0"
 						key="line-1"/>
 					<graphicElement stretchType="NoStretch"/>
