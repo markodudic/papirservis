@@ -752,7 +752,30 @@ String z_stev_ur_sled = request.getParameter("z_stev_ur_sled");
 	if (a_search.length() > 4) {
 		a_search = a_search.substring(0, a_search.length()-4);
 	}
+
+
+// sofer_sled
+	String ascrh_x_sofer_sled = request.getParameter("x_sofer_sled");
+	String z_sofer_sled = request.getParameter("z_sofer_sled");
+		if (z_sofer_sled != null && z_sofer_sled.length() > 0 ) {
+			String [] arrfieldopr_x_sofer_sled = z_sofer_sled.split(",");
+			if (ascrh_x_sofer_sled != null && ascrh_x_sofer_sled.length() > 0) {
+				ascrh_x_sofer_sled = ascrh_x_sofer_sled.replaceAll("'",escapeString);
+				ascrh_x_sofer_sled = ascrh_x_sofer_sled.replaceAll("\\[","[[]");
+				a_search += "`sofer_sled` "; // Add field
+				a_search += arrfieldopr_x_sofer_sled[0].trim() + " "; // Add operator
+				if (arrfieldopr_x_sofer_sled.length >= 2) {
+					a_search += arrfieldopr_x_sofer_sled[1].trim(); // Add search prefix
+				}
+				a_search += ascrh_x_sofer_sled; // Add input parameter
+				if (arrfieldopr_x_sofer_sled.length >= 3) {
+					a_search += arrfieldopr_x_sofer_sled[2].trim(); // Add search suffix
+				}
+				a_search += " AND ";
+			}
+		}
 	
+		
 // stev_km_norm
 String ascrh_x_stev_km_norm = request.getParameter("x_stev_km_norm");
 String z_stev_km_norm = request.getParameter("z_stev_km_norm");
@@ -1021,10 +1044,11 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-StringBuffer strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, u.ime_in_priimek, mat.material, oko.material okoljemat " +
+StringBuffer strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat " +
 		"FROM " + session.getAttribute("letoTabela") + " dob " +
 		"left join kupci k on dob.sif_kupca = k.sif_kupca " +
 		"left join uporabniki u on dob.uporabnik = u.sif_upor "+
+		"left join sofer s on dob.sofer_sled = s.kljuc "+
 		"left join (select materiali.material, materiali.koda " +
 		"			from materiali, (select koda, max(zacetek) as zacetek from materiali group by materiali.koda) s " +
 		"			where materiali.koda = s.koda and materiali.zacetek = s.zacetek) mat on dob.koda = mat.koda " +
@@ -1426,6 +1450,11 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("stev_ur_sled")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("sofer_sled")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sofer_sled","UTF-8") %>">Šofer sledenje&nbsp;<% if (OrderBy != null && OrderBy.equals("sofer_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("sofer_sled")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_norm","UTF-8") %>">Število km normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "</b>" : ""%>
@@ -1518,6 +1547,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_dod_stroski = "";
 	String x_stev_km_sled = "";
 	String x_stev_ur_sled = "";
+	String x_sofer_sled = "";
 	String x_stev_km_norm = "";
 	String x_stev_ur_norm = "";
 	Object x_zacetek = null;
@@ -1568,7 +1598,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	}
 
 	// sofer
-	if (rs.getString("sofer") != null){
+	if ((rs.getString("sofer") != null) && (!rs.getString("sofer").equals("null"))){
 		x_sofer = rs.getString("sofer");
 	}else{
 		x_sofer = "";
@@ -1582,7 +1612,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	}
 
 	// kamion
-	if (rs.getString("kamion") != null){
+	if ((rs.getString("kamion") != null) && (!rs.getString("kamion").equals("null"))){
 		x_kamion = rs.getString("kamion");
 	}else{
 		x_kamion = "";
@@ -1670,6 +1700,13 @@ while (rs.next() ){//&& recCount < stopRec) {
 	// stev_ur_sled
 	x_stev_ur_sled = String.valueOf(rs.getDouble("stev_ur_sled"));
 
+	// sofer_sled
+	if ((rs.getString("ssofer") != null) && (!rs.getString("ssofer").equals("null"))){
+		x_sofer_sled = rs.getString("ssofer");
+	}else{
+		x_sofer_sled = "";
+	}
+
 	// stev_km_norm
 	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 
@@ -1729,11 +1766,11 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
 		<td><%out.print(rs.getString("stranka"));%>&nbsp;</td>
 		<td><%out.print(x_sif_kupca);%>&nbsp;</td>
-	<td><%out.print(rs.getString("k.naziv"));%>&nbsp;</td>	
-	<td><% out.print(x_sif_sof); %>&nbsp;</td>
-	<td><%out.print(rs.getString("sofer"));%>&nbsp;</td>
+		<td><%out.print(rs.getString("k.naziv"));%>&nbsp;</td>	
+		<td><% out.print(x_sif_sof); %>&nbsp;</td>
+		<td><%out.print(x_sofer);%>&nbsp;</td>
 		<td><% out.print(x_sif_kam); %>&nbsp;</td>
-		<td><%out.print(rs.getString("kamion"));%>&nbsp;</td>
+		<td><%out.print(x_kamion);%>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_km, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_ura, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_c_km, 4, 1, 1, 1,locale)); %>&nbsp;</td>
@@ -1758,6 +1795,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(EW_FormatNumber("" + x_dod_stroski, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(x_stev_km_sled); %>&nbsp;</td>
 		<td><% out.print(x_stev_ur_sled); %>&nbsp;</td>
+		<td><% out.print(x_sofer_sled); %>&nbsp;</td>
 		<td><% out.print(x_stev_km_norm); %>&nbsp;</td>
 		<td><% out.print(x_stev_ur_norm); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
