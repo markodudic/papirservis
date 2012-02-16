@@ -201,37 +201,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        						//poiscem ujemanje tock
 		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
 		        							Order order = (Order) ordersForDateVehicle.get(j);
-		        							//ce je order ze najden in ce se ne isce izhodisce preskocim
-		        							if (order.isChecked()) continue;
 		        							
-		        							//razdalja do tocke
-				        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
-				        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
-				        							
-		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
-							        			//kamion je pri stranki
-		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+time+"-"+relation.getDriver_key());
-		        								start_find = false;
-		        								order.setChecked(true);
-		        								ordersForDateVehicle.set(j, order);
-		        								orders_with_data.add(order.getStDob());
-		        								
-		        								
-		        								//dodam dobavnico
-		        								orders_relations.add(order);
-		        								//dolocim skupne normativne vrednosti. ce ena od vrednosti manjka ne uporabljam normativne vrednosti
-		        								if (useNormValues) {
-			        								if (order.getStev_km_norm() != 0 && order.getStev_ur_norm() != 0) {
-			        									km_norm_sum += order.getStev_km_norm();
-			        									ur_norm_sum += order.getStev_ur_norm();
-			        								} else {
-			        									km_norm_sum = 0;
-			        									ur_norm_sum = 0;
-			        									useNormValues = false;
-			        								}
-		        								}
-		        							}
-
 		        							//razdalja do enote izhodisca
 				        					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
 				        					Double dist_y_enota = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getEnote_y_koord()));
@@ -268,10 +238,44 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        								ur_norm_sum = 0D;
 		        								useNormValues = true;
 		        								break;
+		        							}		        							
+		        							
+		        							
+		        							//ce je order ze najden in ce se ne isce izhodisce preskocim
+		        							if (order.isChecked()) continue;
+		        							
+		        							//razdalja do tocke
+				        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
+				        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
+				        							
+		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
+							        			//kamion je pri stranki
+		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+time+"-"+relation.getDriver_key());
+		        								start_find = false;
+		        								order.setChecked(true);
+		        								ordersForDateVehicle.set(j, order);
+		        								orders_with_data.add(order.getStDob());
+		        								
+		        								
+		        								//dodam dobavnico
+		        								orders_relations.add(order);
+		        								//dolocim skupne normativne vrednosti. ce ena od vrednosti manjka ne uporabljam normativne vrednosti
+		        								if (useNormValues) {
+			        								if (order.getStev_km_norm() != 0 && order.getStev_ur_norm() != 0) {
+			        									km_norm_sum += order.getStev_km_norm();
+			        									ur_norm_sum += order.getStev_ur_norm();
+			        								} else {
+			        									km_norm_sum = 0;
+			        									ur_norm_sum = 0;
+			        									useNormValues = false;
+			        								}
+		        								}
 		        							}
 		        							
 		        						}
 		        					}
+		        					
+		        					
 		        					//če zadnja relacija ni bila izhodiše ima pa orderje, jih označim kot tiste ki se niso vrnili na izhodišče
 		        					if ((orders_relations.size()>0) && (!start_find)) {
 		        						Map finalOrder = new HashMap();
