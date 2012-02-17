@@ -179,12 +179,14 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					
 		        					boolean start_find = true;
 		        					int meters = 0;
-		        					long time = 0;
+		        					//long time = 0;
 		        					int km_norm_sum = 0;
 		        					double ur_norm_sum = 0d;
 		        					boolean useNormValues = true;
 		        					int metersLastnePotrebe = 0;
 		        					long casLastnePotrebe = 0L;
+		        					Date time_from = new Date();
+		        					Date time_to = new Date();
 		        					List orders_with_data = new ArrayList(); 
 		        					List finalOrders = new ArrayList();
 		        					List orders_relations = new ArrayList();
@@ -194,10 +196,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        						TravelOrderRelation relation = relations[ii];
 		        						System.out.println("relation="+relation.getAvg_sdo_x() + " " + relation.getAvg_sdo_y() + " " + relation.getTime_from() + " " + relation.getTime_to() + " " + relation.getDist_km() + " " + relation.getTime_diff());
 	        							meters += relation.getDist_km();
-	        							Date timeD = dfTime.parse(relation.getTime_diff().trim());
-	        							time += getSecondsSinceMidnight(timeD);
-	        							//first_order = true;
-		        						
+	        							
 		        						//poiscem ujemanje tock
 		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
 		        							Order order = (Order) ordersForDateVehicle.get(j);
@@ -208,21 +207,24 @@ public class TimerServlet extends InitServlet implements Servlet {
 				        					
 				        					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
 		        								//kamion je na izhodiscu
-					        					System.out.println("IZHODISCE="+"-"+meters+"-"+time);
+					        					System.out.println("IZHODISCE="+"-"+meters);
 					        					
-		        								//ce je naslednji postanek tudi na izhodiscu vzamem tega, metre in cas pa prisetjem v PREVOZ ZA LASTNE POTREBE
+			        							time_from = df.parse(relation.getTime_from().trim());
+			        							
+			        							//ce je naslednji postanek tudi na izhodiscu vzamem tega, metre in cas pa prisetjem v PREVOZ ZA LASTNE POTREBE
 		        								if (start_find) {
 		        									//vozilo je se na izhodiscu
 		        									metersLastnePotrebe += meters;
 		        									//zracun razliko casa v sekundah
-		        									casLastnePotrebe += time;
+		        									if (ii>0)
+		        										casLastnePotrebe += (time_from.getTime() - time_to.getTime()) / 1000;
 		        								} else {
 		        									//vozilo je prislo nazaj na izhodisce, obdelam krozno voznji
 		        									Map finalOrder = new HashMap();
 		            								finalOrder.put("dob", orders_relations);
 		        									finalOrder.put("km", meters);
 		        									finalOrder.put("km_norm_sum", km_norm_sum);
-		        									finalOrder.put("sec", time);
+		        									finalOrder.put("sec", (time_from.getTime() - time_to.getTime()) / 1000);
 		        									finalOrder.put("ur_norm_sum", ur_norm_sum);
 		        									finalOrder.put("driver_key", relation.getDriver_key());
 		        									finalOrder.put("tip", 0);
@@ -231,9 +233,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        									orders_relations = new ArrayList();
 		        								}
 		        								
+			        							time_to = df.parse(relation.getTime_to().trim());
 		        								start_find = true;
 		        								meters=0;
-		        								time = 0L;
+		        								//time = 0L;
 		        								km_norm_sum = 0;
 		        								ur_norm_sum = 0D;
 		        								useNormValues = true;
@@ -250,7 +253,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 				        							
 		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
 							        			//kamion je pri stranki
-		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+time+"-"+relation.getDriver_key());
+		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+relation.getDriver_key());
 		        								start_find = false;
 		        								order.setChecked(true);
 		        								ordersForDateVehicle.set(j, order);
@@ -686,8 +689,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 			long ura = cas / 3600;	
 			long min = (cas / 60) % 60;
 			String ur;
-			if (min <= 30) ur = ura + "";
-			else ur = ura + ".5";
+			if (min <= 15) ur = ura + "";
+			else if (min <= 45) ur = ura + ".5";
+			else ur = (ura + 1) + "";
 
 			String sql = "update dob" + year + " " +
 						 "set " +
@@ -811,8 +815,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 				long ura = casLastnePotrebe / (3600 * cnt);	
 				long min = (casLastnePotrebe / 60) % 60;
 				String ur;
-				if (min <= 30) ur = ura + "";
-				else ur = ura + ".5";
+				if (min <= 15) ur = ura + "";
+				else if (min <= 45) ur = ura + ".5";
+				else ur = (ura + 1) + "";
 	
 				sql = "update dob" + datum.substring(0, 4) + " " +
 						 "set " +
