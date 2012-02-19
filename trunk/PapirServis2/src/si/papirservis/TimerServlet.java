@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,6 +55,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	private static final int ERROR_DATA_LASTNE_POTREBE = 8;
 	private static final int ERROR_DATA_OK = 9;
 	private static final String PREVOZ_ZA_LASTNE_POTREBE = "PREVOZ ZA LASTNE POTREBE";
+
+	private static final int QUERY_LIMIT = 30;
 
 	private static final long serialVersionUID = 1L;
        
@@ -105,33 +108,55 @@ public class TimerServlet extends InitServlet implements Servlet {
           timer.scheduleAtFixedRate(new TimerTask() {
                   public void run() {
 	                	Calendar runTime = Calendar.getInstance();
-	        			System.out.println("**********************Sledenje sinhronization start at: " + runTime.toString());
-	        			//pridobim vse datume in vozila, ki imajo dobavnice
-	        			List ordersDates = getDateData();
-	        			//za vsa takšna vozila in datume resetiram podatke
-	        			resetSledenjeData(ordersDates, runTime.get(Calendar.YEAR));
-	        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
-	        			List ordersAll = getOrderData();
-	        			//vse pozicije, ki niso 1, jim dam error=8
-	        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
-	        			
 	        		    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
 	        		    SimpleDateFormat dfTime = new SimpleDateFormat("kk:mm:ss");
 	        			SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
-	
-	        			//posljemo na server sledenja
+	        			System.out.println("**********************Sledenje sinhronization start at: " + runTime.toString());
 	        			try
 	        			{
+	        				//pridobim vsa vozila iz sledenja za papir servis
+	        				Map vozila = getSledenjeVozila();
+	    					if ((vozila == null) || (vozila.size() == 0)) {
+	        					System.out.println("Ni vozil. Počakam time out.");	
+	    						return;
+	    					}
+	        				//vsa vozila, ki niso v sledenjeu oznacim z error ERROR_VEHICLE_NOT_IN_SLEDENJE
+	    					String vozilaSledenje = "";
+	    					Iterator it = vozila.keySet().iterator();
+	    					while (it.hasNext()) {
+		    					String vozilo = (String)it.next();
+		    					vozilaSledenje += "'" + vozilo + "%'";
+		    					if (it.hasNext())
+		    						vozilaSledenje += ",";
+		    				}
+	    					if (vozila.size()>0) {
+	    						//setVozilaNiVSledenju(vozilaSledenje, runTime.get(Calendar.YEAR), ERROR_VEHICLE_NOT_IN_SLEDENJE);
+	    					}
+	    					
+		    			    
+		        			//pridobim vse datume in vozila, ki imajo dobavnice
+		        			List ordersDates = getDateData();
+		        			if (ordersDates.size() == 0) return;
+		        			//za vsa takšna vozila in datume resetiram podatke
+		        			resetSledenjeData(ordersDates, runTime.get(Calendar.YEAR));
+		        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
+		        			String kamioniDatumi = "";
+		    				for (int i=0; i<ordersDates.size(); i++) {
+		    					Order ordersDate = (Order) ordersDates.get(i);
+		    					String kamion = ordersDate.getSif_kam();
+		    					String datumDob = ordersDate.getDatum();
+		    					kamioniDatumi += "(" + kamion + ",'" + datumDob + "')";
+		    					if (i<(ordersDates.size()-1))
+		    						kamioniDatumi += ",";
+		    				}
+		        			List ordersAll = getOrderData(kamioniDatumi);
+		        			//vse pozicije, ki niso 1, jim dam error=8
+		        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
+		        			
+	
 	        		    	System.out.println("SIZE="+ordersAll.size()+"-"+ordersDates.size());	           
 		        			if ((ordersAll != null) && (ordersAll.size() > 0))
 		        			{
-		        				//pridobim vsa vozila iz sledenja za papir servis
-		        				Map vozila = getSledenjeVozila();
-	        					if ((vozila == null) || (vozila.size() == 0)) {
-		        					System.out.println("Ni vozil. Počakam time out.");	
-	        						return;
-	        					}
-		        				
 			        			Vector result = null;
 		        				for (int i=0; i<ordersDates.size(); i++) {
 		        					//preverim ali vozilo z dobavnico obstaja v sistemu sledenja
@@ -140,7 +165,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					//če vozila ni v sistemu sledenja mu zapišem ERROR_VEHICLE_NOT_IN_SLEDENJE
 		        					if (ident == null) {
 		        						System.out.println("NI VOZILA V SLEDENJU ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), ERROR_VEHICLE_NOT_IN_SLEDENJE);
+		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), null, ERROR_VEHICLE_NOT_IN_SLEDENJE);
 		        						continue;
 		        					}
 		        					System.out.println("******************START="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
@@ -155,7 +180,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        					//Če ni relacij za vozilo za izbrani dan, grem na drugo vozilo, za to vozilo pa vpišem error ERROR_NO_DATA_IN_SLEDENJE
 		        					if (relations.length == 0) {
 		        						System.out.println("NI RELACIJ ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
+		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
 		        						continue;
 		        					}
 		        					
@@ -216,18 +241,25 @@ public class TimerServlet extends InitServlet implements Servlet {
 		        									//vozilo je se na izhodiscu
 		        									metersLastnePotrebe += meters;
 		        									//zracun razliko casa v sekundah
-		        									if (ii>0)
+		        									if (ii>0) {
 		        										casLastnePotrebe += (time_from.getTime() - time_to.getTime()) / 1000;
+		        										if (casLastnePotrebe < 0) casLastnePotrebe = 0;
+		        									}
 		        								} else {
 		        									//vozilo je prislo nazaj na izhodisce, obdelam krozno voznji
+		        									long cas = (time_from.getTime() - time_to.getTime()) / 1000;
 		        									Map finalOrder = new HashMap();
 		            								finalOrder.put("dob", orders_relations);
 		        									finalOrder.put("km", meters);
 		        									finalOrder.put("km_norm_sum", km_norm_sum);
-		        									finalOrder.put("sec", (time_from.getTime() - time_to.getTime()) / 1000);
+		        									finalOrder.put("sec", cas);
 		        									finalOrder.put("ur_norm_sum", ur_norm_sum);
 		        									finalOrder.put("driver_key", relation.getDriver_key());
-		        									finalOrder.put("tip", 0);
+		        									//ce je cas manjsi od 0, vozilo ni imelo izhodisca na startu
+		        									if (cas >= 0)
+		        										finalOrder.put("tip", 0);
+		        									else 
+		        										finalOrder.put("tip", -1);
 		        									finalOrders.add(finalOrder);
 		        									
 		        									orders_relations = new ArrayList();
@@ -419,7 +451,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		    }
 	}					
 					
-	private List getOrderData() {
+	private List getOrderData(String kamioniDatumi) {
     	ResultSet rs = null;
 	    Statement stmt = null;
 	    List orders = new ArrayList();
@@ -435,12 +467,14 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, " +
 	    					"		kamion.sif_kam sif_kam, kamion.registrska kamion, " +
 	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
-	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
-	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
+	    				   	"from (select datum, st_dob, sif_str, sif_kupca, stev_km_norm, stev_ur_norm, sif_kam,stev_km_sled, stev_ur_sled, pozicija, error, max(zacetek) " +
+	    				   	"		from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
+	    				   	"	 (select st.sif_str, st.naziv, st.x_koord, st.y_koord" +
+	    				   	"		 from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
 	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	enote, " +
 	    					"	kupci, " +
-	    					"	(SELECT kamion.* " +
+	    					"	(SELECT kamion.sif_kam, kamion.registrska " +
 	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"			      kamion.zacetek = zadnji.datum) kamion " +
@@ -452,7 +486,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(dob.sif_kam = kamion.sif_kam) and " +
 							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
-							"		(dob.datum < now()-1)";
+							"		(dob.datum < now()-1) and " +
+							"		(dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
 
 	    	System.out.println(query);	           
 	    	System.out.println("CON="+con);	           
@@ -528,10 +563,12 @@ public class TimerServlet extends InitServlet implements Servlet {
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
 	    	String query = 	"select DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
-	    				   	"from (select *, max(dob.zacetek) from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
-	    				   	"	 (select st.* from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
+	    				   	"from (select datum, st_dob, sif_str, sif_kupca, sif_kam,stev_km_sled, stev_ur_sled, pozicija, error, max(zacetek)" +
+	    				   	"		 from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
+	    				   	"	 (select st.sif_str, st.naziv, st.x_koord, st.y_koord" +
+	    				   	"		 from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
 	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
-	    				   	"	(SELECT kamion.* " +
+	    				   	"	(SELECT kamion.sif_kam, kamion.registrska " +
 	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
 	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"			      kamion.zacetek = zadnji.datum) kamion, " +
@@ -543,7 +580,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"		(dob.sif_kam = kamion.sif_kam) and " +
 							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
-							"		(dob.datum < now()-1)";
+							"		(dob.datum < now()-1) " +
+							"LIMIT " + QUERY_LIMIT;
 
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
@@ -697,7 +735,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "set " +
 						 "	stev_km_sled = " + pot + 
 						 ", stev_ur_sled = " + ur +
-						 ", sofer_sled = " + sofer +
+						 ", sofer_sled = " + (sofer==null || sofer.equals("0") ? null : sofer) +
 						 ", error = " + ERROR_DATA_OK +
 						 " where pozicija = 1 and " +
 						 "		st_dob = " + st_dob;
@@ -717,7 +755,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		return;
 	}
 	
-	private void setDobError(String sif_kam, String datum, int error) {
+	private void setDobError(String sif_kam, String dobLeto, String datum, int error) {
 
     	Statement stmt = null;
 
@@ -725,12 +763,14 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			String sql = "update dob" + datum.substring(0, 4) + " " +
+			String sql = "update dob" + dobLeto + " " +
 						 "set error = " + error +
 						 " where pozicija = 1 and " +
 						 "		sif_kam = " + sif_kam + " and " +
-						 "		datum = '" + datum + "' and " +
 						 "		error = 0";
+			if (datum != null)
+				sql += " and datum = '" + datum + "'";
+			
 			System.out.println("setDobError="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
@@ -747,6 +787,35 @@ public class TimerServlet extends InitServlet implements Servlet {
 		return;
 	}
 
+	private void setVozilaNiVSledenju(String vozila, int dobLeto, int error) {
+
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			String sql = "update dob" + dobLeto + " " +
+						 "set error = " + error +
+						 " where pozicija = 1 and " +
+						 "		sif_kam not in (" + vozila + ") and " +
+						 "		error = 0";
+			
+			System.out.println("setVozilaNiVSledenju="+sql);
+			//stmt.executeUpdate(sql);
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }	
+		
+		return;
+	}
 
 	
 	private void setDobOkError(String st_dob, String datum, int error) {
