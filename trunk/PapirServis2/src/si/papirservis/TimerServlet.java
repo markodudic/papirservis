@@ -52,6 +52,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	private static final int ERROR_NO_FINISH_LOCATION_IN_SLEDENJE = 3;
 	private static final int ERROR_VEHICLE_NOT_IN_SLEDENJE = 4;
 	private static final int ERROR_OTHER_POSITION = 5;
+	private static final int ERROR_HISTORY_POSITION = 6;
 	private static final int ERROR_DATA_LASTNE_POTREBE = 8;
 	private static final int ERROR_DATA_OK = 9;
 	private static final String PREVOZ_ZA_LASTNE_POTREBE = "PREVOZ ZA LASTNE POTREBE";
@@ -108,6 +109,7 @@ public class TimerServlet extends InitServlet implements Servlet {
           timer.scheduleAtFixedRate(new TimerTask() {
                   public void run() {
 	                	Calendar runTime = Calendar.getInstance();
+
 	        		    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
 	        		    SimpleDateFormat dfTime = new SimpleDateFormat("kk:mm:ss");
 	        			SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
@@ -134,6 +136,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					}
 	    					
 		    			    
+		        			//vse pozicije, ki niso 1, jim dam error=8
+		        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
 		        			//pridobim vse datume in vozila, ki imajo dobavnice
 		        			List ordersDates = getDateData();
 		        			if (ordersDates.size() == 0) return;
@@ -150,8 +154,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 		    						kamioniDatumi += ",";
 		    				}
 		        			List ordersAll = getOrderData(kamioniDatumi);
-		        			//vse pozicije, ki niso 1, jim dam error=8
-		        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
 		        			
 	
 	        		    	System.out.println("SIZE="+ordersAll.size()+"-"+ordersDates.size());	           
@@ -420,7 +422,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 	 }
 	
 	private void resetSledenjeData(List ordersDates, int datum) {
+	    	ResultSet rs = null;
 	    	Statement stmt = null;
+	    	Statement stmt1 = null;
 
 		    try {
 		    	connectionMake();
@@ -431,20 +435,39 @@ public class TimerServlet extends InitServlet implements Servlet {
 					String kamion = ordersDate.getSif_kam();
 					String datumDob = ordersDate.getDatum();
 
-					String sql = "update dob" + datum + " " +
+					String sql = "select max(zacetek) zacetek, st_dob, pozicija " +
+							"from dob" + datum + " " +
+							"where pozicija = 1 and " +
+							"		sif_kam = " + kamion + " and " +
+							"		datum = '" + datumDob + "' " +
+							"group by st_dob, pozicija";
+			
+			    	rs = stmt.executeQuery(sql);
+			
+			    	stmt1 = con.createStatement();   	
+			    	while (rs.next()) {
+			    			sql = "update dob" + datum + " " +
 								"set stev_km_sled=null, stev_ur_sled=null, error = 0 " +
-								" where sif_kam = '" + kamion + "'" +
-								"		and datum = '" + datumDob + "'";
+								" where st_dob = " + rs.getString("st_dob") + " and " +
+								"		pozicija = 1 and " +
+								"		zacetek = '" + rs.getString("zacetek") + "'";
 				
-					System.out.println("resetData="+sql);
-					stmt.executeUpdate(sql);
+			    			System.out.println("resetData="+sql);
+			    			stmt1.executeUpdate(sql);
+			    	}
 				}
 		    } catch (Exception theException) {
 		    	theException.printStackTrace();
 		    } finally {
 		    	try {
+		    		if (rs != null) {
+		    			rs.close();
+		    		}
 		    		if (stmt != null) {
 		    			stmt.close();
+		    		}
+		    		if (stmt1 != null) {
+		    			stmt1.close();
 		    		}
 				} catch (Exception e) {
 				}
@@ -461,24 +484,34 @@ public class TimerServlet extends InitServlet implements Servlet {
 
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
-	    	String query = 	"select distinct dob.st_dob st_dob, dob.datum datum, dob.stev_km_norm stev_km_norm, dob.stev_ur_norm stev_ur_norm, " +
+	    	String query = 	"SELECT distinct dob.st_dob st_dob, dob.datum datum, dob.stev_km_norm stev_km_norm, dob.stev_ur_norm stev_ur_norm, " +
 	    					"		stranke.sif_str stranke_sif_str, stranke.naziv stranke_naziv, " +
 	    					" 		stranke.x_koord stranke_x_koord, stranke.y_koord stranke_y_koord, " +
 	    					"		enote.x_koord enote_x_koord, enote.y_koord enote_y_koord, " +
 	    					"		kamion.sif_kam sif_kam, kamion.registrska kamion, " +
 	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
-	    				   	"from (select datum, st_dob, sif_str, sif_kupca, stev_km_norm, stev_ur_norm, sif_kam,stev_km_sled, stev_ur_sled, pozicija, error, max(zacetek) " +
-	    				   	"		from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
-	    				   	"	 (select st.sif_str, st.naziv, st.x_koord, st.y_koord" +
-	    				   	"		 from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
-	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
-	    				   	"	enote, " +
-	    					"	kupci, " +
-	    					"	(SELECT kamion.sif_kam, kamion.registrska " +
-	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
-	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
-	    					"			      kamion.zacetek = zadnji.datum) kamion " +
-	    					"where  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
+	    					"FROM " +
+	    				   	"	(SELECT db.* " +
+	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
+	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
+	    				   	"	 				   				  WHERE DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') " +
+	    				   	"											AND pozicija = 1" +
+	    				   	"									  GROUP BY st_dob) d " + 
+	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
+	    				   	"	(SELECT st.* " +
+	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
+	    				   	"					   FROM stranke " +
+	    				   	"					   GROUP BY sif_str) s " +
+	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
+	    				   	"	(SELECT kamion.* " +
+	    					"	 FROM kamion, (SELECT sif_kam, max(zacetek) z " +
+	    					"				   FROM kamion " +
+	    					"				   GROUP BY sif_kam) zadnji " +
+	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
+	    					"	       kamion.zacetek = zadnji.z) kamion, " +
+	    					"	 enote," +
+	    					"	 kupci " +
+	    					"WHERE  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
 	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
 	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
@@ -490,13 +523,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 							"		(dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
 
 	    	System.out.println(query);	           
-	    	System.out.println("CON="+con);	           
 	    	stmt = con.createStatement();   	
-	    	System.out.println("STMT="+stmt);	           
 	    	rs = stmt.executeQuery(query);
-	    	System.out.println("RS="+rs);	           
-
-	    	System.out.println("WHILE");	           
+	    	
 	    	while (rs.next()) {
 	    		String st_dob = rs.getString("st_dob");
 	    		String stranke_sif_str = rs.getString("stranke_sif_str");
@@ -528,7 +557,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 		    	
 		    	orders.add(order);
 	    	}
-	    	System.out.println("SIZE2="+orders.size());	           
 	    	
 	    	
 	    } catch (Exception theException) {
@@ -562,21 +590,29 @@ public class TimerServlet extends InitServlet implements Servlet {
 
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
-	    	String query = 	"select DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
-	    				   	"from (select datum, st_dob, sif_str, sif_kupca, sif_kam,stev_km_sled, stev_ur_sled, pozicija, error, max(zacetek)" +
-	    				   	"		 from dob" + dobLeto + " as dob where DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by st_dob) dob, " + 
-	    				   	"	 (select st.sif_str, st.naziv, st.x_koord, st.y_koord" +
-	    				   	"		 from stranke st, (SELECT sif_str, max(zacetek) z  from stranke group by sif_str) s " +
-	    				   	"	   where st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
+	    	String query = 	"SELECT DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
+	    				   	"FROM " +
+	    				   	"	(SELECT db.* " +
+	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
+	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
+	    				   	"	 				   				  WHERE DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') " +
+	    				   	"											AND pozicija = 1" +
+	    				   	"									  GROUP BY st_dob) d " + 
+	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
+	    				   	"	(SELECT st.* " +
+	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
+	    				   	"					   FROM stranke " +
+	    				   	"					   GROUP BY sif_str) s " +
+	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	(SELECT kamion.sif_kam, kamion.registrska " +
-	    					"			FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion WHERE DATE_FORMAT(zacetek, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') group by sif_kam) zadnji " +
-	    					"			WHERE kamion.sif_kam = zadnji.sif_kam and " +
-	    					"			      kamion.zacetek = zadnji.datum) kamion, " +
-	    					"	kupci " +
-	    					"where  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
+	    					"	 FROM kamion, (SELECT sif_kam, max(zacetek) z " +
+	    					"				   FROM kamion " +
+	    					"				   GROUP BY sif_kam) zadnji " +
+	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
+	    					"	       kamion.zacetek = zadnji.z) kamion " +
+	    					"WHERE  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
 	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
-	    					"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
-							"		(dob.`sif_str` = stranke.`sif_str`) AND " +
+	    					"		(dob.`sif_str` = stranke.`sif_str`) AND " +
 	    					"		(dob.sif_kam = kamion.sif_kam) and " +
 							"		(dob.pozicija = 1) and " +
 							"		(dob.error = 0) and " +
@@ -685,24 +721,45 @@ public class TimerServlet extends InitServlet implements Servlet {
 	
 	private void setOrdersOtherPositions(int datum, int error) {
 
+    	ResultSet rs = null;
     	Statement stmt = null;
+    	Statement stmt1 = null;
 
 	    try {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			String sql = "update dob" + datum + " " +
-						 "set error = " + error +
-						 " where pozicija > 1 and error = 0";
+			String sql = "select max(zacetek) zacetek, st_dob, pozicija " +
+						"from dob" + datum + ", (select st_dob st from dob" + datum + " where pozicija > 1 and error = 0) as d " + 
+						"where pozicija > 1 and " +
+						"		st_dob in (d.st) " +
+						"group by st_dob, pozicija ";
 			
-			System.out.println("setOrdersOtherPositions="+sql);
-			stmt.executeUpdate(sql);
+	    	rs = stmt.executeQuery(sql);
+
+	    	stmt1 = con.createStatement();   	
+	    	while (rs.next()) {
+	    		sql = "update dob" + datum + " " +
+	    				"set error = " + error +
+	    				" where st_dob = " + rs.getString("st_dob") +
+	    				"	and pozicija = " + rs.getString("pozicija") +
+	    				"	and zacetek = '" + rs.getString("zacetek") + "'";
+			
+	    		System.out.println("setOrdersOtherPositions="+sql);
+	    		stmt1.executeUpdate(sql);
+	    	}
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
 	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
 	    		if (stmt != null) {
 	    			stmt.close();
+	    		}
+	    		if (stmt1 != null) {
+	    			stmt1.close();
 	    		}
 			} catch (Exception e) {
 			}
@@ -731,18 +788,21 @@ public class TimerServlet extends InitServlet implements Servlet {
 			else if (min <= 45) ur = ura + ".5";
 			else ur = (ura + 1) + "";
 
-			String sql = "update dob" + year + " " +
+	    	String	sql = "update dob" + year + " " +
 						 "set " +
 						 "	stev_km_sled = " + pot + 
 						 ", stev_ur_sled = " + ur +
 						 ", sofer_sled = " + (sofer==null || sofer.equals("0") ? null : sofer) +
 						 ", error = " + ERROR_DATA_OK +
 						 " where pozicija = 1 and " +
-						 "		st_dob = " + st_dob;
+						 "		st_dob = " + st_dob + " and " +
+						 "		zacetek = '" + getZadnjaDobavnica(st_dob, year) + "'";
+	    		
 			System.out.println("UPDATE SLEDENJE="+sql);
 			stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
-	    	theException.printStackTrace();
+	    	System.out.println("NAPAKA UPDATE SLEDENJE="+theException.getMessage());
+			theException.printStackTrace();
 	    } finally {
 	    	try {
 	    		if (stmt != null) {
@@ -757,28 +817,50 @@ public class TimerServlet extends InitServlet implements Servlet {
 	
 	private void setDobError(String sif_kam, String dobLeto, String datum, int error) {
 
+    	ResultSet rs = null;
     	Statement stmt = null;
+    	Statement stmt1 = null;
 
 	    try {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			String sql = "update dob" + dobLeto + " " +
+			String sql = "select max(zacetek) zacetek, st_dob, pozicija " +
+						"from dob" + dobLeto + " " +
+						"where pozicija = 1 and " +
+						"		error = 0 and " +
+						"		sif_kam = " + sif_kam + " and " +
+						"		datum = '" + datum + "' " +
+						"group by st_dob, pozicija";
+		
+	    	rs = stmt.executeQuery(sql);
+	
+	    	stmt1 = con.createStatement();   	
+	    	while (rs.next()) {
+				sql = "update dob" + dobLeto + " " +
 						 "set error = " + error +
-						 " where pozicija = 1 and " +
-						 "		sif_kam = " + sif_kam + " and " +
+						 " where st_dob = " + rs.getString("st_dob") + " and " +
+						 "		pozicija = 1 and " +
+						 "		zacetek = '" + rs.getString("zacetek") + "' and " +
 						 "		error = 0";
-			if (datum != null)
-				sql += " and datum = '" + datum + "'";
-			
-			System.out.println("setDobError="+sql);
-			stmt.executeUpdate(sql);
+				if (datum != null)
+					sql += " and datum = '" + datum + "'";
+				
+				System.out.println("setDobError="+sql);
+				stmt1.executeUpdate(sql);
+	    	}
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
 	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
 	    		if (stmt != null) {
 	    			stmt.close();
+	    		}
+	    		if (stmt1 != null) {
+	    			stmt1.close();
 	    		}
 			} catch (Exception e) {
 			}
@@ -826,13 +908,15 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 			stmt = con.createStatement();   	
 
-			String sql = "update dob" + datum.substring(0, 4) + " " +
+	    	String	sql = "update dob" + datum.substring(0, 4) + " " +
 						 "set error = " + error +
 						 " where pozicija = 1 and " +
 						 "		st_dob = " + st_dob + " and " +
-			 			 "		error = 0";
-			System.out.println("setDobError="+sql);
-			stmt.executeUpdate(sql);
+			 			 "		error = 0 and " +
+						 "		zacetek = '" + getZadnjaDobavnica(st_dob, datum.substring(0, 4)) + "'";
+	    		
+    		System.out.println("setDobOkError="+sql);
+    		stmt.executeUpdate(sql);
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
@@ -847,6 +931,41 @@ public class TimerServlet extends InitServlet implements Servlet {
 		return;
 	}
 	
+	private String getZadnjaDobavnica(String st_dob, String datum) {
+
+    	ResultSet rs = null;
+    	Statement stmt = null;
+    	
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			String sql = "select max(zacetek) zacetek " +
+					"from dob" + datum.substring(0, 4) + " " + 
+					"where st_dob = " + st_dob + 
+					" and pozicija = 1";
+
+	    	rs = stmt.executeQuery(sql);
+
+	    	if (rs.next()) {
+	    		return rs.getString("zacetek");
+	    	}
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }	
+		
+		return null;
+	}
 	
 	//nastavim podatke za PREVOZ ZA LASTNE POTREBE
 	// za tiste lastne potrebe, ki nimajo podatka ze dolocenega error!=9

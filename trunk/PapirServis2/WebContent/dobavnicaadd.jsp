@@ -119,7 +119,7 @@ try{
 		
 		
 		} catch(Exception e){
-			System.out.println(e.toString());
+			//System.out.println(e.toString());
 		}
 
 	}
@@ -162,7 +162,7 @@ try{
 		
 		
 		} catch(Exception e){
-			System.out.println(e.toString());
+			//System.out.println(e.toString());
 		}
 		
 	}
