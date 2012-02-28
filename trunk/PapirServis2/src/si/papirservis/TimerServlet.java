@@ -1,5 +1,7 @@
 package si.papirservis;
 
+import it.sauronsoftware.cron4j.Scheduler;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -14,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.servlet.Servlet;
@@ -46,6 +46,8 @@ public class TimerServlet extends InitServlet implements Servlet {
     private String sledenje_password;
     private double distanceLocation;
     private double distanceCustomer;
+    private String query_limit;
+    private String scheduler_pattern;
 	
 	private static final int ERROR_NO_STOPS_IN_SLEDENJE = 1;
 	private static final int ERROR_NO_DATA_IN_SLEDENJE = 2;
@@ -56,8 +58,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 	private static final int ERROR_DATA_LASTNE_POTREBE = 8;
 	private static final int ERROR_DATA_OK = 9;
 	private static final String PREVOZ_ZA_LASTNE_POTREBE = "PREVOZ ZA LASTNE POTREBE";
-
-	private static final int QUERY_LIMIT = 30;
 
 	private static final long serialVersionUID = 1L;
        
@@ -75,6 +75,9 @@ public class TimerServlet extends InitServlet implements Servlet {
           System.out.println("************");
           System.out.println("*** Timer Initialized successfully ***..");
           System.out.println("***********");
+          
+          query_limit = (String) getServletConfig().getInitParameter("query_limit");
+          scheduler_pattern = (String) getServletConfig().getInitParameter("scheduler_pattern");
           
           String http_username = (String) getServletContext().getInitParameter("http_username");
           String http_password = (String) getServletContext().getInitParameter("http_password");
@@ -99,297 +102,307 @@ public class TimerServlet extends InitServlet implements Servlet {
           } catch (Exception e) {
         	  e.printStackTrace();
           }
-                    
-          // repeat every sec. 
-          int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
-          //int period = 60000;
+          
+          Scheduler s = new Scheduler();
+	  	  // Schedule a once-a-minute task.
+	  	  s.schedule(scheduler_pattern, new Runnable() {
+	  		  public void run() {
+	  			scheduleRun();
+	  	  	}
+	  	  });
+	  	  // Starts the scheduler.
+	  	  s.start();
+  		
+          // timer 
+          /*int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
           int delay = 10000;   // delay for 30 sec.
           Timer timer = new Timer();
-
           timer.scheduleAtFixedRate(new TimerTask() {
                   public void run() {
-	                	Calendar runTime = Calendar.getInstance();
+                	  scheduleRun();
+                  }}, delay, period);    
+                  */      
+    }
+    
+    
+    public void scheduleRun() {
+    	Calendar runTime = Calendar.getInstance();
+	    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+	    SimpleDateFormat dfTime = new SimpleDateFormat("kk:mm:ss");
+		SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
+		System.out.println("**********************Sledenje sinhronization start at: " + df.format(runTime.getTime()));
+		try
+		{
+			//pridobim vsa vozila iz sledenja za papir servis
+			Map vozila = getSledenjeVozila();
+			if ((vozila == null) || (vozila.size() == 0)) {
+				System.out.println("Ni vozil. Počakam time out.");	
+				return;
+			}
+			//vsa vozila, ki niso v sledenjeu oznacim z error ERROR_VEHICLE_NOT_IN_SLEDENJE
+			String vozilaSledenje = "";
+			Iterator it = vozila.keySet().iterator();
+			while (it.hasNext()) {
+				String vozilo = (String)it.next();
+				vozilaSledenje += "'" + vozilo + "%'";
+				if (it.hasNext())
+					vozilaSledenje += ",";
+			}
+			if (vozila.size()>0) {
+				//setVozilaNiVSledenju(vozilaSledenje, runTime.get(Calendar.YEAR), ERROR_VEHICLE_NOT_IN_SLEDENJE);
+			}
+			
+		    
+			//pridobim vse datume in vozila, ki imajo dobavnice
+			List ordersDates = getDateData();
+			if (ordersDates.size() == 0) return;
+			//za vsa takšna vozila in datume resetiram podatke
+			resetSledenjeData(ordersDates, runTime.get(Calendar.YEAR));
+			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
+			String kamioniDatumi = "";
+			for (int i=0; i<ordersDates.size(); i++) {
+				Order ordersDate = (Order) ordersDates.get(i);
+				String kamion = ordersDate.getSif_kam();
+				String datumDob = ordersDate.getDatum();
+				kamioniDatumi += "(" + kamion + ",'" + datumDob + "')";
+				if (i<(ordersDates.size()-1))
+					kamioniDatumi += ",";
+			}
+			List ordersAll = getOrderData(kamioniDatumi);
+			//vse pozicije, ki niso 1, jim dam error=8
+			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
 
-	        		    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
-	        		    SimpleDateFormat dfTime = new SimpleDateFormat("kk:mm:ss");
-	        			SimpleDateFormat dfYear=new SimpleDateFormat("yyyy");
-	        			System.out.println("**********************Sledenje sinhronization start at: " + runTime.toString());
-	        			try
-	        			{
-	        				//pridobim vsa vozila iz sledenja za papir servis
-	        				Map vozila = getSledenjeVozila();
-	    					if ((vozila == null) || (vozila.size() == 0)) {
-	        					System.out.println("Ni vozil. Počakam time out.");	
-	    						return;
-	    					}
-	        				//vsa vozila, ki niso v sledenjeu oznacim z error ERROR_VEHICLE_NOT_IN_SLEDENJE
-	    					String vozilaSledenje = "";
-	    					Iterator it = vozila.keySet().iterator();
-	    					while (it.hasNext()) {
-		    					String vozilo = (String)it.next();
-		    					vozilaSledenje += "'" + vozilo + "%'";
-		    					if (it.hasNext())
-		    						vozilaSledenje += ",";
-		    				}
-	    					if (vozila.size()>0) {
-	    						//setVozilaNiVSledenju(vozilaSledenje, runTime.get(Calendar.YEAR), ERROR_VEHICLE_NOT_IN_SLEDENJE);
-	    					}
-	    					
-		    			    
-		        			//vse pozicije, ki niso 1, jim dam error=8
-		        			setOrdersOtherPositions(runTime.get(Calendar.YEAR), ERROR_OTHER_POSITION);
-		        			//pridobim vse datume in vozila, ki imajo dobavnice
-		        			List ordersDates = getDateData();
-		        			if (ordersDates.size() == 0) return;
-		        			//za vsa takšna vozila in datume resetiram podatke
-		        			resetSledenjeData(ordersDates, runTime.get(Calendar.YEAR));
-		        			//pridobim vse dobavnice, ki so še brez podatkov o sledenju
-		        			String kamioniDatumi = "";
-		    				for (int i=0; i<ordersDates.size(); i++) {
-		    					Order ordersDate = (Order) ordersDates.get(i);
-		    					String kamion = ordersDate.getSif_kam();
-		    					String datumDob = ordersDate.getDatum();
-		    					kamioniDatumi += "(" + kamion + ",'" + datumDob + "')";
-		    					if (i<(ordersDates.size()-1))
-		    						kamioniDatumi += ",";
-		    				}
-		        			List ordersAll = getOrderData(kamioniDatumi);
-		        			
-	
-	        		    	System.out.println("SIZE="+ordersAll.size()+"-"+ordersDates.size());	           
-		        			if ((ordersAll != null) && (ordersAll.size() > 0))
-		        			{
-			        			Vector result = null;
-		        				for (int i=0; i<ordersDates.size(); i++) {
-		        					//preverim ali vozilo z dobavnico obstaja v sistemu sledenja
-		        					Order ordersDate = (Order) ordersDates.get(i);
-		        					String ident = (String) vozila.get(ordersDate.getKamion());
-		        					//če vozila ni v sistemu sledenja mu zapišem ERROR_VEHICLE_NOT_IN_SLEDENJE
-		        					if (ident == null) {
-		        						System.out.println("NI VOZILA V SLEDENJU ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), null, ERROR_VEHICLE_NOT_IN_SLEDENJE);
-		        						continue;
-		        					}
-		        					System.out.println("******************START="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
-		        					
-		        					//za vozilo in datum poiščem njegove postanke
-		        					TravelOrderRelation[] relations = getSledenje(ordersDate.getZacetek(), ordersDate.getKonec(), ident);
-		        					if (relations == null) {
-			        					System.out.println("Napaka pri povezavi na seldenje. Počakam time out.");	
-		        						break;
-		        					}
-		        					
-		        					//Če ni relacij za vozilo za izbrani dan, grem na drugo vozilo, za to vozilo pa vpišem error ERROR_NO_DATA_IN_SLEDENJE
-		        					if (relations.length == 0) {
-		        						System.out.println("NI RELACIJ ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
-		        						continue;
-		        					}
-		        					
-		        					//poiščem vse dobavnice in podatke, ki so bile izvedene za ta kamion na ta dan
-		        					List ordersForDateVehicle = new ArrayList();
-		        					for (int j=0; j<ordersAll.size(); j++) {
-			        					Order order = (Order) ordersAll.get(j);
-			        					if ((order.getZacetek().equals(ordersDate.getZacetek())) && (order.getSif_kam().equals(ordersDate.getSif_kam()))) {
-			        						System.out.println("ORDER="+order.getStDob());
-			        						ordersForDateVehicle.add(order);
-          								}	        					
-		        					}
-		        					
-		        					//Če ni orderjev za kamion v določenem dnevu, grem na drugo vozilo, vse take dobavnice označim z error = 3
-		        					if (ordersForDateVehicle.size() == 0) {
-		        						System.out.println("NI ORDERJEV ZA="+ordersDate.getSif_kam()+ordersDate.getKamion()+" "+ordersDate.getDatum());
-		        						//setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), "3");
-		        						continue;
-		        					}
-		        					
-		        					
-		        					boolean start_find = true;
-		        					int meters = 0;
-		        					//long time = 0;
-		        					int km_norm_sum = 0;
-		        					double ur_norm_sum = 0d;
-		        					boolean useNormValues = true;
-		        					int metersLastnePotrebe = 0;
-		        					long casLastnePotrebe = 0L;
-		        					Date time_from = new Date();
-		        					Date time_to = new Date();
-		        					List orders_with_data = new ArrayList(); 
-		        					List finalOrders = new ArrayList();
-		        					List orders_relations = new ArrayList();
-		        					
-		        					//primerjam podatke o lokacijah iz dobavnice in izhodišča s podatki iz sledenja
-		        					for (int ii=0; ii<relations.length; ii++) {
-		        						TravelOrderRelation relation = relations[ii];
-		        						System.out.println("relation="+relation.getAvg_sdo_x() + " " + relation.getAvg_sdo_y() + " " + relation.getTime_from() + " " + relation.getTime_to() + " " + relation.getDist_km() + " " + relation.getTime_diff());
-	        							meters += relation.getDist_km();
-	        							
-		        						//poiscem ujemanje tock
-		        						for (int j=0; j<ordersForDateVehicle.size(); j++) {
-		        							Order order = (Order) ordersForDateVehicle.get(j);
-		        							
-		        							//razdalja do enote izhodisca
-				        					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
-				        					Double dist_y_enota = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getEnote_y_koord()));
-				        					
-				        					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
-		        								//kamion je na izhodiscu
-					        					System.out.println("IZHODISCE="+"-"+meters);
-					        					
-			        							time_from = df.parse(relation.getTime_from().trim());
-			        							
-			        							//ce je naslednji postanek tudi na izhodiscu vzamem tega, metre in cas pa prisetjem v PREVOZ ZA LASTNE POTREBE
-		        								if (start_find) {
-		        									//vozilo je se na izhodiscu
-		        									metersLastnePotrebe += meters;
-		        									//zracun razliko casa v sekundah
-		        									if (ii>0) {
-		        										casLastnePotrebe += (time_from.getTime() - time_to.getTime()) / 1000;
-		        										if (casLastnePotrebe < 0) casLastnePotrebe = 0;
-		        									}
-		        								} else {
-		        									//vozilo je prislo nazaj na izhodisce, obdelam krozno voznji
-		        									long cas = (time_from.getTime() - time_to.getTime()) / 1000;
-		        									Map finalOrder = new HashMap();
-		            								finalOrder.put("dob", orders_relations);
-		        									finalOrder.put("km", meters);
-		        									finalOrder.put("km_norm_sum", km_norm_sum);
-		        									finalOrder.put("sec", cas);
-		        									finalOrder.put("ur_norm_sum", ur_norm_sum);
-		        									finalOrder.put("driver_key", relation.getDriver_key());
-		        									//ce je cas manjsi od 0, vozilo ni imelo izhodisca na startu
-		        									if (cas >= 0)
-		        										finalOrder.put("tip", 0);
-		        									else 
-		        										finalOrder.put("tip", -1);
-		        									finalOrders.add(finalOrder);
-		        									
-		        									orders_relations = new ArrayList();
-		        								}
-		        								
-			        							time_to = df.parse(relation.getTime_to().trim());
-		        								start_find = true;
-		        								meters=0;
-		        								//time = 0L;
-		        								km_norm_sum = 0;
-		        								ur_norm_sum = 0D;
-		        								useNormValues = true;
-		        								break;
-		        							}		        							
-		        							
-		        							
-		        							//ce je order ze najden in ce se ne isce izhodisce preskocim
-		        							if (order.isChecked()) continue;
-		        							
-		        							//razdalja do tocke
-				        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
-				        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
-				        							
-		        							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
-							        			//kamion je pri stranki
-		        								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+relation.getDriver_key());
-		        								start_find = false;
-		        								order.setChecked(true);
-		        								ordersForDateVehicle.set(j, order);
-		        								orders_with_data.add(order.getStDob());
-		        								
-		        								
-		        								//dodam dobavnico
-		        								orders_relations.add(order);
-		        								//dolocim skupne normativne vrednosti. ce ena od vrednosti manjka ne uporabljam normativne vrednosti
-		        								if (useNormValues) {
-			        								if (order.getStev_km_norm() != 0 && order.getStev_ur_norm() != 0) {
-			        									km_norm_sum += order.getStev_km_norm();
-			        									ur_norm_sum += order.getStev_ur_norm();
-			        								} else {
-			        									km_norm_sum = 0;
-			        									ur_norm_sum = 0;
-			        									useNormValues = false;
-			        								}
-		        								}
-		        							}
-		        							
-		        						}
-		        					}
-		        					
-		        					
-		        					//če zadnja relacija ni bila izhodiše ima pa orderje, jih označim kot tiste ki se niso vrnili na izhodišče
-		        					if ((orders_relations.size()>0) && (!start_find)) {
-		        						Map finalOrder = new HashMap();
-        								finalOrder.put("dob", orders_relations);
-    									finalOrder.put("km", 0);
-    									finalOrder.put("km_norm_sum", 0);
-    									finalOrder.put("sec", 0L);
-    									finalOrder.put("ur_norm_sum", 0D);
-    									finalOrder.put("driver_key", "0");
-    									finalOrder.put("tip", -1);
-    									finalOrders.add(finalOrder);
-          							}
-		        					
-		        					for (int l=0; l<finalOrders.size(); l++) {
-		        						Map finalOrder = (Map) finalOrders.get(l);
-        								System.out.println("ORDER="+((List)finalOrder.get("dob")).size()+"-"+finalOrder.get("km")+"-"+finalOrder.get("km_norm_sum")+"-"+finalOrder.get("sec")+"-"+finalOrder.get("ur_norm_sum")+"-"+finalOrder.get("tip")+"-"+finalOrder.get("driver_key"));
-        								
-        								if ((Integer)finalOrder.get("tip") == -1) {
-        									//tisti ki nimajo izhodisca na koncu, nastavim error
-        									List orders = (List)finalOrder.get("dob");
-        									for (int f=0; f<orders.size(); f++) {
-        										Order order = (Order)orders.get(f);
-            									setDobOkError(order.getStDob(), dfYear.format(df.parse(order.getZacetek())), ERROR_NO_FINISH_LOCATION_IN_SLEDENJE);
-        									}
-        								} else {
-        									List orders = (List)finalOrder.get("dob");
-        									String sofer = (String)finalOrder.get("driver_key");
-        									int km = (Integer)finalOrder.get("km");
-        									int sum_km_norm = (Integer)finalOrder.get("km_norm_sum");
-        									long sec = (Long)finalOrder.get("sec");
-        									double sum_ur_norm = (Double)finalOrder.get("ur_norm_sum");
-        									
-        									for (int f=0; f<orders.size(); f++) {
-        										Order order = (Order)orders.get(f);
-        										int km_norm = km / orders.size();
-        										if (sum_km_norm > 0)
-        											km_norm = km * order.getStev_km_norm() / sum_km_norm;
-        											
-        										long sec_norm = Math.round(sec / orders.size());
-        										if (sum_ur_norm > 0)
-        											sec_norm = Math.round(sec * order.getStev_ur_norm() / sum_ur_norm);
-        										
-        										System.out.println("final="+order.getStDob() + " " + km + " " + km_norm + " " + sec + " " + sec_norm);
-                								setSledenjeData(order.getStDob(), km_norm, sec_norm, sofer, dfYear.format(df.parse(order.getZacetek())));
-        									
-        									}
-        									
-        								}
-        							}
-		        					
-		        					//za dobavnice, ki nimajo podatkov (niso v orders_relations) dam error ERROR_NO_STOPS_IN_SLEDENJE
-			        				for (int m=0; m<ordersForDateVehicle.size(); m++) {
-			        					Order order = (Order) ordersForDateVehicle.get(m);
-			        					if (!orders_with_data.contains(order.getStDob())) {
-			        						setDobOkError(order.getStDob(), order.getDatum(), ERROR_NO_STOPS_IN_SLEDENJE);
-			        					}
-			        				}
+			System.out.println("SIZE="+ordersAll.size()+"-"+ordersDates.size());	           
+			if ((ordersAll != null) && (ordersAll.size() > 0))
+			{
+    			Vector result = null;
+				for (int i=0; i<ordersDates.size(); i++) {
+					//preverim ali vozilo z dobavnico obstaja v sistemu sledenja
+					Order ordersDate = (Order) ordersDates.get(i);
+					String ident = (String) vozila.get(ordersDate.getKamion());
+					//če vozila ni v sistemu sledenja mu zapišem ERROR_VEHICLE_NOT_IN_SLEDENJE
+					if (ident == null) {
+						System.out.println("NI VOZILA V SLEDENJU ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
+						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), null, ERROR_VEHICLE_NOT_IN_SLEDENJE);
+						continue;
+					}
+					System.out.println("******************START="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
+					
+					//za vozilo in datum poiščem njegove postanke
+					TravelOrderRelation[] relations = getSledenje(ordersDate.getZacetek(), ordersDate.getKonec(), ident);
+					if (relations == null) {
+    					System.out.println("Napaka pri povezavi na seldenje. Počakam time out.");	
+						break;
+					}
+					
+					//Če ni relacij za vozilo za izbrani dan, grem na drugo vozilo, za to vozilo pa vpišem error ERROR_NO_DATA_IN_SLEDENJE
+					if (relations.length == 0) {
+						System.out.println("NI RELACIJ ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
+						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
+						continue;
+					}
+					
+					//poiščem vse dobavnice in podatke, ki so bile izvedene za ta kamion na ta dan
+					List ordersForDateVehicle = new ArrayList();
+					for (int j=0; j<ordersAll.size(); j++) {
+    					Order order = (Order) ordersAll.get(j);
+    					if ((order.getZacetek().equals(ordersDate.getZacetek())) && (order.getSif_kam().equals(ordersDate.getSif_kam()))) {
+    						System.out.println("ORDER="+order.getStDob());
+    						ordersForDateVehicle.add(order);
+						}	        					
+					}
+					
+					//Če ni orderjev za kamion v določenem dnevu, grem na drugo vozilo, vse take dobavnice označim z error = 3
+					if (ordersForDateVehicle.size() == 0) {
+						System.out.println("NI ORDERJEV ZA="+ordersDate.getSif_kam()+ordersDate.getKamion()+" "+ordersDate.getDatum());
+						//setDobError(ordersDate.getSif_kam(), ordersDate.getDatum(), "3");
+						continue;
+					}
+					
+					
+					boolean start_find = true;
+					int meters = 0;
+					//long time = 0;
+					int km_norm_sum = 0;
+					double ur_norm_sum = 0d;
+					boolean useNormValues = true;
+					int metersLastnePotrebe = 0;
+					long casLastnePotrebe = 0L;
+					Date time_from = new Date();
+					Date time_to = new Date();
+					List orders_with_data = new ArrayList(); 
+					List finalOrders = new ArrayList();
+					List orders_relations = new ArrayList();
+					
+					//primerjam podatke o lokacijah iz dobavnice in izhodišča s podatki iz sledenja
+					for (int ii=0; ii<relations.length; ii++) {
+						TravelOrderRelation relation = relations[ii];
+						System.out.println("relation="+relation.getAvg_sdo_x() + " " + relation.getAvg_sdo_y() + " " + relation.getTime_from() + " " + relation.getTime_to() + " " + relation.getDist_km() + " " + relation.getTime_diff());
+						meters += relation.getDist_km();
+						
+						//poiscem ujemanje tock
+						for (int j=0; j<ordersForDateVehicle.size(); j++) {
+							Order order = (Order) ordersForDateVehicle.get(j);
+							
+							//razdalja do enote izhodisca
+        					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
+        					Double dist_y_enota = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getEnote_y_koord()));
+        					
+        					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
+								//kamion je na izhodiscu
+	        					System.out.println("IZHODISCE="+"-"+meters);
+	        					
+    							time_from = df.parse(relation.getTime_from().trim());
+    							
+    							//ce je naslednji postanek tudi na izhodiscu vzamem tega, metre in cas pa prisetjem v PREVOZ ZA LASTNE POTREBE
+								if (start_find) {
+									//vozilo je se na izhodiscu
+									metersLastnePotrebe += meters;
+									//zracun razliko casa v sekundah
+									if (ii>0) {
+										casLastnePotrebe += (time_from.getTime() - time_to.getTime()) / 1000;
+										if (casLastnePotrebe < 0) casLastnePotrebe = 0;
+									}
+								} else {
+									//vozilo je prislo nazaj na izhodisce, obdelam krozno voznji
+									long cas = (time_from.getTime() - time_to.getTime()) / 1000;
+									Map finalOrder = new HashMap();
+    								finalOrder.put("dob", orders_relations);
+									finalOrder.put("km", meters);
+									finalOrder.put("km_norm_sum", km_norm_sum);
+									finalOrder.put("sec", cas);
+									finalOrder.put("ur_norm_sum", ur_norm_sum);
+									finalOrder.put("driver_key", relation.getDriver_key());
+									//ce je cas manjsi od 0, vozilo ni imelo izhodisca na startu
+									if (cas >= 0)
+										finalOrder.put("tip", 0);
+									else 
+										finalOrder.put("tip", -1);
+									finalOrders.add(finalOrder);
+									
+									orders_relations = new ArrayList();
+								}
+								
+    							time_to = df.parse(relation.getTime_to().trim());
+								start_find = true;
+								meters=0;
+								//time = 0L;
+								km_norm_sum = 0;
+								ur_norm_sum = 0D;
+								useNormValues = true;
+								break;
+							}		        							
+							
+							
+							//ce je order ze najden in ce se ne isce izhodisce preskocim
+							if (order.isChecked()) continue;
+							
+							//razdalja do tocke
+        					Double dist_x = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getStranke_x_koord()));
+        					Double dist_y = Math.abs(relation.getAvg_sdo_y() - Double.parseDouble(order.getStranke_y_koord()));
+        							
+							if ((dist_x < distanceCustomer) && (dist_y < distanceCustomer)) {
+			        			//kamion je pri stranki
+								System.out.println("STRANKA="+order.getStDob()+"-"+relation.getTime_from()+"-"+meters+"-"+relation.getDriver_key());
+								start_find = false;
+								order.setChecked(true);
+								ordersForDateVehicle.set(j, order);
+								orders_with_data.add(order.getStDob());
+								
+								
+								//dodam dobavnico
+								orders_relations.add(order);
+								//dolocim skupne normativne vrednosti. ce ena od vrednosti manjka ne uporabljam normativne vrednosti
+								if (useNormValues) {
+    								if (order.getStev_km_norm() != 0 && order.getStev_ur_norm() != 0) {
+    									km_norm_sum += order.getStev_km_norm();
+    									ur_norm_sum += order.getStev_ur_norm();
+    								} else {
+    									km_norm_sum = 0;
+    									ur_norm_sum = 0;
+    									useNormValues = false;
+    								}
+								}
+							}
+							
+						}
+					}
+					
+					
+					//če zadnja relacija ni bila izhodiše ima pa orderje, jih označim kot tiste ki se niso vrnili na izhodišče
+					if ((orders_relations.size()>0) && (!start_find)) {
+						Map finalOrder = new HashMap();
+						finalOrder.put("dob", orders_relations);
+						finalOrder.put("km", 0);
+						finalOrder.put("km_norm_sum", 0);
+						finalOrder.put("sec", 0L);
+						finalOrder.put("ur_norm_sum", 0D);
+						finalOrder.put("driver_key", "0");
+						finalOrder.put("tip", -1);
+						finalOrders.add(finalOrder);
+					}
+					
+					for (int l=0; l<finalOrders.size(); l++) {
+						Map finalOrder = (Map) finalOrders.get(l);
+						System.out.println("ORDER="+((List)finalOrder.get("dob")).size()+"-"+finalOrder.get("km")+"-"+finalOrder.get("km_norm_sum")+"-"+finalOrder.get("sec")+"-"+finalOrder.get("ur_norm_sum")+"-"+finalOrder.get("tip")+"-"+finalOrder.get("driver_key"));
+						
+						if ((Integer)finalOrder.get("tip") == -1) {
+							//tisti ki nimajo izhodisca na koncu, nastavim error
+							List orders = (List)finalOrder.get("dob");
+							for (int f=0; f<orders.size(); f++) {
+								Order order = (Order)orders.get(f);
+								setDobOkError(order.getStDob(), dfYear.format(df.parse(order.getZacetek())), ERROR_NO_FINISH_LOCATION_IN_SLEDENJE);
+							}
+						} else {
+							List orders = (List)finalOrder.get("dob");
+							String sofer = (String)finalOrder.get("driver_key");
+							int km = (Integer)finalOrder.get("km");
+							int sum_km_norm = (Integer)finalOrder.get("km_norm_sum");
+							long sec = (Long)finalOrder.get("sec");
+							double sum_ur_norm = (Double)finalOrder.get("ur_norm_sum");
+							
+							for (int f=0; f<orders.size(); f++) {
+								Order order = (Order)orders.get(f);
+								int km_norm = km / orders.size();
+								if (sum_km_norm > 0)
+									km_norm = km * order.getStev_km_norm() / sum_km_norm;
+									
+								long sec_norm = Math.round(sec / orders.size());
+								if (sum_ur_norm > 0)
+									sec_norm = Math.round(sec * order.getStev_ur_norm() / sum_ur_norm);
+								
+								System.out.println("final="+order.getStDob() + " " + km + " " + km_norm + " " + sec + " " + sec_norm);
+								setSledenjeData(order.getStDob(), km_norm, sec_norm, sofer, dfYear.format(df.parse(order.getZacetek())));
+							
+							}
+							
+						}
+					}
+					
+					//za dobavnice, ki nimajo podatkov (niso v orders_relations) dam error ERROR_NO_STOPS_IN_SLEDENJE
+    				for (int m=0; m<ordersForDateVehicle.size(); m++) {
+    					Order order = (Order) ordersForDateVehicle.get(m);
+    					if (!orders_with_data.contains(order.getStDob())) {
+    						setDobOkError(order.getStDob(), order.getDatum(), ERROR_NO_STOPS_IN_SLEDENJE);
+    					}
+    				}
 
-		        					//nastavim podatke za PREVOZ ZA LASTNE POTREBE
-		        					setPrevozLastnePotrebe(ordersDate.getSif_kam(), ordersDate.getDatum(), metersLastnePotrebe, casLastnePotrebe);
+					//nastavim podatke za PREVOZ ZA LASTNE POTREBE
+					setPrevozLastnePotrebe(ordersDate.getSif_kam(), ordersDate.getDatum(), metersLastnePotrebe, casLastnePotrebe);
 
-		        				}
-		        				
-		        			}
-	        			}
-	        			catch (Exception e)
-	        			{
-	        				e.printStackTrace();
-	        				
-	        			}  
+				}
+				
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			
+		}  
+		
+    	runTime = Calendar.getInstance();
+		System.out.println("**********************Sledenje sinhronization end at: " + df.format(runTime.getTime()));
 	        			
-	                	runTime = Calendar.getInstance();
-	        			System.out.println("**********************Sledenje sinhronization end at: " + runTime.toString());
-	        			
-                  }
-              }, delay, period);          
-
     }
     
     /**
@@ -494,13 +507,17 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"	(SELECT db.* " +
 	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
 	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
-	    				   	"	 				   				  WHERE DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') " +
-	    				   	"											AND pozicija = 1" +
+	    				   	"	 				   				  WHERE datum < NOW()-1 AND " +
+	    				   	"											pozicija = 1 and" +
+	    				   	"											sif_kam is not null and " +
+	    				   	"											((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null))" +
 	    				   	"									  GROUP BY st_dob) d " + 
 	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
 	    				   	"	(SELECT st.* " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
+	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
+	    				   	"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
 	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	(SELECT kamion.* " +
@@ -511,15 +528,11 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"	       kamion.zacetek = zadnji.z) kamion, " +
 	    					"	 enote," +
 	    					"	 kupci " +
-	    					"WHERE  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
-	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"WHERE  (dob.error = 0) and " +
 	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
 							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
 							"		(kupci.sif_enote = enote.sif_enote) and " +
 							"		(dob.sif_kam = kamion.sif_kam) and " +
-							"		(dob.pozicija = 1) and " +
-							"		(dob.error = 0) and " +
-							"		(dob.datum < now()-1) and " +
 							"		(dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
 
 	    	System.out.println(query);	           
@@ -595,13 +608,17 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"	(SELECT db.* " +
 	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
 	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
-	    				   	"	 				   				  WHERE DATE_FORMAT(dob.datum, '%Y-%m-%d') <= DATE_FORMAT(now(), '%Y-%m-%d') " +
-	    				   	"											AND pozicija = 1" +
+	    				   	"	 				   				  WHERE datum < NOW()-1 AND " +
+	    				   	"											pozicija = 1 and" +
+	    				   	"											sif_kam is not null and " +
+	    				   	"											((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null))" +
 	    				   	"									  GROUP BY st_dob) d " + 
 	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
 	    				   	"	(SELECT st.* " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
+	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
+	    				   	"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
 	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
 	    				   	"	(SELECT kamion.sif_kam, kamion.registrska " +
@@ -610,14 +627,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"				   GROUP BY sif_kam) zadnji " +
 	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"	       kamion.zacetek = zadnji.z) kamion " +
-	    					"WHERE  ((stranke.x_koord IS NOT NULL) AND (stranke.y_koord IS NOT NULL)) AND " +
-	    					"		((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null)) and " +
+	    					"WHERE  (dob.error = 0) and " +
 	    					"		(dob.`sif_str` = stranke.`sif_str`) AND " +
-	    					"		(dob.sif_kam = kamion.sif_kam) and " +
-							"		(dob.pozicija = 1) and " +
-							"		(dob.error = 0) and " +
-							"		(dob.datum < now()-1) " +
-							"LIMIT " + QUERY_LIMIT;
+	    					"		(dob.sif_kam = kamion.sif_kam) " +
+							"LIMIT " + query_limit;
 
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
@@ -829,12 +842,13 @@ public class TimerServlet extends InitServlet implements Servlet {
 						"from dob" + dobLeto + " " +
 						"where pozicija = 1 and " +
 						"		error = 0 and " +
-						"		sif_kam = " + sif_kam + " and " +
-						"		datum = '" + datum + "' " +
-						"group by st_dob, pozicija";
+						"		sif_kam = " + sif_kam;
+			if (datum != null)
+				sql += " and datum = '" + datum + "'";
+			sql += " group by st_dob, pozicija";
 		
 	    	rs = stmt.executeQuery(sql);
-	
+			
 	    	stmt1 = con.createStatement();   	
 	    	while (rs.next()) {
 				sql = "update dob" + dobLeto + " " +
