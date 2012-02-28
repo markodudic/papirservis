@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -90,7 +90,7 @@
     <servlet-class>si.papirservis.TimerServlet</servlet-class>
 	 <init-param>
 	   <param-name>period</param-name>
-		<param-value>30000</param-value>
+		<param-value>60000</param-value>
 	 </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  
@@ -126,9 +126,6 @@
       <servlet-name>StrankeServlet</servlet-name>
       <url-pattern>/StrankeServlet</url-pattern>
     </servlet-mapping>
-        
-    <session-config>
-      <session-timeout>30</session-timeout>
-    </session-config>	
+	
 
 </web-app>
