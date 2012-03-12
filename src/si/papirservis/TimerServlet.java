@@ -115,7 +115,7 @@ public class TimerServlet extends InitServlet implements Servlet {
   		
           // timer 
           /*int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
-          int delay = 10000;   // delay for 30 sec.
+          int delay = 10000000;   // delay for 30 sec.
           Timer timer = new Timer();
           timer.scheduleAtFixedRate(new TimerTask() {
                   public void run() {
