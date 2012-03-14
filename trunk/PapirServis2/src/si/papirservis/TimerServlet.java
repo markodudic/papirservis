@@ -504,7 +504,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"		kamion.sif_kam sif_kam, kamion.registrska kamion, " +
 	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek " +
 	    					"FROM " +
-	    				   	"	(SELECT db.* " +
+	    				   	"	(SELECT db.st_dob, db.datum, db.stev_km_norm, db.stev_ur_norm, db.error, db.sif_str, db.sif_kupca, db.sif_kam " +
 	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
 	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
 	    				   	"	 				   				  WHERE datum < NOW()-1 AND " +
@@ -512,28 +512,27 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"											sif_kam is not null and " +
 	    				   	"											((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null))" +
 	    				   	"									  GROUP BY st_dob) d " + 
-	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
-	    				   	"	(SELECT st.* " +
+	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z and db.error = 0) dob " +
+	    				   	"RIGHT JOIN " +
+	    				   	"	(SELECT st.sif_str, st.naziv, st.x_koord, st.y_koord " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
 	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
 	    				   	"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
-	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
-	    				   	"	(SELECT kamion.* " +
+	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke " +
+	    				   	"ON  (dob.sif_str = stranke.sif_str) " +
+	    				   	"LEFT JOIN " +
+	    				   	"	(SELECT kamion.sif_kam, kamion.registrska " +
 	    					"	 FROM kamion, (SELECT sif_kam, max(zacetek) z " +
 	    					"				   FROM kamion " +
 	    					"				   GROUP BY sif_kam) zadnji " +
 	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
-	    					"	       kamion.zacetek = zadnji.z) kamion, " +
-	    					"	 enote," +
-	    					"	 kupci " +
-	    					"WHERE  (dob.error = 0) and " +
-	    					"		(dob.`sif_str` = stranke.`sif_str`) and " +
-							"		(dob.`sif_kupca` = kupci.`sif_kupca`) and " +
-							"		(kupci.sif_enote = enote.sif_enote) and " +
-							"		(dob.sif_kam = kamion.sif_kam) and " +
-							"		(dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
+	    					"	       kamion.zacetek = zadnji.z) kamion " +
+	    					"ON  (dob.sif_kam = kamion.sif_kam) " +
+	    					"LEFT JOIN	 kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
+	    					"LEFT JOIN 	 enote ON (kupci.sif_enote = enote.sif_enote) " + 
+	    					"WHERE  (dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
 
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
@@ -603,9 +602,13 @@ public class TimerServlet extends InitServlet implements Servlet {
 
 			int dobLeto = Calendar.getInstance().get(Calendar.YEAR);
 	    	
-	    	String query = 	"SELECT DISTINCT dob.datum datum, DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, kamion.sif_kam sif_kam, kamion.registrska kamion " +
+	    	String query = 	"SELECT DISTINCT dob.datum datum, " +
+	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 00:00:00') zacetek, " +
+	    					"		DATE_FORMAT(dob.datum, '%d.%m.%Y 23:59:59') konec, " +
+	    					"		kamion.sif_kam sif_kam, " +
+	    					"		kamion.registrska kamion " +
 	    				   	"FROM " +
-	    				   	"	(SELECT db.* " +
+	    				   	"	(SELECT db.datum, db.error, db.sif_kam, db.sif_str " +
 	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
 	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
 	    				   	"	 				   				  WHERE datum < NOW()-1 AND " +
@@ -613,23 +616,24 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"											sif_kam is not null and " +
 	    				   	"											((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null))" +
 	    				   	"									  GROUP BY st_dob) d " + 
-	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z) dob, " +
-	    				   	"	(SELECT st.* " +
+	    				   	"	 WHERE db.st_dob = d.st_dob and db.zacetek = d.z and db.error = 0) dob " +
+	    				   	"RIGHT JOIN " +
+	    				   	"	(SELECT st.sif_str, st.naziv, st.x_koord, st.y_koord " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
 	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
 	    				   	"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
-	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke, " +
+	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke " +
+	    				   	"ON  (dob.sif_str = stranke.sif_str) " +
+	    				   	"LEFT JOIN " +
 	    				   	"	(SELECT kamion.sif_kam, kamion.registrska " +
 	    					"	 FROM kamion, (SELECT sif_kam, max(zacetek) z " +
 	    					"				   FROM kamion " +
 	    					"				   GROUP BY sif_kam) zadnji " +
 	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"	       kamion.zacetek = zadnji.z) kamion " +
-	    					"WHERE  (dob.error = 0) and " +
-	    					"		(dob.`sif_str` = stranke.`sif_str`) AND " +
-	    					"		(dob.sif_kam = kamion.sif_kam) " +
+	    					"ON  (dob.sif_kam = kamion.sif_kam) " +
 							"LIMIT " + query_limit;
 
 	    	System.out.println(query);	           
