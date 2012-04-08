@@ -22,9 +22,9 @@ function handleFileSelect(evt) {
     reader.onload = (function(theFile) {
       return function(e) {
     	var csv = e.target.result;
-//    	alert(csv);  
+    	//alert(csv);  
 
-    	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('type=import&csv='+csv));
+    	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('type=import&csv='+encodeURIComponent(csv)));
     	if(result = true) {
     		alert("Podatki uspešno shranjeni.");
     		document.getElementById('strankelist').submit();

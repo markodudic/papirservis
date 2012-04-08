@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(45724)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(8049)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\apache\\apache-tomcat-5.5.23\\webapps\\papirservis\\images\\ps.jpg"]]></defaultValueExpression>
@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      dob.`st_dob` AS dob_st_dob,
@@ -43,6 +43,8 @@
      sofer.`sif_sof` AS sofer_sif_sof,
      dob.`stev_km` AS stev_km,
      dob.`stev_ur` AS stev_ur,
+     dob.`stev_km_norm` AS stev_km_norm,
+     dob.`stev_ur_norm` AS stev_ur_norm,
      dob.`koda` AS dob_koda,
      dob.`kolicina` AS dob_kolicina,
      dob.`cena` AS dob_cena,
@@ -99,6 +101,8 @@ WHERE
 	<field name="stranke_opomba" class="java.lang.String"/>
 	<field name="potnik" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>
+	<field name="stev_km_norm" class="java.lang.Integer"/>
+	<field name="stev_ur_norm" class="java.lang.Double"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -785,7 +789,7 @@ WHERE
 					<reportElement
 						x="134"
 						y="417"
-						width="391"
+						width="280"
 						height="0"
 						key="line-9"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -794,7 +798,7 @@ WHERE
 					<reportElement
 						x="134"
 						y="442"
-						width="391"
+						width="280"
 						height="0"
 						key="line-10"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -1009,6 +1013,66 @@ WHERE
 					</textElement>
 				<text><![CDATA[OB 7.4-1]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="484"
+						y="400"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stev_km_norm}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="420"
+						y="400"
+						width="64"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-28"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KM NORM:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="420"
+						y="425"
+						width="64"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-29"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[UR NORM:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="484"
+						y="425"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{stev_ur_norm}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
