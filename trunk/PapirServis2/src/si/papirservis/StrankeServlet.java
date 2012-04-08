@@ -2,10 +2,10 @@ package si.papirservis;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Locale;
-import java.util.Vector;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -44,6 +44,7 @@ public class StrankeServlet extends InitServlet implements Servlet {
 	 *      HttpServletResponse arg1)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String type = (String) request.getParameter("type");
 		
 		if (type.equals("import")) {
@@ -51,22 +52,22 @@ public class StrankeServlet extends InitServlet implements Servlet {
 			{
 				//preberemo parametre
 				String csv = (String) request.getParameter("csv");
-	
-				String [] csvs = csv.split("\n");
+				String [] csvs = csv.split("\r\n");
+				
 				for(int i=0; i<csvs.length; i++) {
-					System.out.println(csvs[i]);	
-					String[] stranka = csvs[i]. split(";");
-					if (stranka.length != 9) continue;
+					System.out.println(csvs[i].replace("\r\n", ""));	
+					String[] stranka = csvs[i].replace("\r\n", "").split(";");
+					if (stranka.length != 10) continue;
 					String sif_str = stranka[0].equals("") ? "0" : stranka[0].replaceAll("\"", "");
-					String y = stranka[1].equals("") ? "null" : stranka[1].replaceAll("\"", "");
-					String x = stranka[2].equals("") ? "null" : stranka[2].replaceAll("\"", "");
+					String y = stranka[1].equals("") ? "null" : stranka[1].replaceAll("\"", "").replaceAll(",", ".");
+					String x = stranka[2].equals("") ? "null" : stranka[2].replaceAll("\"", "").replaceAll(",", ".");
 					String naziv = stranka[3].equals("") ? "null" : stranka[3].replaceAll("\"", "");
 					String naslov = stranka[4].equals("") ? "null" : stranka[4].replaceAll("\"", "");
-					String posta = stranka[5].equals("") ? "null" : stranka[5].substring(0, stranka[5].indexOf(" ")).replaceAll("\"", "");
-					String kraj = stranka[5].equals("") ? "null" : stranka[5].substring(stranka[5].indexOf(" ")+1).replaceAll("\"", "");
-					String drzava = stranka[6].equals("") ? "null" : stranka[6].replaceAll("\"", "");
-					String km_norm = stranka[7].equals("") ? "0" : stranka[7].replaceAll("\"", "");
-					String ur_norm = stranka[8].equals("") ? "0" : stranka[8].replaceAll("\"", "");
+					String posta = stranka[5].equals("") ? "null" : stranka[5].replaceAll("\"", "");
+					String kraj = stranka[6].equals("") ? "null" : stranka[6].replaceAll("\"", "");
+					String drzava = stranka[7].equals("") ? "null" : stranka[7].replaceAll("\"", "");
+					String km_norm = stranka[8].equals("") ? "0" : stranka[8].replaceAll("\"", "");
+					String ur_norm = stranka[9].equals("") || stranka[9].equals("\n") ? "0" : stranka[9].replaceAll("\"", "");
 					
 					if (updateCustomer(sif_str, x, y, naziv, naslov, posta, kraj, drzava, km_norm, ur_norm) == -1) {
 						throw new Exception("napaka");
@@ -131,8 +132,8 @@ public class StrankeServlet extends InitServlet implements Servlet {
 
 	    	String query = 	"UPDATE stranke " +
 	    					"SET naziv = '" + naziv + "', " +
-	    					"	 x_koord = " + x + ", " +
-	    					"	 y_koord = " + y + ", " +
+	    					"	 x_koord = '" + x + "', " +
+	    					"	 y_koord = '" + y + "', " +
 	    					"	 naslov = '" + naslov + "', " +
 	    					"	 posta = " + posta + ", " +
 	    					"	 kraj = '" + kraj + "', " +
@@ -168,8 +169,11 @@ public class StrankeServlet extends InitServlet implements Servlet {
 	    try {
 	    	connectionMake();
 
-	    	String query = 	"SELECT sif_str, naziv, x_koord, y_koord, naslov, posta, kraj, stev_km_norm, stev_ur_norm " +
-	    					"FROM stranke ";
+	    	String query = 	"SELECT stranke.sif_str, stranke.naziv, stranke.x_koord, stranke.y_koord, stranke.naslov, stranke.posta, stranke.kraj, stranke.stev_km_norm, stranke.stev_ur_norm " +
+	    					"from stranke, (select max(id) as id, sif_str " +
+							"				from stranke " +
+							"				group by sif_str) as s " +
+							"where stranke.id in (s.id) ";
 	    	
 	    	if (tip.equals("novi")) {
 	    		query += "WHERE x_koord is null or y_koord is null";
