@@ -42,10 +42,10 @@
 		<defaultValueExpression ><![CDATA["Vsi soferi"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2012-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2012-2-11"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2012-1-6"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2012-4-13"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.8.2009"]]></defaultValueExpression>
@@ -57,7 +57,7 @@
 		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sort" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["delta"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["st_dob"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[select now()]]></queryString>
 

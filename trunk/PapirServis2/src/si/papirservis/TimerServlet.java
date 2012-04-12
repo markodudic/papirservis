@@ -801,10 +801,11 @@ public class TimerServlet extends InitServlet implements Servlet {
 			long ura = cas / 3600;	
 			long min = (cas / 60) % 60;
 			String ur;
-			if (min <= 15) ur = ura + "";
-			else if (min <= 45) ur = ura + ".5";
-			else ur = (ura + 1) + "";
-
+			//if (min <= 15) ur = ura + "";
+			//else if (min <= 45) ur = ura + ".5";
+			//else ur = (ura + 1) + "";
+			ur = ura + "." + min;
+			
 	    	String	sql = "update dob" + year + " " +
 						 "set " +
 						 "	stev_km_sled = " + pot + 
