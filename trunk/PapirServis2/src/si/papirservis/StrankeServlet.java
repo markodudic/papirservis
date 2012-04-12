@@ -139,12 +139,13 @@ public class StrankeServlet extends InitServlet implements Servlet {
 			
 			if (rs.next()) {
 				query = "UPDATE stranke " +
-    					"SET naziv = '" + naziv + "', " +
+    					"SET " +
+    					//"	naziv = '" + naziv + "', " +
     					"	 x_koord = '" + x + "', " +
     					"	 y_koord = '" + y + "', " +
-    					"	 naslov = '" + naslov + "', " +
-    					"	 posta = " + posta + ", " +
-    					"	 kraj = '" + kraj + "', " +
+    					//"	 naslov = '" + naslov + "', " +
+    					//"	 posta = " + posta + ", " +
+    					//"	 kraj = '" + kraj + "', " +
     					"	 stev_km_norm = " + km_norm + ", " +
     					"	 stev_ur_norm = " + ur_norm + " " +
     					"WHERE id = " + rs.getString("id");
