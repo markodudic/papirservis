@@ -257,9 +257,9 @@ order by $P!{sort}]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="617"
+						x="616"
 						y="0"
-						width="29"
+						width="30"
 						height="22"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -472,7 +472,7 @@ order by $P!{sort}]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stev_km_norm}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="704"
 						y="0"
@@ -498,7 +498,7 @@ order by $P!{sort}]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stev_km_sled}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="646"
 						y="0"
@@ -515,7 +515,7 @@ order by $P!{sort}]]></queryString>
 					<reportElement
 						x="616"
 						y="0"
-						width="29"
+						width="30"
 						height="15"
 						key="textField-11"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
