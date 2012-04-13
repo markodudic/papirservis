@@ -65,7 +65,7 @@ function  EW_checkMyForm(EW_this)
 			
 			//generiram delovne naloge
 	//		String sql = "SELECT sif_str FROM stranke WHERE " + day + " = " + type + " or " + day + " = 3";
-			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina "+
+			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, st.stev_km_norm, st.stev_ur_norm "+
 						 "FROM (SELECT stranke.* "+
 						 "		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 						 "		WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -91,7 +91,9 @@ function  EW_checkMyForm(EW_this)
 				String cena = rs.getString("cena");
 				String sif_kupca = rs.getString("sif_kupca");
 				String skupina = rs.getString("skupina");
-	
+				String stev_km_norm = rs.getString("stev_km_norm");
+				String stev_ur_norm = rs.getString("stev_ur_norm");
+				
 				//povecam prvo stevilko za 1
 				String sqlwrk_bianco_u = "UPDATE dob_bianco set st_dob = st_dob + 1 where id = '" + session.getAttribute("letoTabela") + "'";
 				stmtwrk_bianco_u.executeUpdate(sqlwrk_bianco_u);					
@@ -108,8 +110,8 @@ function  EW_checkMyForm(EW_this)
 				
 					
 				//Vpisem generirane delovne naloge
-				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina) " +
-							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ")";
+				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm) " +
+							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ")";
 				stmtI.executeUpdate(sqlI);
 				i++;
 			}
