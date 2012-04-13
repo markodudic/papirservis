@@ -81,6 +81,8 @@ Object x_stev_ur_sled = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 Object x_kamion = null;
+Object x_stev_km_norm = null;
+Object x_stev_ur_norm = null;
 
 StringBuffer x_sif_strList = null;
 StringBuffer x_sif_kupcaList = null;
@@ -94,6 +96,8 @@ StringBuffer sif_skupina = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
+StringBuffer stranka_stev_km_norm = new StringBuffer();
+StringBuffer stranka_stev_ur_norm = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -259,6 +263,10 @@ try{
 			x_zacetek = null;
 		}
 		x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+
+		x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+		x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+
 		rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
@@ -409,11 +417,21 @@ try{
 		if (request.getParameter("x_uporabnik") != null){
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
+		if (request.getParameter("x_stev_km_norm") != null){
+			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
+		}else{
+			x_stev_km_norm = "";
+		}
+		if (request.getParameter("x_stev_ur_norm") != null){
+			x_stev_ur_norm = (String) request.getParameter("x_stev_ur_norm");
+		}else{
+			x_stev_ur_norm = "";
+		}
 
 		// Open record
 
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum) values (";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum, stev_km_norm, stev_ur_norm) values (";
 //		String strsql = "insert into dob (st_dob, pozicija, sif_sof, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum) values (" + x_st_dob + ", 1, ";
 		
 		// Field st_dob
@@ -479,261 +497,20 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = "";
 		}
-		strsql += "'" + tmpfld + "'," + (String) session.getAttribute("papirservis1_status_UserID") + ", '" + (EW_UnFormatDateTime((String) x_datum ,"EURODATE", locale)).toString() + "' )";
+		strsql += "'" + tmpfld + "'," + (String) session.getAttribute("papirservis1_status_UserID") + ", '" + (EW_UnFormatDateTime((String) x_datum ,"EURODATE", locale)).toString() + "',";
 
 
-/*
-		// Field st_dob
-		tmpfld = ((String) x_st_dob).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
-			rs.updateNull("st_dob");
-		} else {
-			rs.updateInt("st_dob",Integer.parseInt(tmpfld));
-		}
-
-		// Field pozicija
-		tmpfld = ((String) x_pozicija).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
-			rs.updateNull("pozicija");
-		} else {
-			rs.updateInt("pozicija",Integer.parseInt(tmpfld));
-		}
-
-		// Field datum
-		if (IsDate((String) x_datum,"EURODATE", locale)) {
-			rs.updateTimestamp("datum", EW_UnFormatDateTime((String)x_datum,"EURODATE", locale));
-		}else{
-			rs.updateNull("datum");
-		}
-
-
-		// Field stranka
-		tmpfld = ((String) x_stranka);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("stranka");
-		}else{
-			rs.updateString("stranka", tmpfld);
-		}
-
-		// Field sif_kupca
-		tmpfld = ((String) x_sif_kupca);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sif_kupca");
-		}else{
-			rs.updateString("sif_kupca", tmpfld);
-		}
-
-
-
-		// Field sofer
-		tmpfld = ((String) x_sofer);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sofer");
-		}else{
-			rs.updateString("sofer", tmpfld);
-		}
-
-		// Field kamion
-		tmpfld = ((String) x_kamion);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("kamion");
-		}else{
-			rs.updateString("kamion", tmpfld);
-		}
-
-		// Field cena_km
-		tmpfld = ((String) x_cena_km).trim();
+		// Field stev_km_norm
+		tmpfld = ((String) x_stev_km_norm).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena_km");
-		} else {
-			rs.updateInt("cena_km",Integer.parseInt(tmpfld));
-		}
+		strsql += tmpfld + ", ";
 
-		// Field cena_ura
-		tmpfld = ((String) x_cena_ura).trim();
+		// Field stev_ur_norm
+		tmpfld = ((String) x_stev_ur_norm).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena_ura");
-		} else {
-			rs.updateInt("cena_ura",Integer.parseInt(tmpfld));
-		}
-
-		// Field c_km
-		tmpfld = ((String) x_c_km).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("c_km");
-		} else {
-			rs.updateInt("c_km",Integer.parseInt(tmpfld));
-		}
-
-		// Field c_ura
-		tmpfld = ((String) x_c_ura).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("c_ura");
-		} else {
-			rs.updateInt("c_ura",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_km
-		tmpfld = ((String) x_stev_km).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_km");
-		} else {
-			rs.updateInt("stev_km",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_ur
-		tmpfld = ((String) x_stev_ur).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur");
-		} else {
-			rs.updateInt("stev_ur",Integer.parseInt(tmpfld));
-		}
-
-		// Field stroski
-		tmpfld = ((String) x_stroski).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stroski");
-		} else {
-			rs.updateInt("stroski",Integer.parseInt(tmpfld));
-		}
-
-		// Field koda
-		tmpfld = ((String) x_koda);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("koda");
-		}else{
-			rs.updateString("koda", tmpfld);
-		}
-
-		// Field kolicina
-		tmpfld = ((String) x_kolicina).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kolicina");
-		} else {
-			rs.updateInt("kolicina",Integer.parseInt(tmpfld));
-		}
-
-		// Field cena
-		tmpfld = ((String) x_cena).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena");
-		} else {
-			rs.updateInt("cena",Integer.parseInt(tmpfld));
-		}
-
-		// Field kg_zaup
-		tmpfld = ((String) x_kg_zaup).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kg_zaup");
-		} else {
-			rs.updateInt("kg_zaup",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_zaup
-		tmpfld = ((String) x_sit_zaup).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_zaup");
-		} else {
-			rs.updateInt("sit_zaup",Integer.parseInt(tmpfld));
-		}
-
-		// Field kg_sort
-		tmpfld = ((String) x_kg_sort).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kg_sort");
-		} else {
-			rs.updateInt("kg_sort",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_sort
-		tmpfld = ((String) x_sit_sort).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_sort");
-		} else {
-			rs.updateInt("sit_sort",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_smet
-		tmpfld = ((String) x_sit_smet).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_smet");
-		} else {
-			rs.updateInt("sit_smet",Integer.parseInt(tmpfld));
-		}
-
-		// Field skupina
-		tmpfld = ((String) x_skupina).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("skupina");
-		} else {
-			rs.updateInt("skupina",Integer.parseInt(tmpfld));
-		}
-
-		// Field skupina_text
-		tmpfld = ((String) x_skupina_text);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("skupina_text");
-		}else{
-			rs.updateString("skupina_text", tmpfld);
-		}
-
-
-		// Field stev_km_sled
-		tmpfld = ((String) x_stev_km_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_km_sled");
-		} else {
-			rs.updateInt("stev_km_sled",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_ur_sled
-		tmpfld = ((String) x_stev_ur_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur_sled");
-		} else {
-			rs.updateInt("stev_ur_sled",Integer.parseInt(tmpfld));
-		}
-*/
+		strsql += tmpfld + ") ";
 
 		Statement stmt1 = conn.createStatement();
-
 		stmt1.executeUpdate(strsql);
 		stmt1.close();
 		stmt1 = null;
@@ -831,7 +608,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -859,6 +636,8 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
+		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
+		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
 
 
 		String tmpValue_x_sif_str = "";
@@ -948,6 +727,10 @@ var skupina = new Array();
 <%=skupina%>
 var stranka_cena = new Array();
 <%=stranka_cena%>
+var stranka_stev_ur_norm = new Array();
+<%=stranka_stev_ur_norm%>
+var stranka_stev_km_norm = new Array();
+<%=stranka_stev_km_norm%>
 
 function updateDropDowns(EW_this){
 /*
@@ -961,6 +744,9 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_skupina.value = sif_skupina[document.dobavnicaadd.x_sif_str.value];
 
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
+
+	document.dobavnicaadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobavnicaadd.x_sif_str.value];
+	document.dobavnicaadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobavnicaadd.x_sif_str.value];
 
 }
 
@@ -1091,6 +877,8 @@ return true;
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
 <input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
+<input type="hidden" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">
+<input type="hidden" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">
 
 <table class="ewTable">
 	<tr>
