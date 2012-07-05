@@ -61,6 +61,7 @@ Object x_sif_upor = null;
 Object x_ime_in_priimek = null;
 Object x_uporabnisko_ime = null;
 Object x_geslo = null;
+Object x_email = null;
 Object x_tip = null;
 Object x_meni = null;
 Object x_sif_enote = null;
@@ -68,6 +69,7 @@ Object x_sif_kupca = null;
 boolean x_aktiven = false;
 boolean x_porocila = false;
 boolean x_narocila = false;
+boolean x_narocila_potrjevanje = false;
 boolean x_vse = false;
 boolean x_enote = false;
 
@@ -115,6 +117,11 @@ try{
 			}else{
 				x_geslo = "";
 			}
+			if (rs.getString("email") != null){
+				x_email = rs.getString("email");
+			}else{
+				x_email = "";
+			}
 			if (rs.getString("tip") != null){
 				x_tip = rs.getString("tip");
 			}else{
@@ -129,6 +136,7 @@ try{
 			x_aktiven = rs.getBoolean("aktiven");
 			x_porocila = rs.getBoolean("porocila");
 			x_narocila = rs.getBoolean("narocila");
+			x_narocila_potrjevanje = rs.getBoolean("narocila_potrjevanje");
 			x_vse = rs.getBoolean("vse");
 			x_enote = rs.getBoolean("enote");
 			x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
@@ -152,6 +160,11 @@ try{
 			x_geslo = (String) request.getParameter("x_geslo");
 		}else{
 			x_geslo = "";
+		}
+		if (request.getParameter("x_email") != null){
+			x_email = (String) request.getParameter("x_email");
+		}else{
+			x_email = "";
 		}
 		
 		int pravice = 0;		
@@ -225,6 +238,9 @@ try{
 		if (request.getParameter("x_narocila") != null){
 			x_narocila = true;
 		}
+		if (request.getParameter("x_narocila_potrjevanje") != null){
+			x_narocila_potrjevanje = true;
+		}
 		if (request.getParameter("x_vse") != null){
 			x_vse = true;
 		}
@@ -293,6 +309,18 @@ try{
 			rs.updateString("geslo", tmpfld);
 		}
 
+		// Field email
+		tmpfld = ((String) x_email);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("email");
+		}else{
+			rs.updateString("email", tmpfld);
+		}
+
+		
 		// Field tip
 		rs.updateString("tip", "" + pravice);
 		rs.updateString("meni", "" + meni);
@@ -319,6 +347,7 @@ try{
 		rs.updateBoolean("aktiven",x_aktiven);
 		rs.updateBoolean("porocila",x_porocila);
 		rs.updateBoolean("narocila",x_narocila);
+		rs.updateBoolean("narocila_potrjevanje",x_narocila_potrjevanje);
 		rs.updateBoolean("vse",x_vse);
 		rs.updateBoolean("enote",x_enote);
 		rs.updateRow();
@@ -369,6 +398,10 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_geslo" size="30" maxlength="255" value="<%= HTMLEncode((String)x_geslo) %>">&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">email&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_email" size="30" maxlength="255" value="<%= HTMLEncode((String)x_email) %>">&nbsp;</td>
+	</tr>
+	<tr>
 		<td class="ewTableHeader">tip&nbsp;</td>
 		<td class="ewTableAltRow">
 		<input type="checkbox" name="x_tip1"  <%= (Integer.parseInt(x_tip.toString()) & 1) > 0 ? "checked" : "" %>>dodaj&nbsp;
@@ -397,6 +430,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">naročila&nbsp;</td>
 		<td class="ewTableAltRow"><input type="checkbox" name="x_narocila"  <%= x_narocila? "checked" : "" %>></td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">naročila&nbsp;potrjevanje&nbsp;</td>
+		<td class="ewTableAltRow"><input type="checkbox" name="x_narocila_potrjevanje"  <%= x_narocila_potrjevanje? "checked" : "" %>></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">vse stranke&nbsp;</td>

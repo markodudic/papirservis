@@ -31,6 +31,7 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 				 	session.setAttribute("papirservis1_status_UserLevel", new Integer(rs.getInt("tip")));
 				 	session.setAttribute("papirservis1_status_Reports", rs.getString("porocila"));
 				 	session.setAttribute("papirservis1_status_Enota", rs.getString("sif_enote"));
+				 	session.setAttribute("papirservis1_status_Narocila", rs.getString("narocila_potrjevanje"));
 
 				 	session.setAttribute("meni", new Integer(rs.getString("meni")));
 

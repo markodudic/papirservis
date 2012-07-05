@@ -371,8 +371,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 								if (sum_ur_norm > 0)
 									sec_norm = Math.round(sec * order.getStev_ur_norm() / sum_ur_norm);
 								
+								//ce je orders.count vecje od 1 je bilo vec dobavnic in gre za krozno voznjo, kar oznacim s flagom
 								System.out.println("final="+order.getStDob() + " " + km + " " + km_norm + " " + sec + " " + sec_norm);
-								setSledenjeData(order.getStDob(), km_norm, sec_norm, sofer, dfYear.format(df.parse(order.getZacetek())));
+								setSledenjeData(order.getStDob(), km_norm, sec_norm, sofer, dfYear.format(df.parse(order.getZacetek())), orders.size()>1?1:0);
 							
 							}
 							
@@ -787,7 +788,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	}
 	
 	
-	private void setSledenjeData(String st_dob, int meters, long cas, String sofer, String year) {
+	private void setSledenjeData(String st_dob, int meters, long cas, String sofer, String year, int krozna) {
 
     	Statement stmt = null;
 
@@ -811,6 +812,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "	stev_km_sled = " + pot + 
 						 ", stev_ur_sled = " + ur +
 						 ", sofer_sled = " + (sofer==null || sofer.equals("0") ? null : sofer) +
+						 ", krozna = " + krozna +
 						 ", error = " + ERROR_DATA_OK +
 						 " where pozicija = 1 and " +
 						 "		st_dob = " + st_dob + " and " +

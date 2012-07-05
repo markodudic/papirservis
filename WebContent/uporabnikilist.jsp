@@ -286,6 +286,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("geslo")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("email")) ? "<b>" : ""%>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("email","UTF-8") %>">email&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("email")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("email")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("tip")) ? "<b>" : ""%>
 <a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("tip","UTF-8") %>">tip&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("tip")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("tip")) ? "</b>" : ""%>
@@ -309,6 +314,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("narocila")) ? "<b>" : ""%>
 <a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("narocila","UTF-8") %>">naročila&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("narocila")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("narocila")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("narocila_potrjevanje")) ? "<b>" : ""%>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("narocila_potrjevanje","UTF-8") %>">naročila&nbsp;potrjevanje&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("narocila")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("narocila_potrjevanje")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("vse")) ? "<b>" : ""%>
@@ -370,11 +380,13 @@ while (rs.next() && recCount < stopRec) {
 	String x_ime_in_priimek = "";
 	String x_uporabnisko_ime = "";
 	String x_geslo = "";
+	String x_email = "";
 	String x_tip = "";
 	String x_meni = "";
 	String x_aktiven = "";
 	String x_porocila = "";
 	String x_narocila = "";
+	String x_narocila_potrjevanje = "";
 	String x_vse = "";
 	String x_enote= "";
 	String x_sif_enote = "";
@@ -406,6 +418,13 @@ while (rs.next() && recCount < stopRec) {
 		x_geslo = rs.getString("geslo");
 	}else{
 		x_geslo = "";
+	}
+
+	// email
+	if (rs.getString("email") != null){
+		x_email = rs.getString("email");
+	}else{
+		x_email = "";
 	}
 
 	// tip
@@ -441,6 +460,13 @@ while (rs.next() && recCount < stopRec) {
 		x_narocila = "X";
 	}else{
 		x_narocila = "";
+	}
+	
+	// narocila
+	if (rs.getBoolean("narocila_potrjevanje")){
+		x_narocila_potrjevanje = "X";
+	}else{
+		x_narocila_potrjevanje = "";
 	}
 	
 	// vse
@@ -486,11 +512,13 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_ime_in_priimek); %>&nbsp;</td>
 		<td><% out.print(x_uporabnisko_ime); %>&nbsp;</td>
 		<td><% out.print(x_geslo); %>&nbsp;</td>
+		<td><% out.print(x_email); %>&nbsp;</td>
 		<td><% out.print(x_tip); %>&nbsp;</td>
 		<td><% out.print(x_meni); %>&nbsp;</td>
 		<td><% out.print(x_aktiven);%>&nbsp;</td>
 		<td><% out.print(x_porocila);%>&nbsp;</td>		
 		<td><% out.print(x_narocila);%>&nbsp;</td>		
+		<td><% out.print(x_narocila_potrjevanje);%>&nbsp;</td>		
 		<td><% out.print(x_vse);%>&nbsp;</td>
 		<td><% out.print(x_enote);%>&nbsp;</td>		
 <td><%
