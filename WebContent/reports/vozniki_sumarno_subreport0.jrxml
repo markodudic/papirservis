@@ -36,11 +36,16 @@
 		<defaultValueExpression ><![CDATA["10.12.2008"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT sum(stev_ur) ur, sum(stev_km) km, 
-	sum(stev_ur_sled) ur_sled, sum(stev_km_sled) km_sled, 
-	sum(stev_ur_norm) ur_norm, sum(stev_km_norm) km_norm, 
+	<queryString><![CDATA[SELECT sum(stev_ur) ur, 
+	sum(stev_km) km, 
+	sum(stev_ur_sled) ur_sled, 
+	sum(stev_km_sled) km_sled, 
+	sum(if (krozna=1,stev_ur_sled,null)) ur_sled_k, 
+	sum(if (krozna=1,stev_km_sled,null)) km_sled_k, 
+	sum(stev_ur_norm) ur_norm, 
+	sum(stev_km_norm) km_norm, 
 	sofer
 FROM (select *, max(dob.zacetek) 
 	from $P!{dobLeto} dob 
@@ -54,9 +59,11 @@ order by sofer]]></queryString>
 	<field name="km" class="java.math.BigDecimal"/>
 	<field name="ur_sled" class="java.lang.Double"/>
 	<field name="km_sled" class="java.math.BigDecimal"/>
-	<field name="sofer" class="java.lang.String"/>
+	<field name="ur_sled_k" class="java.lang.Double"/>
+	<field name="km_sled_k" class="java.math.BigDecimal"/>
 	<field name="ur_norm" class="java.lang.Double"/>
 	<field name="km_norm" class="java.math.BigDecimal"/>
+	<field name="sofer" class="java.lang.String"/>
 
 	<variable name="sum_km" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{km}]]></variableExpression>
@@ -75,6 +82,12 @@ order by sofer]]></queryString>
 	</variable>
 	<variable name="sum_ur_norm" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{ur_norm}]]></variableExpression>
+	</variable>
+	<variable name="sum_ur_sled_k" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ur_sled_k}]]></variableExpression>
+	</variable>
+	<variable name="sum_km_sled_k" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{km_sled_k}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -114,17 +127,17 @@ order by sofer]]></queryString>
 						key="element-90"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ŠOFER]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="478"
+						x="485"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-90"/>
@@ -132,15 +145,15 @@ order by sofer]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[KM NORM]]></text>
+				<text><![CDATA[KM NO]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="422"
+						x="435"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-91"/>
@@ -148,15 +161,15 @@ order by sofer]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[UR NORM]]></text>
+				<text><![CDATA[UR NO]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="365"
+						x="285"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-94"/>
@@ -164,15 +177,15 @@ order by sofer]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[KM SLED]]></text>
+				<text><![CDATA[KM SL]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="309"
+						x="235"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-95"/>
@@ -180,15 +193,15 @@ order by sofer]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[UR SLED]]></text>
+				<text><![CDATA[UR SL]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="253"
+						x="185"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-96"/>
@@ -201,10 +214,10 @@ order by sofer]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="197"
+						x="135"
 						y="0"
-						width="56"
-						height="16"
+						width="50"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-97"/>
@@ -213,6 +226,38 @@ order by sofer]]></queryString>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[UR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="335"
+						y="0"
+						width="50"
+						height="15"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-98"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[UR KRO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="385"
+						y="0"
+						width="50"
+						height="15"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-99"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[KM KRO]]></text>
 				</staticText>
 			</band>
 		</columnHeader>
@@ -233,7 +278,7 @@ order by sofer]]></queryString>
 					<reportElement
 						x="0"
 						y="0"
-						width="534"
+						width="135"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -244,9 +289,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="478"
+						x="485"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -257,9 +302,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="422"
+						x="435"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -270,9 +315,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="309"
+						x="235"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -283,9 +328,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="365"
+						x="285"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField-4"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -296,9 +341,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="197"
+						x="135"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -309,9 +354,9 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="253"
+						x="185"
 						y="0"
-						width="56"
+						width="50"
 						height="15"
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -319,6 +364,32 @@ order by sofer]]></queryString>
 						<font fontName="Arial" size="12"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="335"
+						y="0"
+						width="50"
+						height="15"
+						key="textField-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ur_sled_k}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="50"
+						height="15"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km_sled_k}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
@@ -362,10 +433,10 @@ order by sofer]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="478"
-						y="1"
-						width="56"
-						height="16"
+						x="485"
+						y="0"
+						width="50"
+						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -375,10 +446,10 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="422"
-						y="1"
-						width="56"
-						height="16"
+						x="435"
+						y="0"
+						width="50"
+						height="15"
 						key="textField-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -388,10 +459,10 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="365"
-						y="1"
-						width="56"
-						height="16"
+						x="285"
+						y="0"
+						width="50"
+						height="15"
 						key="textField-5"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -401,10 +472,10 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="309"
-						y="1"
-						width="56"
-						height="16"
+						x="235"
+						y="0"
+						width="50"
+						height="15"
 						key="textField-6"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -414,10 +485,10 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="253"
-						y="1"
-						width="56"
-						height="16"
+						x="185"
+						y="0"
+						width="50"
+						height="15"
 						key="textField-9"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -427,16 +498,42 @@ order by sofer]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="197"
-						y="1"
-						width="56"
-						height="16"
+						x="135"
+						y="0"
+						width="50"
+						height="15"
 						key="textField-10"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ur}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="335"
+						y="0"
+						width="50"
+						height="15"
+						key="textField-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ur_sled_k}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="50"
+						height="15"
+						key="textField-14"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_km_sled_k}]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>
