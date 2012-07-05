@@ -10,6 +10,7 @@
 
 <% 
 String reports = (String)session.getAttribute("papirservis1_status_Reports");
+String narocila = (String)session.getAttribute("papirservis1_status_Narocila");
 int meni = 	((Integer) session.getAttribute("meni")).intValue();
 
 // user menues
@@ -56,6 +57,9 @@ if ((meni & ewDriveOut) == ewDriveOut){
 %>
 			<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">ODVOZI</span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="doblist.jsp?cmd=top">Dobavnice</a></span></td></tr>
+			<% if (Integer.parseInt(narocila) == 1) { %>
+				<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="dobnarlist.jsp?cmd=top">Dobavnice naro&#269;ila</a></span></td></tr>
+			<% } %>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="dobavnicalist.jsp?cmd=top">Delovni nalog - VNOS</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="delovniNalogPriprava.jsp">Delovni nalog - PERIODA</a></span></td></tr>
 			<% if (Integer.parseInt(reports) == 1) { %>
