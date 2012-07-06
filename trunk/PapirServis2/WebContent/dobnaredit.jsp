@@ -550,7 +550,7 @@ try{
 
 
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion, koda, ewc, kolicina, skupina, skupina_text, opomba, uporabnik) values(";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion, koda, ewc, kolicina, skupina, skupina_text, opomba, uporabnik, aplikacija) values(";
 
 
 		// Open record
@@ -765,7 +765,7 @@ try{
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 
-		strsql += session.getAttribute("papirservis1_status_UserID") + " )";
+		strsql += session.getAttribute("papirservis1_status_UserID") + ", 1 )"; //1 - aplikacija
 		Statement stmt1 = conn.createStatement();
 
 		stmt1.executeUpdate(strsql);
