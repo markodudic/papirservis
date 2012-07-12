@@ -76,8 +76,12 @@
 	 <param-value>papirvozila</param-value>
   </context-param>
   <context-param>
+	 <param-name>sledenje_obdobje</param-name>
+	 <param-value>180</param-value>
+  </context-param>
+  <context-param>
 	 <param-name>distance_customer</param-name>
-	 <param-value>0.004</param-value>
+	 <param-value>0.008</param-value>
   </context-param>
   <context-param>
 	 <param-name>distance_location</param-name>
@@ -98,7 +102,7 @@
 	 </init-param>
 	 <init-param>
 	   <param-name>scheduler_pattern</param-name>
-		<param-value>*/30 13-16 * * *</param-value>
+		<param-value>*/1 13-16 * * *</param-value>
 	 </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  
