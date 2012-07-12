@@ -44,6 +44,7 @@ public class TimerServlet extends InitServlet implements Servlet {
     private SledenjeTravelOrdersWS sledenjeTravelOrdersWS = null;
     private String sledenje_username;
     private String sledenje_password;
+    private int sledenje_obdobje; //trajanje postanka
     private double distanceLocation;
     private double distanceCustomer;
     private String query_limit;
@@ -83,6 +84,7 @@ public class TimerServlet extends InitServlet implements Servlet {
           String http_password = (String) getServletContext().getInitParameter("http_password");
           sledenje_username = (String) getServletContext().getInitParameter("sledenje_username");
           sledenje_password = (String) getServletContext().getInitParameter("sledenje_password");
+          sledenje_obdobje = Integer.parseInt((String) getServletContext().getInitParameter("sledenje_obdobje"));
           distanceCustomer = Double.parseDouble((String) getServletContext().getInitParameter("distance_customer"));
           distanceLocation = Double.parseDouble((String) getServletContext().getInitParameter("distance_location"));
 			
@@ -722,7 +724,7 @@ public class TimerServlet extends InitServlet implements Servlet {
     	{
           //WS
     	  Integer login = (Integer) sledenjeTravelOrdersWS.login("papirservis","papirvozila");
-    	  relations = sledenjeTravelOrdersWS.getTravelOrderStopsIdent(zacetek, konec, ident, null, null, null, null, null);
+    	  relations = sledenjeTravelOrdersWS.getTravelOrderStopsIdent(zacetek, konec, ident, null, null, null, sledenje_obdobje, null);
     	  sledenjeTravelOrdersWS.logout();
     	}
     	catch(Exception e) 
