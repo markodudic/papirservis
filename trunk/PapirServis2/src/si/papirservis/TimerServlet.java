@@ -106,24 +106,12 @@ public class TimerServlet extends InitServlet implements Servlet {
           }
           
           Scheduler s = new Scheduler();
-	  	  // Schedule a once-a-minute task.
 	  	  s.schedule(scheduler_pattern, new Runnable() {
 	  		  public void run() {
 	  			scheduleRun();
 	  	  	}
 	  	  });
-	  	  // Starts the scheduler.
-	  	  s.start();
-  		
-          // timer 
-          /*int period = Integer.parseInt((String) getServletConfig().getInitParameter("period"));
-          int delay = 10000000;   // delay for 30 sec.
-          Timer timer = new Timer();
-          timer.scheduleAtFixedRate(new TimerTask() {
-                  public void run() {
-                	  scheduleRun();
-                  }}, delay, period);    
-                  */      
+	  	  s.start();     
     }
     
     
@@ -149,9 +137,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 				vozilaSledenje += "'" + vozilo + "%'";
 				if (it.hasNext())
 					vozilaSledenje += ",";
-			}
-			if (vozila.size()>0) {
-				//setVozilaNiVSledenju(vozilaSledenje, runTime.get(Calendar.YEAR), ERROR_VEHICLE_NOT_IN_SLEDENJE);
 			}
 			
 		    
@@ -460,7 +445,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 			
 			    	rs = stmt.executeQuery(sql);
 			
-			    	stmt1 = con.createStatement();   	
+			    	disableTriggers();
+			    	stmt1 = con.createStatement(); 
 			    	while (rs.next()) {
 			    			sql = "update dob" + datum + " " +
 								"set stev_km_sled=null, stev_ur_sled=null, error = 0 " +
@@ -471,6 +457,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 			    			System.out.println("resetData="+sql);
 			    			stmt1.executeUpdate(sql);
 			    	}
+			    	enableTriggers();
 				}
 		    } catch (Exception theException) {
 		    	theException.printStackTrace();
@@ -757,6 +744,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 			
 	    	rs = stmt.executeQuery(sql);
 
+	    	disableTriggers();
 	    	stmt1 = con.createStatement();   	
 	    	while (rs.next()) {
 	    		sql = "update dob" + datum + " " +
@@ -768,6 +756,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    		System.out.println("setOrdersOtherPositions="+sql);
 	    		stmt1.executeUpdate(sql);
 	    	}
+	    	enableTriggers();
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
@@ -821,7 +810,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "		zacetek = '" + getZadnjaDobavnica(st_dob, year) + "'";
 	    		
 			System.out.println("UPDATE SLEDENJE="+sql);
+	    	disableTriggers();
 			stmt.executeUpdate(sql);
+	    	enableTriggers();
 	    } catch (Exception theException) {
 	    	System.out.println("NAPAKA UPDATE SLEDENJE="+theException.getMessage());
 			theException.printStackTrace();
@@ -858,6 +849,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 		
 	    	rs = stmt.executeQuery(sql);
 			
+	    	disableTriggers();
 	    	stmt1 = con.createStatement();   	
 	    	while (rs.next()) {
 				sql = "update dob" + dobLeto + " " +
@@ -872,6 +864,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 				System.out.println("setDobError="+sql);
 				stmt1.executeUpdate(sql);
 	    	}
+	    	enableTriggers();
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
@@ -891,37 +884,6 @@ public class TimerServlet extends InitServlet implements Servlet {
 		
 		return;
 	}
-
-	private void setVozilaNiVSledenju(String vozila, int dobLeto, int error) {
-
-    	Statement stmt = null;
-
-	    try {
-	    	connectionMake();
-			stmt = con.createStatement();   	
-
-			String sql = "update dob" + dobLeto + " " +
-						 "set error = " + error +
-						 " where pozicija = 1 and " +
-						 "		sif_kam not in (" + vozila + ") and " +
-						 "		error = 0";
-			
-			System.out.println("setVozilaNiVSledenju="+sql);
-			//stmt.executeUpdate(sql);
-	    } catch (Exception theException) {
-	    	theException.printStackTrace();
-	    } finally {
-	    	try {
-	    		if (stmt != null) {
-	    			stmt.close();
-	    		}
-			} catch (Exception e) {
-			}
-	    }	
-		
-		return;
-	}
-
 	
 	private void setDobOkError(String st_dob, String datum, int error) {
 
@@ -939,7 +901,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "		zacetek = '" + getZadnjaDobavnica(st_dob, datum.substring(0, 4)) + "'";
 	    		
     		System.out.println("setDobOkError="+sql);
+	    	disableTriggers();
     		stmt.executeUpdate(sql);
+	    	enableTriggers();
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();
 	    } finally {
@@ -1042,7 +1006,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 						 "		datum = '" + datum + "'";
 				
 				System.out.println("setPrevozLastnePotrebe="+sql);
+		    	disableTriggers();
 				stmt.executeUpdate(sql);
+		    	enableTriggers();
 	    	}
 	    } catch (Exception theException) {
 	    	theException.printStackTrace();

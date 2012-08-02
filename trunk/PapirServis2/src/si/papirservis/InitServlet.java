@@ -18,7 +18,10 @@ package si.papirservis;
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 
@@ -98,6 +101,50 @@ public class InitServlet extends HttpServlet {
     return con;
   }
 
+	public void disableTriggers() {
+    	ResultSet rs = null;
+    	Statement stmt = null;
 
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+	    	rs = stmt.executeQuery("SET @disable_triggers = 1;");
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+	}					
+
+	public void enableTriggers() {
+    	ResultSet rs = null;
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+	    	rs = stmt.executeQuery("SET @disable_triggers = NULL;");
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (rs != null) {
+	    			rs.close();
+	    		}
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }
+	}					
 }
 
