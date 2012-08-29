@@ -74,7 +74,7 @@ public class TimerServlet extends InitServlet implements Servlet {
     {
           /// Automatically java script can run here
           System.out.println("************");
-          System.out.println("*** Timer Initialized successfully ***..");
+          System.out.println("*** Timer Initialized successfully ***");
           System.out.println("***********");
           
           query_limit = (String) getServletConfig().getInitParameter("query_limit");
@@ -176,6 +176,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 					System.out.println("******************START="+ordersDate.getKamion() + " " +  ordersDate.getZacetek()+" "+ordersDate.getKonec()+" "+ident);	
 					
 					//za vozilo in datum poiščem njegove postanke
+					//TravelOrderRelation[] relations = getSledenje("24.07.2012 00:00:00", "24.07.2012 23:59:59", "4571172");
 					TravelOrderRelation[] relations = getSledenje(ordersDate.getZacetek(), ordersDate.getKonec(), ident);
 					if (relations == null) {
     					System.out.println("Napaka pri povezavi na seldenje. Počakam time out.");	
@@ -187,6 +188,42 @@ public class TimerServlet extends InitServlet implements Servlet {
 						System.out.println("NI RELACIJ ZA="+ordersDate.getKamion()+" "+ordersDate.getDatum());
 						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
 						continue;
+					} else {
+						//zapi�em vse podatke v tabelo sofer_sledenje za evidenco soferja in kamiona
+						String kamion = ordersDate.getSif_kam();
+						String datum = ordersDate.getDatum();
+						String sofer = "-1";
+						int km = 0;
+						long cas = 0;
+						Date time_to = null;
+						Date time_from = null;
+						
+						for (int ii=0; ii<relations.length; ii++) {
+							TravelOrderRelation relation = relations[ii];
+							System.out.println("SLEDENJE="+relation.getTime_from()+"-"+relation.getTime_to()+"-"+relation.getDist_km()+"-"+relation.getDriver_key());
+							
+							if (time_from == null) 
+								time_from = df.parse(relation.getTime_from().trim());
+							if (ii>0 && !sofer.equals(relation.getDriver_key())) {
+								//ce je drug sofer zapisem podatke
+								cas = (df.parse(relation.getTime_from().trim()).getTime() - time_from.getTime()) / 1000;;
+								System.out.println("SOFER SLEDENJE="+kamion+"-"+datum+"-"+sofer+"-"+km+"-"+cas);
+								setSoferSledenje(kamion,datum,sofer,km,cas);
+								km = 0;
+								cas = 0;
+								time_from = df.parse(relation.getTime_from().trim());
+							}
+							km += relation.getDist_km();
+							if (relation.getDriver_key()=="0" || relation.getDriver_key()==null)
+								sofer = "-1";
+							else
+								sofer = relation.getDriver_key();
+							time_to = df.parse(relation.getTime_to().trim());
+						}
+						//na koncu zapisem zadnje podatke
+						cas += (time_to.getTime() - time_from.getTime()) / 1000;
+						System.out.println("SOFER SLEDENJE END="+kamion+"-"+datum+"-"+sofer+"-"+km+"-"+cas);
+						setSoferSledenje(kamion,datum,sofer,km,cas);
 					}
 					
 					//poiščem vse dobavnice in podatke, ki so bile izvedene za ta kamion na ta dan
@@ -458,6 +495,16 @@ public class TimerServlet extends InitServlet implements Servlet {
 			    			stmt1.executeUpdate(sql);
 			    	}
 			    	enableTriggers();
+			    	
+			    	//pobrisem vse podatke iz sofer_sledenje za izbran datum in kamion
+			    	stmt1 = con.createStatement(); 
+	    			sql = "delete from sofer_sledenje " +
+						" where sif_kam = " + kamion + " and " +
+						"		datum = '" + datumDob + "'";
+		
+	    			System.out.println("deleteData="+sql);
+	    			stmt1.executeUpdate(sql);
+			    	
 				}
 		    } catch (Exception theException) {
 		    	theException.printStackTrace();
@@ -1025,5 +1072,41 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    }	
 		
 		return;
-	}		
+	}
+	
+	private void setSoferSledenje(String kamion, String datum, String sofer, int km, long cas) {
+
+    	Statement stmt = null;
+
+	    try {
+	    	connectionMake();
+			stmt = con.createStatement();   	
+
+			long ura = cas / (3600);	
+			long min = (cas / 60) % 60;
+			String ur = ura +":"+ min + ":00";
+
+			String sql = "insert into sofer_sledenje values (null, "+kamion+", '"+datum+"', "+km+", '"+ur+"')";
+	    	if (!sofer.equals("-1")) {
+	    		sql = "insert into sofer_sledenje " +
+	    				"select sif_sof, "+kamion+", '"+datum+"', "+km+", '"+ur+"' from sofer where kljuc = '"+sofer+"'";
+	    	}
+	    		
+    		System.out.println("setSoferSledenje="+sql);
+	    	disableTriggers();
+    		stmt.executeUpdate(sql);
+	    	enableTriggers();
+	    } catch (Exception theException) {
+	    	theException.printStackTrace();
+	    } finally {
+	    	try {
+	    		if (stmt != null) {
+	    			stmt.close();
+	    		}
+			} catch (Exception e) {
+			}
+	    }	
+		
+		return;
+	}	
 }
