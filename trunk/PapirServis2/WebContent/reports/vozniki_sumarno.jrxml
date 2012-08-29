@@ -30,10 +30,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2012-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2012-7-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2012-1-10"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2012-7-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.12.2008"]]></defaultValueExpression>
