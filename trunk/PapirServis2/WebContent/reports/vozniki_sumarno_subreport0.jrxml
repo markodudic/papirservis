@@ -40,13 +40,15 @@
 	</parameter>
 	<queryString><![CDATA[SELECT sum(stev_ur) ur, 
 	sum(stev_km) km, 
-	sum(if (krozna=1,stev_ur_sled,null)) ur_sled_k, 
-	sum(if (krozna=1,stev_km_sled,null)) km_sled_k, 
-	sum(stev_ur_norm) ur_norm, 
-	sum(stev_km_norm) km_norm, 
+	ifnull(round(sum(stev_ur_sled)),0) ur_sled, 
+	ifnull(round(sum(stev_km_sled)),0) km_sled, 
+	ifnull(round(sum(if (krozna=1,stev_ur_sled,null))),0) ur_sled_k, 
+	ifnull(round(sum(if (krozna=1,stev_km_sled,null))),0) km_sled_k, 
+	ifnull(round(sum(stev_ur_norm)),0) ur_norm, 
+	ifnull(round(sum(stev_km_norm)),0) km_norm, 
 	sofer,
-	(select hour(sec_to_time(sum(time_to_sec(ur_sled)))) from sofer_sledenje as ss where d.sif_sof = ss.sif_sof) as ur_sled,
-	(select sum(km_sled)/1000 from sofer_sledenje as ss where d.sif_sof = ss.sif_sof) as km_sled
+	ifnull(round((select hour(sec_to_time(sum(time_to_sec(ur_sled)))) from sofer_sledenje as ss where d.sif_sof = ss.sif_sof)),0) as ur_sled_vse,
+	ifnull(round((select sum(km_sled)/1000 from sofer_sledenje as ss where d.sif_sof = ss.sif_sof)),0) as km_sled_vse
 FROM (select *, max(dob.zacetek) 
 	from $P!{dobLeto} dob 
 	where datum >= CAST($P{od_datum} AS DATE) 
@@ -57,13 +59,15 @@ order by sofer]]></queryString>
 
 	<field name="ur" class="java.lang.Double"/>
 	<field name="km" class="java.math.BigDecimal"/>
+	<field name="ur_sled" class="java.lang.Double"/>
+	<field name="km_sled" class="java.math.BigDecimal"/>
 	<field name="ur_sled_k" class="java.lang.Double"/>
 	<field name="km_sled_k" class="java.math.BigDecimal"/>
 	<field name="ur_norm" class="java.lang.Double"/>
 	<field name="km_norm" class="java.math.BigDecimal"/>
 	<field name="sofer" class="java.lang.String"/>
-	<field name="ur_sled" class="java.lang.Long"/>
-	<field name="km_sled" class="java.math.BigDecimal"/>
+	<field name="ur_sled_vse" class="java.lang.Long"/>
+	<field name="km_sled_vse" class="java.math.BigDecimal"/>
 
 	<variable name="sum_km" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{km}]]></variableExpression>
@@ -77,7 +81,7 @@ order by sofer]]></queryString>
 	<variable name="sum_km_norm" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{km_norm}]]></variableExpression>
 	</variable>
-	<variable name="sum_ur_sled" class="java.lang.Long" resetType="Report" calculation="Sum">
+	<variable name="sum_ur_sled" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{ur_sled}]]></variableExpression>
 	</variable>
 	<variable name="sum_ur_norm" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -88,6 +92,12 @@ order by sofer]]></queryString>
 	</variable>
 	<variable name="sum_km_sled_k" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{km_sled_k}]]></variableExpression>
+	</variable>
+	<variable name="sum_ur_sled_vse" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ur_sled_vse}]]></variableExpression>
+	</variable>
+	<variable name="sum_km_sled_vse" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{km_sled_vse}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -127,7 +137,7 @@ order by sofer]]></queryString>
 						key="element-90"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ŠOFER]]></text>
 				</staticText>
@@ -143,46 +153,46 @@ order by sofer]]></queryString>
 						key="element-90"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[KM NO]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="435"
+						x="440"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-91"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[UR NO]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="285"
+						x="265"
 						y="0"
-						width="50"
+						width="80"
 						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-94"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[KM SL]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="235"
+						x="215"
 						y="0"
 						width="50"
 						height="15"
@@ -191,14 +201,14 @@ order by sofer]]></queryString>
 						key="element-95"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[UR SL]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="185"
+						x="165"
 						y="0"
 						width="50"
 						height="15"
@@ -207,46 +217,46 @@ order by sofer]]></queryString>
 						key="element-96"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[KM]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="135"
+						x="120"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-97"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[UR]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="335"
+						x="345"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-98"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[UR KRO]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="385"
+						x="390"
 						y="0"
 						width="50"
 						height="15"
@@ -255,7 +265,7 @@ order by sofer]]></queryString>
 						key="element-99"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<text><![CDATA[KM KRO]]></text>
 				</staticText>
@@ -278,12 +288,12 @@ order by sofer]]></queryString>
 					<reportElement
 						x="0"
 						y="0"
-						width="135"
+						width="120"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sofer}]]></textFieldExpression>
 				</textField>
@@ -296,98 +306,98 @@ order by sofer]]></queryString>
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km_norm}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="435"
+						x="440"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ur_norm}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="235"
+						x="215"
 						y="0"
 						width="50"
 						height="15"
 						key="textField-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ur_sled}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new DecimalFormat("#,##0").format($F{ur_sled_vse})+" ("+new DecimalFormat("#,##0").format($F{ur_sled})+")"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="285"
+						x="265"
 						y="0"
-						width="50"
+						width="80"
 						height="15"
 						key="textField-4"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km_sled}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new DecimalFormat("#,##0").format($F{km_sled_vse})+" ("+new DecimalFormat("#,##0").format($F{km_sled})+")"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="135"
+						x="120"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						key="textField-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ur}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="185"
+						x="165"
 						y="0"
 						width="50"
 						height="15"
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="335"
+						x="345"
 						y="0"
-						width="50"
+						width="45"
 						height="15"
 						key="textField-11"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ur_sled_k}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="385"
+						x="390"
 						y="0"
 						width="50"
 						height="15"
 						key="textField-12"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{km_sled_k}]]></textFieldExpression>
 				</textField>
@@ -402,7 +412,7 @@ order by sofer]]></queryString>
 			</band>
 		</pageFooter>
 		<summary>
-			<band height="20"  isSplitAllowed="true" >
+			<band height="34"  isSplitAllowed="true" >
 				<rectangle radius="0" >
 					<reportElement
 						mode="Opaque"
@@ -421,13 +431,13 @@ order by sofer]]></queryString>
 						x="0"
 						y="1"
 						width="534"
-						height="16"
+						height="32"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-93"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[SKUPAJ]]></text>
 				</staticText>
@@ -436,102 +446,102 @@ order by sofer]]></queryString>
 						x="485"
 						y="0"
 						width="50"
-						height="15"
+						height="32"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_km_norm}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="435"
+						x="440"
 						y="0"
-						width="50"
-						height="15"
+						width="45"
+						height="32"
 						key="textField-2"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ur_norm}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="285"
+						x="265"
 						y="0"
-						width="50"
-						height="15"
+						width="80"
+						height="32"
 						key="textField-5"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_km_sled}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new DecimalFormat("#,##0").format($V{sum_km_sled_vse})+" ("+new DecimalFormat("#,##0").format($V{sum_km_sled})+")"]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="235"
+						x="215"
 						y="0"
 						width="50"
-						height="15"
+						height="32"
 						key="textField-6"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{sum_ur_sled}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new DecimalFormat("#,##0").format($V{sum_ur_sled_vse})+" ("+new DecimalFormat("#,##0").format($V{sum_ur_sled})+")"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="185"
+						x="165"
 						y="0"
 						width="50"
-						height="15"
+						height="32"
 						key="textField-9"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_km}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="135"
+						x="120"
 						y="0"
-						width="50"
-						height="15"
+						width="45"
+						height="32"
 						key="textField-10"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ur}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="335"
+						x="345"
 						y="0"
-						width="50"
-						height="15"
+						width="45"
+						height="32"
 						key="textField-13"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_ur_sled_k}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="385"
+						x="390"
 						y="0"
 						width="50"
-						height="15"
+						height="32"
 						key="textField-14"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_km_sled_k}]]></textFieldExpression>
 				</textField>
