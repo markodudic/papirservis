@@ -525,6 +525,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("vtez")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("obracun_km")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("obracun_km","UTF-8") %>">Obračun km&nbsp;<% if (OrderBy != null && OrderBy.equals("obracun_km")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("obracun_km")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_norm","UTF-8") %>">Število km normativ&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_norm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("stev_km_norm")) ? "</b>" : ""%>
@@ -610,6 +615,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_y_koord = "";
 	String x_radij = "";	
 	String x_vtez = "";	
+	String x_obracun_km = "";
 	String x_stev_km_norm = "";
 	String x_stev_ur_norm = "";
 	
@@ -838,6 +844,9 @@ while (rs.next() && recCount < stopRec) {
 	}	
 
 
+	// obracun_km
+	x_obracun_km = String.valueOf(rs.getDouble("obracun_km"));
+
 	// stev_km_norm
 	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 
@@ -945,6 +954,7 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 		<td><% out.print(x_y_koord); %>&nbsp;</td>
 		<td><% out.print(x_radij); %>&nbsp;</td>
 		<td><% out.print(x_vtez); %>&nbsp;</td>
+		<td><% out.print(x_obracun_km); %>&nbsp;</td>
 		<td><% out.print(x_stev_km_norm); %>&nbsp;</td>
 		<td><% out.print(x_stev_ur_norm); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>

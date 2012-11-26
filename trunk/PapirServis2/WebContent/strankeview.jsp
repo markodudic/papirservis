@@ -77,6 +77,7 @@ String x_x_koord = "";
 String x_y_koord = "";
 String x_radij = "";
 String x_vtez = "";
+String x_obracun_km = "";
 String x_stev_km_norm = "";
 String x_stev_ur_norm = "";
 
@@ -319,6 +320,9 @@ try{
 		x_vtez = "";
 	}	
 	
+	// obracun_km
+	x_obracun_km = String.valueOf(rs.getDouble("obracun_km"));
+
 	// stev_km_norm
 	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 
@@ -485,6 +489,10 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 	<tr>
 		<td class="ewTableHeader">Vtez&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_vtez); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Obračun km&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_obracun_km); %>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Število km normativ&nbsp;</td>

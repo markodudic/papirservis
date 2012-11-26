@@ -77,6 +77,7 @@ Object x_x_koord = null;
 Object x_y_koord = null;
 Object x_radij = null;
 Object x_vtez = null;
+Object x_obracun_km = null;
 Object x_stev_km_norm = null;
 Object x_stev_ur_norm = null;
 
@@ -219,6 +220,7 @@ try{
 	}else{
 		x_vtez = "";
 	}
+	x_obracun_km = String.valueOf(rs.getDouble("obracun_km"));
 	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 	x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
 	
@@ -363,6 +365,11 @@ try{
 		}else{
 			x_vtez = "";
 		}
+		if (request.getParameter("x_obracun_km") != null){
+			x_obracun_km = (String) request.getParameter("x_obracun_km");
+		}else{
+			x_obracun_km = "";
+		}		
 		if (request.getParameter("x_stev_km_norm") != null){
 			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
 		}else{
@@ -612,6 +619,17 @@ try{
 			rs.updateString("vtez", tmpfld);
 		}
 		
+		// Field x_obracun_km
+		tmpfld = ((String) x_obracun_km);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("obracun_km");
+		}else{
+			rs.updateString("obracun_km", tmpfld);
+		}
+
 		// Field x_stev_km_norm
 		tmpfld = ((String) x_stev_km_norm);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -842,6 +860,10 @@ if (!(EW_this.x_najem.value.charAt(0) == "D" || EW_this.x_najem.value.charAt(0) 
 	        if (!EW_onError(EW_this, EW_this.x_vtez, "TEXT", "Napačna številka - vtez"))
 	            return false; 
 	        }
+	if (EW_this.x_obracun_km && !EW_checknumber(EW_this.x_obracun_km.value)) {
+	    if (!EW_onError(EW_this, EW_this.x_obracun_km, "TEXT", "Napačna številka - obracun km"))
+	        return false; 
+	    }
 	if (EW_this.x_stev_km_norm && !EW_checknumber(EW_this.x_stev_km_norm.value)) {
 	    if (!EW_onError(EW_this, EW_this.x_stev_km_norm, "TEXT", "Napačna številka - stev km norm"))
 	        return false; 
@@ -995,6 +1017,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Vtez&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_vtez" size="30" maxlength="255" value="<%= HTMLEncode((String)x_vtez) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Obračun km&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_obracun_km" size="30" value="<%= HTMLEncode((String)x_obracun_km) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Število km normativ&nbsp;</td>

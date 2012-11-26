@@ -117,7 +117,9 @@ function disableSome(EW_this){
 		<td>sit sort&nbsp;</td>
 		<td>sit zaup&nbsp;</td>
 		<td>sit smet&nbsp;</td>
-		<td>Ravnanje&nbsp;</td>
+		<%for (int i=1; i<10; i++) {%>
+			<td>Ravnanje&nbsp;<%=i%></td>
+		<%}%>
 		<td>Prevoz 1&nbsp;</td>
 		<td>Prevoz 2&nbsp;</td>
 		<td>Prevoz 3&nbsp;</td>
@@ -145,7 +147,7 @@ while (rs.next()){
 	String x_sit_sort = "";
 	String x_sit_zaup = "";
 	String x_sit_smet = "";
-	String x_ravnanje = "";
+	String[] x_ravnanje = {"","","","","","","","",""};
 	String x_prevoz1 = "";
 	String x_prevoz2 = "";
 	String x_prevoz3 = "";
@@ -187,7 +189,9 @@ while (rs.next()){
 	x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
 
 	// ravnanje
-	x_ravnanje = String.valueOf(rs.getDouble("ravnanje"));
+	for (int i=1; i<10; i++) {
+		x_ravnanje[i-1] = String.valueOf(rs.getDouble("ravnanje"+i));
+	}
 
 	// prevoz1
 	x_prevoz1 = String.valueOf(rs.getDouble("prevoz1"));
@@ -230,7 +234,9 @@ while (rs.next()){
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_sit_sort, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_sit_zaup, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
-		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_ravnanje, 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<%for (int i=0; i<9; i++) {%>
+			<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_ravnanje[i], 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<%}%>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_prevoz1, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_prevoz2, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatNumber("" + x_prevoz3, 4, 1, 1, 1,locale)); %>&nbsp;</td>

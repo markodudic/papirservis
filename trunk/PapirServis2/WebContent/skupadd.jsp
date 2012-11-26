@@ -50,7 +50,7 @@ if (a == null || a.length() == 0) {
 Object x_skupina = null;
 Object x_tekst = null;
 Object x_pr1 = null;
-boolean x_ravnanje = false;
+String x_ravnanje = "";
 boolean x_prevoz_kamion = false;
 boolean x_prevoz_material = false;
 
@@ -89,8 +89,12 @@ try{
 	}else{
 		x_pr1 = "";
 	}
+	if (rs.getString("ravnanje") != null){
+		x_ravnanje = rs.getString("ravnanje");
+	}else{
+		x_ravnanje = "";
+	}
 
-	x_ravnanje = rs.getBoolean("ravnanje");
 	x_prevoz_kamion = rs.getBoolean("prevoz_kamion");
 	x_prevoz_material = rs.getBoolean("prevoz_material");
 
@@ -115,9 +119,10 @@ try{
 		}else{
 			x_pr1 = "";
 		}
-		
 		if (request.getParameter("x_ravnanje") != null){
-			x_ravnanje = true;
+			x_ravnanje = (String) request.getParameter("x_ravnanje");
+		}else{
+			x_ravnanje = "";
 		}
 
 		if (request.getParameter("x_prevoz_kamion") != null){
@@ -174,8 +179,12 @@ try{
 		}else{
 			rs.updateString("pr1", tmpfld);
 		}
+		if (tmpfld == null) {
+			rs.updateNull("ravnanje");
+		}else{
+			rs.updateString("ravnanje", x_ravnanje);
+		}
 
-		rs.updateBoolean("ravnanje",x_ravnanje);
 		rs.updateBoolean("prevoz_kamion",x_prevoz_kamion);
 		rs.updateBoolean("prevoz_material",x_prevoz_material);
 
@@ -248,7 +257,20 @@ return true;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Ravnanje&nbsp;</td>
-		<td class="ewTableAltRow"><input type="checkbox" name="x_ravnanje" <%= x_ravnanje ? "checked" : "" %>></td>
+		<td class="ewTableAltRow">
+		<select name="x_ravnanje" class="ravnanje">
+		<%
+		String ravnanjeList = "";
+		for (int i=0; i<10; i++) {
+			ravnanjeList += "<option value=\"" + i + "\"";
+			if (x_ravnanje.equals(i+"")) {
+				ravnanjeList += " selected";
+			}
+			ravnanjeList += ">" + i + "</option>";
+		}
+		ravnanjeList += "</select>";
+		out.println(ravnanjeList);
+		%></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Prevoz kamion&nbsp;</td>

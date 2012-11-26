@@ -56,7 +56,7 @@ Object x_str_dv = null;
 Object x_sit_sort = null;
 Object x_sit_zaup = null;
 Object x_sit_smet = null;
-Object x_ravnanje = null;
+Object[] x_ravnanje = {null,null,null,null,null,null,null,null,null};
 Object x_prevoz1 = null;
 Object x_prevoz2 = null;
 Object x_prevoz3 = null;
@@ -103,7 +103,9 @@ try{
 	x_sit_sort = String.valueOf(rs.getDouble("sit_sort"));
 	x_sit_zaup = String.valueOf(rs.getDouble("sit_zaup"));
 	x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
-	x_ravnanje = String.valueOf(rs.getDouble("ravnanje"));
+	for (int i=1; i<10; i++) {
+		x_ravnanje[i-1] = String.valueOf(rs.getDouble("ravnanje"+i));
+	}
 	x_prevoz1 = String.valueOf(rs.getDouble("prevoz1"));
 	x_prevoz2 = String.valueOf(rs.getDouble("prevoz2"));
 	x_prevoz3 = String.valueOf(rs.getDouble("prevoz3"));
@@ -161,10 +163,12 @@ try{
 		}else{
 			x_sit_smet = "";
 		}
-		if (request.getParameter("x_ravnanje") != null){
-			x_ravnanje = (String) request.getParameter("x_ravnanje");
-		}else{
-			x_ravnanje = "";
+		for (int i=1; i<10; i++) {
+			if (request.getParameter("x_ravnanje"+i) != null){
+				x_ravnanje[i-1] = (String) request.getParameter("x_ravnanje"+i);
+			}else{
+				x_ravnanje[i-1] = "";
+			}
 		}
 		if (request.getParameter("x_prevoz1") != null){
 			x_prevoz1 = (String) request.getParameter("x_prevoz1");
@@ -279,12 +283,14 @@ try{
 		}
 
 		// Field ravnanje
-		tmpfld = ((String) x_ravnanje).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("ravnanje");
-		} else {
-			rs.updateDouble("ravnanje",Double.parseDouble(tmpfld));
+		for (int i=1; i<10; i++) {
+			tmpfld = ((String) x_ravnanje[i-1]).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("ravnanje"+i);
+			} else {
+				rs.updateDouble("ravnanje"+i,Double.parseDouble(tmpfld));
+			}
 		}
 
 		// Field prevoz1
@@ -383,10 +389,12 @@ if (EW_this.x_sit_smet && !EW_checknumber(EW_this.x_sit_smet.value)) {
         if (!EW_onError(EW_this, EW_this.x_sit_smet, "TEXT", "Napačna številka - sit smet"))
             return false; 
         }
-if (EW_this.x_ravnanje && !EW_checknumber(EW_this.x_ravnanje.value)) {
-        if (!EW_onError(EW_this, EW_this.x_ravnanje, "TEXT", "Napačna številka - ravnanje"))
+for (int i=1; i<10; i++) {
+if (EW_this.x_ravnanje[i-1] && !EW_checknumber(EW_this.x_ravnanje[i-1].value)) {
+        if (!EW_onError(EW_this, EW_this.x_ravnanje[i-1], "TEXT", "Napačna številka - ravnanje "+1))
             return false; 
         }
+}
 if (EW_this.x_prevoz1 && !EW_checknumber(EW_this.x_prevoz1.value)) {
         if (!EW_onError(EW_this, EW_this.x_prevoz1, "TEXT", "Napačna številka - prevoz 1"))
             return false; 
@@ -446,10 +454,12 @@ return true;
 		<td class="ewTableHeader">sit smet&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_smet" size="30" value="<%= HTMLEncode((String)x_sit_smet) %>">&nbsp;</td>
 	</tr>
+<%for (int i=1; i<10; i++) {%>
 	<tr>
-		<td class="ewTableHeader">Ravnanje&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_ravnanje" size="30" value="<%= HTMLEncode((String)x_ravnanje) %>">&nbsp;</td>
+		<td class="ewTableHeader">Ravnanje&nbsp;<%=i%></td>
+		<td class="ewTableAltRow"><input type="text" name="x_ravnanje<%=i%>" size="30" value="<%= HTMLEncode((String)x_ravnanje[i-1]) %>">&nbsp;</td>
 	</tr>
+<%}%>
 	<tr>
 		<td class="ewTableHeader">Prevoz 1&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_prevoz1" size="30" value="<%= HTMLEncode((String)x_prevoz1) %>">&nbsp;</td>
