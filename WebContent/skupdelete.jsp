@@ -156,8 +156,8 @@ while (rs.next()){
 	}
 
 	// ravnanje
-	if (rs.getBoolean("ravnanje")){
-		x_ravnanje = "X";
+	if (rs.getString("ravnanje") != null){
+		x_ravnanje = rs.getString("ravnanje");
 	}else{
 		x_ravnanje = "";
 	}
@@ -185,9 +185,9 @@ while (rs.next()){
 		<td class="<%= rowclass %>"><% out.print(x_skupina); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(x_tekst); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(x_pr1); %>&nbsp;</td>
-		<td><% out.print(x_pr1); %>&nbsp;</td>
 		<td><% out.print(x_ravnanje);%>&nbsp;</td>
 		<td><% out.print(x_prevoz_kamion);%>&nbsp;</td>
+		<td><% out.print(x_prevoz_material);%>&nbsp;</td>
   </tr>
 <%
 }

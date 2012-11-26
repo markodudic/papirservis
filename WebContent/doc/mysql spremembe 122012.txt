@@ -1,0 +1,17 @@
+ALTER TABLE `materiali`
+	CHANGE COLUMN `ravnanje` `ravnanje1` DOUBLE NULL DEFAULT '0' AFTER `sit_smet`,
+	ADD COLUMN `ravnanje2` DOUBLE NULL DEFAULT '0' AFTER `ravnanje1`,
+	ADD COLUMN `ravnanje3` DOUBLE NULL DEFAULT '0' AFTER `ravnanje2`,
+	ADD COLUMN `ravnanje4` DOUBLE NULL DEFAULT '0' AFTER `ravnanje3`,
+	ADD COLUMN `ravnanje5` DOUBLE NULL DEFAULT '0' AFTER `ravnanje4`,
+	ADD COLUMN `ravnanje6` DOUBLE NULL DEFAULT '0' AFTER `ravnanje5`,
+	ADD COLUMN `ravnanje7` DOUBLE NULL DEFAULT '0' AFTER `ravnanje6`,
+	ADD COLUMN `ravnanje8` DOUBLE NULL DEFAULT '0' AFTER `ravnanje7`,
+	ADD COLUMN `ravnanje9` DOUBLE NULL DEFAULT '0' AFTER `ravnanje8`;
+
+	
+ALTER TABLE `stranke`
+	ADD COLUMN `obracun_km` INT(3) UNSIGNED NULL DEFAULT NULL AFTER `vtez`;
+	
+ALTER TABLE `stranke`
+	CHANGE COLUMN `obracun_km` `obracun_km` DOUBLE UNSIGNED NULL DEFAULT NULL AFTER `vtez`;	

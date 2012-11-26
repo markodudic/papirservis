@@ -84,8 +84,8 @@ try{
 		}
 
 		// ravnanje
-		if (rs.getBoolean("ravnanje")){
-			x_ravnanje = "X";
+		if (rs.getString("ravnanje") != null){
+			x_ravnanje = rs.getString("ravnanje");
 		}else{
 			x_ravnanje = "";
 		}

@@ -328,15 +328,18 @@ function disableSome(EW_this){
 <a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("sit_smet","UTF-8") %>">sit smet&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_smet")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("materiali_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("materiali_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sit_smet")) ? "</b>" : ""%>
 		</td>
+<%for (int i=1; i<10; i++) {
+String r = "ravnanje"+i;%>
 		<td>
-<%=(OrderBy != null && OrderBy.equals("ravnanje")) ? "<b>" : ""%>
-<a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("ravnanje","UTF-8") %>">Ravnanje&nbsp;<% if (OrderBy != null && OrderBy.equals("ravnanje")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("materiali_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("materiali_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("ravnanje")) ? "</b>" : ""%>
+<%=(OrderBy != null && OrderBy.equals(r)) ? "<b>" : ""%>
+<a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode(r,"UTF-8") %>">Ravnanje <%=i%>&nbsp;<% if (OrderBy != null && OrderBy.equals(r)) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("materiali_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("materiali_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals(r)) ? "</b>" : ""%>
 		</td>
+<%}%>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("prevoz1")) ? "<b>" : ""%>
 <a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("prevoz1","UTF-8") %>">Prevoz 1&nbsp;<% if (OrderBy != null && OrderBy.equals("prevoz1")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("materiali_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("materiali_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("prevoz1")) ? "</b>" : ""%>
+<%=(OrderBy != null && OrderBy.equals("prevoz1")) ? "</b>" : "" %>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("prevoz2")) ? "<b>" : ""%>
@@ -411,7 +414,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_sit_sort = "";
 	String x_sit_zaup = "";
 	String x_sit_smet = "";
-	String x_ravnanje = "";
+	String[] x_ravnanje = {"","","","","","","","",""};
 	String x_prevoz1 = "";
 	String x_prevoz2 = "";
 	String x_prevoz3 = "";
@@ -456,8 +459,9 @@ while (rs.next() && recCount < stopRec) {
 	x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
 
 	// ravnanje
-	x_ravnanje = String.valueOf(rs.getDouble("ravnanje"));
-
+	for (int i=1; i<10; i++) {
+		x_ravnanje[i-1] = String.valueOf(rs.getDouble("ravnanje"+i));
+	}
 	// prevoz1
 	x_prevoz1 = String.valueOf(rs.getDouble("prevoz1"));
 
@@ -521,7 +525,9 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(EW_FormatNumber("" + x_sit_sort, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_zaup, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
-		<td><% out.print(EW_FormatNumber("" + x_ravnanje, 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<%for (int i=0; i<9; i++) {%>
+			<td><% out.print(EW_FormatNumber("" + x_ravnanje[i], 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<%}%>
 		<td><% out.print(EW_FormatNumber("" + x_prevoz1, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_prevoz2, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_prevoz3, 4, 1, 1, 1,locale)); %>&nbsp;</td>

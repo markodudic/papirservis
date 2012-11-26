@@ -50,7 +50,7 @@ String x_str_dv = "";
 String x_sit_sort = "";
 String x_sit_zaup = "";
 String x_sit_smet = "";
-String x_ravnanje = "";
+String[] x_ravnanje = {"","","","","","","","",""};
 String x_prevoz1 = "";
 String x_prevoz2 = "";
 String x_prevoz3 = "";
@@ -106,7 +106,9 @@ try{
 		x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
 
 		// ravnanje
-		x_ravnanje = String.valueOf(rs.getDouble("ravnanje"));
+		for (int i=1; i<10; i++) {
+			x_ravnanje[i-1] = String.valueOf(rs.getDouble("ravnanje"+i));
+		}
 
 		// prevoz1
 		x_prevoz1 = String.valueOf(rs.getDouble("prevoz1"));
@@ -174,10 +176,12 @@ function disableSome(EW_this){
 		<td class="ewTableHeader">sit smet&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 	</tr>
+<%for (int i=1; i<10; i++) {%>
 	<tr>
-		<td class="ewTableHeader">Ravnanje&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(EW_FormatNumber("" + x_ravnanje, 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<td class="ewTableHeader">Ravnanje&nbsp;<%=i%></td>
+		<td class="ewTableAltRow"><% out.print(EW_FormatNumber("" + x_ravnanje[i-1], 4, 1, 1, 1,locale)); %>&nbsp;</td>
 	</tr>
+<%}%>
 	<tr>
 		<td class="ewTableHeader">Prevoz 1&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatNumber("" + x_prevoz1, 4, 1, 1, 1,locale)); %>&nbsp;</td>
