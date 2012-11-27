@@ -47,8 +47,18 @@
 	ifnull(round(sum(stev_ur_norm)),0) ur_norm, 
 	ifnull(round(sum(stev_km_norm)),0) km_norm, 
 	sofer,
-	ifnull(round((select hour(sec_to_time(sum(time_to_sec(ur_sled)))) from sofer_sledenje as ss where d.sif_sof = ss.sif_sof)),0) as ur_sled_vse,
-	ifnull(round((select sum(km_sled)/1000 from sofer_sledenje as ss where d.sif_sof = ss.sif_sof)),0) as km_sled_vse
+	ifnull(round((select hour(sec_to_time(sum(time_to_sec(ur_sled)))) 
+			from sofer_sledenje as ss 
+			where d.sif_sof = ss.sif_sof
+				AND datum >= CAST($P{od_datum} AS DATE) 
+				AND datum <= CAST($P{do_datum} AS DATE)
+		)),0) as ur_sled_vse,
+	ifnull(round((select sum(km_sled)/1000 
+			from sofer_sledenje as ss 
+			where d.sif_sof = ss.sif_sof
+				AND datum >= CAST($P{od_datum} AS DATE) 
+				AND datum <= CAST($P{do_datum} AS DATE)
+		)),0) as km_sled_vse
 FROM (select *, max(dob.zacetek) 
 	from $P!{dobLeto} dob 
 	where datum >= CAST($P{od_datum} AS DATE) 
