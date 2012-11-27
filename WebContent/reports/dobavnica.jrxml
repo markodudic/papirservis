@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(8049)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(30797)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\apache\\apache-tomcat-5.5.23\\webapps\\papirservis\\images\\ps.jpg"]]></defaultValueExpression>
@@ -803,21 +803,6 @@ WHERE
 						key="line-10"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-				<staticText>
-					<reportElement
-						x="140"
-						y="425"
-						width="100"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-20"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[0.5    1     1.5     2]]></text>
-				</staticText>
 				<staticText>
 					<reportElement
 						x="340"
