@@ -57,7 +57,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		for (int i = 0; i < arpSearch.length; i++){
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
-			b_search = b_search + "`sif_kupca` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "kupci.`sif_kupca` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`naziv` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`naslov` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`posta` LIKE '%" + kw + "%' OR ";
@@ -69,6 +69,8 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + "`razred` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`sif_rac` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`opomba` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "skup.tekst LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "uporabniki.ime_in_priimek LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
 		}
@@ -78,7 +80,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		}else{
 			pSearch = "%" + pSearch;
 		}
-		b_search = b_search + "`sif_kupca` LIKE '" + pSearch + "%' OR ";
+		b_search = b_search + "kupci.`sif_kupca` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`naziv` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`naslov` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`posta` LIKE '" + pSearch + "%' OR ";
@@ -90,6 +92,8 @@ if (pSearch != null && pSearch.length() > 0) {
 		b_search = b_search + "`razred` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`sif_rac` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`opomba` LIKE '" + pSearch + "%' OR ";
+		b_search = b_search + "skup.tekst LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "uporabniki.ime_in_priimek LIKE '%" + pSearch + "%' OR ";
 	}
 }
 if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) {b_search = b_search.substring(0, b_search.length()-4);}
@@ -182,8 +186,8 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT * FROM `kupci`";
-whereClause = "";
+String strsql = "SELECT *, skup.tekst, uporabniki.ime_in_priimek FROM kupci, skup, uporabniki ";
+whereClause = " kupci.skupina = skup.skupina AND uporabniki.sif_upor = kupci.potnik AND ";
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
 }
@@ -227,16 +231,15 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 //Filter by user
 if (whereClause.length() > 0) {
 
-	strsql += " AND (sif_kupca in (select kupci.sif_kupca from kupci,uporabniki  " + subQuery + "))" ;
+	strsql += " AND (kupci.sif_kupca in (select kupci.sif_kupca from kupci,uporabniki  " + subQuery + "))" ;
 }
 else{
-	strsql += " WHERE (sif_kupca in (select kupci.sif_kupca from kupci,uporabniki "  + subQuery +   "))" ;
+	strsql += " WHERE (kupci.sif_kupca in (select kupci.sif_kupca from kupci,uporabniki "  + subQuery +   "))" ;
 }
 
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("kupci_OT");
 }
-
 
 
 

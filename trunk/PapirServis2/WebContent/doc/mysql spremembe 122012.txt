@@ -14,4 +14,7 @@ ALTER TABLE `stranke`
 	ADD COLUMN `obracun_km` INT(3) UNSIGNED NULL DEFAULT NULL AFTER `vtez`;
 	
 ALTER TABLE `stranke`
-	CHANGE COLUMN `obracun_km` `obracun_km` DOUBLE UNSIGNED NULL DEFAULT NULL AFTER `vtez`;	
+	CHANGE COLUMN `obracun_km` `obracun_km` DOUBLE UNSIGNED NULL DEFAULT NULL AFTER `vtez`;
+	
+ALTER TABLE `dob2012`
+	CHANGE COLUMN `sofer_sled` `sofer_sled` VARCHAR(50) NULL DEFAULT NULL AFTER `stev_ur_sled`;

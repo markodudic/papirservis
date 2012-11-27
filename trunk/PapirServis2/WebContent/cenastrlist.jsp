@@ -64,6 +64,7 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + "(";
 			b_search = b_search + "`cenastr`.`sif_kupca` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`cenastr`.`material_koda` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "skup.tekst LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "kupci.naziv LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
@@ -71,6 +72,7 @@ if (pSearch != null && pSearch.length() > 0) {
 	}else{
 		b_search = b_search + "`cenastr`.`sif_kupca` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`cenastr`.`material_koda` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "skup.tekst LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "kupci.naziv LIKE '%" + pSearch + "%' OR ";
 	}
 }
