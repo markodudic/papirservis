@@ -40,7 +40,18 @@ dob.`kolicina` AS dob_kolicina,
 IFNULL(dob.`cena`, 0) AS dob_cena,
 IFNULL(dob.`kg_zaup` * dob.`sit_zaup`, 0)  AS dob_zaup, 
 IFNULL(dob.`kolicina` * dob.`sit_smet`, 0)  AS dob_smet, 
-IFNULL(dob.`kolicina` * materiali.`ravnanje`, 0) AS dob_ravnanje,
+@ravnanje:=case skup.ravnanje
+when 1 then materiali.`ravnanje1`
+when 2 then materiali.`ravnanje2`
+when 3 then materiali.`ravnanje3`
+when 4 then materiali.`ravnanje4`
+when 5 then materiali.`ravnanje5`
+when 6 then materiali.`ravnanje6`
+when 7 then materiali.`ravnanje7`
+when 8 then materiali.`ravnanje8`
+when 9 then materiali.`ravnanje9`
+else 0 end,
+IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
 IFNULL(-dob.`kolicina` * materiali.str_dv * kupci.bala/100, 0) AS dob_proizvodnja,
 IFNULL(-dob.`dod_stroski`, 0) as dob_stroski,
 IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
