@@ -98,6 +98,7 @@ if ((meni & ewProcess) == ewProcess){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=10">Osnovna vse stranke</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=16">Osnovna neodvoz</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=11">Sistem embalaza</a></span></td></tr>
+				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=24">Sistem embalaza nova</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=4">Rekapitulacija</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=15">Rekapitulacija brez cen</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=12">Zara&#269;unavamo storitve</a></span></td></tr>

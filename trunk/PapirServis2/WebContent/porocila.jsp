@@ -71,7 +71,8 @@ function  EW_checkMyForm(EW_this)
 							"/reports/vozniki_planirane_dobavnice",
 							"/reports/rekapitulacija_prodaja_skupaj",
 							"/reports/kupci_izpis",
-							"/reports/dobavnice_km_ure"
+							"/reports/dobavnice_km_ure",
+							"/reports/sistem_embalaza_nova"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -133,7 +134,7 @@ function  EW_checkMyForm(EW_this)
 
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
 		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
-		 (reportID == 21) || (reportID == 22))
+		 (reportID == 21) || (reportID == 22) || (reportID == 24))
 	{
 		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_enote = "SELECT * FROM enote ORDER BY `naziv` ASC";
@@ -162,7 +163,7 @@ function  EW_checkMyForm(EW_this)
 
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
 		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
-		 (reportID == 22))
+		 (reportID == 22) || (reportID == 24))
 	{
 		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_skupine = "SELECT * FROM skup ORDER BY `tekst` ASC";
@@ -369,7 +370,7 @@ function  EW_checkMyForm(EW_this)
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
 			(reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
-			 || (reportID == 21) || (reportID == 22)) {%>
+			 || (reportID == 21) || (reportID == 22) || (reportID == 24)) {%>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
@@ -377,10 +378,14 @@ function  EW_checkMyForm(EW_this)
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
 			(reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
-			 || (reportID == 22)) {%>
+			 || (reportID == 22) || (reportID == 24)) {%>
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_skupineList);%>&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_skupineList);%>&nbsp;
+			<%if (reportID == 24) { %>
+					<br>OPOZORILO: Ravnanje dela samo če je izbrana skupina.
+			<%}%>
+		</td>
 	</tr>
 	<%}%>
 	<%if ((reportID == 14) || (reportID == 18) || (reportID == 22)) {%>
