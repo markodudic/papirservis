@@ -23,6 +23,129 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
+	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2202020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-12-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-12-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT 
+dob.`st_dob` AS dob_st_dob, 
+dob.`pozicija` AS dob_pozicija, 
+dob.`datum` AS dob_datum, 
+dob.`kolicina` AS dob_kolicina, 
+dob.`cena` AS dob_cena,
+IFNULL(dob.`kg_zaup` * dob.`sit_zaup`,0)  AS dob_zaup, 
+IFNULL(dob.`kolicina` * dob.`sit_smet`,0)  AS dob_smet, 
+@ravnanje:=case skup.ravnanje
+when 1 then materiali.`ravnanje1`
+when 2 then materiali.`ravnanje2`
+when 3 then materiali.`ravnanje3`
+when 4 then materiali.`ravnanje4`
+when 5 then materiali.`ravnanje5`
+when 6 then materiali.`ravnanje6`
+when 7 then materiali.`ravnanje7`
+when 8 then materiali.`ravnanje8`
+when 9 then materiali.`ravnanje9`
+else 0 end,
+IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
+IFNULL(dob.`kolicina` * materiali.str_dv * kupci.bala/100,0) AS dob_proizvodnja,
+IFNULL(dob.`dod_stroski`,0) as dob_stroski,
+IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
+IFNULL(dob_pozicije.stev_km,0) as dob_stev_km,
+skup.ravnanje,
+skup.prevoz_kamion,
+skup.prevoz_material,
+materiali.prevoz1,
+materiali.prevoz2,
+materiali.prevoz3,
+materiali.prevoz4,
+IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem
+FROM kupci, skup,
+    (SELECT dob.*
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.sif_kupca = $P{sif_str}
+				AND dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+		WHERE dob.st_dob = zadnji.st_dob and
+		      dob.pozicija = zadnji.pozicija and
+		      dob.zacetek = zadnji.datum)  dob,
+    (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.sif_kupca = $P{sif_str} and
+			        dob.pozicija = 1
+				AND dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+		WHERE dob.st_dob = zadnji.st_dob and
+		      dob.pozicija = zadnji.pozicija and
+		      dob.zacetek = zadnji.datum ) dob_pozicije,
+     (SELECT materiali.*
+	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
+	WHERE materiali.koda = zadnji.koda and
+	      materiali.zacetek = zadnji.datum) materiali,
+(SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem 
+FROM (SELECT stranke.*
+	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 	group by sif_str ) zadnji
+	WHERE stranke.sif_str = zadnji.sif_str and
+	      stranke.zacetek = zadnji.datum) stranke
+WHERE stranke.sif_kupca = $P{sif_str}  and
+	((stranke.najem = "D") 
+	and 
+     	(stranke.sif_kupca IN (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE))))) as b,
+(SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz 
+FROM (SELECT stranke.*
+	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 	group by sif_str ) zadnji
+	WHERE stranke.sif_str = zadnji.sif_str and
+	      stranke.zacetek = zadnji.datum) stranke
+WHERE stranke.sif_kupca = $P{sif_str}  and
+	stranke.najem = "X" and
+      NOT EXISTS (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where dob.sif_str = stranke.sif_str and 
+				datum >= CAST($P{od_datum} AS DATE) 
+				AND datum <= CAST($P{do_datum} AS DATE))) as c
+WHERE dob.`koda` = materiali.`koda` and
+	dob.skupina = skup.skupina and
+	dob.st_dob = dob_pozicije.st_dob and
+	dob.sif_kupca = kupci.sif_kupca
+ORDER BY dob.st_dob, dob.pozicija]]></queryString>
+
+	<field name="dob_st_dob" class="java.lang.Integer"/>
+	<field name="dob_pozicija" class="java.lang.Integer"/>
+	<field name="dob_datum" class="java.sql.Timestamp"/>
+	<field name="dob_kolicina" class="java.lang.Integer"/>
+	<field name="dob_cena" class="java.lang.Double"/>
+	<field name="dob_zaup" class="java.lang.Double"/>
+	<field name="dob_smet" class="java.lang.Double"/>
+	<field name="dob_ravnanje" class="java.lang.Double"/>
+	<field name="dob_proizvodnja" class="java.lang.Double"/>
+	<field name="dob_stroski" class="java.math.BigDecimal"/>
+	<field name="dob_prevoz" class="java.lang.Double"/>
+	<field name="dob_stev_km" class="java.lang.Long"/>
+	<field name="ravnanje" class="java.lang.Boolean"/>
+	<field name="prevoz_kamion" class="java.lang.Boolean"/>
+	<field name="prevoz_material" class="java.lang.Boolean"/>
+	<field name="prevoz1" class="java.lang.Double"/>
+	<field name="prevoz2" class="java.lang.Double"/>
+	<field name="prevoz3" class="java.lang.Double"/>
+	<field name="prevoz4" class="java.lang.Double"/>
+	<field name="najem" class="java.lang.Double"/>
+
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
