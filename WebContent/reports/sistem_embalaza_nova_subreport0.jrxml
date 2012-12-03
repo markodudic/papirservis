@@ -47,7 +47,7 @@
 	<queryString><![CDATA[select stranke.sif_os, 
 sum(stranke.kol_os) as kolicina, 
 osnovna.osnovna,
-stranke.cena_naj as vrednost
+sum(stranke.kol_os * stranke.cena_naj) as vrednost
 from 
 	(SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(veljavnost) datum 
@@ -260,7 +260,7 @@ order by stranke.sif_os]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{vrednost}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="366"
 						y="0"
