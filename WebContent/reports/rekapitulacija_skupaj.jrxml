@@ -24,10 +24,10 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["6000797"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2203043"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["./images/ps.jpg"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>

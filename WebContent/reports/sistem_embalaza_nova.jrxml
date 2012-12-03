@@ -288,6 +288,32 @@ ORDER BY kupci.`naziv`]]></queryString>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport8.jasper"]]></subreportExpression>
 				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="230"
+						width="530"
+						height="40"
+						key="subreport-18"
+						positionType="Float"/>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport0.jasper"]]></subreportExpression>
+				</subreport>
 			</band>
 			</groupFooter>
 		</group>
@@ -698,6 +724,29 @@ ORDER BY kupci.`naziv`]]></queryString>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport3.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="332"
+						width="530"
+						height="40"
+						key="subreport-19"
+						positionType="Float"/>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str">
+						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport1.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

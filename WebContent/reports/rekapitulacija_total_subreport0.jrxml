@@ -153,25 +153,20 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 		<variableExpression><![CDATA[$F{dob_cena}]]></variableExpression>
 	</variable>
 	<variable name="sum_prevoz" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[$F{prevoz_kamion}.booleanValue() && 
-!$F{prevoz_material}.booleanValue() ?
-	$F{dob_prevoz} : 
-	(!$F{prevoz_kamion}.booleanValue() && 
-	$F{prevoz_material}.booleanValue() ? 
-		($F{dob_stev_km}.doubleValue() / 2 <= 5 ? 
-			new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
-			($F{dob_stev_km}.doubleValue() / 2 > 5 && $F{dob_stev_km}.doubleValue() / 2 <= 10 ? 
-				new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
-				($F{dob_stev_km}.doubleValue() / 2 > 10 && $F{dob_stev_km}.doubleValue() / 2 <= 20 ? 
-					new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
-					($F{dob_stev_km}.doubleValue() / 2 > 20 ? 
-						new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
+		<variableExpression><![CDATA[!$F{prevoz_material}.booleanValue() ?
+	$F{dob_cena} : 
+		($F{dob_stev_km}.doubleValue() <= 5 ? 
+			new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
+			($F{dob_stev_km}.doubleValue() > 5 && $F{dob_stev_km}.doubleValue() <= 10 ? 
+				new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
+				($F{dob_stev_km}.doubleValue() > 10 && $F{dob_stev_km}.doubleValue() <= 20 ? 
+					new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
+					($F{dob_stev_km}.doubleValue() > 20 ? 
+						new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
 						new Double ("0.00"))
 				)
 			) 
-		) : 
-		new Double ("0.00")
-	)]]></variableExpression>
+		) ]]></variableExpression>
 	</variable>
 	<variable name="sum_najem" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$V{COLUMN_COUNT}.doubleValue()/1 == 1 ? $F{najem} : new Double(0)]]></variableExpression>
