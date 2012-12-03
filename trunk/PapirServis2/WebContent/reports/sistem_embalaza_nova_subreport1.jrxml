@@ -44,7 +44,7 @@
 	<queryString><![CDATA[select stranke.sif_os, 
 sum(stranke.kol_os) as kolicina, 
 osnovna.osnovna,
-stranke.cena_naj as vrednost
+sum(stranke.kol_os * stranke.cena_naj) as vrednost
 from 
 	(SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
