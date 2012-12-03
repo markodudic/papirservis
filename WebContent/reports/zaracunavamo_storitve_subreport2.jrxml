@@ -41,12 +41,12 @@
 CONCAT( stranke.`naziv` , ' ', stranke.`naslov` , ' ', stranke.`posta` , ' ', stranke.`kraj` ) AS stranke_naziv,
 osnovna.osnovna as osnovna
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum 
+	FROM stranke, (SELECT sif_str, max(veljavnost) datum 
 			FROM stranke
-			where zacetek <= CAST($P{do_datum} AS DATE)
+			where veljavnost <= CAST($P{do_datum} AS DATE)
 		 	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke,
+	      stranke.veljavnost = zadnji.datum) stranke,
 (SELECT osnovna.*
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna
  	group by sif_os ) zadnji
