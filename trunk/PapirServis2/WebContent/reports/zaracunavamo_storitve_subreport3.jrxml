@@ -39,12 +39,12 @@
 	stranke.cena_naj as stranke_najem,
 	SUM(stranke.kol_os * stranke.cena_naj) as stranke_vrednost
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum 
+	FROM stranke, (SELECT sif_str, max(veljavnost) datum 
 			FROM stranke
-			where zacetek <= CAST($P{do_datum} AS DATE)
+			where veljavnost <= CAST($P{do_datum} AS DATE)
 		 	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
+	      stranke.veljavnost = zadnji.datum) stranke
 WHERE stranke.sif_kupca = $P{sif_str} and
 	stranke.najem = "X" and
       NOT EXISTS (select sif_kupca 
