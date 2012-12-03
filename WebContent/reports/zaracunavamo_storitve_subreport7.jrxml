@@ -52,20 +52,22 @@ WHERE dob.st_dob = zadnji.st_dob and
       dob.zacetek = zadnji.datum) as a,
 (SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 	group by sif_str ) zadnji
+	FROM stranke, (SELECT sif_str, max(veljavnost) datum 
+			FROM stranke
+			where veljavnost <= CAST($P{do_datum} AS DATE)
+		 	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
+	      stranke.veljavnost = zadnji.datum) stranke
 WHERE stranke.sif_kupca = $P{sif_str} and
 	(stranke.najem = "D")) as b,
 (SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum 
+	FROM stranke, (SELECT sif_str, max(veljavnost) datum 
 			FROM stranke
-			where zacetek <= CAST($P{do_datum} AS DATE)
+			where veljavnost <= CAST($P{do_datum} AS DATE)
  			group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
+	      stranke.veljavnost = zadnji.datum) stranke
 WHERE stranke.sif_kupca = $P{sif_str} and
 	stranke.najem = "X" and
       NOT EXISTS (select sif_kupca 
