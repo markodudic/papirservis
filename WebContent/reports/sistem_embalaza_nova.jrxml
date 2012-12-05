@@ -71,8 +71,8 @@ WHERE
      kupci.sif_enote = enote.sif_enote and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.skupina = skup.skupina and
-     kupci.potnik = uporabniki.sif_upor and
-     kupci.sif_kupca IN (select sif_kupca 
+     kupci.potnik = uporabniki.sif_upor  and
+    kupci.sif_kupca IN (select sif_kupca 
 			from $P!{dobLeto} dob 
 			where datum >= CAST($P{od_datum} AS DATE) 
 			AND datum <= CAST($P{do_datum} AS DATE))
@@ -728,25 +728,25 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="332"
+						y="336"
 						width="530"
-						height="40"
-						key="subreport-19"
+						height="29"
+						key="subreport-20"
 						positionType="Float"/>
-					<subreportParameter  name="sif_enote">
-						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="sif_skupine">
-						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="sif_str">
 						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport1.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport4.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>
