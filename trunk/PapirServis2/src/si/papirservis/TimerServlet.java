@@ -189,7 +189,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 						setDobError(ordersDate.getSif_kam(), ordersDate.getDatum().substring(0, 4), ordersDate.getDatum(), ERROR_NO_DATA_IN_SLEDENJE);
 						continue;
 					} else {
-						//zapišem vse podatke v tabelo sofer_sledenje za evidenco soferja in kamiona
+						//zapiï¿½em vse podatke v tabelo sofer_sledenje za evidenco soferja in kamiona
 						String kamion = ordersDate.getSif_kam();
 						String datum = ordersDate.getDatum();
 						String sofer = "-1";
@@ -214,7 +214,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 								time_from = df.parse(relation.getTime_from().trim());
 							}
 							km += relation.getDist_km();
-							if (relation.getDriver_key()=="0" || relation.getDriver_key()==null)
+							if (relation.getDriver_key()==null || relation.getDriver_key().equals("0"))
 								sofer = "-1";
 							else
 								sofer = relation.getDriver_key();
@@ -275,6 +275,8 @@ public class TimerServlet extends InitServlet implements Servlet {
         					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
 								//kamion je na izhodiscu
 	        					System.out.println("IZHODISCE="+"-"+meters);
+								//ce ni loakacij za stranko preskocim
+								if (order.getStranke_x_koord()==null || order.getStranke_y_koord()==null) continue;
 	        					
     							time_from = df.parse(relation.getTime_from().trim());
     							
@@ -554,8 +556,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"	(SELECT st.sif_str, st.naziv, st.x_koord, st.y_koord " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
-	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
-	    				   	"		   					stranke.y_koord IS NOT NULL " +
+	    				   	//"					   WHERE stranke.x_koord IS NOT NULL AND " +
+	    				   	//"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
 	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke " +
 	    				   	"ON  (dob.sif_str = stranke.sif_str) " +
@@ -569,7 +571,10 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"ON  (dob.sif_kam = kamion.sif_kam) " +
 	    					"LEFT JOIN	 kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
 	    					"LEFT JOIN 	 enote ON (kupci.sif_enote = enote.sif_enote) " + 
-	    					"WHERE  (dob.sif_kam, dob.datum) in (" + kamioniDatumi + ")";
+	    					"WHERE  (dob.sif_kam, dob.datum) in (" + kamioniDatumi + ") AND " +
+							"       ((stranke.x_koord IS NOT NULL AND " +
+							"		stranke.y_koord IS NOT NULL) or " +
+							"		(not exists (select * from sofer_sledenje where sofer_sledenje.sif_kam = kamion.sif_kam  and datum = dob.datum))) ";
 
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
@@ -658,8 +663,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"	(SELECT st.sif_str, st.naziv, st.x_koord, st.y_koord " +
 	    				   	"	 FROM stranke st, (SELECT sif_str, max(zacetek) z  " +
 	    				   	"					   FROM stranke " +
-	    				   	"					   WHERE stranke.x_koord IS NOT NULL AND " +
-	    				   	"		   					stranke.y_koord IS NOT NULL " +
+	    				   	//"					   WHERE stranke.x_koord IS NOT NULL AND " +
+	    				   	//"		   					stranke.y_koord IS NOT NULL " +
 	    				   	"					   GROUP BY sif_str) s " +
 	    				   	"	 WHERE st.sif_str = s.sif_str and st.zacetek = s.z) stranke " +
 	    				   	"ON  (dob.sif_str = stranke.sif_str) " +
@@ -671,6 +676,9 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    					"	 WHERE kamion.sif_kam = zadnji.sif_kam and " +
 	    					"	       kamion.zacetek = zadnji.z) kamion " +
 	    					"ON  (dob.sif_kam = kamion.sif_kam) " +
+	    					"WHERE (stranke.x_koord IS NOT NULL AND " +
+	    					"		stranke.y_koord IS NOT NULL) or " +
+	    					"		(not exists (select * from sofer_sledenje where sofer_sledenje.sif_kam = kamion.sif_kam and datum = dob.datum)) " +
 							"LIMIT " + query_limit;
 
 	    	System.out.println(query);	           
