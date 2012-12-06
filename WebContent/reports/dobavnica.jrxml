@@ -24,10 +24,10 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(30797)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(30851)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["C:\\apache\\apache-tomcat-5.5.23\\webapps\\papirservis\\images\\ps.jpg"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\PapirServis\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
@@ -131,6 +131,15 @@ WHERE
 		</columnHeader>
 		<detail>
 			<band height="750"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="134"
+						y="367"
+						width="391"
+						height="0"
+						key="line-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
@@ -289,7 +298,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -299,27 +309,13 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="352"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[KODA MATERIALA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
 						y="400"
 						width="123"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -334,7 +330,8 @@ WHERE
 						height="32"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -379,7 +376,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -409,7 +407,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -446,7 +445,8 @@ WHERE
 						y="543"
 						width="534"
 						height="0"
-						key="line-2"/>
+						key="line-2"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -455,7 +455,8 @@ WHERE
 						y="623"
 						width="534"
 						height="0"
-						key="line-3"/>
+						key="line-3"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
@@ -466,7 +467,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-3"/>
+						key="staticText-3"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -490,7 +492,8 @@ WHERE
 						height="42"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-2"/>
+						key="textField-2"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -503,7 +506,8 @@ WHERE
 						y="484"
 						width="391"
 						height="0"
-						key="line-5"/>
+						key="line-5"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
@@ -513,6 +517,7 @@ WHERE
 						width="534"
 						height="54"
 						key="staticText-4"
+						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -528,7 +533,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-5"/>
+						key="staticText-5"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -658,27 +664,13 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="352"
-						width="11"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-14"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ : ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="123"
 						y="376"
 						width="11"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-15"/>
+						key="staticText-15"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -693,7 +685,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-16"/>
+						key="staticText-16"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -708,7 +701,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-17"/>
+						key="staticText-17"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -723,7 +717,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-18"/>
+						key="staticText-18"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -738,7 +733,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-19"/>
+						key="staticText-19"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12"/>
@@ -770,19 +766,11 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="369"
-						width="391"
-						height="0"
-						key="line-7"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<line direction="TopDown">
-					<reportElement
-						x="134"
 						y="393"
 						width="391"
 						height="0"
-						key="line-8"/>
+						key="line-8"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -791,7 +779,8 @@ WHERE
 						y="417"
 						width="280"
 						height="0"
-						key="line-9"/>
+						key="line-9"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -800,7 +789,8 @@ WHERE
 						y="442"
 						width="280"
 						height="0"
-						key="line-10"/>
+						key="line-10"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
@@ -961,7 +951,8 @@ WHERE
 						height="42"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-7"/>
+						key="textField-7"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -976,7 +967,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-8"/>
+						key="textField-8"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -991,7 +983,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-27"/>
+						key="staticText-27"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1006,7 +999,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-9"/>
+						key="textField-9"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1021,7 +1015,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-28"/>
+						key="staticText-28"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1036,7 +1031,8 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-29"/>
+						key="staticText-29"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1051,13 +1047,63 @@ WHERE
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-10"/>
+						key="textField-10"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{stev_ur_norm}]]></textFieldExpression>
 				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						mode="Transparent"
+						x="134"
+						y="350"
+						width="391"
+						height="25"
+						forecolor="#FFFFFF"
+						backcolor="#FFFFFF"
+						key="subreport-2"/>
+					<subreportParameter  name="st_dob">
+						<subreportParameterExpression><![CDATA[$F{dob_st_dob}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "dobavnica_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement
+						x="0"
+						y="350"
+						width="124"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-34"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KODA MATERIALA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="124"
+						y="350"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-35"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>

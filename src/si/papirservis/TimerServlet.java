@@ -267,6 +267,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 						//poiscem ujemanje tock
 						for (int j=0; j<ordersForDateVehicle.size(); j++) {
 							Order order = (Order) ordersForDateVehicle.get(j);
+							//ce ni loakacij za stranko preskocim
+							if (order.getStranke_x_koord()==null || order.getStranke_y_koord()==null) continue;
 							
 							//razdalja do enote izhodisca
         					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
@@ -275,8 +277,6 @@ public class TimerServlet extends InitServlet implements Servlet {
         					if ((dist_x_enota < distanceLocation) && (dist_y_enota < distanceLocation)) {
 								//kamion je na izhodiscu
 	        					System.out.println("IZHODISCE="+"-"+meters);
-								//ce ni loakacij za stranko preskocim
-								if (order.getStranke_x_koord()==null || order.getStranke_y_koord()==null) continue;
 	        					
     							time_from = df.parse(relation.getTime_from().trim());
     							
@@ -592,7 +592,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    		String zacetek = rs.getString("zacetek");
 	    		String sif_kam = rs.getString("sif_kam");
 
-	    		if ((stranke_x_koord == null) || (stranke_y_koord == null) || (enote_x_koord == null) || (enote_y_koord == null) || (datum == null) || (kamion == null))
+	    		//if ((stranke_x_koord == null) || (stranke_y_koord == null) || (enote_x_koord == null) || (enote_y_koord == null) || (datum == null) || (kamion == null))
+		    	if ((datum == null) || (kamion == null))
 		    			continue;
 
 		    	Order order = new Order();
@@ -794,6 +795,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 			String sql = "select max(zacetek) zacetek, st_dob, pozicija " +
 						"from dob" + datum + ", (select st_dob st from dob" + datum + " where pozicija > 1 and error = 0) as d " + 
 						"where pozicija > 1 and " +
+						"		error != " + error + " and " +
 						"		st_dob in (d.st) " +
 						"group by st_dob, pozicija ";
 			
