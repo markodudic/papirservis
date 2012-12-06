@@ -301,153 +301,6 @@ String z_kamion = request.getParameter("z_kamion");
 		}
 	}
 
-// cena_km
-String ascrh_x_cena_km = request.getParameter("x_cena_km");
-String z_cena_km = request.getParameter("z_cena_km");
-	if (z_cena_km != null && z_cena_km.length() > 0 ) {
-		String [] arrfieldopr_x_cena_km = z_cena_km.split(",");
-		if (ascrh_x_cena_km != null && ascrh_x_cena_km.length() > 0) {
-			ascrh_x_cena_km = ascrh_x_cena_km.replaceAll("'",escapeString);
-			ascrh_x_cena_km = ascrh_x_cena_km.replaceAll("\\[","[[]");
-			a_search += "`cena_km` "; // Add field
-			a_search += arrfieldopr_x_cena_km[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_cena_km.length >= 2) {
-				a_search += arrfieldopr_x_cena_km[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_cena_km; // Add input parameter
-			if (arrfieldopr_x_cena_km.length >= 3) {
-				a_search += arrfieldopr_x_cena_km[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// cena_ura
-String ascrh_x_cena_ura = request.getParameter("x_cena_ura");
-String z_cena_ura = request.getParameter("z_cena_ura");
-	if (z_cena_ura != null && z_cena_ura.length() > 0 ) {
-		String [] arrfieldopr_x_cena_ura = z_cena_ura.split(",");
-		if (ascrh_x_cena_ura != null && ascrh_x_cena_ura.length() > 0) {
-			ascrh_x_cena_ura = ascrh_x_cena_ura.replaceAll("'",escapeString);
-			ascrh_x_cena_ura = ascrh_x_cena_ura.replaceAll("\\[","[[]");
-			a_search += "`cena_ura` "; // Add field
-			a_search += arrfieldopr_x_cena_ura[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_cena_ura.length >= 2) {
-				a_search += arrfieldopr_x_cena_ura[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_cena_ura; // Add input parameter
-			if (arrfieldopr_x_cena_ura.length >= 3) {
-				a_search += arrfieldopr_x_cena_ura[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// c_km
-String ascrh_x_c_km = request.getParameter("x_c_km");
-String z_c_km = request.getParameter("z_c_km");
-	if (z_c_km != null && z_c_km.length() > 0 ) {
-		String [] arrfieldopr_x_c_km = z_c_km.split(",");
-		if (ascrh_x_c_km != null && ascrh_x_c_km.length() > 0) {
-			ascrh_x_c_km = ascrh_x_c_km.replaceAll("'",escapeString);
-			ascrh_x_c_km = ascrh_x_c_km.replaceAll("\\[","[[]");
-			a_search += "`c_km` "; // Add field
-			a_search += arrfieldopr_x_c_km[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_c_km.length >= 2) {
-				a_search += arrfieldopr_x_c_km[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_c_km; // Add input parameter
-			if (arrfieldopr_x_c_km.length >= 3) {
-				a_search += arrfieldopr_x_c_km[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// c_ura
-String ascrh_x_c_ura = request.getParameter("x_c_ura");
-String z_c_ura = request.getParameter("z_c_ura");
-	if (z_c_ura != null && z_c_ura.length() > 0 ) {
-		String [] arrfieldopr_x_c_ura = z_c_ura.split(",");
-		if (ascrh_x_c_ura != null && ascrh_x_c_ura.length() > 0) {
-			ascrh_x_c_ura = ascrh_x_c_ura.replaceAll("'",escapeString);
-			ascrh_x_c_ura = ascrh_x_c_ura.replaceAll("\\[","[[]");
-			a_search += "`c_ura` "; // Add field
-			a_search += arrfieldopr_x_c_ura[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_c_ura.length >= 2) {
-				a_search += arrfieldopr_x_c_ura[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_c_ura; // Add input parameter
-			if (arrfieldopr_x_c_ura.length >= 3) {
-				a_search += arrfieldopr_x_c_ura[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// stev_km
-String ascrh_x_stev_km = request.getParameter("x_stev_km");
-String z_stev_km = request.getParameter("z_stev_km");
-	if (z_stev_km != null && z_stev_km.length() > 0 ) {
-		String [] arrfieldopr_x_stev_km = z_stev_km.split(",");
-		if (ascrh_x_stev_km != null && ascrh_x_stev_km.length() > 0) {
-			ascrh_x_stev_km = ascrh_x_stev_km.replaceAll("'",escapeString);
-			ascrh_x_stev_km = ascrh_x_stev_km.replaceAll("\\[","[[]");
-			a_search += "`stev_km` "; // Add field
-			a_search += arrfieldopr_x_stev_km[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_stev_km.length >= 2) {
-				a_search += arrfieldopr_x_stev_km[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_stev_km; // Add input parameter
-			if (arrfieldopr_x_stev_km.length >= 3) {
-				a_search += arrfieldopr_x_stev_km[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// stev_ur
-String ascrh_x_stev_ur = request.getParameter("x_stev_ur");
-String z_stev_ur = request.getParameter("z_stev_ur");
-	if (z_stev_ur != null && z_stev_ur.length() > 0 ) {
-		String [] arrfieldopr_x_stev_ur = z_stev_ur.split(",");
-		if (ascrh_x_stev_ur != null && ascrh_x_stev_ur.length() > 0) {
-			ascrh_x_stev_ur = ascrh_x_stev_ur.replaceAll("'",escapeString);
-			ascrh_x_stev_ur = ascrh_x_stev_ur.replaceAll("\\[","[[]");
-			a_search += "`stev_ur` "; // Add field
-			a_search += arrfieldopr_x_stev_ur[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_stev_ur.length >= 2) {
-				a_search += arrfieldopr_x_stev_ur[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_stev_ur; // Add input parameter
-			if (arrfieldopr_x_stev_ur.length >= 3) {
-				a_search += arrfieldopr_x_stev_ur[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// stroski
-String ascrh_x_stroski = request.getParameter("x_stroski");
-String z_stroski = request.getParameter("z_stroski");
-	if (z_stroski != null && z_stroski.length() > 0 ) {
-		String [] arrfieldopr_x_stroski = z_stroski.split(",");
-		if (ascrh_x_stroski != null && ascrh_x_stroski.length() > 0) {
-			ascrh_x_stroski = ascrh_x_stroski.replaceAll("'",escapeString);
-			ascrh_x_stroski = ascrh_x_stroski.replaceAll("\\[","[[]");
-			a_search += "`stroski` "; // Add field
-			a_search += arrfieldopr_x_stroski[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_stroski.length >= 2) {
-				a_search += arrfieldopr_x_stroski[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_stroski; // Add input parameter
-			if (arrfieldopr_x_stroski.length >= 3) {
-				a_search += arrfieldopr_x_stroski[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
 // koda
 String ascrh_x_koda = request.getParameter("x_koda");
 String z_koda = request.getParameter("z_koda");
@@ -469,152 +322,6 @@ String z_koda = request.getParameter("z_koda");
 		}
 	}
 
-// kolicina
-String ascrh_x_kolicina = request.getParameter("x_kolicina");
-String z_kolicina = request.getParameter("z_kolicina");
-	if (z_kolicina != null && z_kolicina.length() > 0 ) {
-		String [] arrfieldopr_x_kolicina = z_kolicina.split(",");
-		if (ascrh_x_kolicina != null && ascrh_x_kolicina.length() > 0) {
-			ascrh_x_kolicina = ascrh_x_kolicina.replaceAll("'",escapeString);
-			ascrh_x_kolicina = ascrh_x_kolicina.replaceAll("\\[","[[]");
-			a_search += "`kolicina` "; // Add field
-			a_search += arrfieldopr_x_kolicina[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_kolicina.length >= 2) {
-				a_search += arrfieldopr_x_kolicina[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_kolicina; // Add input parameter
-			if (arrfieldopr_x_kolicina.length >= 3) {
-				a_search += arrfieldopr_x_kolicina[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// cena
-String ascrh_x_cena = request.getParameter("x_cena");
-String z_cena = request.getParameter("z_cena");
-	if (z_cena != null && z_cena.length() > 0 ) {
-		String [] arrfieldopr_x_cena = z_cena.split(",");
-		if (ascrh_x_cena != null && ascrh_x_cena.length() > 0) {
-			ascrh_x_cena = ascrh_x_cena.replaceAll("'",escapeString);
-			ascrh_x_cena = ascrh_x_cena.replaceAll("\\[","[[]");
-			a_search += "`cena` "; // Add field
-			a_search += arrfieldopr_x_cena[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_cena.length >= 2) {
-				a_search += arrfieldopr_x_cena[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_cena; // Add input parameter
-			if (arrfieldopr_x_cena.length >= 3) {
-				a_search += arrfieldopr_x_cena[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// kg_zaup
-String ascrh_x_kg_zaup = request.getParameter("x_kg_zaup");
-String z_kg_zaup = request.getParameter("z_kg_zaup");
-	if (z_kg_zaup != null && z_kg_zaup.length() > 0 ) {
-		String [] arrfieldopr_x_kg_zaup = z_kg_zaup.split(",");
-		if (ascrh_x_kg_zaup != null && ascrh_x_kg_zaup.length() > 0) {
-			ascrh_x_kg_zaup = ascrh_x_kg_zaup.replaceAll("'",escapeString);
-			ascrh_x_kg_zaup = ascrh_x_kg_zaup.replaceAll("\\[","[[]");
-			a_search += "`kg_zaup` "; // Add field
-			a_search += arrfieldopr_x_kg_zaup[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_kg_zaup.length >= 2) {
-				a_search += arrfieldopr_x_kg_zaup[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_kg_zaup; // Add input parameter
-			if (arrfieldopr_x_kg_zaup.length >= 3) {
-				a_search += arrfieldopr_x_kg_zaup[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// sit_zaup
-String ascrh_x_sit_zaup = request.getParameter("x_sit_zaup");
-String z_sit_zaup = request.getParameter("z_sit_zaup");
-	if (z_sit_zaup != null && z_sit_zaup.length() > 0 ) {
-		String [] arrfieldopr_x_sit_zaup = z_sit_zaup.split(",");
-		if (ascrh_x_sit_zaup != null && ascrh_x_sit_zaup.length() > 0) {
-			ascrh_x_sit_zaup = ascrh_x_sit_zaup.replaceAll("'",escapeString);
-			ascrh_x_sit_zaup = ascrh_x_sit_zaup.replaceAll("\\[","[[]");
-			a_search += "`sit_zaup` "; // Add field
-			a_search += arrfieldopr_x_sit_zaup[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_sit_zaup.length >= 2) {
-				a_search += arrfieldopr_x_sit_zaup[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_sit_zaup; // Add input parameter
-			if (arrfieldopr_x_sit_zaup.length >= 3) {
-				a_search += arrfieldopr_x_sit_zaup[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// kg_sort
-String ascrh_x_kg_sort = request.getParameter("x_kg_sort");
-String z_kg_sort = request.getParameter("z_kg_sort");
-	if (z_kg_sort != null && z_kg_sort.length() > 0 ) {
-		String [] arrfieldopr_x_kg_sort = z_kg_sort.split(",");
-		if (ascrh_x_kg_sort != null && ascrh_x_kg_sort.length() > 0) {
-			ascrh_x_kg_sort = ascrh_x_kg_sort.replaceAll("'",escapeString);
-			ascrh_x_kg_sort = ascrh_x_kg_sort.replaceAll("\\[","[[]");
-			a_search += "`kg_sort` "; // Add field
-			a_search += arrfieldopr_x_kg_sort[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_kg_sort.length >= 2) {
-				a_search += arrfieldopr_x_kg_sort[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_kg_sort; // Add input parameter
-			if (arrfieldopr_x_kg_sort.length >= 3) {
-				a_search += arrfieldopr_x_kg_sort[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// sit_sort
-String ascrh_x_sit_sort = request.getParameter("x_sit_sort");
-String z_sit_sort = request.getParameter("z_sit_sort");
-	if (z_sit_sort != null && z_sit_sort.length() > 0 ) {
-		String [] arrfieldopr_x_sit_sort = z_sit_sort.split(",");
-		if (ascrh_x_sit_sort != null && ascrh_x_sit_sort.length() > 0) {
-			ascrh_x_sit_sort = ascrh_x_sit_sort.replaceAll("'",escapeString);
-			ascrh_x_sit_sort = ascrh_x_sit_sort.replaceAll("\\[","[[]");
-			a_search += "`sit_sort` "; // Add field
-			a_search += arrfieldopr_x_sit_sort[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_sit_sort.length >= 2) {
-				a_search += arrfieldopr_x_sit_sort[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_sit_sort; // Add input parameter
-			if (arrfieldopr_x_sit_sort.length >= 3) {
-				a_search += arrfieldopr_x_sit_sort[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// sit_smet
-String ascrh_x_sit_smet = request.getParameter("x_sit_smet");
-String z_sit_smet = request.getParameter("z_sit_smet");
-	if (z_sit_smet != null && z_sit_smet.length() > 0 ) {
-		String [] arrfieldopr_x_sit_smet = z_sit_smet.split(",");
-		if (ascrh_x_sit_smet != null && ascrh_x_sit_smet.length() > 0) {
-			ascrh_x_sit_smet = ascrh_x_sit_smet.replaceAll("'",escapeString);
-			ascrh_x_sit_smet = ascrh_x_sit_smet.replaceAll("\\[","[[]");
-			a_search += "`sit_smet` "; // Add field
-			a_search += arrfieldopr_x_sit_smet[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_sit_smet.length >= 2) {
-				a_search += arrfieldopr_x_sit_smet[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_sit_smet; // Add input parameter
-			if (arrfieldopr_x_sit_smet.length >= 3) {
-				a_search += arrfieldopr_x_sit_smet[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
 
 // skupina
 String ascrh_x_skupina = request.getParameter("x_skupina");
@@ -637,6 +344,7 @@ String z_skupina = request.getParameter("z_skupina");
 		}
 	}
 
+		
 // skupina_text
 String ascrh_x_skupina_text = request.getParameter("x_skupina_text");
 String z_skupina_text = request.getParameter("z_skupina_text");
@@ -679,50 +387,6 @@ String z_opomba = request.getParameter("z_opomba");
 		}
 	}
 
-// stev_km_sled
-String ascrh_x_stev_km_sled = request.getParameter("x_stev_km_sled");
-String z_stev_km_sled = request.getParameter("z_stev_km_sled");
-	if (z_stev_km_sled != null && z_stev_km_sled.length() > 0 ) {
-		String [] arrfieldopr_x_stev_km_sled = z_stev_km_sled.split(",");
-		if (ascrh_x_stev_km_sled != null && ascrh_x_stev_km_sled.length() > 0) {
-			ascrh_x_stev_km_sled = ascrh_x_stev_km_sled.replaceAll("'",escapeString);
-			ascrh_x_stev_km_sled = ascrh_x_stev_km_sled.replaceAll("\\[","[[]");
-			a_search += "`stev_km_sled` "; // Add field
-			a_search += arrfieldopr_x_stev_km_sled[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_stev_km_sled.length >= 2) {
-				a_search += arrfieldopr_x_stev_km_sled[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_stev_km_sled; // Add input parameter
-			if (arrfieldopr_x_stev_km_sled.length >= 3) {
-				a_search += arrfieldopr_x_stev_km_sled[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-
-// stev_ur_sled
-String ascrh_x_stev_ur_sled = request.getParameter("x_stev_ur_sled");
-String z_stev_ur_sled = request.getParameter("z_stev_ur_sled");
-	if (z_stev_ur_sled != null && z_stev_ur_sled.length() > 0 ) {
-		String [] arrfieldopr_x_stev_ur_sled = z_stev_ur_sled.split(",");
-		if (ascrh_x_stev_ur_sled != null && ascrh_x_stev_ur_sled.length() > 0) {
-			ascrh_x_stev_ur_sled = ascrh_x_stev_ur_sled.replaceAll("'",escapeString);
-			ascrh_x_stev_ur_sled = ascrh_x_stev_ur_sled.replaceAll("\\[","[[]");
-			a_search += "`stev_ur_sled` "; // Add field
-			a_search += arrfieldopr_x_stev_ur_sled[0].trim() + " "; // Add operator
-			if (arrfieldopr_x_stev_ur_sled.length >= 2) {
-				a_search += arrfieldopr_x_stev_ur_sled[1].trim(); // Add search prefix
-			}
-			a_search += ascrh_x_stev_ur_sled; // Add input parameter
-			if (arrfieldopr_x_stev_ur_sled.length >= 3) {
-				a_search += arrfieldopr_x_stev_ur_sled[2].trim(); // Add search suffix
-			}
-			a_search += " AND ";
-		}
-	}
-	if (a_search.length() > 4) {
-		a_search = a_search.substring(0, a_search.length()-4);
-	}
 %>
 <%
 
@@ -888,7 +552,7 @@ StringBuffer strsql = new StringBuffer("SELECT dob.*, k.naziv, u.ime_in_priimek 
 //StringBuffer countQuery = new StringBuffer("SELECT dob.* FROM `dob`  left join stranke st on dob.sif_str = st.sif_str left join kupci k on dob.sif_kupca = k.sif_kupca left join sofer so on dob.sif_sof = so.sif_sof left join kamion kam on dob.sif_kam = kam.sif_kam left join uporabniki u on dob.uporabnik = u.sif_upor left join materiali m on dob.koda = m.koda left join skup sk on dob.skupina = sk.skupina ");//, (select sif_str from stranke, (select sif_kupca from kupci " + subQuery  + " ) kupci WHERE stranke.sif_kupca = kupci.sif_kupca) stranke ");
 StringBuffer countQuery = new StringBuffer("SELECT dob.* FROM " + session.getAttribute("letoTabela") + " dob left join kupci k on dob.sif_kupca = k.sif_kupca ");
 
-whereClause = "obdelana = 0";
+whereClause = "obdelana = 0 and dob.pozicija = 1 ";
 
 if (searchwhere1 != null && searchwhere1.length() > 0){
 	strsql.append(" , (SELECT st_dob sd, pozicija, max(zacetek) datum FROM " + session.getAttribute("letoTabela") + " dob group by st_dob, pozicija) zadnji ");
@@ -1094,9 +758,6 @@ if (totalRecs > 0) {
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sif_str","UTF-8") %>">Naziv stranke&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_str")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "</b>" : ""%>
 		</td>
-		<!--td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stranka","UTF-8") %>">Stranka&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("stranka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td-->
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "<b>" : ""%>
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Šifra kupca&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -1117,57 +778,11 @@ if (totalRecs > 0) {
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sofer","UTF-8") %>">Šofer&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sofer")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_sof")) ? "</b>" : ""%>
 		</td>
-		<!--td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sif_kam","UTF-8") %>">Šifra kamiona&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kam")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("kamion","UTF-8") %>">Kamion&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("kamion")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("cena_km","UTF-8") %>">Cena na km&nbsp;<% if (OrderBy != null && OrderBy.equals("cena_km")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("cena_ura","UTF-8") %>">Cena na uro&nbsp;<% if (OrderBy != null && OrderBy.equals("cena_ura")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("c_km","UTF-8") %>">c km&nbsp;<% if (OrderBy != null && OrderBy.equals("c_km")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("c_ura","UTF-8") %>">c ura&nbsp;<% if (OrderBy != null && OrderBy.equals("c_ura")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stev_km","UTF-8") %>">Število kilometrov&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur","UTF-8") %>">Število ur&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stroski","UTF-8") %>">Stroški&nbsp;<% if (OrderBy != null && OrderBy.equals("stroski")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
 		<td>
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">Koda&nbsp;<% if (OrderBy != null && OrderBy.equals("koda")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("kolicina","UTF-8") %>">Količina&nbsp;<% if (OrderBy != null && OrderBy.equals("kolicina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+		<td>Koda&nbsp;
 		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("cena","UTF-8") %>">Cena&nbsp;<% if (OrderBy != null && OrderBy.equals("cena")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("kg_zaup","UTF-8") %>">kg zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sit_zaup","UTF-8") %>">sit zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("kg_sort","UTF-8") %>">kg sort&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sit_sort","UTF-8") %>">sit sort&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sit_smet","UTF-8") %>">sit smet&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_smet")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td-->
 		<td>
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("skupina","UTF-8") %>">Skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 		</td>
@@ -1189,12 +804,6 @@ if (totalRecs > 0) {
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>		
-		<!--td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stev_km_sled","UTF-8") %>">Število kilometrov sled&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_km_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td>
-		<td>
-<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("stev_ur_sled","UTF-8") %>">Število ur sledenja&nbsp;<% if (OrderBy != null && OrderBy.equals("stev_ur_sled")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-		</td-->
 </tr>
 <%
 // Avoid starting record > total records
@@ -1246,26 +855,11 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_sofer = "";
 	String x_sif_kam = "";
 	String x_kamion = "";
-	String x_cena_km = "";
-	String x_cena_ura = "";
-	String x_c_km = "";
-	String x_c_ura = "";
-	String x_stev_km = "";
-	String x_stev_ur = "";
-	String x_stroski = "";
 	String x_koda = "";
-	String x_kolicina = "";
-	String x_cena = "";
-	String x_kg_zaup = "";
-	String x_sit_zaup = "";
-	String x_kg_sort = "";
-	String x_sit_sort = "";
-	String x_sit_smet = "";
+	String x_koda_text = "";
 	String x_skupina = "";
 	String x_skupina_text = "";
 	String x_opomba = "";
-	String x_stev_km_sled = "";
-	String x_stev_ur_sled = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
 
@@ -1334,27 +928,6 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_kamion = "";
 	}
 
-	// cena_km
-	x_cena_km = String.valueOf(rs.getLong("cena_km"));
-
-	// cena_ura
-	x_cena_ura = String.valueOf(rs.getLong("cena_ura"));
-
-	// c_km
-	x_c_km = String.valueOf(rs.getLong("c_km"));
-
-	// c_ura
-	x_c_ura = String.valueOf(rs.getLong("c_ura"));
-
-	// stev_km
-	x_stev_km = String.valueOf(rs.getLong("stev_km"));
-
-	// stev_ur
-	x_stev_ur = String.valueOf(rs.getLong("stev_ur"));
-
-	// stroski
-	x_stroski = String.valueOf(rs.getLong("stroski"));
-
 	// koda
 	if (rs.getString("koda") != null){
 		x_koda = rs.getString("koda");
@@ -1362,27 +935,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_koda = "";
 	}
 
-	// kolicina
-	x_kolicina = String.valueOf(rs.getLong("kolicina"));
-
-	// cena
-	x_cena = String.valueOf(rs.getLong("cena"));
-
-	// kg_zaup
-	x_kg_zaup = String.valueOf(rs.getLong("kg_zaup"));
-
-	// sit_zaup
-	x_sit_zaup = String.valueOf(rs.getLong("sit_zaup"));
-
-	// kg_sort
-	x_kg_sort = String.valueOf(rs.getLong("kg_sort"));
-
-	// sit_sort
-	x_sit_sort = String.valueOf(rs.getLong("sit_sort"));
-
-	// sit_smet
-	x_sit_smet = String.valueOf(rs.getLong("sit_smet"));
-
+	
 	// skupina
 	x_skupina = String.valueOf(rs.getLong("skupina"));
 
@@ -1400,12 +953,6 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_opomba = "";
 	}
 
-	// stev_km_sled
-	x_stev_km_sled = String.valueOf(rs.getLong("stev_km_sled"));
-
-	// stev_ur_sled
-	x_stev_ur_sled = String.valueOf(rs.getLong("stev_ur_sled"));
-
 	// zacetek
 	if (rs.getTimestamp("zacetek") != null){
 		x_zacetek = rs.getTimestamp("zacetek");
@@ -1420,7 +967,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
-	out.print("dobavnicaview.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+	out.print("dobavnicaview.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Pregled</a></span></td>
@@ -1429,7 +976,7 @@ if (key != null && key.length() > 0) {
 <% if ((ewCurSec & ewAllowEdit) == ewAllowEdit ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
-	out.print("dobavnicaedit.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+	out.print("dobavnicaedit.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Spremeni</a></span></td>
@@ -1437,13 +984,13 @@ if (key != null && key.length() > 0) {
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
-	out.print("dobavnicaadd.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+	out.print("dobavnicaadd.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Kopiraj</a></span></td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=x_st_dob %>" class="jspmaker">Briši</span></td>
 <% } %>
 <td><span class="jspmaker"><a href="printDelovniNalog.jsp?type=1&reportID=0&report=<%="/"%>reports<%="/"%>dobavnica&x_sif_dob=<%=x_st_dob%>">Tiskaj</a></span></td>
 		<td><% out.print(x_st_dob); %>&nbsp;</td>
@@ -1455,18 +1002,9 @@ if (key != null && key.length() > 0) {
 		<td><%out.print(rs.getString("k.naziv"));%>&nbsp;</td>
 		<td><% out.print(x_sif_sof); %>&nbsp;</td>
 		<td><%out.print(rs.getString("sofer"));%>&nbsp;</td>
-		<!--td><% out.print(x_sofer); %>&nbsp;</td-->
-		<!--td><%/*out.print(rs.getString("k.kamion"));*/%>&nbsp;</td-->
-		<!--td><% out.print(x_kamion); %>&nbsp;</td>
-		<td><% out.print(x_cena_km); %>&nbsp;</td>
-		<td><% out.print(x_cena_ura); %>&nbsp;</td>
-		<td><% out.print(x_c_km); %>&nbsp;</td>
-		<td><% out.print(x_c_ura); %>&nbsp;</td>
-		<td><% out.print(x_stev_km); %>&nbsp;</td>
-		<td><% out.print(x_stev_ur); %>&nbsp;</td>
-		<td><% out.print(x_stroski); %>&nbsp;</td>
+		<td><% out.print(x_koda); %>&nbsp;</td>
 		<td><%
-/*
+
 if (x_koda!=null && ((String)x_koda).length() > 0) {
 	String sqlwrk_where = "";
 	tmpfld = (String) x_koda;
@@ -1486,25 +1024,14 @@ if (x_koda!=null && ((String)x_koda).length() > 0) {
 	stmtwrk.close();
 	stmtwrk = null;
 }
-*/
+
 %>
-&nbsp;</td-->
-		<!--td><% out.print(x_kolicina); %>&nbsp;</td>
-		<td><% out.print(x_cena); %>&nbsp;</td>
-		<td><% out.print(x_kg_zaup); %>&nbsp;</td>
-		<td><% out.print(x_sit_zaup); %>&nbsp;</td>
-		<td><% out.print(x_kg_sort); %>&nbsp;</td>
-		<td><% out.print(x_sit_sort); %>&nbsp;</td>
-		<td><% out.print(x_sit_smet); %>&nbsp;</td-->
+&nbsp;</td>
 		<td><% out.print(x_skupina); %>&nbsp;</td>
 		<td><%out.print(rs.getString("skupina_text"));%>&nbsp;</td>
-		<!--td><% out.print(x_skupina_text); %>&nbsp;</td-->
 		<td><% out.print(x_opomba); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("u.ime_in_priimek"));%>&nbsp;</td>
-		
-		<!--td><% out.print(x_stev_km_sled); %>&nbsp;</td>
-		<td><% out.print(x_stev_ur_sled); %>&nbsp;</td-->
 	</tr>
 <%
 
