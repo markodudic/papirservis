@@ -51,35 +51,16 @@ if (a == null || a.length() == 0) {
 }
 String x_id = "";
 String x_st_dob = "";
-String x_pozicija = "";
 Object x_datum = null;
 String x_sif_str = "";
 String x_stranka = "";
 String x_sif_kupca = "";
 String x_sif_sof = "";
 String x_sofer = "";
-String x_sif_kam = "";
-String x_kamion = "";
-String x_cena_km = "";
-String x_cena_ura = "";
-String x_c_km = "";
-String x_c_ura = "";
-String x_stev_km = "";
-String x_stev_ur = "";
-String x_stroski = "";
-String x_koda = "";
-String x_kolicina = "";
-String x_cena = "";
-String x_kg_zaup = "";
-String x_sit_zaup = "";
-String x_kg_sort = "";
-String x_sit_sort = "";
-String x_sit_smet = "";
+String[] x_koda = {"","","",""};
 String x_skupina = "";
 String x_skupina_text = "";
 String x_opomba = "";
-String x_stev_km_sled = "";
-String x_stev_ur_sled = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
 
@@ -89,7 +70,8 @@ try{
 	ResultSet rs = null;
 	if (a.equals("I")) {// Get a record to display
 		String tkey = "" + key.replaceAll("'",escapeString) + "";
-		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey;
+		
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			out.clear();
@@ -105,9 +87,6 @@ try{
 
 		// st_dob
 		x_st_dob = String.valueOf(rs.getLong("st_dob"));
-
-		// pozicija
-		x_pozicija = String.valueOf(rs.getLong("pozicija"));
 
 		// datum
 		if (rs.getTimestamp("datum") != null){
@@ -147,68 +126,12 @@ try{
 			x_sofer = "";
 		}
 
-		// sif_kam
-		if (rs.getString("sif_kam") != null){
-			x_sif_kam = rs.getString("sif_kam");
-		}else{
-			x_sif_kam = "";
-		}
-
-		// kamion
-		if (rs.getString("kamion") != null){
-			x_kamion = rs.getString("kamion");
-		}else{
-			x_kamion = "";
-		}
-
-		// cena_km
-		x_cena_km = String.valueOf(rs.getLong("cena_km"));
-
-		// cena_ura
-		x_cena_ura = String.valueOf(rs.getLong("cena_ura"));
-
-		// c_km
-		x_c_km = String.valueOf(rs.getLong("c_km"));
-
-		// c_ura
-		x_c_ura = String.valueOf(rs.getLong("c_ura"));
-
-		// stev_km
-		x_stev_km = String.valueOf(rs.getLong("stev_km"));
-
-		// stev_ur
-		x_stev_ur = String.valueOf(rs.getLong("stev_ur"));
-
-		// stroski
-		x_stroski = String.valueOf(rs.getLong("stroski"));
-
 		// koda
 		if (rs.getString("koda") != null){
-			x_koda = rs.getString("koda");
+			x_koda[0] = rs.getString("koda");
 		}else{
-			x_koda = "";
+			x_koda[0] = "";
 		}
-
-		// kolicina
-		x_kolicina = String.valueOf(rs.getLong("kolicina"));
-
-		// cena
-		x_cena = String.valueOf(rs.getLong("cena"));
-
-		// kg_zaup
-		x_kg_zaup = String.valueOf(rs.getLong("kg_zaup"));
-
-		// sit_zaup
-		x_sit_zaup = String.valueOf(rs.getLong("sit_zaup"));
-
-		// kg_sort
-		x_kg_sort = String.valueOf(rs.getLong("kg_sort"));
-
-		// sit_sort
-		x_sit_sort = String.valueOf(rs.getLong("sit_sort"));
-
-		// sit_smet
-		x_sit_smet = String.valueOf(rs.getLong("sit_smet"));
 
 		// skupina
 		x_skupina = String.valueOf(rs.getLong("skupina"));
@@ -227,12 +150,6 @@ try{
 			x_opomba = "";
 		}
 
-		// stev_km_sled
-		x_stev_km_sled = String.valueOf(rs.getLong("stev_km_sled"));
-
-		// stev_ur_sled
-		x_stev_ur_sled = String.valueOf(rs.getLong("stev_ur_sled"));
-
 		// zacetek
 		if (rs.getTimestamp("zacetek") != null){
 			x_zacetek = rs.getTimestamp("zacetek");
@@ -242,6 +159,17 @@ try{
 
 		// uporabnik
 		x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+		
+		int cnt=1;
+		while (rs.next()) {
+			// koda
+			if (rs.getString("koda") != null){
+				x_koda[cnt] = rs.getString("koda");
+			}else{
+				x_koda[cnt] = "";
+			}
+			cnt++;
+		}
 	}
 %>
 <%@ include file="header.jsp" %>
@@ -257,10 +185,6 @@ function disableSome(EW_this){
 		<td class="ewTableHeader">Številka dobavnice&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_st_dob); %>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Pozicija&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_pozicija); %>&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
@@ -289,10 +213,6 @@ if (x_sif_str!=null && ((String)x_sif_str).length() > 0) {
 %>
 &nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Stranka&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stranka); %>&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%
@@ -343,73 +263,16 @@ if (x_sif_sof!=null && ((String)x_sif_sof).length() > 0) {
 %>
 &nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Šofer&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_sofer); %>&nbsp;</td>
-	</tr>
+	
+	<%for (int i=0; i<x_koda.length; i++) {
+		if (((String)x_koda[i]).equals("")) continue;%>
+
 	<tr>
-		<td class="ewTableHeader">Šifra kamiona&nbsp;</td>
+		<td class="ewTableHeader">Koda&nbsp;<%out.print(i+1);%></td>
 		<td class="ewTableAltRow"><%
-if (x_sif_kam!=null && ((String)x_sif_kam).length() > 0) {
+if (x_koda!=null && ((String)x_koda[i]).length() > 0) {
 	String sqlwrk_where = "";
-	tmpfld = (String) x_sif_kam;
-	tmpfld = tmpfld.replaceAll("'", "\\\\'");
-	sqlwrk_where = "`sif_kam` = '" + tmpfld + "'";
-	String sqlwrk = "SELECT `sif_kam`, `kamion` FROM `kamion`";
-	if (sqlwrk_where.length() > 0) {
-	sqlwrk += " WHERE " + sqlwrk_where;
-	}
-	Statement stmtwrk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	ResultSet rswrk = stmtwrk.executeQuery(sqlwrk);
-	if (rswrk.next()) {
-		out.print(rswrk.getString("kamion"));
-	}
-	rswrk.close();
-	rswrk = null;
-	stmtwrk.close();
-	stmtwrk = null;
-}
-%>
-&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Kamion&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_kamion); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Cena na km&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_cena_km); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Cena na uro&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_cena_ura); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">c km&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_c_km); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">c ura&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_c_ura); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število kilometrov&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stev_km); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stev_ur); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Stroški&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stroski); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Koda&nbsp;</td>
-		<td class="ewTableAltRow"><%
-if (x_koda!=null && ((String)x_koda).length() > 0) {
-	String sqlwrk_where = "";
-	tmpfld = (String) x_koda;
+	tmpfld = (String) x_koda[i];
 	tmpfld = tmpfld.replaceAll("'", "\\\\'");
 	sqlwrk_where = "`koda` = '" + tmpfld + "'";
 	String sqlwrk = "SELECT `koda`, `material` FROM `materiali`";
@@ -429,35 +292,9 @@ if (x_koda!=null && ((String)x_koda).length() > 0) {
 %>
 &nbsp;</td>
 	</tr>
+	<% } %>
+	
 	<tr>
-		<td class="ewTableHeader">Količina&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_kolicina); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Cena&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_cena); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">kg zaup&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_kg_zaup); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit zaup&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_sit_zaup); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">kg sort&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_kg_sort); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit sort&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_sit_sort); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit smet&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_sit_smet); %>&nbsp;</td>
-	</tr>
-	<tr-->
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%
 if (x_skupina!=null && ((String)x_skupina).length() > 0) {
@@ -480,22 +317,10 @@ if (x_skupina!=null && ((String)x_skupina).length() > 0) {
 %>
 &nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Skupina&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_skupina_text); %>&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_opomba); %>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Število kilometrov sledenja&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stev_km_sled); %>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_stev_ur_sled); %>&nbsp;</td>
-	</tr-->
 </table>
 </form>
 <p>

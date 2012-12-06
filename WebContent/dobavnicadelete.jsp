@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" errorPage="dobavnicalist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" errorPage="dobavnicalist.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -57,7 +57,7 @@ for (int i = 0; i < arRecKey.length; i++){
 
 	// Build the SQL
 	sqlKey +=  "(";
-	sqlKey +=  "`id`=" + "" + reckey + "" + " AND ";
+	sqlKey +=  "st_dob=" + "" + reckey + "" + " AND ";
 	if (sqlKey.substring(sqlKey.length()-5,sqlKey.length()).equals(" AND " )) { sqlKey = sqlKey.substring(0,sqlKey.length()-5);}
 	sqlKey = sqlKey + ") OR ";
 }
@@ -74,7 +74,7 @@ try{
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	ResultSet rs = null;
 	if (a.equals("I")){ // Display
-		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " WHERE " + sqlKey;
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " WHERE pozicija=1 AND " + sqlKey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			response.sendRedirect("dobavnicalist.jsp");

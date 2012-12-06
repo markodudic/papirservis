@@ -39,7 +39,10 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 				 	session.setAttribute("dob_stranke_show", "naziv");
 				 	session.setAttribute("dob_kamion_show", "kamion");
 				 	session.setAttribute("dob_sofer_show", "sofer");
-					session.setAttribute("dob_prikaz_material","koda");
+					session.setAttribute("dob_prikaz_material_1","koda");
+					session.setAttribute("dob_prikaz_material_2","koda");
+					session.setAttribute("dob_prikaz_material_3","koda");
+					session.setAttribute("dob_prikaz_material_4","koda");
 					session.setAttribute("dob_prikaz_okolje","koda");
 
 				 	session.setAttribute("stranke_kupci_show", "naziv");

@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" errorPage="dobavnicalist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="dobavnicalist.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -65,36 +65,23 @@ Object x_stranka = null;
 Object x_sif_kupca = null;
 Object x_sif_sof = null;
 Object x_sofer = null;
-Object x_sif_kam = null;
-Object x_kamion = null;
-Object x_cena_km = null;
-Object x_cena_ura = null;
-Object x_c_km = null;
-Object x_c_ura = null;
-Object x_stev_km = null;
-Object x_stev_ur = null;
-Object x_stroski = null;
-Object x_koda = null;
-Object x_kolicina = null;
-Object x_cena = null;
-Object x_kg_zaup = null;
-Object x_sit_zaup = null;
-Object x_kg_sort = null;
-Object x_sit_sort = null;
-Object x_sit_smet = null;
+String[] x_koda = {"","","",""};
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_opomba = null;
-Object x_stev_km_sled = null;
-Object x_stev_ur_sled = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
+Object x_cena = null;
+Object x_stev_km_norm = null;
+Object x_stev_ur_norm = null;
 
 
 StringBuffer x_sif_strList = null;
 StringBuffer x_sif_kupcaList = null;
-StringBuffer x_sif_kamList = null;
-StringBuffer x_kodaList = null;
+StringBuffer x_koda_1List = null;
+StringBuffer x_koda_2List = null;
+StringBuffer x_koda_3List = null;
+StringBuffer x_koda_4List = null;
 StringBuffer x_sif_sofList = null;
 StringBuffer x_skupinaList = null;
 
@@ -103,6 +90,8 @@ StringBuffer sif_skupina = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
+StringBuffer stranka_stev_km_norm = new StringBuffer();
+StringBuffer stranka_stev_ur_norm = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -110,7 +99,7 @@ try{
 	ResultSet rs = null;
 	if (a.equals("I")){ // Get a record to display
 		String tkey = "" + key.replaceAll("'",escapeString) + "";
-		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			rs.close();
@@ -127,15 +116,15 @@ try{
 			rs.first();
 
 			// Get the field contents
-	x_id = String.valueOf(rs.getLong("id"));
-	x_st_dob = String.valueOf(rs.getLong("st_dob"));
-	x_pozicija = String.valueOf(rs.getLong("pozicija"));
+			x_id = String.valueOf(rs.getLong("id"));
+			x_st_dob = String.valueOf(rs.getLong("st_dob"));
+			x_pozicija = String.valueOf(rs.getLong("pozicija"));
 			if (rs.getTimestamp("datum") != null){
 				x_datum = rs.getTimestamp("datum");
 			}else{
 				x_datum = null;
 			}
-	x_sif_str = String.valueOf(rs.getLong("sif_str"));
+			x_sif_str = String.valueOf(rs.getLong("sif_str"));
 			if (rs.getString("stranka") != null){
 				x_stranka = rs.getString("stranka");
 			}else{
@@ -156,36 +145,12 @@ try{
 			}else{
 				x_sofer = "";
 			}
-			if (rs.getString("sif_kam") != null){
-				x_sif_kam = rs.getString("sif_kam");
-			}else{
-				x_sif_kam = "";
-			}
-			if (rs.getString("kamion") != null){
-				x_kamion = rs.getString("kamion");
-			}else{
-				x_kamion = "";
-			}
-	x_cena_km = String.valueOf(rs.getLong("cena_km"));
-	x_cena_ura = String.valueOf(rs.getLong("cena_ura"));
-	x_c_km = String.valueOf(rs.getLong("c_km"));
-	x_c_ura = String.valueOf(rs.getLong("c_ura"));
-	x_stev_km = String.valueOf(rs.getLong("stev_km"));
-	x_stev_ur = String.valueOf(rs.getLong("stev_ur"));
-	x_stroski = String.valueOf(rs.getLong("stroski"));
 			if (rs.getString("koda") != null){
-				x_koda = rs.getString("koda");
+				x_koda[0] = rs.getString("koda");
 			}else{
-				x_koda = "";
+				x_koda[0] = "";
 			}
-	x_kolicina = String.valueOf(rs.getLong("kolicina"));
-	x_cena = String.valueOf(rs.getDouble("cena"));
-	x_kg_zaup = String.valueOf(rs.getLong("kg_zaup"));
-	x_sit_zaup = String.valueOf(rs.getLong("sit_zaup"));
-	x_kg_sort = String.valueOf(rs.getLong("kg_sort"));
-	x_sit_sort = String.valueOf(rs.getLong("sit_sort"));
-	x_sit_smet = String.valueOf(rs.getLong("sit_smet"));
-	x_skupina = String.valueOf(rs.getLong("skupina"));
+			x_skupina = String.valueOf(rs.getLong("skupina"));
 			if (rs.getString("skupina_text") != null){
 				x_skupina_text = rs.getString("skupina_text");
 			}else{
@@ -196,14 +161,26 @@ try{
 			}else{
 				x_opomba = "";
 			}
-	x_stev_km_sled = String.valueOf(rs.getLong("stev_km_sled"));
-	x_stev_ur_sled = String.valueOf(rs.getLong("stev_ur_sled"));
 			if (rs.getTimestamp("zacetek") != null){
 				x_zacetek = rs.getTimestamp("zacetek");
 			}else{
 				x_zacetek = null;
 			}
 			x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+
+			x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
+			x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
+
+			int cnt=1;
+			while (rs.next()) {
+				// koda
+				if (rs.getString("koda") != null){
+					x_koda[cnt] = rs.getString("koda");
+				}else{
+					x_koda[cnt] = "";
+				}
+				cnt++;
+			}
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -243,86 +220,27 @@ try{
 		}else{
 			x_sofer = "";
 		}
-		if (request.getParameter("x_sif_kam") != null){
-			x_sif_kam = request.getParameter("x_sif_kam");
-		}
-		if (request.getParameter("x_kamion") != null){
-			x_kamion = (String) request.getParameter("x_kamion");
-		}else{
-			x_kamion = "";
-		}
-		if (request.getParameter("x_cena_km") != null){
-			x_cena_km = (String) request.getParameter("x_cena_km");
-		}else{
-			x_cena_km = "";
-		}
-		if (request.getParameter("x_cena_ura") != null){
-			x_cena_ura = (String) request.getParameter("x_cena_ura");
-		}else{
-			x_cena_ura = "";
-		}
-		if (request.getParameter("x_c_km") != null){
-			x_c_km = (String) request.getParameter("x_c_km");
-		}else{
-			x_c_km = "";
-		}
-		if (request.getParameter("x_c_ura") != null){
-			x_c_ura = (String) request.getParameter("x_c_ura");
-		}else{
-			x_c_ura = "";
-		}
-		if (request.getParameter("x_stev_km") != null){
-			x_stev_km = (String) request.getParameter("x_stev_km");
-		}else{
-			x_stev_km = "";
-		}
-		if (request.getParameter("x_stev_ur") != null){
-			x_stev_ur = (String) request.getParameter("x_stev_ur");
-		}else{
-			x_stev_ur = "";
-		}
-		if (request.getParameter("x_stroski") != null){
-			x_stroski = (String) request.getParameter("x_stroski");
-		}else{
-			x_stroski = "";
-		}
-		if (request.getParameter("x_koda") != null){
-			x_koda = request.getParameter("x_koda");
-		}
-		if (request.getParameter("x_kolicina") != null){
-			x_kolicina = (String) request.getParameter("x_kolicina");
-		}else{
-			x_kolicina = "";
-		}
 		if (request.getParameter("x_cena") != null){
 			x_cena = (String) request.getParameter("x_cena");
 		}else{
 			x_cena = "";
 		}
-		if (request.getParameter("x_kg_zaup") != null){
-			x_kg_zaup = (String) request.getParameter("x_kg_zaup");
-		}else{
-			x_kg_zaup = "";
+		int koda_cnt = 0;
+		if ((request.getParameter("x_koda_1") != null) && (!request.getParameter("x_koda_1").equals(""))){
+			x_koda[0] = request.getParameter("x_koda_1");
+			koda_cnt = 1;
 		}
-		if (request.getParameter("x_sit_zaup") != null){
-			x_sit_zaup = (String) request.getParameter("x_sit_zaup");
-		}else{
-			x_sit_zaup = "";
+		if ((request.getParameter("x_koda_2") != null) && (!request.getParameter("x_koda_2").equals(""))){
+			x_koda[1] = request.getParameter("x_koda_2");
+			koda_cnt = 2;
 		}
-		if (request.getParameter("x_kg_sort") != null){
-			x_kg_sort = (String) request.getParameter("x_kg_sort");
-		}else{
-			x_kg_sort = "";
+		if ((request.getParameter("x_koda_3") != null) && (!request.getParameter("x_koda_3").equals(""))){
+			x_koda[2] = request.getParameter("x_koda_3");
+			koda_cnt = 3;
 		}
-		if (request.getParameter("x_sit_sort") != null){
-			x_sit_sort = (String) request.getParameter("x_sit_sort");
-		}else{
-			x_sit_sort = "";
-		}
-		if (request.getParameter("x_sit_smet") != null){
-			x_sit_smet = (String) request.getParameter("x_sit_smet");
-		}else{
-			x_sit_smet = "";
+		if ((request.getParameter("x_koda_4") != null) && (!request.getParameter("x_koda_4").equals(""))){
+			x_koda[3] = request.getParameter("x_koda_4");
+			koda_cnt = 4;
 		}
 		if (request.getParameter("x_skupina") != null){
 			x_skupina = request.getParameter("x_skupina");
@@ -337,334 +255,244 @@ try{
 		}else{
 			x_opomba = "";
 		}
-		if (request.getParameter("x_stev_km_sled") != null){
-			x_stev_km_sled = (String) request.getParameter("x_stev_km_sled");
+		if (request.getParameter("x_stev_km_norm") != null){
+			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
 		}else{
-			x_stev_km_sled = "";
+			x_stev_km_norm = "";
 		}
-		if (request.getParameter("x_stev_ur_sled") != null){
-			x_stev_ur_sled = (String) request.getParameter("x_stev_ur_sled");
+		if (request.getParameter("x_stev_ur_norm") != null){
+			x_stev_ur_norm = (String) request.getParameter("x_stev_ur_norm");
 		}else{
-			x_stev_ur_sled = "";
+			x_stev_ur_norm = "";
 		}
 
-		// Open record
+		// select count records
+		int rec_cnt = 0;
 		String tkey = "" + key.replaceAll("'",escapeString) + "";
-		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE `id`=" + tkey;
-		rs = stmt.executeQuery(strsql);
-		if (!rs.next()) {
+		String strsql1 = "SELECT count(*) FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey;
+		rs = stmt.executeQuery(strsql1);
+		if (rs.next()) {
+			rec_cnt = rs.getInt(1);
+			
 			rs.close();
 			rs = null;
-			stmt.close();
-			stmt = null;
-			//conn.close();
-			conn = null;
-			out.clear();
-			response.sendRedirect("dobavnicalist.jsp");
-			response.flushBuffer();
-			return;
 		}
 
-/*
-		// Field st_dob
-		tmpfld = ((String) x_st_dob).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
-			rs.updateNull("st_dob");
-		} else {
-			rs.updateInt("st_dob",Integer.parseInt(tmpfld));
-		}
+		//pobrisem vse odvecne pozicije
+		if (rec_cnt > koda_cnt){ // Delete
+			String strsql = "DELETE FROM " + session.getAttribute("letoTabela") + " WHERE st_dob=" + tkey + " AND pozicija > 1 AND pozicija > " + koda_cnt ;
+			stmt.executeUpdate(strsql);
+		}	
+		
+		//ce je nova pozicija je insertam
+		if (rec_cnt < koda_cnt){ // Add
+			//vpišem tolk rekordov kolk imam kod
+			for (int i=rec_cnt; i<koda_cnt; i++) {
+				String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum, koda, stev_km_norm, stev_ur_norm) values (";
+				
+				// Field st_dob
+				tmpfld = ((String) x_st_dob).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = "0";}
+				if (tmpfld == null) {
+					//rs.updateNull("sif_str");
+				} else {
+					strsql += tmpfld + ", " + (i+1) + ", ";
+				}
+		
+		
+				// Field sif_sof
+				tmpfld = ((String) x_sif_sof);
+				if (tmpfld == null || tmpfld.trim().length() == 0) {
+					tmpfld = null;
+				}
+				if (tmpfld == null) {
+					//rs.updateNull("sif_sof");
+				}else{
+					strsql += tmpfld + ",";
+				}
+		
+				// Field sif_str
+				tmpfld = ((String) x_sif_str).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				if (tmpfld == null) {
+					//rs.updateNull("sif_str");
+				} else {
+					strsql += tmpfld + ",";
+				}
+		
+				// Field sif_kupca
+				tmpfld = ((String) x_sif_kupca).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				if (tmpfld == null) {
+					//rs.updateNull("sif_str");
+				} else {
+					strsql += tmpfld + ",";
+				}
+		
+				// Field skupina
+				tmpfld = ((String) x_skupina).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				if (tmpfld == null) {
+					//rs.updateNull("sif_str");
+				} else {
+					strsql += tmpfld + ",";
+				}
+		
+		
+				// Field skupina
+				tmpfld = ((String) x_cena).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				strsql += tmpfld + ",";
+				
+				// Field opomba
+				tmpfld = ((String) x_opomba);
+				if (tmpfld == null || tmpfld.trim().length() == 0) {
+					tmpfld = "";
+				}
+				strsql += "'" + tmpfld + "'," + (String) session.getAttribute("papirservis1_status_UserID") + ", '" + (EW_UnFormatDateTime((String) x_datum ,"EURODATE", locale)).toString() + "',";
+		
+		
+				// Field koda
+				tmpfld = ((String) x_koda[i]);
+				if (tmpfld == null || tmpfld.trim().length() == 0) {
+					tmpfld = null;
+				}
+				if(tmpfld != null)
+					strsql += "'" + tmpfld + "', ";
+				else
+					strsql += tmpfld + ", ";
+		
+				// Field stev_km_norm
+				tmpfld = ((String) x_stev_km_norm).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				strsql += tmpfld + ", ";
+		
+				// Field stev_ur_norm
+				tmpfld = ((String) x_stev_ur_norm).trim();
+				if (!IsNumeric(tmpfld)) { tmpfld = null;}
+				strsql += tmpfld + ") ";
+		
 
-		// Field pozicija
-		tmpfld = ((String) x_pozicija).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
-			rs.updateNull("pozicija");
-		} else {
-			rs.updateInt("pozicija",Integer.parseInt(tmpfld));
+				Statement stmt1 = conn.createStatement();
+				stmt1.executeUpdate(strsql);
+				stmt1.close();
+				stmt1 = null;
+			}
+		
 		}
-*/
-		// Field datum
-		if (IsDate((String) x_datum,"EURODATE", locale)) {
-			rs.updateTimestamp("datum", EW_UnFormatDateTime((String)x_datum,"EURODATE", locale));
-		}else{
-			rs.updateNull("datum");
-		}
-
-		// Field sif_str
-		tmpfld = ((String) x_sif_str).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sif_str");
-		} else {
-			rs.updateInt("sif_str",Integer.parseInt(tmpfld));
-		}
-/*
-		// Field stranka
-		tmpfld = ((String) x_stranka);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("stranka");
-		}else{
-			rs.updateString("stranka", tmpfld);
-		}
-*/
-		// Field sif_kupca
-		tmpfld = ((String) x_sif_kupca);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sif_kupca");
-		}else{
-			rs.updateString("sif_kupca", tmpfld);
-		}
-
-		// Field sif_sof
-		tmpfld = ((String) x_sif_sof);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sif_sof");
-		}else{
-			rs.updateString("sif_sof", tmpfld);
-		}
-/*
-		// Field sofer
-		tmpfld = ((String) x_sofer);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sofer");
-		}else{
-			rs.updateString("sofer", tmpfld);
-		}
-
-		// Field sif_kam
-		tmpfld = ((String) x_sif_kam);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("sif_kam");
-		}else{
-			rs.updateString("sif_kam", tmpfld);
-		}
-
-		// Field kamion
-		tmpfld = ((String) x_kamion);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("kamion");
-		}else{
-			rs.updateString("kamion", tmpfld);
-		}
-
-		// Field cena_km
-		tmpfld = ((String) x_cena_km).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena_km");
-		} else {
-			rs.updateInt("cena_km",Integer.parseInt(tmpfld));
-		}
-
-		// Field cena_ura
-		tmpfld = ((String) x_cena_ura).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena_ura");
-		} else {
-			rs.updateInt("cena_ura",Integer.parseInt(tmpfld));
-		}
-
-		// Field c_km
-		tmpfld = ((String) x_c_km).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("c_km");
-		} else {
-			rs.updateInt("c_km",Integer.parseInt(tmpfld));
-		}
-
-		// Field c_ura
-		tmpfld = ((String) x_c_ura).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("c_ura");
-		} else {
-			rs.updateInt("c_ura",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_km
-		tmpfld = ((String) x_stev_km).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_km");
-		} else {
-			rs.updateInt("stev_km",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_ur
-		tmpfld = ((String) x_stev_ur).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur");
-		} else {
-			rs.updateInt("stev_ur",Integer.parseInt(tmpfld));
-		}
-
-		// Field stroski
-		tmpfld = ((String) x_stroski).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stroski");
-		} else {
-			rs.updateInt("stroski",Integer.parseInt(tmpfld));
-		}
-
-		// Field koda
-		tmpfld = ((String) x_koda);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("koda");
-		}else{
-			rs.updateString("koda", tmpfld);
-		}
-
-		// Field kolicina
-		tmpfld = ((String) x_kolicina).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kolicina");
-		} else {
-			rs.updateInt("kolicina",Integer.parseInt(tmpfld));
-		}
-*/
-		// Field cena
-		tmpfld = ((String) x_cena).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("cena");
-		} else {
-			rs.updateDouble("cena",Double.parseDouble(tmpfld));
-		}
-/*
-		// Field kg_zaup
-		tmpfld = ((String) x_kg_zaup).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kg_zaup");
-		} else {
-			rs.updateInt("kg_zaup",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_zaup
-		tmpfld = ((String) x_sit_zaup).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_zaup");
-		} else {
-			rs.updateInt("sit_zaup",Integer.parseInt(tmpfld));
-		}
-
-		// Field kg_sort
-		tmpfld = ((String) x_kg_sort).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("kg_sort");
-		} else {
-			rs.updateInt("kg_sort",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_sort
-		tmpfld = ((String) x_sit_sort).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_sort");
-		} else {
-			rs.updateInt("sit_sort",Integer.parseInt(tmpfld));
-		}
-
-		// Field sit_smet
-		tmpfld = ((String) x_sit_smet).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("sit_smet");
-		} else {
-			rs.updateInt("sit_smet",Integer.parseInt(tmpfld));
-		}
-
-		// Field skupina_text
-		tmpfld = ((String) x_skupina_text);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("skupina_text");
-		}else{
-			rs.updateString("skupina_text", tmpfld);
-		}
-*/
-
-		// Field skupina
-		tmpfld = ((String) x_skupina).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("skupina");
-		} else {
-			rs.updateInt("skupina",Integer.parseInt(tmpfld));
-		}
-
-		// Field opomba
-		tmpfld = ((String) x_opomba);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("opomba");
-		}else{
-			rs.updateString("opomba", tmpfld);
-		}
-/*
-		// Field stev_km_sled
-		tmpfld = ((String) x_stev_km_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_km_sled");
-		} else {
-			rs.updateInt("stev_km_sled",Integer.parseInt(tmpfld));
-		}
-
-		// Field stev_ur_sled
-		tmpfld = ((String) x_stev_ur_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur_sled");
-		} else {
-			rs.updateInt("stev_ur_sled",Integer.parseInt(tmpfld));
-		}
-*/		
-		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+		
+		// Spremenim vse obstojece ali vsaj resetiram prvo pozicijo
+		int koda_cnt_vse = 1;
+		if (koda_cnt>0) koda_cnt_vse = koda_cnt;
+		for (int i=0; i<koda_cnt_vse; i++) {
+			//String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey;
+			String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey + " AND pozicija = " + (i+1);
+			
+			rs = stmt.executeQuery(strsql);
+			if (!rs.next()) {
+				rs.close();
+				rs = null;
+				stmt.close();
+				stmt = null;
+				conn = null;
+				//out.clear();
+				response.sendRedirect("dobavnicalist.jsp");
+				response.flushBuffer();
+				return;
+			}
 	
-		rs.updateRow();
-		rs.close();
-		rs = null;
+			// Field datum
+			if (IsDate((String) x_datum,"EURODATE", locale)) {
+				rs.updateTimestamp("datum", EW_UnFormatDateTime((String)x_datum,"EURODATE", locale));
+			}else{
+				rs.updateNull("datum");
+			}
+	
+			// Field sif_str
+			tmpfld = ((String) x_sif_str).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("sif_str");
+			} else {
+				rs.updateInt("sif_str",Integer.parseInt(tmpfld));
+			}
+	
+			// Field sif_kupca
+			tmpfld = ((String) x_sif_kupca);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			if (tmpfld == null) {
+				rs.updateNull("sif_kupca");
+			}else{
+				rs.updateString("sif_kupca", tmpfld);
+			}
+	
+			// Field sif_sof
+			tmpfld = ((String) x_sif_sof);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			if (tmpfld == null) {
+				rs.updateNull("sif_sof");
+			}else{
+				rs.updateString("sif_sof", tmpfld);
+			}
+	
+			// Field cena
+			tmpfld = ((String) x_cena).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("cena");
+			} else {
+				rs.updateDouble("cena",Double.parseDouble(tmpfld));
+			}
+	
+			// Field skupina
+			tmpfld = ((String) x_skupina).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("skupina");
+			} else {
+				rs.updateInt("skupina",Integer.parseInt(tmpfld));
+			}
+	
+			// Field opomba
+			tmpfld = ((String) x_opomba);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			if (tmpfld == null) {
+				rs.updateNull("opomba");
+			}else{
+				rs.updateString("opomba", tmpfld);
+			}
+			
+			rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+		
+			// Field koda
+			tmpfld = ((String) x_koda[i]);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			if (tmpfld == null) {
+				rs.updateNull("koda");
+			}else{
+				rs.updateString("koda", tmpfld);
+			}
+
+			rs.updateRow();
+			rs.close();
+			rs = null;
+		}
+		
 		stmt.close();
 		stmt = null;
 		//conn.close();
 		conn = null;
-		response.sendRedirect("dobavnicalist.jsp");
-		response.flushBuffer();
-		return;
+		//response.sendRedirect("dobavnicalist.jsp");
+		//response.flushBuffer();
+		//return;
 	}
 
 
@@ -683,6 +511,19 @@ if(request.getParameter("prikaz_kamion")!= null){
 if(request.getParameter("prikaz_sofer")!= null){
  	session.setAttribute("dobavnica_sofer_show", request.getParameter("prikaz_sofer"));
 }
+if(request.getParameter("prikaz_material_1")!= null){
+ 	session.setAttribute("dob_prikaz_material_1", request.getParameter("prikaz_material_1"));
+}
+if(request.getParameter("prikaz_material_2")!= null){
+ 	session.setAttribute("dob_prikaz_material_2", request.getParameter("prikaz_material_2"));
+}
+if(request.getParameter("prikaz_material_3")!= null){
+ 	session.setAttribute("dob_prikaz_material_3", request.getParameter("prikaz_material_3"));
+}
+if(request.getParameter("prikaz_material_4")!= null){
+ 	session.setAttribute("dob_prikaz_material_4", request.getParameter("prikaz_material_4"));
+}
+
 
 String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
@@ -751,7 +592,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -779,6 +620,8 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
+		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
+		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
 
 
 		String tmpValue_x_sif_str = "";
@@ -852,6 +695,125 @@ stmtwrk_x_sif_sof.close();
 stmtwrk_x_sif_sof = null;
 x_sif_sofList.append("</select>");
 
+String cbo_x_koda_1_js = "";
+x_koda_1List = new StringBuffer("<select name=\"x_koda_1\" ><option value=\"\">Izberi</option>");
+String sqlwrk_x_koda_1 = "SELECT `materiali`.`koda`, `material`  , `sit_sort`, `sit_zaup`, `sit_smet`, material_okolje.okolje_koda " +
+		"FROM `materiali` " +
+		"		left join material_okolje on (materiali.koda = material_okolje.material_koda), " +
+		"		(select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
+		"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
+		"ORDER BY `" + session.getAttribute("dob_prikaz_material_1") + "` ASC";
+
+Statement stmtwrk_x_koda_1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_koda_1 = stmtwrk_x_koda_1.executeQuery(sqlwrk_x_koda_1);
+	int rowcntwrk_x_koda_1 = 0;
+	while (rswrk_x_koda_1.next()) {
+		x_koda_1List.append("<option value=\"").append(rswrk_x_koda_1.getString("koda")).append("\"");
+		if (rswrk_x_koda_1.getString("koda").equals(x_koda[0])) {
+			x_koda_1List.append(" selected");
+		}
+		String tmpValue_x_koda_1 = "";
+		if (rswrk_x_koda_1.getString("material")!= null) tmpValue_x_koda_1 = rswrk_x_koda_1.getString("material");
+		x_koda_1List.append(">").append(rswrk_x_koda_1.getString("koda") + "   ").append(tmpValue_x_koda_1).append("</option>");
+
+		rowcntwrk_x_koda_1++;
+	}
+rswrk_x_koda_1.close();
+rswrk_x_koda_1 = null;
+stmtwrk_x_koda_1.close();
+stmtwrk_x_koda_1 = null;
+x_koda_1List.append("</select>");
+
+
+String cbo_x_koda_2_js = "";
+x_koda_2List = new StringBuffer("<select name=\"x_koda_2\" ><option value=\"\">Izberi</option>");
+String sqlwrk_x_koda_2 = "SELECT `materiali`.`koda`, `material`  , `sit_sort`, `sit_zaup`, `sit_smet`, material_okolje.okolje_koda " +
+		"FROM `materiali` " +
+		"		left join material_okolje on (materiali.koda = material_okolje.material_koda), " +
+		"		(select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
+		"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
+		"ORDER BY `" + session.getAttribute("dob_prikaz_material_2") + "` ASC";
+
+Statement stmtwrk_x_koda_2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_koda_2 = stmtwrk_x_koda_2.executeQuery(sqlwrk_x_koda_2);
+	int rowcntwrk_x_koda_2 = 0;
+	while (rswrk_x_koda_2.next()) {
+		x_koda_2List.append("<option value=\"").append(rswrk_x_koda_2.getString("koda")).append("\"");
+		if (rswrk_x_koda_2.getString("koda").equals(x_koda[1])) {
+			x_koda_2List.append(" selected");
+		}
+		String tmpValue_x_koda_2 = "";
+		if (rswrk_x_koda_2.getString("material")!= null) tmpValue_x_koda_2 = rswrk_x_koda_2.getString("material");
+		x_koda_2List.append(">").append(rswrk_x_koda_2.getString("koda") + "   ").append(tmpValue_x_koda_2).append("</option>");
+
+		rowcntwrk_x_koda_2++;
+	}
+rswrk_x_koda_2.close();
+rswrk_x_koda_2 = null;
+stmtwrk_x_koda_2.close();
+stmtwrk_x_koda_2 = null;
+x_koda_2List.append("</select>");
+
+
+
+String cbo_x_koda_3_js = "";
+x_koda_3List = new StringBuffer("<select name=\"x_koda_3\" ><option value=\"\">Izberi</option>");
+String sqlwrk_x_koda_3 = "SELECT `materiali`.`koda`, `material`  , `sit_sort`, `sit_zaup`, `sit_smet`, material_okolje.okolje_koda " +
+		"FROM `materiali` " +
+		"		left join material_okolje on (materiali.koda = material_okolje.material_koda), " +
+		"		(select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
+		"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
+		"ORDER BY `" + session.getAttribute("dob_prikaz_material_3") + "` ASC";
+
+Statement stmtwrk_x_koda_3 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_koda_3 = stmtwrk_x_koda_3.executeQuery(sqlwrk_x_koda_3);
+	int rowcntwrk_x_koda_3 = 0;
+	while (rswrk_x_koda_3.next()) {
+		x_koda_3List.append("<option value=\"").append(rswrk_x_koda_3.getString("koda")).append("\"");
+		if (rswrk_x_koda_3.getString("koda").equals(x_koda[2])) {
+			x_koda_3List.append(" selected");
+		}
+		String tmpValue_x_koda_3 = "";
+		if (rswrk_x_koda_3.getString("material")!= null) tmpValue_x_koda_3 = rswrk_x_koda_3.getString("material");
+		x_koda_3List.append(">").append(rswrk_x_koda_3.getString("koda") + "   ").append(tmpValue_x_koda_3).append("</option>");
+
+		rowcntwrk_x_koda_3++;
+	}
+rswrk_x_koda_3.close();
+rswrk_x_koda_3 = null;
+stmtwrk_x_koda_3.close();
+stmtwrk_x_koda_3 = null;
+x_koda_3List.append("</select>");
+
+
+String cbo_x_koda_4_js = "";
+x_koda_4List = new StringBuffer("<select name=\"x_koda_4\" ><option value=\"\">Izberi</option>");
+String sqlwrk_x_koda_4 = "SELECT `materiali`.`koda`, `material`  , `sit_sort`, `sit_zaup`, `sit_smet`, material_okolje.okolje_koda " +
+		"FROM `materiali` " +
+		"		left join material_okolje on (materiali.koda = material_okolje.material_koda), " +
+		"		(select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
+		"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
+		"ORDER BY `" + session.getAttribute("dob_prikaz_material_4") + "` ASC";
+
+Statement stmtwrk_x_koda_4 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_koda_4 = stmtwrk_x_koda_4.executeQuery(sqlwrk_x_koda_4);
+	int rowcntwrk_x_koda_4 = 0;
+	while (rswrk_x_koda_4.next()) {
+		x_koda_4List.append("<option value=\"").append(rswrk_x_koda_4.getString("koda")).append("\"");
+		if (rswrk_x_koda_4.getString("koda").equals(x_koda[3])) {
+			x_koda_4List.append(" selected");
+		}
+		String tmpValue_x_koda_4 = "";
+		if (rswrk_x_koda_4.getString("material")!= null) tmpValue_x_koda_4 = rswrk_x_koda_4.getString("material");
+		x_koda_4List.append(">").append(rswrk_x_koda_4.getString("koda") + "   ").append(tmpValue_x_koda_4).append("</option>");
+
+		rowcntwrk_x_koda_4++;
+	}
+rswrk_x_koda_4.close();
+rswrk_x_koda_4 = null;
+stmtwrk_x_koda_4.close();
+stmtwrk_x_koda_4 = null;
+x_koda_4List.append("</select>");
 
 
 }catch (com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException ex){
@@ -905,81 +867,9 @@ if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
                 return false; 
         }
-if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "Napačan vnos - sif kam"))
-                return false; 
-        }
-if (EW_this.x_cena_km && !EW_checkinteger(EW_this.x_cena_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena_km, "TEXT", "Napačna številka - cena km"))
-            return false; 
-        }
-if (EW_this.x_cena_ura && !EW_checkinteger(EW_this.x_cena_ura.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena_ura, "TEXT", "Napačna številka - cena ura"))
-            return false; 
-        }
-if (EW_this.x_c_km && !EW_checkinteger(EW_this.x_c_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_c_km, "TEXT", "Napačna številka - c km"))
-            return false; 
-        }
-if (EW_this.x_c_ura && !EW_checkinteger(EW_this.x_c_ura.value)) {
-        if (!EW_onError(EW_this, EW_this.x_c_ura, "TEXT", "Napačna številka - c ura"))
-            return false; 
-        }
-if (EW_this.x_stev_km && !EW_checkinteger(EW_this.x_stev_km.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_km, "TEXT", "Napačna številka - stev km"))
-            return false; 
-        }
-if (EW_this.x_stev_ur && !EW_checkinteger(EW_this.x_stev_ur.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_ur, "TEXT", "Napačna številka - stev ur"))
-            return false; 
-        }
-if (EW_this.x_stroski && !EW_checkinteger(EW_this.x_stroski.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stroski, "TEXT", "Napačna številka - stroski"))
-            return false; 
-        }
-if (EW_this.x_koda && !EW_hasValue(EW_this.x_koda, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_koda, "SELECT", "Napačan vnos - koda"))
-                return false; 
-        }
-if (EW_this.x_kolicina && !EW_checkinteger(EW_this.x_kolicina.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kolicina, "TEXT", "Napačna številka - kolicina"))
-            return false; 
-        }
-if (EW_this.x_cena && !EW_checkinteger(EW_this.x_cena.value)) {
-        if (!EW_onError(EW_this, EW_this.x_cena, "TEXT", "Napačna številka - cena"))
-            return false; 
-        }
-if (EW_this.x_kg_zaup && !EW_checkinteger(EW_this.x_kg_zaup.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kg_zaup, "TEXT", "Napačna številka - kg zaup"))
-            return false; 
-        }
-if (EW_this.x_sit_zaup && !EW_checkinteger(EW_this.x_sit_zaup.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_zaup, "TEXT", "Napačna številka - sit zaup"))
-            return false; 
-        }
-if (EW_this.x_kg_sort && !EW_checkinteger(EW_this.x_kg_sort.value)) {
-        if (!EW_onError(EW_this, EW_this.x_kg_sort, "TEXT", "Napačna številka - kg sort"))
-            return false; 
-        }
-if (EW_this.x_sit_sort && !EW_checkinteger(EW_this.x_sit_sort.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_sort, "TEXT", "Napačna številka - sit sort"))
-            return false; 
-        }
-if (EW_this.x_sit_smet && !EW_checkinteger(EW_this.x_sit_smet.value)) {
-        if (!EW_onError(EW_this, EW_this.x_sit_smet, "TEXT", "Napačna številka - sit smet"))
-            return false; 
-        }
 if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
                 return false; 
-        }
-if (EW_this.x_stev_km_sled && !EW_checkinteger(EW_this.x_stev_km_sled.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_km_sled, "TEXT", "Napačna številka - stev km sled"))
-            return false; 
-        }
-if (EW_this.x_stev_ur_sled && !EW_checkinteger(EW_this.x_stev_ur_sled.value)) {
-        if (!EW_onError(EW_this, EW_this.x_stev_ur_sled, "TEXT", "Napačna številka - stev ur sled"))
-            return false; 
         }
 return true;
 }
@@ -995,6 +885,10 @@ var skupina = new Array();
 <%=skupina%>
 var stranka_cena = new Array();
 <%=stranka_cena%>
+var stranka_stev_ur_norm = new Array();
+<%=stranka_stev_ur_norm%>
+var stranka_stev_km_norm = new Array();
+<%=stranka_stev_km_norm%>
 
 function updateDropDowns(EW_this){
 /*
@@ -1009,6 +903,8 @@ function updateDropDowns(EW_this){
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
+	document.dobedit.x_stev_km_norm.value = stranka_stev_km_norm[document.dobedit.x_sif_str.value];
+	document.dobedit.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobedit.x_sif_str.value];
 }
 
 
@@ -1027,20 +923,15 @@ function disableSome(){
 <input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
 <input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
+<input type="hidden" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">
+<input type="hidden" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">
+<input type="hidden" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">
 
 <table class="ewTable">
-	<!--tr>
-		<td class="ewTableHeader">id&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_id); %>&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Številka dobavnice&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_st_dob" size="30" value="<%= HTMLEncode((String)x_st_dob) %>" disabled>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Pozicija&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>	
@@ -1049,10 +940,6 @@ function disableSome(){
 		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a></span>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Stranka&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="30" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><!--a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a></span-->&nbsp;</td>
@@ -1061,100 +948,34 @@ function disableSome(){
 		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">šofer</a>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Šofer&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_sofer" size="30" maxlength="255" value="<%= HTMLEncode((String)x_sofer) %>">&nbsp;</td>
+	<tr>
+		<td class="ewTableHeader">Koda&nbsp;1</td>
+		<td class="ewTableAltRow"><%out.println(x_koda_1List);%>&nbsp;
+		<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_1=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_1=material");%>">material</a></td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra kamiona&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%>
-&nbsp;</td>
+		<td class="ewTableHeader">Koda&nbsp;2</td>
+		<td class="ewTableAltRow"><%out.println(x_koda_2List);%>&nbsp;
+		<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_2=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_2=material");%>">material</a></td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kamion&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_kamion" size="30" maxlength="255" value="<%= HTMLEncode((String)x_kamion) %>">&nbsp;</td>
+		<td class="ewTableHeader">Koda&nbsp;3</td>
+		<td class="ewTableAltRow"><%out.println(x_koda_3List);%>&nbsp;
+		<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_3=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_3=material");%>">material</a></td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Cena na km&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_cena_km" size="30" value="<%= HTMLEncode((String)x_cena_km) %>">&nbsp;</td>
+		<td class="ewTableHeader">Koda&nbsp;4</td>
+		<td class="ewTableAltRow"><%out.println(x_koda_4List);%>&nbsp;
+		<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_4=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_4=material");%>">material</a></td>
 	</tr>
-	<tr>
-		<td class="ewTableHeader">Cena na uro&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_cena_ura" size="30" value="<%= HTMLEncode((String)x_cena_ura) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">c km&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_c_km" size="30" value="<%= HTMLEncode((String)x_c_km) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">c ura&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_c_ura" size="30" value="<%= HTMLEncode((String)x_c_ura) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število kilometrov&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_km" size="30" value="<%= HTMLEncode((String)x_stev_km) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_ur" size="30" value="<%= HTMLEncode((String)x_stev_ur) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Stroški&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stroski" size="30" value="<%= HTMLEncode((String)x_stroski) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Koda&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_kodaList);%>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Količina&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_kolicina" size="30" value="<%= HTMLEncode((String)x_kolicina) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Cena&nbsp;</td>
-		<td class="ewTableAltRow"-->
-			<input type="hidden" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>"><!--&nbsp; /td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">kg zaup&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_kg_zaup" size="30" value="<%= HTMLEncode((String)x_kg_zaup) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit zaup&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_sit_zaup" size="30" value="<%= HTMLEncode((String)x_sit_zaup) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">kg sort&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_kg_sort" size="30" value="<%= HTMLEncode((String)x_kg_sort) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit sort&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_sit_sort" size="30" value="<%= HTMLEncode((String)x_sit_sort) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">sit smet&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_sit_smet" size="30" value="<%= HTMLEncode((String)x_sit_smet) %>">&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_skupinaList);%>&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Skupina&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;</td>
-	</tr-->
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
 	</tr>
-	<!--tr>
-		<td class="ewTableHeader">Število kilometrov sled&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_km_sled" size="30" value="<%= HTMLEncode((String)x_stev_km_sled) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Število ur sledenja&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_sled" size="30" value="<%= HTMLEncode((String)x_stev_ur_sled) %>">&nbsp;</td>
-	</tr-->
 </table>
 <p>
 <input type="submit" name="Action" value="Potrdi">
