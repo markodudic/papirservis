@@ -63,7 +63,7 @@ WHERE dob.koda = materiali.koda]]></queryString>
 			<band height="18"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="0"
+						x="133"
 						y="0"
 						width="68"
 						height="17"
@@ -76,7 +76,7 @@ WHERE dob.koda = materiali.koda]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="68"
+						x="201"
 						y="0"
 						width="326"
 						height="17"
@@ -89,7 +89,7 @@ WHERE dob.koda = materiali.koda]]></queryString>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
-						x="0"
+						x="133"
 						y="17"
 						width="394"
 						height="0"
