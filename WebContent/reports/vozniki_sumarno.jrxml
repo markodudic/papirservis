@@ -97,7 +97,7 @@
 						x="0"
 						y="190"
 						width="535"
-						height="38"
+						height="39"
 						backcolor="#FFFFFF"
 						key="subreport-1"/>
 					<subreportParameter  name="od_datum">

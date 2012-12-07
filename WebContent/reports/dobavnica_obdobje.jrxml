@@ -150,7 +150,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -165,7 +166,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -180,7 +182,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -195,7 +198,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -210,7 +214,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -225,7 +230,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -240,7 +246,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -255,7 +262,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -270,7 +278,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -285,7 +294,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"/>
+						key="staticText"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -348,7 +358,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -363,7 +374,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -394,7 +406,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -425,7 +438,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField"/>
+						key="textField"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -438,7 +452,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						y="289"
 						width="534"
 						height="0"
-						key="line-1"/>
+						key="line-1"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -483,7 +498,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						y="233"
 						width="534"
 						height="0"
-						key="line-4"/>
+						key="line-4"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -551,7 +567,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-6"/>
+						key="staticText-6"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -566,7 +583,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-7"/>
+						key="staticText-7"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -581,7 +599,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-8"/>
+						key="staticText-8"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -596,7 +615,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-9"/>
+						key="staticText-9"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -611,7 +631,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-10"/>
+						key="staticText-10"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -626,7 +647,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-11"/>
+						key="staticText-11"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -641,7 +663,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-12"/>
+						key="staticText-12"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -656,7 +679,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-13"/>
+						key="staticText-13"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -762,7 +786,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						y="345"
 						width="391"
 						height="0"
-						key="line-6"/>
+						key="line-6"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -803,7 +828,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-21"/>
+						key="staticText-21"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -818,7 +844,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-22"/>
+						key="staticText-22"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -833,7 +860,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-23"/>
+						key="staticText-23"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -848,7 +876,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-24"/>
+						key="staticText-24"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -879,7 +908,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-4"/>
+						key="textField-4"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -894,7 +924,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-5"/>
+						key="textField-5"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -909,7 +940,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-25"/>
+						key="staticText-25"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -924,7 +956,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-6"/>
+						key="textField-6"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -939,7 +972,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-26"/>
+						key="staticText-26"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -954,7 +988,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-7"/>
+						key="textField-7"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1027,11 +1062,12 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
-						x="134"
+						x="0"
 						y="350"
-						width="391"
+						width="525"
 						height="25"
-						key="subreport-2"/>
+						key="subreport-2"
+						positionType="Float"/>
 					<subreportParameter  name="st_dob">
 						<subreportParameterExpression><![CDATA[$F{dob_st_dob}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -1047,7 +1083,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						y="367"
 						width="391"
 						height="0"
-						key="line-11"/>
+						key="line-11"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
@@ -1058,7 +1095,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-30"/>
+						key="staticText-30"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -1073,7 +1111,8 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-31"/>
+						key="staticText-31"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
