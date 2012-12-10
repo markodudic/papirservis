@@ -81,6 +81,7 @@ StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
+StringBuffer stranka_cena = new StringBuffer();
 StringBuffer stranka_stev_km_norm = new StringBuffer();
 StringBuffer stranka_stev_ur_norm = new StringBuffer();
 
@@ -427,7 +428,7 @@ try{
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
 			strsql += tmpfld + ") ";
 	
-	
+	out.println(strsql);
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
 			stmt1.close();
@@ -682,6 +683,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
+		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
 		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
 		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
 
@@ -771,6 +773,8 @@ var kupac = new Array();
 <%=kupac%>
 var skupina = new Array();
 <%=skupina%>
+var stranka_cena = new Array();
+<%=stranka_cena%>
 var stranka_stev_ur_norm = new Array();
 <%=stranka_stev_ur_norm%>
 var stranka_stev_km_norm = new Array();
@@ -781,9 +785,8 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_sif_kupca.value = sif_kupac[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobavnicaadd.x_sif_str.value]];
 	document.dobavnicaadd.x_skupina.value = sif_skupina[document.dobavnicaadd.x_sif_str.value];
-
+	
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
-
 	document.dobavnicaadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobavnicaadd.x_sif_str.value];
 
