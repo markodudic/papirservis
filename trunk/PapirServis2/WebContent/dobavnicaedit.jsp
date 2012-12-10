@@ -481,6 +481,24 @@ try{
 				rs.updateString("koda", tmpfld);
 			}
 
+			// Field stev_km_norm
+			tmpfld = ((String) x_stev_km_norm).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("stev_km_norm");
+			} else {
+				rs.updateDouble("stev_km_norm",Double.parseDouble(tmpfld));
+			}
+
+			// Field stev_ur_norm
+			tmpfld = ((String) x_stev_ur_norm).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (tmpfld == null) {
+				rs.updateNull("stev_ur_norm");
+			} else {
+				rs.updateDouble("stev_ur_norm",Double.parseDouble(tmpfld));
+			}
+			
 			rs.updateRow();
 			rs.close();
 			rs = null;
