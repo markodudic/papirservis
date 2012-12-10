@@ -811,7 +811,7 @@ if(request.getParameter("prikaz_sofer")!= null){
 }
 
 if(request.getParameter("prikaz_material")!= null){
- 	session.setAttribute("dob_prikaz_material", request.getParameter("prikaz_material"));
+ 	session.setAttribute("dob_prikaz_material_1", request.getParameter("prikaz_material"));
 }
 
 
@@ -959,7 +959,7 @@ String sqlwrk_x_koda = "SELECT `materiali`.`koda`, `material`  , `sit_sort`, `si
 			"		left join material_okolje on (materiali.koda = material_okolje.material_koda), " +
 			"		(select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
 			"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
-			"ORDER BY `" + session.getAttribute("dob_prikaz_material") + "` ASC";
+			"ORDER BY `" + session.getAttribute("dob_prikaz_material_1") + "` ASC";
 
 Statement stmtwrk_x_koda = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_koda = stmtwrk_x_koda.executeQuery(sqlwrk_x_koda);

@@ -18,3 +18,48 @@ ALTER TABLE `stranke`
 	
 ALTER TABLE `dob2012`
 	CHANGE COLUMN `sofer_sled` `sofer_sled` VARCHAR(50) NULL DEFAULT NULL AFTER `stev_ur_sled`;
+	
+	
+CREATE DEFINER=`root`@`%` TRIGGER `dob2012_insert` BEFORE INSERT ON `dob2013` FOR EACH ROW BEGIN
+set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+set NEW.EWC = (select okolje_koda from material_okolje where material_koda = NEW.koda);
+set NEW.zacetek = current_timestamp();
+END;
+
+CREATE DEFINER=`root`@`%` TRIGGER `dob2012_update` BEFORE UPDATE ON `dob2013` FOR EACH ROW BEGIN
+	set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+	set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+	set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+	set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+	set NEW.EWC = (select okolje_koda from material_okolje where material_koda = NEW.koda);
+	IF @disable_triggers IS NULL THEN
+		set NEW.zacetek = current_timestamp();
+	END IF;
+END;
+
+
+CREATE DEFINER=`root`@`%` TRIGGER `dob2013_insert` BEFORE INSERT ON `dob2013` FOR EACH ROW BEGIN
+set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+set NEW.EWC = (select okolje_koda from material_okolje where material_koda = NEW.koda);
+set NEW.zacetek = current_timestamp();
+END;
+
+CREATE DEFINER=`root`@`%` TRIGGER `dob2013_update` BEFORE UPDATE ON `dob2013` FOR EACH ROW BEGIN
+	set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+	set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+	set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+	set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+	set NEW.EWC = (select okolje_koda from material_okolje where material_koda = NEW.koda);
+	IF @disable_triggers IS NULL THEN
+		set NEW.zacetek = current_timestamp();
+	END IF;
+END;
+
+
+	
