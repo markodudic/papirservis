@@ -18,6 +18,9 @@ ALTER TABLE `stranke`
 	
 ALTER TABLE `dob2012`
 	CHANGE COLUMN `sofer_sled` `sofer_sled` VARCHAR(50) NULL DEFAULT NULL AFTER `stev_ur_sled`;
+
+ALTER TABLE `dob2013`
+	CHANGE COLUMN `sofer_sled` `sofer_sled` VARCHAR(50) NULL DEFAULT NULL AFTER `stev_ur_sled`;
 	
 	
 CREATE DEFINER=`root`@`%` TRIGGER `dob2012_insert` BEFORE INSERT ON `dob2013` FOR EACH ROW BEGIN
