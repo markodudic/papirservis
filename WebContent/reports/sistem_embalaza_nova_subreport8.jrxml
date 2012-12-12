@@ -86,7 +86,11 @@ FROM
 	      dob.pozicija = zadnji.pozicija and
 	      dob.zacetek = zadnji.datum)  dob
 	left join skup on (skup.skupina = dob.skupina)
-	left join stranke on (stranke.sif_str = dob.sif_str),
+	left join (SELECT stranke.*
+		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 		group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),
   	kupci
 WHERE dob.`koda` = materiali.`koda` and
       dob.sif_kupca = kupci.sif_kupca and
