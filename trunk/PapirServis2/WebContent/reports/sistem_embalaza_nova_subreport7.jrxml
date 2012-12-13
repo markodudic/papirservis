@@ -41,13 +41,13 @@
 	<queryString><![CDATA[SELECT 
 dob.`koda` AS dob_koda, 
 materiali.`material` AS material,
-count(dob.st_poz) as stevilo_odvozov,
-SUM(IF (skup.prevoz_material = 1, 
+IF (dob.sif_sof = 0, 0, count(dob.st_poz)) as stevilo_odvozov,
+IF (dob.sif_sof = 0, 0, SUM(IF (skup.prevoz_material = 1, 
 	dob.kolicina*stranke.obracun_km*if(dob.stev_km < 5, materiali.prevoz1, 
 												if(dob.stev_km > 5 and dob.stev_km <= 10, materiali.prevoz2, 
 												 if(dob.stev_km > 10 and dob.stev_km <= 20, materiali.prevoz3, 
 												   materiali.prevoz4))),
-	dob.cena)) as vrednost_odvoza,
+	dob.cena))) as vrednost_odvoza,
 SUM(dob.`kolicina`) AS dob_kolicina, 
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
