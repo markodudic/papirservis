@@ -50,7 +50,7 @@ SUM(IF (skup.prevoz_material = 1,
 												if(dob.stev_km > 5 and dob.stev_km <= 10, materiali.prevoz2, 
 												 if(dob.stev_km > 10 and dob.stev_km <= 20, materiali.prevoz3, 
 												   materiali.prevoz4))),
-	dob.cena_poz)) as vrednost_odvoza,
+	dob.cena)) as vrednost_odvoza,
 SUM(dob.`kolicina`) AS dob_kolicina, 
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
@@ -113,6 +113,12 @@ ORDER BY dob.`koda`]]></queryString>
 	</variable>
 	<variable name="sum_rav" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{vrednost_ravnanje}]]></variableExpression>
+	</variable>
+	<variable name="sum_stev" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{stevilo_odvozov}]]></variableExpression>
+	</variable>
+	<variable name="sum_vre" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{vrednost_odvoza}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -306,7 +312,7 @@ ORDER BY dob.`koda`]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{material}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="405"
 						y="1"
@@ -366,7 +372,7 @@ ORDER BY dob.`koda`]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="1"
-						y="1"
+						y="0"
 						width="534"
 						height="17"
 						forecolor="#000000"
@@ -377,7 +383,7 @@ ORDER BY dob.`koda`]]></queryString>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="335"
-						y="0"
+						y="1"
 						width="70"
 						height="15"
 						key="textField-5"/>
@@ -415,6 +421,32 @@ ORDER BY dob.`koda`]]></queryString>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_rav}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="218"
+						y="1"
+						width="54"
+						height="15"
+						key="textField-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{sum_stev}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="272"
+						y="1"
+						width="63"
+						height="15"
+						key="textField-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_vre}]]></textFieldExpression>
 				</textField>
 			</band>
 		</columnFooter>

@@ -154,7 +154,7 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 	</variable>
 	<variable name="sum_prevoz" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[!$F{prevoz_material}.booleanValue() ?
-	$F{dob_cena} : 
+	new Double ("0.00") : 
 		($F{dob_stev_km}.doubleValue() <= 5 ? 
 			new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
 			($F{dob_stev_km}.doubleValue() > 5 && $F{dob_stev_km}.doubleValue() <= 10 ? 
