@@ -1,0 +1,11 @@
+//seznam strank za arso
+select a.davcna, stranke.naziv, stranke.naslov, stranke.posta, stranke.kraj, stranke.id
+from stranke inner join
+(select distinct davcna, min(id) id, stranke.naslov, stranke.posta, stranke.kraj
+from stranke
+left join kupci on (kupci.sif_kupca = stranke.sif_kupca), 
+(select distinct sif_kupca as sif from dob2012) as dob
+where stranke.sif_kupca in (dob.sif) 
+group by davcna, stranke.naslov, stranke.posta, stranke.kraj
+order by stranke.naslov) as a
+on (stranke.id = a.id);
