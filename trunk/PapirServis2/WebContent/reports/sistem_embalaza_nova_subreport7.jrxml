@@ -47,7 +47,7 @@ SUM(IF(skup.prevoz_material=1,
 												if(dob.stev_km > 5 and dob.stev_km <= 10, materiali.prevoz2, 
 												 if(dob.stev_km > 10 and dob.stev_km <= 20, materiali.prevoz3, 
 												   materiali.prevoz4))),
-	dob.cena)*dob.use_it) as vrednost_odvoza,
+	dob.cena*dob.use_it)) as vrednost_odvoza,
 SUM(dob.`kolicina`) AS dob_kolicina, 
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
