@@ -109,7 +109,7 @@ order by kupci_naziv]]></queryString>
 	<variable name="sum_najem" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$V{sum_najem}]]></variableExpression>
 	</variable>
-	<variable name="skup_stroski" class="java.lang.Double" resetType="None" calculation="System">
+	<variable name="skup_stroski" class="java.math.BigDecimal" resetType="None" calculation="System">
 		<variableExpression><![CDATA[$V{skup_stroski}]]></variableExpression>
 	</variable>
 	<variable name="sum_nab" class="java.lang.Double" resetType="Report" calculation="Sum">

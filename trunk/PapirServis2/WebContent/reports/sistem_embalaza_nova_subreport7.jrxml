@@ -41,13 +41,13 @@
 	<queryString><![CDATA[SELECT 
 dob.`koda` AS dob_koda, 
 materiali.`material` AS material,
-IF (dob.sif_sof = 0, 0, count(dob.st_poz)) as stevilo_odvozov,
-IF (dob.sif_sof = 0, 0, SUM(IF (skup.prevoz_material = 1, 
+sum(dob.use_it) stevilo_odvozov,
+SUM(IF(skup.prevoz_material=1, 
 	dob.kolicina*stranke.obracun_km*if(dob.stev_km < 5, materiali.prevoz1, 
 												if(dob.stev_km > 5 and dob.stev_km <= 10, materiali.prevoz2, 
 												 if(dob.stev_km > 10 and dob.stev_km <= 20, materiali.prevoz3, 
 												   materiali.prevoz4))),
-	dob.cena))) as vrednost_odvoza,
+	dob.cena)*dob.use_it) as vrednost_odvoza,
 SUM(dob.`kolicina`) AS dob_kolicina, 
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
@@ -76,7 +76,7 @@ FROM
 	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
 	WHERE materiali.koda = zadnji.koda and
 	      materiali.zacetek = zadnji.datum) materiali, 
-     (SELECT dob.*, IF(dob.pozicija=1,1,0) st_poz, IF(dob.pozicija=1,cena,0) cena_poz
+     (SELECT dob.*, IF (dob.sif_sof=0||dob.koda='STORNO', 0, IF(dob.pozicija=1,1,0)) use_it
 	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 		FROM $P!{dobLeto} dob 
 		WHERE dob.datum >= CAST($P{od_datum} AS DATE) 
@@ -101,7 +101,7 @@ ORDER BY dob.`koda`]]></queryString>
 
 	<field name="dob_koda" class="java.lang.String"/>
 	<field name="material" class="java.lang.String"/>
-	<field name="stevilo_odvozov" class="java.lang.Long"/>
+	<field name="stevilo_odvozov" class="java.math.BigDecimal"/>
 	<field name="vrednost_odvoza" class="java.lang.Double"/>
 	<field name="dob_kolicina" class="java.math.BigDecimal"/>
 	<field name="cena_ravnanje" class="java.lang.Double"/>
@@ -113,7 +113,7 @@ ORDER BY dob.`koda`]]></queryString>
 	<variable name="sum_rav" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{vrednost_ravnanje}]]></variableExpression>
 	</variable>
-	<variable name="sum_stev" class="java.lang.Long" resetType="Report" calculation="Sum">
+	<variable name="sum_stev" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{stevilo_odvozov}]]></variableExpression>
 	</variable>
 	<variable name="sum_vred" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -348,7 +348,7 @@ ORDER BY dob.`koda`]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{stevilo_odvozov}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{stevilo_odvozov}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -432,7 +432,7 @@ ORDER BY dob.`koda`]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{sum_stev}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_stev}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
