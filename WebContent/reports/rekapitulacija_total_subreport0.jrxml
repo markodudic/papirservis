@@ -37,7 +37,7 @@
 	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`kolicina` AS dob_kolicina, 
-IFNULL(dob.`cena`, 0) AS dob_cena,
+IFNULL(dob.`cena` * dob.use_it, 0) AS dob_cena,
 IFNULL(dob.`kg_zaup` * dob.`sit_zaup`, 0)  AS dob_zaup, 
 IFNULL(dob.`kolicina` * dob.`sit_smet`, 0)  AS dob_smet, 
 @ravnanje:=case skup.ravnanje
@@ -65,7 +65,7 @@ materiali.prevoz3,
 materiali.prevoz4,
 IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem
 FROM kupci, skup,
-    (SELECT dob.*
+    (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
 			WHERE dob.sif_kupca = $P{sif_str}
