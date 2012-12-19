@@ -150,6 +150,8 @@ try{
 			}else{
 				x_koda[0] = "";
 			}
+			x_cena = String.valueOf(rs.getDouble("cena"));
+
 			x_skupina = String.valueOf(rs.getLong("skupina"));
 			if (rs.getString("skupina_text") != null){
 				x_skupina_text = rs.getString("skupina_text");
@@ -441,7 +443,7 @@ try{
 	
 			// Field cena
 			tmpfld = ((String) x_cena).trim();
-			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			if (!IsNumeric(tmpfld) || i>0) { tmpfld = null;}
 			if (tmpfld == null) {
 				rs.updateNull("cena");
 			} else {
