@@ -43,7 +43,10 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 					session.setAttribute("dob_prikaz_material_2","koda");
 					session.setAttribute("dob_prikaz_material_3","koda");
 					session.setAttribute("dob_prikaz_material_4","koda");
-					session.setAttribute("dob_prikaz_okolje","koda");
+					session.setAttribute("dob_prikaz_okolje_1","koda");
+					session.setAttribute("dob_prikaz_okolje_2","koda");
+					session.setAttribute("dob_prikaz_okolje_3","koda");
+					session.setAttribute("dob_prikaz_okolje_4","koda");
 
 				 	session.setAttribute("stranke_kupci_show", "naziv");
 					session.setAttribute("stranke_osnovna_show",  "osnovna");
