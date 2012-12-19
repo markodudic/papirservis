@@ -63,7 +63,8 @@ materiali.prevoz1,
 materiali.prevoz2,
 materiali.prevoz3,
 materiali.prevoz4,
-IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem
+IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem,
+stranke.obracun_km
 FROM kupci, skup,
     (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
@@ -74,7 +75,13 @@ FROM kupci, skup,
 			group by st_dob, pozicija) zadnji
 		WHERE dob.st_dob = zadnji.st_dob and
 		      dob.pozicija = zadnji.pozicija and
-		      dob.zacetek = zadnji.datum)  dob,
+		      dob.zacetek = zadnji.datum)  dob
+    left join (SELECT stranke.*
+		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 		group by sif_str ) zadnji
+		WHERE stranke.sif_kupca = $P{sif_str} and
+			stranke.sif_str = zadnji.sif_str and
+	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),
     (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
@@ -139,6 +146,7 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 	<field name="prevoz3" class="java.lang.Double"/>
 	<field name="prevoz4" class="java.lang.Double"/>
 	<field name="najem" class="java.lang.Double"/>
+	<field name="obracun_km" class="java.lang.Long"/>
 
 	<variable name="sum_zaup" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_zaup}]]></variableExpression>
@@ -155,14 +163,14 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 	<variable name="sum_prevoz" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[!$F{prevoz_material}.booleanValue() ?
 	new Double ("0.00") : 
-		($F{dob_stev_km}.doubleValue() <= 5 ? 
-			new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
-			($F{dob_stev_km}.doubleValue() > 5 && $F{dob_stev_km}.doubleValue() <= 10 ? 
-				new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
-				($F{dob_stev_km}.doubleValue() > 10 && $F{dob_stev_km}.doubleValue() <= 20 ? 
-					new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
-					($F{dob_stev_km}.doubleValue() > 20 ? 
-						new Double ($F{dob_stev_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
+		($F{obracun_km}.doubleValue() <= 5 ? 
+			new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
+			($F{obracun_km}.doubleValue() > 5 && $F{obracun_km}.doubleValue() <= 10 ? 
+				new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
+				($F{obracun_km}.doubleValue() > 10 && $F{obracun_km}.doubleValue() <= 20 ? 
+					new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
+					($F{obracun_km}.doubleValue() > 20 ? 
+						new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
 						new Double ("0.00"))
 				)
 			) 
