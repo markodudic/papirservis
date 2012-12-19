@@ -109,7 +109,7 @@ order by kupci_naziv]]></queryString>
 	<variable name="sum_najem" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$V{sum_najem}]]></variableExpression>
 	</variable>
-	<variable name="skup_stroski" class="java.math.BigDecimal" resetType="None" calculation="System">
+	<variable name="skup_stroski" class="java.lang.Double" resetType="None" calculation="System">
 		<variableExpression><![CDATA[$V{skup_stroski}]]></variableExpression>
 	</variable>
 	<variable name="sum_nab" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -1011,7 +1011,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 			</band>
 		</pageFooter>
 		<summary>
-			<band height="50"  isSplitAllowed="true" >
+			<band height="250"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
@@ -1231,6 +1231,58 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 ($V{skup_ravnan} == null ? 0 : $V{skup_ravnan}.doubleValue()) +
 ($V{skup_prevoz} == null ? 0 : $V{skup_prevoz}.doubleValue()))]]></textFieldExpression>
 				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="53"
+						width="566"
+						height="40"
+						key="subreport-9"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport7.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="106"
+						width="566"
+						height="40"
+						key="subreport-11"
+						positionType="Float"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport8.jasper"]]></subreportExpression>
+				</subreport>
 			</band>
 		</summary>
 </jasperReport>
