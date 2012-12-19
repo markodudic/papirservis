@@ -37,13 +37,15 @@ function  EW_checkMyForm(EW_this)
 	String datum = request.getParameter("od_datum");
 	String type = request.getParameter("type");
 		
+	String userID = (String)session.getAttribute("papirservis1_status_UserID");
+	String enotaID = (String)session.getAttribute("papirservis1_status_Enota");
+
 	if ((datum != null) && (type != null))
 	{ 
 		try
 		{	
+		    String x_sif_enote = request.getParameter("x_sif_enote");
 
-			String userID = (String)session.getAttribute("papirservis1_status_UserID");
-			String enotaID = (String)session.getAttribute("papirservis1_status_Enota");
 			String datumEU = (EW_UnFormatDateTime((String)datum,"EURODATE", locale)).toString();
 			String[] days = {"NED", "PON", "TOR", "SRE", "CET", "PET", "SOB"}; 
 			
@@ -73,9 +75,9 @@ function  EW_checkMyForm(EW_this)
 						 "		(select sif_kupca, skupina " +
 						 "		from kupci " +
 						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
-						 "			  ((kupci.sif_enote = " + enotaID + ") || (" + enote + " = 1))) kupci  " +
+						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci  " +
 						 "WHERE st.sif_kupca = kupci.sif_kupca and (" + day + " = " + type + " or " + day + " = 3)";
-	
+
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 	
@@ -150,6 +152,28 @@ function  EW_checkMyForm(EW_this)
 	
 	String od_datum = s;
 	
+	
+	StringBuffer x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\">");
+	String sqlwrk_x_sif_enote = "SELECT * FROM enote WHERE (sif_enote = " + enotaID + ") || (" + enote + " = 1) ORDER BY `naziv` ASC";
+	Statement stmtwrk_x_sif_enote = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk_x_sif_enote = stmtwrk_x_sif_enote.executeQuery(sqlwrk_x_sif_enote);
+	
+	int rowcntwrk_x_sif_enote = 0;
+	while (rswrk_x_sif_enote.next()) {
+		String tmpSifra = rswrk_x_sif_enote.getString("sif_enote");
+		x_sif_enoteList.append("<option value=\"").append(tmpSifra).append("\"");
+		String tmpValue_x_sif_enote = "";
+		String tmpNaziv = rswrk_x_sif_enote.getString("naziv");
+		if (tmpNaziv!= null) tmpValue_x_sif_enote = tmpNaziv;
+		x_sif_enoteList.append(">").append(tmpValue_x_sif_enote).append("</option>");
+		rowcntwrk_x_sif_enote++;
+	}
+	rswrk_x_sif_enote.close();
+	rswrk_x_sif_enote = null;
+	stmtwrk_x_sif_enote.close();
+	stmtwrk_x_sif_enote = null;
+	x_sif_enoteList.append("</select>");
+	
 %>
 
 
@@ -161,6 +185,10 @@ function  EW_checkMyForm(EW_this)
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Izberite parametre za pripravo delovnih nalogov</span></td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Datum:&nbsp;</td>
