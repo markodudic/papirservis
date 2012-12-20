@@ -191,7 +191,7 @@ ResultSet rs = null;
 
 
 // Build SQL
-String strsql = "SELECT stranke.* FROM `stranke`, `kupci` k";
+String strsql = "SELECT stranke.*, skup.tekst FROM `stranke`, `kupci` k left join skup on (k.skupina = skup.skupina)";
 whereClause = " ";
 
 
@@ -285,7 +285,6 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY sif_str ";
 }
 //Filter by stranke
-
 
 rs = stmt.executeQuery(strsql);
 rs.last();
@@ -448,6 +447,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "<b>" : ""%>
 <a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Kupac&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("tekst")) ? "<b>" : ""%>
+<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("tekst","UTF-8") %>">Skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("tekst")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("tekst")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("cena")) ? "<b>" : ""%>
@@ -618,6 +622,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_obracun_km = "";
 	String x_stev_km_norm = "";
 	String x_stev_ur_norm = "";
+	String x_skupina = "";
 	
 	// Load Key for record
 	String key = "";
@@ -704,6 +709,13 @@ while (rs.next() && recCount < stopRec) {
 		x_sif_kupca = rs.getString("sif_kupca");
 	}else{
 		x_sif_kupca = "";
+	}
+
+	// sif_kupca
+	if (rs.getString("tekst") != null){
+		x_skupina = rs.getString("tekst");
+	}else{
+		x_skupina = "";
 	}
 
 	// cena
@@ -939,6 +951,7 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 }
 %>
 &nbsp;</td>
+		<td><% out.print(x_skupina); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(x_najem); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_naj, 4, 1, 1, 1,locale)); %>&nbsp;</td>
