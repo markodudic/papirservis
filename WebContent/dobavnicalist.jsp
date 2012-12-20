@@ -779,6 +779,16 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("sif_sof")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("sif_kam")) ? "<b>" : ""%>
+<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sif_kam","UTF-8") %>">Šifra kamiona&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kam")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("sif_kam")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("sif_kam")) ? "<b>" : ""%>
+<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sofer","UTF-8") %>">Kamion&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("kamion")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("sif_kam")) ? "</b>" : ""%>
+		</td>
+		<td>
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">Koda&nbsp;<% if (OrderBy != null && OrderBy.equals("koda")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 		</td>
 		<td>Koda&nbsp;
@@ -1002,6 +1012,8 @@ if (key != null && key.length() > 0) {
 		<td><%out.print(rs.getString("k.naziv"));%>&nbsp;</td>
 		<td><% out.print(x_sif_sof); %>&nbsp;</td>
 		<td><%out.print(rs.getString("sofer"));%>&nbsp;</td>
+		<td><% out.print(x_sif_kam); %>&nbsp;</td>
+		<td><%out.print(rs.getString("kamion"));%>&nbsp;</td>
 		<td><% out.print(x_koda); %>&nbsp;</td>
 		<td><%
 
