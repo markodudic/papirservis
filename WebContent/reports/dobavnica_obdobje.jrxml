@@ -42,8 +42,10 @@
      dob.`st_dob` AS dob_st_dob,
      dob.`datum` AS dob_datum,
      dob.`sif_str` AS dob_sif_str,
-     sofer.`sofer` AS sofer_sofer,
-     sofer.`sif_sof` AS sofer_sif_sof,
+     dob.`sofer` AS sofer_sofer,
+     dob.`sif_sof` AS sofer_sif_sof,
+     dob.`kamion` AS kamion_kamion,
+     dob.`sif_kam` AS kamion_sif_kam,
      dob.`stev_km` AS stev_km,
      dob.`stev_ur` AS stev_ur,
      dob.`stev_km_norm` AS stev_km_norm,
@@ -65,9 +67,7 @@
 FROM
      (select *, max(dob.zacetek) from $P!{dobLeto} dob 
 	where datum >= CAST($P{od_datum} AS DATE) and datum <= CAST($P{do_datum} AS DATE)
-	group by st_dob) dob
-  LEFT JOIN
-	sofer on (sofer.sif_sof = dob.sif_sof),
+	group by st_dob) dob,
       (SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
  	group by sif_str ) zadnji
@@ -89,15 +89,19 @@ WHERE
      kupci.skupina = skup.skupina and
      kupci.potnik = uporabniki.sif_upor and
      obdelana = 0
-ORDER BY sofer.sofer, dob.st_dob]]></queryString>
+ORDER BY dob.sofer, dob.st_dob]]></queryString>
 
 	<field name="dob_st_dob" class="java.lang.Integer"/>
 	<field name="dob_datum" class="java.sql.Timestamp"/>
 	<field name="dob_sif_str" class="java.lang.Integer"/>
 	<field name="sofer_sofer" class="java.lang.String"/>
 	<field name="sofer_sif_sof" class="java.lang.String"/>
+	<field name="kamion_kamion" class="java.lang.String"/>
+	<field name="kamion_sif_kam" class="java.lang.String"/>
 	<field name="stev_km" class="java.lang.Integer"/>
 	<field name="stev_ur" class="java.lang.Double"/>
+	<field name="stev_km_norm" class="java.lang.Integer"/>
+	<field name="stev_ur_norm" class="java.lang.Double"/>
 	<field name="dob_koda" class="java.lang.String"/>
 	<field name="dob_kolicina" class="java.lang.Integer"/>
 	<field name="dob_cena" class="java.lang.Double"/>
@@ -112,8 +116,6 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 	<field name="stranke_opomba" class="java.lang.String"/>
 	<field name="potnik" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>
-	<field name="stev_km_norm" class="java.lang.Integer"/>
-	<field name="stev_ur_norm" class="java.lang.Double"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -1126,6 +1128,48 @@ ORDER BY sofer.sofer, dob.st_dob]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="134"
+						y="275"
+						width="42"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-11"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kamion_sif_kam}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="184"
+						y="275"
+						width="341"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-12"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kamion_kamion}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="134"
+						y="268"
+						width="391"
+						height="0"
+						key="line-12"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</detail>
 		<columnFooter>
