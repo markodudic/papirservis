@@ -1254,6 +1254,9 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_potnik">
+						<subreportParameterExpression><![CDATA[$P{sif_potnik}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport7.jasper"]]></subreportExpression>
 				</subreport>
@@ -1279,6 +1282,9 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_potnik">
+						<subreportParameterExpression><![CDATA[$P{sif_potnik}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "sistem_embalaza_nova_subreport8.jasper"]]></subreportExpression>
