@@ -1003,7 +1003,7 @@ String cbo_x_ewc_js = "";
 x_ewcList = new StringBuffer("<select name=\"x_ewc_ll\" ><option value=\"\">Izberi</option>");
 String sqlwrk_x_ewc = "SELECT `koda`, `material` " +
 		"FROM `okolje` "+
-		"ORDER BY `" + session.getAttribute("dob_prikaz_okolje") + "` ASC";
+		"ORDER BY `" + session.getAttribute("dob_prikaz_okolje_1") + "` ASC";
 
 Statement stmtwrk_x_ewc = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_ewc = stmtwrk_x_ewc.executeQuery(sqlwrk_x_ewc);
