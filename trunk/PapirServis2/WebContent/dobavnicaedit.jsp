@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="dobavnicalist.jsp" %>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  %>
 <%@ page contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -473,7 +473,6 @@ try{
 				if (!IsNumeric(tmpfld)) { tmpfld = null;}
 				strsql += tmpfld + ") ";
 		
-
 				Statement stmt1 = conn.createStatement();
 				stmt1.executeUpdate(strsql);
 				stmt1.close();
@@ -488,7 +487,6 @@ try{
 		for (int i=0; i<koda_cnt_vse; i++) {
 			//String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey;
 			String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + tkey + " AND pozicija = " + (i+1);
-			
 			rs = stmt.executeQuery(strsql);
 			if (!rs.next()) {
 				rs.close();
@@ -496,7 +494,6 @@ try{
 				stmt.close();
 				stmt = null;
 				conn = null;
-				//out.clear();
 				response.sendRedirect("dobavnicalist.jsp");
 				response.flushBuffer();
 				return;
@@ -591,7 +588,7 @@ try{
 			if (tmpfld == null) {
 				rs.updateNull("stev_ur");
 			} else {
-				rs.updateInt("stev_ur",Integer.parseInt(tmpfld));
+				rs.updateDouble("stev_ur",Double.parseDouble(tmpfld));
 			}
 
 			// Field cena
@@ -672,11 +669,11 @@ try{
 		
 		stmt.close();
 		stmt = null;
-		//conn.close();
+		conn.close();
 		conn = null;
-		//response.sendRedirect("dobavnicalist.jsp");
-		//response.flushBuffer();
-		//return;
+		response.sendRedirect("dobavnicalist.jsp");
+		response.flushBuffer();
+		return;
 	}
 
 
