@@ -68,7 +68,7 @@ Object x_skupina = null;
 Object x_sif_enote = null;
 
 Object x_pogodba  = null;
-Object x_maticna = null;
+Object x_davcna = null;
 Object x_opomba1 = null;
 Object x_opomba2 = null;
 Object x_opomba3 = null;
@@ -175,10 +175,10 @@ try{
 				x_pogodba = "";
 			}
 
-			if (rs.getString("maticna") != null){
-				x_maticna = rs.getString("maticna");
+			if (rs.getString("davcna") != null){
+				x_davcna = rs.getString("davcna");
 			}else{
-				x_maticna = "";
+				x_davcna = "";
 			}
 
 			if (rs.getString("opomba1") != null){
@@ -299,10 +299,10 @@ try{
 		}else{
 			x_pogodba= "";
 		}
-		if (request.getParameter("x_maticna") != null){
-			x_maticna = (String) request.getParameter("x_maticna");
+		if (request.getParameter("x_davcna") != null){
+			x_davcna = (String) request.getParameter("x_davcna");
 		}else{
-			x_maticna = "";
+			x_davcna = "";
 		}
 		if (request.getParameter("x_opomba1") != null){
 			x_opomba1 = (String) request.getParameter("x_opomba1");
@@ -527,15 +527,15 @@ try{
 			rs.updateString("pogodba", tmpfld);
 		}
 
-		// Field maticna
-		tmpfld = ((String) x_maticna);
+		// Field davcna
+		tmpfld = ((String) x_davcna);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
 		if (tmpfld == null) {
-			rs.updateNull("maticna");
+			rs.updateNull("davcna");
 		}else{
-			rs.updateString("maticna", tmpfld);
+			rs.updateString("davcna", tmpfld);
 		}
 
 		// Field opomba
@@ -849,7 +849,7 @@ out.println(x_sif_enoteList);
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Davčna&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_maticna" size="12" maxlength="10" value="<%= HTMLEncode((String)x_maticna) %>">&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_davcna" size="12" maxlength="10" value="<%= HTMLEncode((String)x_davcna) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Opomba 1&nbsp;</td>

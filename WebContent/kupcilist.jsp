@@ -415,9 +415,9 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("pogodba")) ? "</b>" : ""%>
 		</td>
 		<td>
-<%=(OrderBy != null && OrderBy.equals("maticna")) ? "<b>" : ""%>
-<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("maticna","UTF-8") %>">Davčna&nbsp;<% if (OrderBy != null && OrderBy.equals("maticna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("maticna")) ? "</b>" : ""%>
+<%=(OrderBy != null && OrderBy.equals("davcna")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("davcna","UTF-8") %>">Davčna&nbsp;<% if (OrderBy != null && OrderBy.equals("davcna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("davcna")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "<b>" : ""%>
@@ -515,7 +515,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_sif_enote = "";
 
 	String x_pogodba  = "";
-	String x_maticna = "";
+	String x_davcna = "";
 	String x_opomba1 = "";
 	String x_opomba2 = "";
 	String x_opomba3 = "";
@@ -632,11 +632,11 @@ while (rs.next() && recCount < stopRec) {
 		x_pogodba = "";
 	}
 
-	// maticna
-	if (rs.getString("maticna") != null){
-		x_maticna = rs.getString("maticna");
+	// davcna
+	if (rs.getString("davcna") != null){
+		x_davcna = rs.getString("davcna");
 	}else{
-		x_maticna = "";
+		x_davcna = "";
 	}
 
 	// opomba1
@@ -798,7 +798,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 %>
 &nbsp;</td>
 		<td><% out.print(x_pogodba ); %>&nbsp;</td>
-		<td><% out.print(x_maticna); %>&nbsp;</td>
+		<td><% out.print(x_davcna); %>&nbsp;</td>
 		<td><% out.print(x_opomba1); %>&nbsp;</td>
 		<td><% out.print(x_opomba2);  %>&nbsp;</td>
 		<td><% out.print(x_opomba3); %>&nbsp;</td>

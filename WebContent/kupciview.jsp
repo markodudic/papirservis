@@ -60,7 +60,7 @@ String x_opomba = "";
 String x_skupina = "";
 String x_sif_enote = "";
 String x_pogodba  = "";
-String x_maticna = "";
+String x_davcna = "";
 String x_opomba1 = "";
 String x_opomba2 = "";
 String x_opomba3 = "";
@@ -189,11 +189,11 @@ try{
 		x_pogodba = "";
 	}
 
-	// maticna
-	if (rs.getString("maticna") != null){
-		x_maticna = rs.getString("maticna");
+	// davcna
+	if (rs.getString("davcna") != null){
+		x_davcna = rs.getString("davcna");
 	}else{
-		x_maticna = "";
+		x_davcna = "";
 	}
 
 	// opomba1

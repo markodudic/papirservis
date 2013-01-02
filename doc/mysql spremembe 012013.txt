@@ -1,0 +1,21 @@
+update kupci set davcna = maticna;
+update kupci set maticna = null;
+
+//import maticna iz MIT baze. Import csv v kupci_mit
+//importamo samo davcno in maticno
+CREATE TABLE `kupci_mit` (
+	`davcna` VARCHAR(20) NULL DEFAULT NULL,
+	`maticna` VARCHAR(10) NULL DEFAULT NULL,
+	INDEX `maticna` (`maticna`),
+	INDEX `davcna` (`davcna`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+
+delete from kupci_mit where davcna = "" and maticna = "";
+
+update kupci 
+set maticna = (select max(maticna) from kupci_mit where (kupci_mit.davcna != "" and REPLACE(kupci.davcna, "SI", "") = REPLACE(kupci_mit.davcna, "SI", ""))); 
+
+update kupci set maticna = null where maticna="";
