@@ -76,6 +76,7 @@ Object x_vtez = null;
 Object x_obracun_km = null;
 Object x_stev_km_norm = null;
 Object x_stev_ur_norm = null;
+String x_arso_odp_loc_id = "";
 
 int x_pon = 0;
 int x_tor = 0;
@@ -230,6 +231,13 @@ try{
 			x_pet = rs.getInt("pet");
 			x_sob = rs.getInt("sob");
 			x_ned = rs.getInt("ned");
+			
+			// arso_odp_loc_id
+			if (rs.getString("arso_odp_loc_id") != null){
+				x_arso_odp_loc_id = rs.getString("arso_odp_loc_id");
+			}else{
+				x_arso_odp_loc_id = "";
+			}
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -373,6 +381,12 @@ try{
 		}else{
 			x_stev_ur_norm = "";
 		}		
+		if (request.getParameter("x_arso_odp_loc_id") != null){
+			x_arso_odp_loc_id = (String) request.getParameter("x_arso_odp_loc_id");
+		}else{
+			x_arso_odp_loc_id = "";
+		}
+
 		// Open record
 		String tkey = "" + key.replaceAll("'",escapeString) + "";
 		String strsql = "SELECT * FROM `stranke` WHERE `id`=" + tkey;
@@ -650,6 +664,16 @@ try{
 			rs.updateString("stev_ur_norm", tmpfld);
 		}
 		
+		// Field arso_odp_loc_id
+		tmpfld = ((String) x_arso_odp_loc_id);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_loc_id");
+		}else{
+			rs.updateString("arso_odp_loc_id", tmpfld);
+		}
 		
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
@@ -1016,6 +1040,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_odp_loc_id" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_odp_loc_id) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>

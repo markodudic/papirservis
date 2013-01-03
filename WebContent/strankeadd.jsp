@@ -80,6 +80,7 @@ Object x_vtez = null;
 Object x_obracun_km = null;
 Object x_stev_km_norm = null;
 Object x_stev_ur_norm = null;
+String x_arso_odp_loc_id = "";
 
 StringBuffer x_postaList = null;
 StringBuffer x_sif_osList = null;
@@ -223,7 +224,14 @@ try{
 	x_obracun_km = String.valueOf(rs.getDouble("obracun_km"));
 	x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 	x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
-	
+
+	// arso_pslj_st
+	if (rs.getString("arso_odp_loc_id") != null){
+		x_arso_odp_loc_id = rs.getString("arso_odp_loc_id");
+	}else{
+		x_arso_odp_loc_id = "";
+	}
+
 		rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
@@ -381,6 +389,12 @@ try{
 			x_stev_ur_norm = "";
 		}
 		
+		if (request.getParameter("arso_odp_loc_id") != null){
+			x_arso_odp_loc_id = (String) request.getParameter("arso_odp_loc_id");
+		}else{
+			x_arso_odp_loc_id = "";
+		}
+
 		// Open record
 		String strsql = "SELECT * FROM `stranke` WHERE 0 = 1";
 		rs = stmt.executeQuery(strsql);
@@ -392,20 +406,6 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("sif_str");
 		} else {
-/*
-		String srchfld = tmpfld;
-			srchfld = srchfld.replaceAll("'","\\\\'");
-			strsql = "SELECT * FROM `stranke` WHERE `id` = " + srchfld;
-			Statement stmtchk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rschk = stmtchk.executeQuery(strsql);
-			if (rschk.next()) {
-				out.print("Duplicate key for sif_str, value = " + tmpfld + "<br>");
-				out.print("Press [Previous Page] key to continue!");
-				return;
-			}
-			rschk.close();
-			rschk = null;
-*/
 			rs.updateInt("sif_str",Integer.parseInt(tmpfld));
 		}
 
@@ -662,6 +662,18 @@ try{
 		rs.updateInt("ned",x_ned);
 
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+		
+		// Field arso_odp_loc_id
+		tmpfld = ((String) x_arso_odp_loc_id);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_loc_id");
+		}else{
+			rs.updateString("arso_odp_loc_id", tmpfld);
+		}		
+
 try{
 		rs.insertRow();
 } catch(Exception e) {
@@ -1029,6 +1041,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="arso_odp_loc_id" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_odp_loc_id) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>
