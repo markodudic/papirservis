@@ -63,6 +63,7 @@ Object x_prevoz4 = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 Object x_veljavnost = null;
+String x_arso_pslj_st = "";
 
 
 // Open Connection to the database
@@ -121,7 +122,14 @@ try{
 		x_veljavnost = null;
 	}
 	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
-		rs.close();
+	// arso_pslj_st
+	if (rs.getString("arso_pslj_st") != null){
+		x_arso_pslj_st = rs.getString("arso_pslj_st");
+	}else{
+		x_arso_pslj_st = "";
+	}
+
+	rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
 
@@ -201,9 +209,14 @@ try{
 		if (request.getParameter("x_uporabnik") != null){
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
+		if (request.getParameter("x_arso_pslj_st") != null){
+			x_arso_pslj_st = (String) request.getParameter("x_arso_pslj_st");
+		}else{
+			x_arso_pslj_st = "";
+		}
 
 		// Open record
-		String strsql = "insert into materiali (koda, material, pc_nizka, str_dv, sit_sort, sit_zaup, sit_smet, ravnanje1, ravnanje2, ravnanje3, ravnanje4, ravnanje5, ravnanje6, ravnanje7, ravnanje8, ravnanje9, prevoz1, prevoz2, prevoz3, prevoz4, veljavnost, uporabnik) values(";
+		String strsql = "insert into materiali (koda, material, pc_nizka, str_dv, sit_sort, sit_zaup, sit_smet, ravnanje1, ravnanje2, ravnanje3, ravnanje4, ravnanje5, ravnanje6, ravnanje7, ravnanje8, ravnanje9, prevoz1, prevoz2, prevoz3, prevoz4, veljavnost, arso_odp_locpr_id, uporabnik) values(";
 
 		// Field koda
 		tmpfld = ((String) x_koda);
@@ -365,6 +378,12 @@ try{
 			strsql += "'" + EW_UnFormatDateTime((String)x_veljavnost,"EURODATE", locale) + "'," ;
 		}
 
+		// Field x_arso_pslj_st
+		tmpfld = ((String) x_arso_pslj_st);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		strsql += tmpfld + "," ;
 
 		strsql += (String) session.getAttribute("papirservis1_status_UserID") + ")";
 		stmt.executeUpdate(strsql);
@@ -515,6 +534,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Veljavnost&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_veljavnost" value="<%= EW_FormatDateTime(x_veljavnost,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_veljavnost,'dd.mm.yyyy');return false;">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_pslj_st" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_pslj_st) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>

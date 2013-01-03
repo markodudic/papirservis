@@ -64,6 +64,7 @@ Object x_prevoz4 = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 Object x_veljavnost = null;
+String x_arso_odp_locpr_id = "";
 
 // Open Connection to the database
 try{
@@ -122,7 +123,13 @@ try{
 			}else{
 				x_zacetek = null;
 			}
-	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			// arso_odp_locpr_id
+			if (rs.getString("arso_odp_locpr_id") != null){
+				x_arso_odp_locpr_id = rs.getString("arso_odp_locpr_id");
+			}else{
+				x_arso_odp_locpr_id = "";
+			}
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -195,6 +202,12 @@ try{
 			x_veljavnost = (String) request.getParameter("x_veljavnost");
 		}else{
 			x_veljavnost = "";
+		}
+
+		if (request.getParameter("x_arso_odp_locpr_id") != null){
+			x_arso_odp_locpr_id = (String) request.getParameter("x_arso_odp_locpr_id");
+		}else{
+			x_arso_odp_locpr_id = "";
 		}
 
 
@@ -339,6 +352,17 @@ try{
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 		
+		// Field arso_odp_locpr_id
+		tmpfld = ((String) x_arso_odp_locpr_id);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_locpr_id");
+		}else{
+			rs.updateString("arso_odp_locpr_id", tmpfld);
+		}
+
 		rs.updateRow();
 		rs.close();
 		rs = null;
@@ -479,6 +503,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Veljavnost&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_veljavnost" value="<%= EW_FormatDateTime(x_veljavnost,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_veljavnost,'dd.mm.yyyy');return false;">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_odp_locpr_id" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_odp_locpr_id) %>">&nbsp;</td>
 	</tr>
 
 </table>
