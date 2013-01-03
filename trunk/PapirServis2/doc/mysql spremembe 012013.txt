@@ -12,10 +12,24 @@ CREATE TABLE `kupci_mit` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
-
 delete from kupci_mit where davcna = "" and maticna = "";
 
 update kupci 
-set maticna = (select max(maticna) from kupci_mit where (kupci_mit.davcna != "" and REPLACE(kupci.davcna, "SI", "") = REPLACE(kupci_mit.davcna, "SI", ""))); 
+set maticna = (select max(maticna) from kupci_mit where (kupci_mit.davcna != "" and REPLACE(kupci.davcna, "SI", "") = REPLACE(kupci_mit.davcna, "SI", "")));
 
 update kupci set maticna = null where maticna="";
+
+//isto ponovimo za podatke, ki smo jih dobili od arsota
+update kupci 
+set maticna = (select max(maticna) from kupci_mit where (kupci.davcna = kupci_mit.davcna))
+where kupci.maticna is null;
+
+//**********************************************************
+//dodamo polja v tabelo kupci
+ALTER TABLE `kupci`
+	ADD COLUMN `arso_prenos` TINYINT(1) NULL DEFAULT 1 AFTER `datum`,
+	ADD COLUMN `arso_pslj_st` INT NULL DEFAULT NULL AFTER `arso_prenos`,
+	ADD COLUMN `arso_pslj_status` ENUM('POVZROCITELJ','PREVOZNIK','PREDELOVALEC','ODSTRANJEVALEC','ZBIRALEC') NULL DEFAULT 'POVZROCITELJ' AFTER `arso_pslj_st`,
+	ADD COLUMN `arso_dejavnost` VARCHAR(50) NULL DEFAULT NULL AFTER `arso_pslj_status`;
+ALTER TABLE `kupci`
+	CHANGE COLUMN `arso_dejavnost` `dejavnost` VARCHAR(50) NULL DEFAULT NULL AFTER `davcna`;

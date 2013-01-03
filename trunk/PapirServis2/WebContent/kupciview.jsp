@@ -61,6 +61,8 @@ String x_skupina = "";
 String x_sif_enote = "";
 String x_pogodba  = "";
 String x_davcna = "";
+String x_maticna = "";
+String x_dejavnost = "";
 String x_opomba1 = "";
 String x_opomba2 = "";
 String x_opomba3 = "";
@@ -68,6 +70,9 @@ String x_opomba4 = "";
 String x_opomba5 = "";
 String x_analiza = "";
 String x_datum = "";
+int x_arso_prenos = 0;
+String x_arso_pslj_st = "";
+String x_arso_pslj_status = "";
 
 
 
@@ -195,6 +200,20 @@ try{
 	}else{
 		x_davcna = "";
 	}
+	
+	// maticna
+	if (rs.getString("maticna") != null){
+		x_maticna = rs.getString("maticna");
+	}else{
+		x_maticna = "";
+	}
+
+	// dejavnost
+	if (rs.getString("dejavnost") != null){
+		x_dejavnost = rs.getString("dejavnost");
+	}else{
+		x_dejavnost = "";
+	}
 
 	// opomba1
 	if (rs.getString("opomba1") != null){
@@ -246,6 +265,22 @@ try{
 		x_datum = "";
 	}
 
+	// arso_prenos
+	x_arso_prenos = rs.getInt("arso_prenos");
+
+	// arso_pslj_st
+	if (rs.getString("arso_pslj_st") != null){
+		x_arso_pslj_st = rs.getString("arso_pslj_st");
+	}else{
+		x_arso_pslj_st = "";
+	}
+
+	// arso_pslj_status
+	if (rs.getString("arso_pslj_status") != null){
+		x_arso_pslj_status = rs.getString("arso_pslj_status");
+	}else{
+		x_arso_pslj_status = "";
+	}
 
 
 		// skupina
@@ -419,7 +454,15 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Davčna&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print(x_opomba); %>&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_davcna); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Matična&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_maticna); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejavnost&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_dejavnost); %>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Opomba 1&nbsp;</td>
@@ -448,6 +491,18 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso prenos&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print((x_arso_prenos == 1 ? "DA" : "NE")); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_arso_pslj_st); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso status&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_arso_pslj_status); %>&nbsp;</td>
 	</tr>
 </table>
 </form>
