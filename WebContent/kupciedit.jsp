@@ -274,6 +274,11 @@ try{
 		}else{
 			x_naslov = "";
 		}
+		if (request.getParameter("x_kraj") != null){
+			x_kraj = (String) request.getParameter("x_kraj");
+		}else{
+			x_kraj = "";
+		}
 		if (request.getParameter("x_posta") != null){
 			x_posta = request.getParameter("x_posta");
 		}
@@ -457,6 +462,18 @@ try{
 		}else{
 			rs.updateString("posta", tmpfld);
 		}
+
+		// Field kraj
+		tmpfld = ((String) x_kraj);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("kraj");
+		}else{
+			rs.updateString("kraj", tmpfld);
+		}
+
 
 		// Field kont_oseba
 		tmpfld = ((String) x_kont_oseba);
@@ -816,6 +833,10 @@ x_postaList += "</select>";
 out.println(x_postaList);
 %>
 &nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Kraj&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_kraj" size="30" maxlength="255" value="<%= HTMLEncode((String)x_kraj) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Kontakt oseba&nbsp;</td>

@@ -58,12 +58,20 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + "(";
 			b_search = b_search + "`sif_kam` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`kamion` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`naziv` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`naslov` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`posta` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`kraj` LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
 		b_search = b_search + "`sif_kam` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`kamion` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "`naziv` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "`naslov` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "`posta` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "`kraj` LIKE '%" + pSearch + "%' OR ";
 	}
 }
 if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) {b_search = b_search.substring(0, b_search.length()-4);}
@@ -298,6 +306,41 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("kamion")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("naziv")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("naziv","UTF-8") %>">Naziv&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naziv")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("naslov")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("naslov","UTF-8") %>">Naslov&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("naslov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naslov")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("posta")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("posta","UTF-8") %>">Pošta&nbsp;<% if (OrderBy != null && OrderBy.equals("posta")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("posta")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kraj")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("kraj","UTF-8") %>">Kraj&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("kraj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kraj")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("davcna")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("davcna","UTF-8") %>">Davčna&nbsp;<% if (OrderBy != null && OrderBy.equals("davcna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("davcna")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("maticna","UTF-8") %>">Matična&nbsp;<% if (OrderBy != null && OrderBy.equals("maticna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("dejavnost","UTF-8") %>">Dejavnost&nbsp;<% if (OrderBy != null && OrderBy.equals("dejavnost")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("registrska")) ? "<b>" : ""%>
 <a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("registrska","UTF-8") %>">Registrska&nbsp;<% if (OrderBy != null && OrderBy.equals("registrska")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kamion_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kamion_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("registrska")) ? "</b>" : ""%>
@@ -342,6 +385,16 @@ function disableSome(EW_this){
 <a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kamion_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kamion_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prvz_st")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_prvz_st","UTF-8") %>">Arso št.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prvz_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prvz_st")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prvz_status")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_prvz_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prvz_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prvz_status")) ? "</b>" : ""%>
+		</td>
 </tr>
 <%
 
@@ -380,6 +433,13 @@ while (rs.next() && recCount < stopRec) {
 <%
 	String x_sif_kam = "";
 	String x_kamion = "";
+	String x_naziv = "";
+	String x_naslov = "";
+	String x_posta = "";
+	String x_kraj = "";
+	String x_davcna = "";
+	String x_maticna = "";
+	String x_dejavnost = "";
 	String x_registrska = "";
 	String x_cena_km = "";
 	String x_cena_ura = "";
@@ -389,6 +449,8 @@ while (rs.next() && recCount < stopRec) {
 	Object x_zacetek = null;
 	String x_uporabnik = "";
 	Object x_veljavnost = null;
+	String x_arso_prvz_st = "";
+	String x_arso_prvz_status = "";
 
 	// Load Key for record
 	String key = "";
@@ -410,6 +472,54 @@ while (rs.next() && recCount < stopRec) {
 		x_kamion = "";
 	}
 
+	// naziv
+	if (rs.getString("naziv") != null){
+		x_naziv = rs.getString("naziv");
+	}else{
+		x_naziv = "";
+	}
+
+	// naslov
+	if (rs.getString("naslov") != null){
+		x_naslov = rs.getString("naslov");
+	}else{
+		x_naslov = "";
+	}
+
+	// posta
+	if (rs.getString("posta") != null){
+		x_posta = rs.getString("posta");
+	}else{
+		x_posta = "";
+	}
+
+	// kraj
+	if (rs.getString("kraj") != null){
+		x_kraj = rs.getString("kraj");
+	}else{
+		x_kraj = "";
+	}
+	
+	// davcna
+	if (rs.getString("davcna") != null){
+		x_davcna = rs.getString("davcna");
+	}else{
+		x_davcna = "";
+	}
+
+	// maticna
+	if (rs.getString("maticna") != null){
+		x_maticna = rs.getString("maticna");
+	}else{
+		x_maticna = "";
+	}
+
+	// dejavnost
+	if (rs.getString("dejavnost") != null){
+		x_dejavnost = rs.getString("dejavnost");
+	}else{
+		x_dejavnost = "";
+	}
 
 	// registrska
 	if (rs.getString("registrska") != null){
@@ -449,6 +559,22 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_veljavnost = "";
 	}
+	
+	// arso_prvz_st
+	if (rs.getString("arso_prvz_st") != null){
+		x_arso_prvz_st = rs.getString("arso_prvz_st");
+	}else{
+		x_arso_prvz_st = "";
+	}
+
+	// arso_prvz_status
+	if (rs.getString("arso_prvz_status") != null){
+		x_arso_prvz_status = rs.getString("arso_prvz_status");
+	}else{
+		x_arso_prvz_status = "";
+	}
+
+	
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -479,7 +605,14 @@ if (key != null && key.length() > 0) {
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span></td>
 <% } %>
 		<td nowrap><% out.print(x_sif_kam); %>&nbsp;</td>
-		<td><% out.print(x_kamion); %>&nbsp;</td>
+		<td nowrap><% out.print(x_kamion); %>&nbsp;</td>
+		<td><% out.print(x_naziv); %>&nbsp;</td>
+		<td><% out.print(x_naslov); %>&nbsp;</td>
+		<td><% out.print(x_posta);  %>&nbsp;</td>
+		<td><% out.print(x_kraj); %>&nbsp;</td>
+		<td><% out.print(x_davcna); %>&nbsp;</td>
+		<td><% out.print(x_maticna); %>&nbsp;</td>
+		<td><% out.print(x_dejavnost); %>&nbsp;</td>
 		<td><% out.print(x_registrska); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_km, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_ura, 4, 1, 1, 1,locale)); %>&nbsp;</td>
@@ -508,6 +641,8 @@ if (x_uporabnik!=null && ((String)x_uporabnik).length() > 0) {
 }
 %>
 &nbsp;</td>
+		<td><% out.print(x_arso_prvz_st); %>&nbsp;</td>
+		<td><% out.print(x_arso_prvz_status); %>&nbsp;</td>
 	</tr>
 <%
 

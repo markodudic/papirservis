@@ -45,6 +45,13 @@ if (a == null || a.length() == 0) {
 }
 String x_sif_kam = "";
 String x_kamion = "";
+String x_naziv = "";
+String x_naslov = "";
+String x_posta = "";
+String x_kraj = "";
+String x_davcna = "";
+String x_maticna = "";
+String x_dejavnost = "";
 String x_registrska = "";
 String x_cena_km = "";
 String x_cena_ura = "";
@@ -54,6 +61,8 @@ String x_c_ura = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
 Object x_veljavnost = null;
+String x_arso_prvz_st = "";
+String x_arso_prvz_status = "";
 
 // Open Connection to the database
 try{
@@ -84,6 +93,55 @@ try{
 			x_kamion = rs.getString("kamion");
 		}else{
 			x_kamion = "";
+		}
+
+		// naziv
+		if (rs.getString("naziv") != null){
+			x_naziv = rs.getString("naziv");
+		}else{
+			x_naziv = "";
+		}
+
+		// naslov
+		if (rs.getString("naslov") != null){
+			x_naslov = rs.getString("naslov");
+		}else{
+			x_naslov = "";
+		}
+
+		// posta
+		if (rs.getString("posta") != null){
+			x_posta = rs.getString("posta");
+		}else{
+			x_posta = "";
+		}
+
+		// kraj
+		if (rs.getString("kraj") != null){
+			x_kraj = rs.getString("kraj");
+		}else{
+			x_kraj = "";
+		}
+
+		// davcna
+		if (rs.getString("davcna") != null){
+			x_davcna = rs.getString("davcna");
+		}else{
+			x_davcna = "";
+		}
+		
+		// maticna
+		if (rs.getString("maticna") != null){
+			x_maticna = rs.getString("maticna");
+		}else{
+			x_maticna = "";
+		}
+
+		// dejavnost
+		if (rs.getString("dejavnost") != null){
+			x_dejavnost = rs.getString("dejavnost");
+		}else{
+			x_dejavnost = "";
 		}
 
 		// registrska
@@ -123,6 +181,20 @@ try{
 		
 		// uporabnik
 		x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+
+		// arso_prvz_st
+		if (rs.getString("arso_prvz_st") != null){
+			x_arso_prvz_st = rs.getString("arso_prvz_st");
+		}else{
+			x_arso_prvz_st = "";
+		}
+
+		// arso_prvz_status
+		if (rs.getString("arso_prvz_status") != null){
+			x_arso_prvz_status = rs.getString("arso_prvz_status");
+		}else{
+			x_arso_prvz_status = "";
+		}
 	}
 %>
 <%@ include file="header.jsp" %>
@@ -142,6 +214,55 @@ function disableSome(EW_this){
 	<tr>
 		<td class="ewTableHeader">Kamion&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_kamion); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Naziv&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_naziv); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Naslov&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_naslov); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Pošta&nbsp;</td>
+		<td class="ewTableAltRow"><%
+if (x_posta!=null && ((String)x_posta).length() > 0) {
+	String sqlwrk_where = "";
+	tmpfld = (String) x_posta;
+	tmpfld = tmpfld.replaceAll("'", "\\\\'");
+	sqlwrk_where = "`posta` = '" + tmpfld + "'";
+	String sqlwrk = "SELECT `posta`, `kraj` FROM `poste`";
+	if (sqlwrk_where.length() > 0) {
+	sqlwrk += " WHERE " + sqlwrk_where;
+	}
+	Statement stmtwrk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk = stmtwrk.executeQuery(sqlwrk);
+	if (rswrk.next()) {
+		out.print(rswrk.getString("kraj"));
+	}
+	rswrk.close();
+	rswrk = null;
+	stmtwrk.close();
+	stmtwrk = null;
+}
+%>
+&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Kraj&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_kraj); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Davčna&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_davcna); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Matična&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_maticna); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejavnost&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_dejavnost); %>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Registrska&nbsp;</td>
@@ -170,6 +291,14 @@ function disableSome(EW_this){
 	<tr>
 		<td class="ewTableHeader">Veljavnost&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatDateTime(x_veljavnost,7,locale)); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_arso_prvz_st); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso status&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_arso_prvz_status); %>&nbsp;</td>
 	</tr>
 </table>
 </form>
