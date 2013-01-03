@@ -47,3 +47,7 @@ ALTER TABLE `kamion`
 	ADD COLUMN `arso_prvz_st` INT(11) NULL DEFAULT NULL AFTER `registrska`,
 	ADD COLUMN `arso_prvz_status` ENUM('PREVOZNIK','POVZROCITELJ','PREDELOVALEC','ODSTRANJEVALEC','ZBIRALEC') NULL DEFAULT 'PREVOZNIK' AFTER `arso_prvz_st`;
 		
+//dodamo polja v tabelo materiali
+ALTER TABLE `materiali`
+	ADD COLUMN `arso_odp_locpr_id` INT(11) NULL DEFAULT NULL AFTER `uporabnik`;
+		

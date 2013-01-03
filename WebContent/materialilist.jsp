@@ -371,6 +371,11 @@ String r = "ravnanje"+i;%>
 <a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("materiali_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("materiali_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) ? "<b>" : ""%>
+<a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_locpr_id","UTF-8") %>">Arso št.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) ? "</b>" : ""%>
+		</td>
 </tr>
 <%
 
@@ -422,6 +427,7 @@ while (rs.next() && recCount < stopRec) {
 	Object x_zacetek = null;
 	String x_uporabnik = "";
 	Object x_veljavnost = null;
+	String x_arso_odp_locpr_id = "";
 
 	// Load Key for record
 	String key = "";
@@ -489,6 +495,14 @@ while (rs.next() && recCount < stopRec) {
 	}
 	// uporabnik
 	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+
+	// arso_odp_locpr_id
+	if (rs.getString("arso_odp_locpr_id") != null){
+		x_arso_odp_locpr_id = rs.getString("arso_odp_locpr_id");
+	}else{
+		x_arso_odp_locpr_id = "";
+	}
+
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -554,6 +568,7 @@ if (x_uporabnik!=null && ((String)x_uporabnik).length() > 0) {
 }
 %>
 &nbsp;</td>
+	<td><% out.print(x_arso_odp_locpr_id); %>&nbsp;</td>
 	</tr>
 <%
 
