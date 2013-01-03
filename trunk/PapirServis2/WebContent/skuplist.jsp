@@ -292,6 +292,16 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <a href="skuplist.jsp?order=<%= java.net.URLEncoder.encode("prevoz_material","UTF-8") %>">Prevoz material&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("prevoz_material")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("skup_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("skup_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("prevoz_material")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "<b>" : ""%>
+<a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso emb. shema&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_dej_nastanka")) ? "<b>" : ""%>
+<a href="materialilist.jsp?order=<%= java.net.URLEncoder.encode("arso_dej_nastanka","UTF-8") %>">Arso dej. nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_dej_nastanka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_dej_nastanka")) ? "</b>" : ""%>
+		</td>
 </tr>
 <%
 
@@ -334,6 +344,8 @@ while (rs.next() && recCount < stopRec) {
 	String x_ravnanje = "";
 	String x_prevoz_kamion = "";
 	String x_prevoz_material = "";
+	String x_arso_odp_embalaza_shema = "";
+	String x_arso_odp_dej_nastanka = "";
 
 	// Load Key for record
 	String key = "";
@@ -376,6 +388,20 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_prevoz_material = "";
 	}
+
+	// arso_odp_embalaza_shema
+	if (rs.getString("arso_odp_embalaza_shema") != null){
+		x_arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+	}else{
+		x_arso_odp_embalaza_shema = "";
+	}
+
+	// arso_odp_dej_nastanka
+	if (rs.getString("arso_odp_dej_nastanka") != null){
+		x_arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+	}else{
+		x_arso_odp_dej_nastanka = "";
+	}
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -411,6 +437,8 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_ravnanje);%>&nbsp;</td>
 		<td><% out.print(x_prevoz_kamion);%>&nbsp;</td>
 		<td><% out.print(x_prevoz_material);%>&nbsp;</td>
+		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
 	</tr>
 <%
 
