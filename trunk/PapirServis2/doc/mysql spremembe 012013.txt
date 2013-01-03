@@ -50,4 +50,8 @@ ALTER TABLE `kamion`
 //dodamo polja v tabelo materiali
 ALTER TABLE `materiali`
 	ADD COLUMN `arso_odp_locpr_id` INT(11) NULL DEFAULT NULL AFTER `uporabnik`;
+	
+//dodamo polja v tabelo stranke
+ALTER TABLE `stranke`
+	ADD COLUMN `arso_odp_loc_id` INT(11) NULL DEFAULT NULL AFTER `uporabnik`;
 		

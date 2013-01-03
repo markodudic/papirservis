@@ -63,7 +63,7 @@ Object x_prevoz4 = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 Object x_veljavnost = null;
-String x_arso_pslj_st = "";
+String x_arso_odp_locpr_id = "";
 
 
 // Open Connection to the database
@@ -124,9 +124,9 @@ try{
 	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
 	// arso_pslj_st
 	if (rs.getString("arso_pslj_st") != null){
-		x_arso_pslj_st = rs.getString("arso_pslj_st");
+		x_arso_odp_locpr_id = rs.getString("arso_pslj_st");
 	}else{
-		x_arso_pslj_st = "";
+		x_arso_odp_locpr_id = "";
 	}
 
 	rs.close();
@@ -209,10 +209,10 @@ try{
 		if (request.getParameter("x_uporabnik") != null){
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
-		if (request.getParameter("x_arso_pslj_st") != null){
-			x_arso_pslj_st = (String) request.getParameter("x_arso_pslj_st");
+		if (request.getParameter("arso_odp_locpr_id") != null){
+			x_arso_odp_locpr_id = (String) request.getParameter("arso_odp_locpr_id");
 		}else{
-			x_arso_pslj_st = "";
+			x_arso_odp_locpr_id = "";
 		}
 
 		// Open record
@@ -378,8 +378,8 @@ try{
 			strsql += "'" + EW_UnFormatDateTime((String)x_veljavnost,"EURODATE", locale) + "'," ;
 		}
 
-		// Field x_arso_pslj_st
-		tmpfld = ((String) x_arso_pslj_st);
+		// Field arso_odp_locpr_id
+		tmpfld = ((String) x_arso_odp_locpr_id);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
@@ -537,7 +537,7 @@ return true;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso št.&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_arso_pslj_st" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_pslj_st) %>">&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="arso_odp_locpr_id" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_odp_locpr_id) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>
