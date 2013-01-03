@@ -420,6 +420,16 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("davcna")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("maticna","UTF-8") %>">Matična&nbsp;<% if (OrderBy != null && OrderBy.equals("maticna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("dejavnost","UTF-8") %>">Dejavnost&nbsp;<% if (OrderBy != null && OrderBy.equals("dejavnost")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("opomba1","UTF-8") %>">Opomba 1&nbsp;<% if (OrderBy != null && OrderBy.equals("opomba1")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "</b>" : ""%>
@@ -454,7 +464,21 @@ function disableSome(EW_this){
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
 		</td>
-
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prenos")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_prenos","UTF-8") %>">Arso prenos&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prenos")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prenos")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_pslj_st")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_pslj_st","UTF-8") %>">Arso št.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_pslj_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_pslj_st")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_pslj_status")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_pslj_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_pslj_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_pslj_status")) ? "</b>" : ""%>
+		</td>
 
 
 
@@ -516,6 +540,8 @@ while (rs.next() && recCount < stopRec) {
 
 	String x_pogodba  = "";
 	String x_davcna = "";
+	String x_maticna = "";
+	String x_dejavnost = "";
 	String x_opomba1 = "";
 	String x_opomba2 = "";
 	String x_opomba3 = "";
@@ -523,6 +549,9 @@ while (rs.next() && recCount < stopRec) {
 	String x_opomba5 = "";
 	String x_analiza = "";
 	String x_datum = "";
+	int x_arso_prenos = 0;
+	String x_arso_pslj_st = "";
+	String x_arso_pslj_status = "";
 
 	// Load Key for record
 	String key = "";
@@ -639,6 +668,20 @@ while (rs.next() && recCount < stopRec) {
 		x_davcna = "";
 	}
 
+	// maticna
+	if (rs.getString("maticna") != null){
+		x_maticna = rs.getString("maticna");
+	}else{
+		x_maticna = "";
+	}
+
+	// dejavnost
+	if (rs.getString("dejavnost") != null){
+		x_dejavnost = rs.getString("dejavnost");
+	}else{
+		x_dejavnost = "";
+	}
+
 	// opomba1
 	if (rs.getString("opomba1") != null){
 		x_opomba1 = rs.getString("opomba1");
@@ -689,6 +732,26 @@ while (rs.next() && recCount < stopRec) {
 		x_datum = "";
 	}
 
+	// arso_prenos
+	x_arso_prenos = rs.getInt("arso_prenos");
+
+	// arso_pslj_st
+	if (rs.getString("arso_pslj_st") != null){
+		x_arso_pslj_st = rs.getString("arso_pslj_st");
+	}else{
+		x_arso_pslj_st = "";
+	}
+
+	// arso_pslj_status
+	if (rs.getString("arso_pslj_status") != null){
+		x_arso_pslj_status = rs.getString("arso_pslj_status");
+	}else{
+		x_arso_pslj_status = "";
+	}
+
+	
+	
+	
 	// skupina
 	x_skupina = String.valueOf(rs.getLong("skupina"));
 
@@ -799,6 +862,8 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 &nbsp;</td>
 		<td><% out.print(x_pogodba ); %>&nbsp;</td>
 		<td><% out.print(x_davcna); %>&nbsp;</td>
+		<td><% out.print(x_maticna); %>&nbsp;</td>
+		<td><% out.print(x_dejavnost); %>&nbsp;</td>
 		<td><% out.print(x_opomba1); %>&nbsp;</td>
 		<td><% out.print(x_opomba2);  %>&nbsp;</td>
 		<td><% out.print(x_opomba3); %>&nbsp;</td>
@@ -806,6 +871,9 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print(x_opomba5); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_analiza, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+		<td><% out.print((x_arso_prenos == 1 ? "DA" : "NE")); %>&nbsp;</td>
+		<td><% out.print(x_arso_pslj_st); %>&nbsp;</td>
+		<td><% out.print(x_arso_pslj_status); %>&nbsp;</td>
 
 	</tr>
 <%
