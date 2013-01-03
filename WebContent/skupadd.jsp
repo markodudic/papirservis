@@ -53,6 +53,8 @@ Object x_pr1 = null;
 String x_ravnanje = "";
 boolean x_prevoz_kamion = false;
 boolean x_prevoz_material = false;
+String x_arso_odp_embalaza_shema = "";
+String x_arso_odp_dej_nastanka = "";
 
 
 // Open Connection to the database
@@ -98,6 +100,19 @@ try{
 	x_prevoz_kamion = rs.getBoolean("prevoz_kamion");
 	x_prevoz_material = rs.getBoolean("prevoz_material");
 
+	// arso_odp_embalaza_shema
+	if (rs.getString("arso_odp_embalaza_shema") != null){
+		x_arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+	}else{
+		x_arso_odp_embalaza_shema = "";
+	}
+
+	// arso_odp_dej_nastanka
+	if (rs.getString("arso_odp_dej_nastanka") != null){
+		x_arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+	}else{
+		x_arso_odp_dej_nastanka = "";
+	}
 
 		rs.close();
 		rs = null;
@@ -132,7 +147,19 @@ try{
 			x_prevoz_material = true;
 		}
 
-		
+		if (request.getParameter("x_arso_odp_embalaza_shema") != null){
+			x_arso_odp_embalaza_shema = (String) request.getParameter("x_arso_odp_embalaza_shema");
+		}else{
+			x_arso_odp_embalaza_shema = "";
+		}
+
+		if (request.getParameter("x_arso_odp_dej_nastanka") != null){
+			x_arso_odp_dej_nastanka = (String) request.getParameter("x_arso_odp_dej_nastanka");
+		}else{
+			x_arso_odp_dej_nastanka = "";
+		}
+
+	
 		// Open record
 		String strsql = "SELECT * FROM `skup` WHERE 0 = 1";
 		rs = stmt.executeQuery(strsql);
@@ -187,6 +214,30 @@ try{
 
 		rs.updateBoolean("prevoz_kamion",x_prevoz_kamion);
 		rs.updateBoolean("prevoz_material",x_prevoz_material);
+
+		// Field x_arso_odp_embalaza_shema
+		tmpfld = ((String) x_arso_odp_embalaza_shema);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = "";
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_embalaza_shema");
+		}else{
+			rs.updateString("arso_odp_embalaza_shema", tmpfld);
+		}
+
+		// Field x_arso_odp_dej_nastanka
+		tmpfld = ((String) x_arso_odp_dej_nastanka);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = "";
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_dej_nastanka");
+		}else{
+			rs.updateString("arso_odp_dej_nastanka", tmpfld);
+		}
+
+
 
 		rs.insertRow();
 		rs.close();
@@ -279,6 +330,64 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Prevoz material&nbsp;</td>
 		<td class="ewTableAltRow"><input type="checkbox" name="x_prevoz_material" <%= x_prevoz_material ? "checked" : "" %> ></td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso emb. shema&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_embalaza_shema">
+			<%
+				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'skup' AND COLUMN_NAME = 'arso_odp_embalaza_shema'";
+				Statement stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_embalaza_shema)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso dej. nastanka&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_dej_nastanka">
+			<%
+				String sqlwrk_x_arso_status1 = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'skup' AND COLUMN_NAME = 'arso_odp_dej_nastanka'";
+				Statement stmtwrk_x_arso_status1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_status1 = stmtwrk_x_arso_status1.executeQuery(sqlwrk_x_arso_status1);
+					if (rswrk_x_arso_status1.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status1.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_dej_nastanka)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status1.close();
+				rswrk_x_arso_status1 = null;
+				stmtwrk_x_arso_status1.close();
+				stmtwrk_x_arso_status1 = null;
+			%>
+			</select>
+		</td>
 	</tr>
 </table>
 <p>
