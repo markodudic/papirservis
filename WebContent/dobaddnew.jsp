@@ -86,6 +86,14 @@ Object x_stev_ur_norm = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
 Object x_dod_stroski = null;
+String x_arso_odp_embalaza = "";
+String x_arso_emb_st_enot = "1";
+String x_arso_odp_fiz_last = "";
+String x_arso_odp_tip = "";
+String x_arso_aktivnost_pslj = "";
+String x_arso_aktivnost_prjm = "";
+String x_arso_odp_embalaza_shema = "";
+String x_arso_odp_dej_nastanka = "";
 
 
 StringBuffer x_sif_strList = null;
@@ -288,6 +296,63 @@ try{
 		}
 	
 		x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+		
+		// arso_odp_embalaza
+		if (rs.getString("arso_odp_embalaza") != null){
+			x_arso_odp_embalaza = rs.getString("arso_odp_embalaza");
+		}else{
+			x_arso_odp_embalaza = "";
+		}
+
+		// arso_emb_st_enot
+		if (rs.getString("arso_emb_st_enot") != null){
+			x_arso_emb_st_enot = rs.getString("arso_emb_st_enot");
+		}else{
+			x_arso_emb_st_enot = "";
+		}
+
+		// arso_odp_fiz_last
+		if (rs.getString("arso_odp_fiz_last") != null){
+			x_arso_odp_fiz_last = rs.getString("arso_odp_fiz_last");
+		}else{
+			x_arso_odp_fiz_last = "";
+		}
+
+		// arso_odp_tip
+		if (rs.getString("arso_odp_tip") != null){
+			x_arso_odp_tip = rs.getString("arso_odp_tip");
+		}else{
+			x_arso_odp_tip = "";
+		}
+
+		// arso_aktivnost_pslj
+		if (rs.getString("arso_aktivnost_pslj") != null){
+			x_arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
+		}else{
+			x_arso_aktivnost_pslj = "";
+		}
+
+		// arso_aktivnost_prjm
+		if (rs.getString("arso_aktivnost_prjm") != null){
+			x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+		}else{
+			x_arso_aktivnost_prjm = "";
+		}
+
+		// arso_odp_embalaza_shema
+		if (rs.getString("arso_odp_embalaza_shema") != null){
+			x_arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+		}else{
+			x_arso_odp_embalaza_shema = "";
+		}
+
+		// arso_odp_dej_nastanka
+		if (rs.getString("arso_odp_dej_nastanka") != null){
+			x_arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+		}else{
+			x_arso_odp_dej_nastanka = "";
+		}
+
 		rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
@@ -457,36 +522,76 @@ try{
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
 
+		if (request.getParameter("x_arso_odp_embalaza") != null){
+			x_arso_odp_embalaza = (String) request.getParameter("x_arso_odp_embalaza");
+		}else{
+			x_arso_odp_embalaza = "";
+		}
+		if (request.getParameter("x_arso_emb_st_enot") != null){
+			x_arso_emb_st_enot = (String) request.getParameter("x_arso_emb_st_enot");
+		}else{
+			x_arso_emb_st_enot = "";
+		}
+		if (request.getParameter("x_arso_odp_fiz_last") != null){
+			x_arso_odp_fiz_last = (String) request.getParameter("x_arso_odp_fiz_last");
+		}else{
+			x_arso_odp_fiz_last = "";
+		}
+		if (request.getParameter("x_arso_odp_tip") != null){
+			x_arso_odp_tip = (String) request.getParameter("x_arso_odp_tip");
+		}else{
+			x_arso_odp_tip = "";
+		}
+		if (request.getParameter("x_arso_aktivnost_pslj") != null){
+			x_arso_aktivnost_pslj = (String) request.getParameter("x_arso_aktivnost_pslj");
+		}else{
+			x_arso_aktivnost_pslj = "";
+		}
+		if (request.getParameter("x_arso_aktivnost_prjm") != null){
+			x_arso_aktivnost_prjm = (String) request.getParameter("x_arso_aktivnost_prjm");
+		}else{
+			x_arso_aktivnost_prjm = "";
+		}
+		if (request.getParameter("x_arso_odp_embalaza_shema") != null){
+			x_arso_odp_embalaza_shema = (String) request.getParameter("x_arso_odp_embalaza_shema");
+		}else{
+			x_arso_odp_embalaza_shema = "";
+		}
+		if (request.getParameter("x_arso_odp_dej_nastanka") != null){
+			x_arso_odp_dej_nastanka = (String) request.getParameter("x_arso_odp_dej_nastanka");
+		}else{
+			x_arso_odp_dej_nastanka = "";
+		}
+		
 
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, uporabnik) values(";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, uporabnik) values(";
 //		String strsql = "insert into dob (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, obdelana, uporabnik) values(" + x_st_dob  + ", ";
 
 
 		// Open record
-		String strsql1 = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE 0 = 1";
-		rs = stmt.executeQuery(strsql1);
-		rs.moveToInsertRow();
+		//String strsql1 = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE 0 = 1";
+		//rs = stmt.executeQuery(strsql1);
+		//rs.moveToInsertRow();
 
 		// Field st_dob
 		tmpfld = ((String) x_st_dob).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("st_dob");
 		} else {
 			rs.updateInt("st_dob",Integer.parseInt(tmpfld));
-		}
-		//strsql += tmpfld + ", ";
+		}*/
 		strsql += tmpfld + ", ";
 
 		// Field pozicija
 		tmpfld = ((String) x_pozicija).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("pozicija");
 		} else {
 			rs.updateInt("pozicija",Integer.parseInt(tmpfld));
-		}
+		}*/
 		strsql += tmpfld + ", ";
 
 		// Field datum
@@ -499,13 +604,6 @@ try{
 		// Field sif_str
 		tmpfld = ((String) x_sif_str).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("sif_str");
-		} else {
-			rs.updateInt("sif_str",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field stranka
@@ -513,11 +611,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("stranka");
 		}else{
 			rs.updateString("stranka", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -530,11 +628,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("sif_kupca");
 		}else{
 			rs.updateString("sif_kupca", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -546,11 +644,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("sif_sof");
 		}else{
 			rs.updateString("sif_sof", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -562,11 +660,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("sofer");
 		}else{
 			rs.updateString("sofer", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -578,11 +676,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("sif_kam");
 		}else{
 			rs.updateString("sif_kam", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -594,11 +692,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("kamion");
 		}else{
 			rs.updateString("kamion", tmpfld);
-		}
+		}*/
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
 		else
@@ -607,97 +705,41 @@ try{
 		// Field cena_km
 		tmpfld = ((String) x_cena_km).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("cena_km");
-		} else {
-			rs.updateInt("cena_km",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field cena_ura
 		tmpfld = ((String) x_cena_ura).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("cena_ura");
-		} else {
-			rs.updateInt("cena_ura",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field c_km
 		tmpfld = ((String) x_c_km).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("c_km");
-		} else {
-			rs.updateInt("c_km",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field c_ura
 		tmpfld = ((String) x_c_ura).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("c_ura");
-		} else {
-			rs.updateInt("c_ura",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field stev_km
 		tmpfld = ((String) x_stev_km).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("stev_km");
-		} else {
-			rs.updateInt("stev_km",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field stev_ur
 		tmpfld = ((String) x_stev_ur).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur");
-		} else {
-			rs.updateInt("stev_ur",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field stroski
 		tmpfld = ((String) x_stroski).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("stroski");
-		} else {
-			rs.updateInt("stroski",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field dod_stroski
 		tmpfld = ((String) x_dod_stroski).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("dod_stroski");
-		} else {
-			rs.updateInt("dod_stroski",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field koda
@@ -705,11 +747,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("koda");
 		}else{
 			rs.updateString("koda", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -721,11 +763,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("ewc");
 		}else{
 			rs.updateString("ewc", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -735,98 +777,42 @@ try{
 		// Field kolicina
 		tmpfld = ((String) x_kolicina).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("kolicina");
-		} else {
-			rs.updateInt("kolicina",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field cena
 		tmpfld = ((String) x_cena).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("cena");
-		} else {
-			rs.updateInt("cena",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 
 		// Field kg_zaup
 		tmpfld = ((String) x_kg_zaup).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("kg_zaup");
-		} else {
-			rs.updateInt("kg_zaup",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field sit_zaup
 		tmpfld = ((String) x_sit_zaup).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("sit_zaup");
-		} else {
-			rs.updateInt("sit_zaup",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field kg_sort
 		tmpfld = ((String) x_kg_sort).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("kg_sort");
-		} else {
-			rs.updateInt("kg_sort",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field sit_sort
 		tmpfld = ((String) x_sit_sort).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("sit_sort");
-		} else {
-			rs.updateInt("sit_sort",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field sit_smet
 		tmpfld = ((String) x_sit_smet).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("sit_smet");
-		} else {
-			rs.updateInt("sit_smet",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 		// Field skupina
 		tmpfld = ((String) x_skupina).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-/*
-		if (tmpfld == null) {
-			rs.updateNull("skupina");
-		} else {
-			rs.updateInt("skupina",Integer.parseInt(tmpfld));
-		}
-*/
 		strsql += tmpfld + ", ";
 
 
@@ -835,11 +821,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("skupina_text");
 		}else{
 			rs.updateString("skupina_text", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -851,11 +837,11 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = null;
 		}
-		if (tmpfld == null) {
+		/*if (tmpfld == null) {
 			rs.updateNull("opomba");
 		}else{
 			rs.updateString("opomba", tmpfld);
-		}
+		}*/
 
 		if(tmpfld != null)
 			strsql += "'" + tmpfld + "', ";
@@ -882,8 +868,84 @@ try{
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
 		strsql += tmpfld + ", 1, "; //obdelana
 
+		// Field arso_odp_embalaza
+		tmpfld = ((String) x_arso_odp_embalaza).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field arso_emb_st_enot
+		tmpfld = ((String) x_arso_emb_st_enot).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field arso_odp_fiz_last
+		tmpfld = ((String) x_arso_odp_fiz_last).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field arso_odp_tip
+		tmpfld = ((String) x_arso_odp_tip).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field arso_aktivnost_pslj
+		tmpfld = ((String) x_arso_aktivnost_pslj).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field arso_aktivnost_prjm
+		tmpfld = ((String) x_arso_aktivnost_prjm).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field dod_stroski
+		tmpfld = ((String) x_arso_odp_embalaza_shema).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		// Field arso_odp_dej_nastanka
+		tmpfld = ((String) x_arso_odp_dej_nastanka).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+
+		
 		//Uporabnik
-		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+		//rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 
 		strsql += session.getAttribute("papirservis1_status_UserID") + " )";
 		Statement stmt1 = conn.createStatement();
@@ -892,19 +954,6 @@ try{
 		stmt1.close();
 		stmt1 = null;
 
-/*
-		try{
-			Statement stmt2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			String strsql2 = "update dob_bianco set st_dob = st_dob + 1 where id = " + session.getAttribute("letoTabela");
-			stmt2.executeUpdate(strsql2);
-			// Get the field contents
-	
-			stmt2.close();
-			stmt2 = null;
-		} catch(Exception e){
-			System.out.println(e.toString());
-		}
-*/
 		conn = null;
 		out.clear();
 		response.sendRedirect("doblist.jsp");
@@ -1568,6 +1617,213 @@ return true;
 		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
 	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso vrsta emb.&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_embalaza">
+			<%
+				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_odp_embalaza'";
+				Statement stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_embalaza)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št. enot emb.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_emb_st_enot" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_emb_st_enot) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso fizikalne lastnosti&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_fiz_last">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_odp_fiz_last'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_fiz_last)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso tip odpadka&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_tip">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_odp_tip'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_tip)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso aktivnost nastanka&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_aktivnost_pslj">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_aktivnost_pslj'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_pslj)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso postopek ravnanja&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_aktivnost_prjm">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_aktivnost_prjm'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_prjm)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso embalažna shema&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_embalaza_shema">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_odp_embalaza_shema'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_embalaza_shema)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap class="ewTableHeader">Arso dejavnost nastanka&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_odp_dej_nastanka">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_odp_dej_nastanka'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_dej_nastanka)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>				
 	
 </table>
 <p>

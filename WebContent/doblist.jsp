@@ -1479,6 +1479,51 @@ if (totalRecs > 0) {
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza","UTF-8") %>">Arso vrts emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_emb_st_enot","UTF-8") %>">Arso št. enot emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_fiz_last","UTF-8") %>">Arso fizikalna lastnost&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_tip","UTF-8") %>">Arso tip odpadka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso embalaža shema&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_status")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_status")) ? "</b>" : ""%>
+		</td>
 </tr>
 <%
 // Avoid starting record > total records
@@ -1557,6 +1602,15 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_stev_km_norm = "";
 	String x_stev_ur_norm = "";
 	Object x_zacetek = null;
+	String x_arso_odp_embalaza = "";
+	String x_arso_emb_st_enot = "";
+	String x_arso_odp_fiz_last = "";
+	String x_arso_odp_tip = "";
+	String x_arso_aktivnost_pslj = "";
+	String x_arso_aktivnost_prjm = "";
+	String x_arso_odp_embalaza_shema = "";
+	String x_arso_odp_dej_nastanka = "";
+	String x_arso_status = "";
 	
 	String x_uporabnik = "";
 
@@ -1739,6 +1793,71 @@ while (rs.next() ){//&& recCount < stopRec) {
 
 	// uporabnik
 	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+	
+	// arso_odp_embalaza
+	if (rs.getString("arso_odp_embalaza") != null){
+		x_arso_odp_embalaza = rs.getString("arso_odp_embalaza");
+	}else{
+		x_arso_odp_embalaza = "";
+	}
+
+	// arso_emb_st_enot
+	if (rs.getString("arso_emb_st_enot") != null){
+		x_arso_emb_st_enot = rs.getString("arso_emb_st_enot");
+	}else{
+		x_arso_emb_st_enot = "";
+	}
+
+	// arso_odp_fiz_last
+	if (rs.getString("arso_odp_fiz_last") != null){
+		x_arso_odp_fiz_last = rs.getString("arso_odp_fiz_last");
+	}else{
+		x_arso_odp_fiz_last = "";
+	}
+
+	// arso_odp_tip
+	if (rs.getString("arso_odp_tip") != null){
+		x_arso_odp_tip = rs.getString("arso_odp_tip");
+	}else{
+		x_arso_odp_tip = "";
+	}
+
+	// arso_aktivnost_pslj
+	if (rs.getString("arso_aktivnost_pslj") != null){
+		x_arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
+	}else{
+		x_arso_aktivnost_pslj = "";
+	}
+
+	// arso_aktivnost_prjm
+	if (rs.getString("arso_aktivnost_prjm") != null){
+		x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+	}else{
+		x_arso_aktivnost_prjm = "";
+	}
+
+	// arso_odp_embalaza_shema
+	if (rs.getString("arso_odp_embalaza_shema") != null){
+		x_arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+	}else{
+		x_arso_odp_embalaza_shema = "";
+	}
+
+	// arso_odp_dej_nastanka
+	if (rs.getString("arso_odp_dej_nastanka") != null){
+		x_arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+	}else{
+		x_arso_odp_dej_nastanka = "";
+	}
+
+	// arso_status
+	if (rs.getString("arso_status") != null){
+		x_arso_status = rs.getString("arso_status");
+	}else{
+		x_arso_status = "";
+	}
+
+	
 %>
 	<tr class="<%= rowclass %>">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -1817,6 +1936,15 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_stev_ur_norm); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("u.ime_in_priimek"));%>&nbsp;</td>
+		<td><% out.print(x_arso_odp_embalaza); %>&nbsp;</td>
+		<td><% out.print(x_arso_emb_st_enot); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_fiz_last); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_tip); %>&nbsp;</td>
+		<td><% out.print(x_arso_aktivnost_pslj); %>&nbsp;</td>
+		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
+		<td nowrap><% out.print((x_arso_status.equals("0") ? "NI POSLAN-NI POTRJEN" : (x_arso_status.equals("1") ? "POSLAN-NI POTRJEN" : "POSLAN-POTRJEN"))); %>&nbsp;</td>
 	</tr>
 <%
 
