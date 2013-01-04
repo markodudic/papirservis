@@ -52,7 +52,13 @@ if (a == null || a.length() == 0) {
 Object x_sif_enote = null;
 Object x_naziv = null;
 Object x_lokacija = null;
+String x_maticna = "";
+String x_dejavnost = "";
 Object x_dovoljenje = null;
+String x_arso_prjm_st = "";
+String x_arso_prjm_status = "";
+String x_arso_aktivnost_prjm = "";
+String x_arso_odp_locpr_id = "";
 Object x_x_koord = null;
 Object x_y_koord = null;
 Object x_radij = null;
@@ -93,11 +99,56 @@ try{
 				x_lokacija = "";
 			}
 			
+			// maticna
+			if (rs.getString("maticna") != null){
+				x_maticna = rs.getString("maticna");
+			}else{
+				x_maticna = "";
+			}
+
+			// dejavnost
+			if (rs.getString("dejavnost") != null){
+				x_dejavnost = rs.getString("dejavnost");
+			}else{
+				x_dejavnost = "";
+			}
+
+
 			if (rs.getString("dovoljenje") != null){
 				x_dovoljenje = (String) rs.getString("dovoljenje");
 			}else{
 				x_dovoljenje = "";
 			}
+			
+			// arso_prjm_st
+			if (rs.getString("arso_prjm_st") != null){
+				x_arso_prjm_st = rs.getString("arso_prjm_st");
+			}else{
+				x_arso_prjm_st = "";
+			}
+		
+			// arso_prjm_status
+			if (rs.getString("arso_prjm_status") != null){
+				x_arso_prjm_status = rs.getString("arso_prjm_status");
+			}else{
+				x_arso_prjm_status = "";
+			}
+
+			
+			// arso_aktivnost_prjm
+			if (rs.getString("arso_aktivnost_prjm") != null){
+				x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+			}else{
+				x_arso_aktivnost_prjm = "";
+			}
+		
+			// x_arso_odp_locpr_id 
+			if (rs.getString("arso_odp_locpr_id") != null){
+				x_arso_odp_locpr_id  = rs.getString("arso_odp_locpr_id");
+			}else{
+				x_arso_odp_locpr_id  = "";
+			}
+
 			
 			// lokacija
 			if (rs.getString("x_koord") != null){
@@ -135,12 +186,44 @@ try{
 		}else{
 			x_lokacija = "";
 		}
+		if (request.getParameter("x_maticna") != null){
+			x_maticna = (String) request.getParameter("x_maticna");
+		}else{
+			x_maticna = "";
+		}
+		if (request.getParameter("x_dejavnost") != null){
+			x_dejavnost = (String) request.getParameter("x_dejavnost");
+		}else{
+			x_dejavnost = "";
+		}
 
 		if (request.getParameter("x_dovoljenje") != null){
 			x_dovoljenje = (String) request.getParameter("x_dovoljenje");
 		}else{
 			x_dovoljenje = "";
 		}
+		if (request.getParameter("x_arso_prjm_st") != null){
+			x_arso_prjm_st = (String) request.getParameter("x_arso_prjm_st");
+		}else{
+			x_arso_prjm_st = "";
+		}
+		if (request.getParameter("x_arso_prjm_status") != null){
+			x_arso_prjm_status = (String) request.getParameter("x_arso_prjm_status");
+		}else{
+			x_arso_prjm_status = "";
+		}
+
+		if (request.getParameter("x_arso_aktivnost_prjm") != null){
+			x_arso_aktivnost_prjm = (String) request.getParameter("x_arso_aktivnost_prjm");
+		}else{
+			x_arso_aktivnost_prjm = "";
+		}
+		if (request.getParameter("x_arso_odp_locpr_id") != null){
+			x_arso_odp_locpr_id = (String) request.getParameter("x_arso_odp_locpr_id");
+		}else{
+			x_arso_odp_locpr_id = "";
+		}
+
 		
 		if (request.getParameter("x_x_koord") != null){
 			x_x_koord = (String) request.getParameter("x_x_koord");
@@ -197,6 +280,28 @@ try{
 			rs.updateString("lokacija", tmpfld);
 		}
 
+		// Field maticna
+		tmpfld = ((String) x_maticna);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("maticna");
+		}else{
+			rs.updateString("maticna", tmpfld);
+		}
+
+		// Field dejavnost
+		tmpfld = ((String) x_dejavnost);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("dejavnost");
+		}else{
+			rs.updateString("dejavnost", tmpfld);
+		}
+
 		// Field ddovoljenje
 		tmpfld = ((String) x_dovoljenje);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -206,6 +311,50 @@ try{
 			rs.updateNull("dovoljenje");
 		}else{
 			rs.updateString("dovoljenje", tmpfld);
+		}
+		
+		// Field arso_prjm_st
+		tmpfld = ((String) x_arso_prjm_st);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_prjm_st");
+		}else{
+			rs.updateString("arso_prjm_st", tmpfld);
+		}
+
+		// Field arso_prjm_status
+		tmpfld = ((String) x_arso_prjm_status);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_prjm_status");
+		}else{
+			rs.updateString("arso_prjm_status", tmpfld);
+		}
+
+		// Field arso_aktivnost_prjm
+		tmpfld = ((String) x_arso_aktivnost_prjm);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_aktivnost_prjm");
+		}else{
+			rs.updateString("arso_aktivnost_prjm", tmpfld);
+		}
+
+		// Field arso_odp_locpr_id
+		tmpfld = ((String) x_arso_odp_locpr_id);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_odp_locpr_id");
+		}else{
+			rs.updateString("arso_odp_locpr_id", tmpfld);
 		}
 		
 		// Field x
@@ -308,8 +457,82 @@ function  EW_checkMyForm(EW_this) {
 		<td class="ewTableAltRow"><input type="text" name="x_lokacija" size="30" maxlength="255" value="<%= HTMLEncode((String)x_lokacija) %>">&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">Matična&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_maticna" size="12" maxlength="10" value="<%= HTMLEncode((String)x_maticna) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejavnost&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dejavnost" size="12" maxlength="10" value="<%= HTMLEncode((String)x_dejavnost) %>">&nbsp;</td>
+	</tr>	
+	<tr>
 		<td class="ewTableHeader">Dovoljenje&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_dovoljenje" size="30" maxlength="255" value="<%= HTMLEncode((String)x_dovoljenje) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso št.&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_prjm_st" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_prjm_st) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso status&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_prjm_status">
+			<%
+				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'arso_prjm_status'";
+				Statement stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_prjm_status)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso postopek ravnanja&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_aktivnost_prjm">
+			<%
+				String sqlwrk_x_arso_aktivnost = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'arso_aktivnost_prjm'";
+				Statement stmtwrk_x_arso_aktivnost = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_aktivnost = stmtwrk_x_arso_aktivnost.executeQuery(sqlwrk_x_arso_aktivnost);
+					if (rswrk_x_arso_aktivnost.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_aktivnost.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",'");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_prjm)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_aktivnost.close();
+				rswrk_x_arso_aktivnost = null;
+				stmtwrk_x_arso_aktivnost.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso lokacija ravnanja&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_arso_odp_locpr_id" size="12" maxlength="10" value="<%= HTMLEncode((String)x_arso_odp_locpr_id) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">X koordinata&nbsp;</td>
