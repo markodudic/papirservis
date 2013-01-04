@@ -122,6 +122,10 @@ StringBuffer material_sit_zaup = new StringBuffer();
 StringBuffer material_sit_smet = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
 
+StringBuffer arso_aktivnost_prjm = new StringBuffer();
+StringBuffer arso_odp_embalaza_shema = new StringBuffer();
+StringBuffer arso_odp_dej_nastanka = new StringBuffer();
+
 // Open Connection to the database
 try{
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -1051,7 +1055,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 String cbo_x_sif_str_js = "";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -1060,8 +1064,8 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"		FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji1 "+
 	"		WHERE osnovna.sif_os = zadnji1.sif_os and "+
 	"		      osnovna.zacetek = zadnji1.datum) o, "+
-	"	`kupci` k, `skup` sk  "+
-	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and "+ 
+	"	`kupci` k, `skup` sk, enote  "+
+	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
 
@@ -1081,6 +1085,10 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
 		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
 		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
+
+		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
+		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
+		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
 
 		String find = (String)session.getAttribute("dob_stranke_show");
 		String tmpNaziv = rswrk_x_sif_str.getString("naziv").trim() + fiftyBlanks.substring(0, rswrk_x_sif_str.getString("naziv").trim().length() > 30 ? 0 : (30 - rswrk_x_sif_str.getString("naziv").trim().length())*6)
@@ -1306,6 +1314,13 @@ var material_sit_zaup = new Array();
 var material_sit_smet = new Array();
 <%=material_sit_smet%>
 
+var arso_aktivnost_prjm = new Array();
+<%=arso_aktivnost_prjm%>
+var arso_odp_embalaza_shema = new Array();
+<%=arso_odp_embalaza_shema%>
+var arso_odp_dej_nastanka = new Array();
+<%=arso_odp_dej_nastanka%>
+
 
 function updateSubfileds(EW_this){
 <%if(!a.equals("C")){%>
@@ -1325,6 +1340,10 @@ function updateDropDowns(EW_this){
 	document.dobadd.x_cena.value = stranka_cena[document.dobadd.x_sif_str.value];
 	document.dobadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobadd.x_sif_str.value];
 	document.dobadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobadd.x_sif_str.value];
+
+	document.dobadd.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobadd.x_sif_str.value];
+	document.dobadd.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobadd.x_sif_str.value];
+	document.dobadd.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobadd.x_sif_str.value];
 }
 
 

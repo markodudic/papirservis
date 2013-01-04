@@ -117,6 +117,9 @@ StringBuffer material_sit_sort = new StringBuffer();
 StringBuffer material_sit_zaup = new StringBuffer();
 StringBuffer material_sit_smet = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
+StringBuffer arso_aktivnost_prjm = new StringBuffer();
+StringBuffer arso_odp_embalaza_shema = new StringBuffer();
+StringBuffer arso_odp_dej_nastanka = new StringBuffer();
 
 String opomba = "/";
 
@@ -1021,7 +1024,7 @@ if(request.getParameter("prikaz_material")!= null){
 String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `naziv` ASC";
-String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 ORDER BY `naziv` ASC";
+String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci` where blokada = 0 ORDER BY `naziv` ASC";
 
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
@@ -1064,7 +1067,7 @@ String cbo_x_sif_str_js = "";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -1073,8 +1076,8 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"		FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji1 "+
 	"		WHERE osnovna.sif_os = zadnji1.sif_os and "+
 	"		      osnovna.zacetek = zadnji1.datum) o, "+
-	"	`kupci` k, `skup` sk  "+
-	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and "+ 
+	"	`kupci` k, `skup` sk, enote  "+
+	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + 
 	" ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
 
@@ -1097,6 +1100,9 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
 
+		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
+		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
+		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
 
 		String tmpValue_x_sif_str = "";
 		String find = (String)session.getAttribute("dob_stranke_show");
@@ -1116,6 +1122,7 @@ rswrk_x_sif_str = null;
 stmtwrk_x_sif_str.close();
 stmtwrk_x_sif_str = null;
 x_sif_strList.append("</select>");
+
 
 String cbo_x_sif_kam_js = "";
 x_sif_kamList = new StringBuffer("<select onchange = \"updateSubfileds(this);\" name=\"x_sif_kam\"><option value=\"\">Izberi</option>");
@@ -1312,6 +1319,12 @@ var material_sit_smet = new Array();
 var sif_ewc = new Array();
 <%=sif_ewc%>
 
+var arso_aktivnost_prjm = new Array();
+<%=arso_aktivnost_prjm%>
+var arso_odp_embalaza_shema = new Array();
+<%=arso_odp_embalaza_shema%>
+var arso_odp_dej_nastanka = new Array();
+<%=arso_odp_dej_nastanka%>
 
 
 function updateSubfileds(EW_this){
@@ -1331,6 +1344,10 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
+
+	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
 
 }
 
