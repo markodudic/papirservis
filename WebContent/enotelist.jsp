@@ -276,9 +276,39 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("lokacija")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("maticna","UTF-8") %>">Matična&nbsp;<% if (OrderBy != null && OrderBy.equals("maticna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("maticna")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("dejavnost","UTF-8") %>">Dejavnost&nbsp;<% if (OrderBy != null && OrderBy.equals("dejavnost")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("dovoljenje")) ? "<b>" : ""%>
 <a href="enotelist.jsp?order=<%= java.net.URLEncoder.encode("dovoljenje","UTF-8") %>">Dovoljenje&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("dovoljenje")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("enote_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("enote_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("dovoljenje")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_st")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_st","UTF-8") %>">Arso št.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_st")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) ? "<b>" : ""%>
+<a href="kamionlist.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_locpr_id","UTF-8") %>">Arso lokacija ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_odp_locpr_id")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("x_koord")) ? "<b>" : ""%>
@@ -334,7 +364,13 @@ while (rs.next() && recCount < stopRec) {
 	String x_sif_enote = "";
 	String x_naziv = "";
 	String x_lokacija = "";
+	String x_maticna = "";
+	String x_dejavnost = "";
 	String x_dovoljenje = "";
+	String x_arso_prjm_st = "";
+	String x_arso_prjm_status = "";
+	String x_arso_aktivnost_prjm = "";
+	String x_arso_odp_locpr_id = "";
 	String x_x_koord = "";
 	String x_y_koord = "";
 	String x_radij = "";
@@ -358,6 +394,48 @@ while (rs.next() && recCount < stopRec) {
 		x_lokacija = rs.getString("lokacija");
 	}else{
 		x_lokacija = "";
+	}
+
+	// maticna
+	if (rs.getString("maticna") != null){
+		x_maticna = rs.getString("maticna");
+	}else{
+		x_maticna = "";
+	}
+
+	// dejavnost
+	if (rs.getString("dejavnost") != null){
+		x_dejavnost = rs.getString("dejavnost");
+	}else{
+		x_dejavnost = "";
+	}
+
+	// arso_prjm_st
+	if (rs.getString("arso_prjm_st") != null){
+		x_arso_prjm_st = rs.getString("arso_prjm_st");
+	}else{
+		x_arso_prjm_st = "";
+	}
+
+	// arso_prjm_status
+	if (rs.getString("arso_prjm_status") != null){
+		x_arso_prjm_status = rs.getString("arso_prjm_status");
+	}else{
+		x_arso_prjm_status = "";
+	}
+
+	// arso_aktivnost_prjm
+	if (rs.getString("arso_aktivnost_prjm") != null){
+		x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+	}else{
+		x_arso_aktivnost_prjm = "";
+	}
+
+	// arso_odp_locpr_id
+	if (rs.getString("arso_odp_locpr_id") != null){
+		x_arso_odp_locpr_id = rs.getString("arso_odp_locpr_id");
+	}else{
+		x_arso_odp_locpr_id = "";
 	}
 
 	if (rs.getString("dovoljenje") != null){
@@ -420,7 +498,13 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_sif_enote); %>&nbsp;</td>
 		<td><% out.print(x_naziv); %>&nbsp;</td>
 		<td><% out.print(x_lokacija); %>&nbsp;</td>
+		<td><% out.print(x_maticna); %>&nbsp;</td>
+		<td><% out.print(x_dejavnost); %>&nbsp;</td>
 		<td><% out.print(x_dovoljenje); %>&nbsp;</td>
+		<td><% out.print(x_arso_prjm_st); %>&nbsp;</td>
+		<td><% out.print(x_arso_prjm_status); %>&nbsp;</td>
+		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
+		<td><% out.print(x_arso_odp_locpr_id); %>&nbsp;</td>
 		<td><% out.print(x_x_koord); %>&nbsp;</td>
 		<td><% out.print(x_y_koord); %>&nbsp;</td>
 		<td><% out.print(x_radij); %>&nbsp;</td>
