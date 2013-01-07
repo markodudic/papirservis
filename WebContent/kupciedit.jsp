@@ -78,7 +78,7 @@ Object x_opomba4 = null;
 Object x_opomba5 = null;
 Object x_analiza = null;
 Object x_datum = null;
-int x_arso_prenos = 1;
+int x_arso_prenos = 0;
 String x_arso_pslj_st = "";
 String x_arso_pslj_status = "";
 
