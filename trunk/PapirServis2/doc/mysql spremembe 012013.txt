@@ -27,7 +27,7 @@ where kupci.maticna is null;
 //**********************************************************
 //dodamo polja v tabelo kupci
 ALTER TABLE `kupci`
-	ADD COLUMN `arso_prenos` TINYINT(1) NULL DEFAULT 1 AFTER `datum`,
+	ADD COLUMN `arso_prenos` TINYINT(1) NULL DEFAULT 0 AFTER `datum`,
 	ADD COLUMN `arso_pslj_st` INT NULL DEFAULT NULL AFTER `arso_prenos`,
 	ADD COLUMN `arso_pslj_status` ENUM('POVZROCITELJ','PREVOZNIK','PREDELOVALEC','ODSTRANJEVALEC','ZBIRALEC') NULL DEFAULT 'POVZROCITELJ' AFTER `arso_pslj_st`,
 	ADD COLUMN `arso_dejavnost` VARCHAR(50) NULL DEFAULT NULL AFTER `arso_pslj_status`;
@@ -70,6 +70,17 @@ ALTER TABLE `enote`
 	ADD COLUMN `arso_odp_locpr_id` INT(11) NULL DEFAULT NULL AFTER `arso_aktivnost_prjm`;
 			
 //dodamo polja v tabelo dob		
+ALTER TABLE `dob2012`
+	ADD COLUMN `arso_odp_embalaza` ENUM('RAZSUTO_STANJE','CISTERNA','KOVINSKA_POSODA','LESEN_SODCEK','SESTAVLJENA_EMBALAZA','SOD','TLACNA POSODA','VRECA','ZABOJ') NULL DEFAULT 'RAZSUTO_STANJE' AFTER `uporabnik`,
+	ADD COLUMN `arso_emb_st_enot` INT(11) NULL DEFAULT 1 AFTER `arso_odp_embalaza`,
+	ADD COLUMN `arso_odp_fiz_last` ENUM('TRDNO','MULJI','PLINASTO','PRAH','TEKOCE','VISKOZNO') NULL DEFAULT 'TRDNO' AFTER `arso_emb_st_enot`,
+	ADD COLUMN `arso_odp_tip` ENUM('PRIMARNI','SEKUNDARNI') NULL DEFAULT 'PRIMARNI' AFTER `arso_odp_fiz_last`,
+	ADD COLUMN `arso_aktivnost_pslj` ENUM('R_12','R_52','ZP','ZP_01','ZS','D_01','D_02','D_03','D_04','D_05','D_06','D_07','D_08','D_09','D_10','D_11','D_12','D_13','D_14','D_15','NI','NK','R_01','R_0101','R_02','R_03','R_04','R_05','R_06','R_07','R_08','R_09','R_10','R_11','R_13','R_12, R_13') NULL DEFAULT 'R_12' AFTER `arso_odp_tip`,
+	ADD COLUMN `arso_aktivnost_prjm` ENUM('R_12, R_13','R_52','ZP','ZP_01','ZS','D_01','D_02','D_03','D_04','D_05','D_06','D_07','D_08','D_09','D_10','D_11','D_12','D_13','D_14','D_15','NI','NK','R_01','R_0101','R_02','R_03','R_04','R_05','R_06','R_07','R_08','R_09','R_10','R_11','R_12','R_13') NULL DEFAULT 'R_12, R_13' AFTER `arso_aktivnost_pslj`,
+	ADD COLUMN `arso_odp_embalaza_shema` ENUM('BAT AVT TREVIRA','BAT PREN INTERSEROH','BAT PRED TABAKUM','OEEO ZEOS','BAT AVT TABAKUM','BAT IND TREVIRA','EMB ATOTECH','SVEÈE INTERSEROH','ZDL KEMOFARMACIJA','ZDL SLOPAK','BAT AVT INTERSEROH','BAT AVT TAB','BAT AVT UELOG','AVTI ECOMOBIL','BAT PRED ZEOS','EMB SLOPAK','FFS SLOPAK','OEEO INTERSEROH','BAT IND MOLSON','EMB INTERSEROH','OEEO SLOPAK','EMB SUROVINA','GUME SLOPAK','BAT IND INTERSEROH','BAT IND TAB','EMB UNIREC','BAT PRED SLOPAK','SVEÈE PRONS','SAMI') NULL DEFAULT NULL AFTER `arso_aktivnost_prjm`,
+	ADD COLUMN `arso_odp_dej_nastanka` ENUM('PROIZVODNJA','GOSPODINJSTVA','KOMUNALA') NULL DEFAULT 'PROIZVODNJA' AFTER `arso_odp_embalaza_shema`,
+	ADD COLUMN `arso_status` int(1) NULL DEFAULT 0 COMMENT '0 - ni poslan-ni potrjen, 1 - poslan-ni potrjen, 2 - poslan-potrjen' AFTER `arso_odp_dej_nastanka`;
+
 ALTER TABLE `dob2013`
 	ADD COLUMN `arso_odp_embalaza` ENUM('RAZSUTO_STANJE','CISTERNA','KOVINSKA_POSODA','LESEN_SODCEK','SESTAVLJENA_EMBALAZA','SOD','TLACNA POSODA','VRECA','ZABOJ') NULL DEFAULT 'RAZSUTO_STANJE' AFTER `uporabnik`,
 	ADD COLUMN `arso_emb_st_enot` INT(11) NULL DEFAULT 1 AFTER `arso_odp_embalaza`,
