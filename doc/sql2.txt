@@ -1,0 +1,33 @@
+select replace(davcna , 'SI', ''), davcna from kupci where davcna like 'SI%';
+
+update kupci_mit2 set davcna = replace(davcna , 'SI', '') where davcna like 'SI%';
+
+select kupci.sif_kupca, kupci.naziv, kupci.davcna, kupci.maticna, kupci_mit2.davcna, kupci_mit2.maticna
+from kupci left join kupci_mit2 on (kupci.sif_rac = kupci_mit2.sif_rac)
+where kupci.davcna is null ;
+
+
+
+update kupci 
+set davcna = (select max(davcna) from kupci_mit2 where (kupci.sif_rac = kupci_mit2.sif_rac))
+where kupci.davcna is null or length(kupci.davcna)=7;
+
+select maticna, concat(maticna, '000') from kupci where length(kupci.maticna)=7;
+
+update kupci set maticna = concat(maticna, '000') 
+where length(kupci.maticna)=7;
+
+
+select *
+from kupci left join kupci_durs on (kupci.davcna = kupci_durs.davcna)
+where kupci.maticna is null and kupci_durs.davcna is not null;
+
+update kupci 
+set maticna = (select max(maticna) from kupci_durs where (kupci.davcna = kupci_durs.davcna))
+where kupci.maticna is null;
+
+update kupci set maticna = null where maticna="";
+
+select * 
+from kupci, (select distinct sif_kupca as sif from dob2012) as dob
+where kupci.sif_kupca in (dob.sif) and (maticna is null or davcna is null);
