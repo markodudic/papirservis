@@ -9,3 +9,30 @@ where stranke.sif_kupca in (dob.sif)
 group by davcna, stranke.naslov, stranke.posta, stranke.kraj
 order by stranke.naslov) as a
 on (stranke.id = a.id);
+
+
+select naziv, naslov, posta, kraj, davcna
+from kupci where datum>'2012-12-01 10:49:41'
+and  blokada = 0 and davcna is not null
+order by naziv;
+
+select a.davcna, stranke.naziv, stranke.naslov, stranke.posta, stranke.kraj
+from stranke inner join
+(select distinct davcna, min(id) id, stranke.naslov, stranke.posta, stranke.kraj
+from stranke
+left join kupci on (kupci.sif_kupca = stranke.sif_kupca and davcna is not null)
+where zacetek>'2012-12-01 10:49:41' and davcna is not null
+group by davcna, stranke.naslov, stranke.posta, stranke.kraj
+order by stranke.naslov) as a
+on (stranke.id = a.id);
+
+
+//kupec nima maticne ali davcne
+select kupci.sif_kupca, naziv, naslov, posta, kraj
+from kupci, (select distinct sif_kupca from dob2012) as k
+where kupci.sif_kupca in (k.sif_kupca) and (maticna is null or davcna is null)
+
+
+select *
+from kupci left join kupci_durs on (kupci.davcna = kupci_durs.davcna)
+where kupci.maticna is null and  kupci_durs.davcna is not null;
