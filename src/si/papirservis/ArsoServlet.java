@@ -72,17 +72,16 @@ public class ArsoServlet extends InitServlet implements Servlet {
 		//System.out.println("url="+url);		
         scheduler_pattern = (String) getServletConfig().getInitParameter("scheduler_pattern");
 
-        System.out.println("*** Arso Get Kupci ***");
-        getKupciIdZavezanca();
-        System.out.println("*** Arso Get Lokacije ***");
-        getStrankeIdLokacije();
-        /*Scheduler s = new Scheduler();
+        Scheduler s = new Scheduler();
   	  	s.schedule(scheduler_pattern, new Runnable() {
   	  		public void run() {
-  	  			scheduleRun();
+		        System.out.println("*** Arso Get Kupci ***");
+		        getKupciIdZavezanca();
+		        System.out.println("*** Arso Get Lokacije ***");
+		        getStrankeIdLokacije();
   	  		}
   	  	});
-  	  	s.start();   */  
+  	  	s.start();   
     }
 		
 		
@@ -113,7 +112,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				String idZavezanca = parseDocumentIdZavezanca(doc);
 				//parsamo in vpisemo rezultat v bazo
 				if (idZavezanca == null) {
-					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\n";
+					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\r\n";
 				} else {
 					setIdZavezanca(maticna, idZavezanca);
 				}
@@ -158,7 +157,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 					System.out.println("Napaka pri poizvedbi na Arso za url: "+url+maticna);
 					continue;
 				}
-				String idLokacije = parseDocumentIdLokacije(doc, naslov + ", " + posta + " " + kraj);
+				String idLokacije = parseDocumentIdLokacije(doc, naslov + ", " + posta);
 				//parsamo in vpisemo rezultat v bazo
 				if (idLokacije == null) {
 					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\n";
@@ -229,11 +228,11 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				//get the employee element
 				Element el = (Element)nl.item(i);
 				String naslovArso = getTextValue(el, ITEM_NASLOV);
-				if (naslovArso!=null && naslovArso.equalsIgnoreCase(naslovPS)) {
+				if (naslovArso!=null && naslovArso.toUpperCase().startsWith(naslovPS.toUpperCase())) {
 					return getTextValue(el, ITEM_ID_LOKACIJE);
 				}
 			}
-		}
+		} 
 		
 		return null;
 	}
@@ -427,7 +426,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
           con.setUseCaches(false);
           con.setDefaultUseCaches(false);
 
-          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+          BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "WINDOWS-1250"));
 
           String inputLine;
           while ((inputLine = in.readLine()) != null) {
