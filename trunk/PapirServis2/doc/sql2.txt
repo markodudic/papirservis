@@ -31,3 +31,56 @@ update kupci set maticna = null where maticna="";
 select * 
 from kupci, (select distinct sif_kupca as sif from dob2012) as dob
 where kupci.sif_kupca in (dob.sif) and (maticna is null or davcna is null);
+
+
+select * from kupci where arso_pslj_st is not null;
+select * from stranke where arso_odp_loc_id is not null;
+select * from kupci ;
+
+
+//za PS rovcno predelat (vsi)
+select * from kupci, (select distinct sif_kupca from dob2012) a
+where kupci.sif_kupca in (a.sif_kupca) and arso_pslj_st is null and blokada = 0
+union
+select * from kupci, (select distinct sif_kupca from dob2013) a
+where kupci.sif_kupca in (a.sif_kupca) and arso_pslj_st is null;
+
+
+//za PS rovcno predelat (brez maticne)
+select * from kupci, (select distinct sif_kupca from dob2012) a
+where kupci.sif_kupca in (a.sif_kupca) and arso_pslj_st is null and blokada = 0 and maticna is null
+union
+select * from kupci, (select distinct sif_kupca from dob2013) a
+where kupci.sif_kupca in (a.sif_kupca) and arso_pslj_st is null and maticna is null;
+
+
+
+SELECT stranke.sif_str, stranke.naziv, stranke.naslov, stranke.posta, stranke.kraj, maticna
+FROM stranke
+LEFT JOIN kupci ON (stranke.sif_kupca = kupci.sif_kupca),
+(select distinct sif_kupca from dob2012 union select distinct sif_kupca from dob2013) a
+WHERE kupci.sif_kupca in (a.sif_kupca) and arso_odp_loc_id IS NULL AND 
+blokada = 0 AND (maticna IS NOT NULL AND maticna != '')
+
+
+//uparjevanje durs in stranke po naslovih, zato da popravis postno stevilko
+select distinct stranke.sif_str, stranke.naziv, stranke.naslov, stranke.posta, kupci_durs.naslov, kupci_durs.posta, kupci_durs.davcna, kupci.davcna, kupci.maticna
+from stranke 
+join kupci_durs on (stranke.naslov = kupci_durs.naslov)
+join kupci on (stranke.sif_kupca = kupci.sif_kupca)
+where kupci_durs.naslov is not null and stranke.posta != kupci_durs.posta and substr(stranke.posta,1,1) = substr(kupci_durs.posta,1,1) and kupci_durs.davcna = kupci.davcna;
+
+insert into stranke_update
+select distinct stranke.sif_str, kupci_durs.posta
+from stranke 
+join kupci_durs on (stranke.naslov = kupci_durs.naslov)
+join kupci on (stranke.sif_kupca = kupci.sif_kupca)
+where kupci_durs.naslov is not null and stranke.posta != kupci_durs.posta and substr(stranke.posta,1,1) = substr(kupci_durs.posta,1,1) and kupci_durs.davcna = kupci.davcna;
+
+update stranke
+set posta = (select posta from stranke_update where stranke_update.sif_str = stranke.sif_str)
+where sif_str in (select sif_str from stranke_update);
+
+
+
+

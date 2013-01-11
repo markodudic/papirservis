@@ -1,7 +1,5 @@
 package si.papirservis;
 
-import it.sauronsoftware.cron4j.Scheduler;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -14,10 +12,6 @@ import java.sql.Statement;
 import java.util.Locale;
 import java.util.Vector;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,7 +24,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-public class ArsoServlet extends InitServlet implements Servlet {
+public class Arso  extends Init {
 
 	private final String NODE_ZAVEZANEC 	= "ZAVEZANEC";
 	private final String ITEM_ID_ZAVEZANCA 	= "ID_ZAVEZANCA";
@@ -40,53 +34,27 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				
 	Locale locale = Locale.getDefault();
     private String scheduler_pattern;
-	private String url;
-	/*
-	 * (non-Java-doc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#HttpServlet()
-	 */
-	public ArsoServlet() {
-		super();
-	}
+	private static String url;
+	public static Arso instance;
 
-	/*
-	 * (non-Java-doc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest arg0,
-	 *      HttpServletResponse arg1)
-	 */
-	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-    public void init() throws ServletException {
+		public static void main(String[] args) {
         /// Automatically java script can run here
         System.out.println("************");
         System.out.println("*** Arso Initialized successfully ***");
         System.out.println("***********");
 
         //preberem lokacijo sledenja serverja
-		url = (String) getServletConfig().getInitParameter("ArsoZavezanciURL");
-		//System.out.println("url="+url);		
-        scheduler_pattern = (String) getServletConfig().getInitParameter("scheduler_pattern");
+		url = "http://okolje.arso.gov.si/service/distributionservlet?SERVIS=SIFRANTIODPADKI&ZETON=ODP1&ZAHTEVEK=ZAVEZANCI&IZHODNI_FORMAT=XML&MATICNA_ST=";
 
-       
-        Scheduler s = new Scheduler();
-  	  	s.schedule(scheduler_pattern, new Runnable() {
-  	  		public void run() {
-		        System.out.println("*** Arso Get Kupci ***");
-		        getKupciIdZavezanca();
-		        System.out.println("*** Arso Get Lokacije ***");
-		        getStrankeIdLokacije();
-  	  		}
-  	  	});
-  	  	s.start();   
+		System.out.println("*** Arso Get Kupci ***");
+		Arso instance = new Arso();
+		instance.init();
+		System.out.println("*** Arso Get Lokacije ***");
+		   
     }
 		
 		
-	public void getKupciIdZavezanca() {
+	public void init() {
 		try
 		{
 			//dobimo podatke iz baze
@@ -181,7 +149,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 	
 	}	
 
-	private Document parseXmlFile(String data){
+	private static Document parseXmlFile(String data){
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
 		try {

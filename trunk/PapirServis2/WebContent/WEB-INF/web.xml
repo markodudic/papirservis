@@ -97,7 +97,7 @@
 	 </init-param>
 	 <init-param>
 	   	<param-name>scheduler_pattern</param-name>
-		<param-value>*/1 9-16 * * *</param-value>
+		<param-value>0 1 * * *</param-value>
 	 </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>  
