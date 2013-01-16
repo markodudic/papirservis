@@ -83,6 +83,7 @@ Object x_stev_km_norm = null;
 Object x_stev_ur_norm = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
+int x_arso_status = 0;
 
 
 StringBuffer x_sif_strList = null;
@@ -216,7 +217,10 @@ try{
 			}else{
 				x_zacetek = null;
 			}
-	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			
+			x_arso_status = rs.getInt("arso_status");
+			
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -372,6 +376,10 @@ try{
 			x_dod_stroski = "";
 		}
 		
+		if (request.getParameter("x_arso_status") != null){
+			x_arso_status = Integer.parseInt(request.getParameter("x_arso_status"));
+		}
+
 		String updateSql = "update " + session.getAttribute("letoTabela") + "  set ";
 
 		// Open record
@@ -741,6 +749,8 @@ try{
 		//Set it as dobavnica
 		updateSql += "obdelana=1  where id = " + tkey;
 		
+		rs.updateInt("arso_status",x_arso_status);
+
 		rs.updateBoolean("obdelana",true);
 		
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
@@ -1404,6 +1414,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Število ur normativ&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso status&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_status"  <%= x_arso_status == 0? "checked" : "" %> value = "0" >ni poslan&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 1? "checked" : "" %> value = "1">poslan ni potrjen&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 2? "checked" : "" %> value = "2">poslan in potrjen&nbsp;</td>
 	</tr>
 
 </table>

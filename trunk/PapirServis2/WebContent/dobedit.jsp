@@ -93,6 +93,7 @@ String x_arso_aktivnost_pslj = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
+int x_arso_status = 0;
 
 
 StringBuffer x_sif_strList = null;
@@ -288,7 +289,9 @@ try{
 			}else{
 				x_arso_odp_dej_nastanka = "";
 			}
-			
+
+			x_arso_status = rs.getInt("arso_status");
+
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -494,6 +497,9 @@ try{
 			x_arso_odp_dej_nastanka = "";
 		}
 		
+		if (request.getParameter("x_arso_status") != null){
+			x_arso_status = Integer.parseInt(request.getParameter("x_arso_status"));
+		}
 		
 		
 		
@@ -978,6 +984,7 @@ try{
 		}
 		//updateSql += "arso_odp_dej_nastanka= " + tmpfld + ", ";
 
+		rs.updateInt("arso_status",x_arso_status);
 		
 		//Set it as dobavnica
 		//updateSql += "obdelana=1  where id = " + tkey;
@@ -1838,6 +1845,10 @@ return true;
 			</select>
 		</td>
 	</tr>				
+	<tr>
+		<td class="ewTableHeader">Arso status&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_status"  <%= x_arso_status == 0? "checked" : "" %> value = "0" >ni poslan&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 1? "checked" : "" %> value = "1">poslan ni potrjen&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 2? "checked" : "" %> value = "2">poslan in potrjen&nbsp;</td>
+	</tr>
 </table>
 <p>
 <input type="submit" name="Action" value="Potrdi" tabindex=1>
