@@ -206,6 +206,11 @@ try{
 		}else{
 			x_naslov = "";
 		}
+		if (request.getParameter("x_posta") != null){
+			x_posta = (String) request.getParameter("x_posta");
+		}else{
+			x_posta = ""; 
+		}
 		if (request.getParameter("x_kraj") != null){
 			x_kraj = (String) request.getParameter("x_kraj");
 		}else{
