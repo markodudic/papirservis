@@ -74,6 +74,9 @@ Object x_cena_km = null;
 Object x_cena_ura = null;
 Object x_c_km = null;
 Object x_c_ura = null;
+String x_arso_aktivnost_prjm = "";
+String x_arso_odp_embalaza_shema = "";
+String x_arso_odp_dej_nastanka = "";
 
 StringBuffer x_sif_strList = null;
 StringBuffer x_sif_kupcaList = null;
@@ -95,6 +98,9 @@ StringBuffer cena_km = new StringBuffer();
 StringBuffer cena_ura = new StringBuffer();
 StringBuffer c_km = new StringBuffer();
 StringBuffer c_ura = new StringBuffer();
+StringBuffer arso_aktivnost_prjm = new StringBuffer();
+StringBuffer arso_odp_embalaza_shema = new StringBuffer();
+StringBuffer arso_odp_dej_nastanka = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -400,12 +406,29 @@ try{
 			x_stev_ur_norm = "";
 		}
 
+		if (request.getParameter("x_arso_aktivnost_prjm") != null){
+			x_arso_aktivnost_prjm = (String) request.getParameter("x_arso_aktivnost_prjm");
+		}else{
+			x_arso_aktivnost_prjm = "";
+		}
+		if (request.getParameter("x_arso_odp_embalaza_shema") != null){
+			x_arso_odp_embalaza_shema = (String) request.getParameter("x_arso_odp_embalaza_shema");
+		}else{
+			x_arso_odp_embalaza_shema = "";
+		}
+		if (request.getParameter("x_arso_odp_dej_nastanka") != null){
+			x_arso_odp_dej_nastanka = (String) request.getParameter("x_arso_odp_dej_nastanka");
+		}else{
+			x_arso_odp_dej_nastanka = "";
+		}
+
+		
 		// Open record
 		//vpišem tolk rekordov kolk imam kod
 		int koda_cnt_vse = 1;
 		if (koda_cnt>0) koda_cnt_vse = koda_cnt;
 		for (int i=0; i<koda_cnt_vse; i++) {
-			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm) values (";
+			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka) values (";
 
 			// Field st_dob
 			tmpfld = ((String) x_st_dob).trim();
@@ -526,8 +549,31 @@ try{
 			// Field stev_ur_norm
 			tmpfld = ((String) x_stev_ur_norm).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
-			strsql += tmpfld + ") ";
+			strsql += tmpfld + ", ";
 	
+			// Field arso_aktivnost_prjm
+			tmpfld = ((String) x_arso_aktivnost_prjm);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = "";
+			}
+			strsql += "'" + tmpfld + "',";
+			
+
+			// Field arso_odp_embalaza_shema
+			tmpfld = ((String) x_arso_odp_embalaza_shema);
+			if (tmpfld == null || tmpfld.trim().length() == 0 || tmpfld.equals("null")) {
+				tmpfld = "";
+			}
+			strsql += "'" + tmpfld + "',";
+			
+
+			// Field arso_odp_dej_nastanka
+			tmpfld = ((String) x_arso_odp_dej_nastanka);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = "";
+			}
+			strsql += "'" + tmpfld + "')";
+					
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
 			stmt1.close();
@@ -701,7 +747,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -710,8 +756,8 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"		FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji1 "+
 	"		WHERE osnovna.sif_os = zadnji1.sif_os and "+
 	"		      osnovna.zacetek = zadnji1.datum) o, "+
-	"	`kupci` k, `skup` sk  "+
-	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and "+ 
+	"	`kupci` k, `skup` sk, enote  "+
+	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
 
@@ -732,6 +778,9 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
 		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
 
+		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
+		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
+		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
 
 		String tmpValue_x_sif_str = "";
 		String find = (String)session.getAttribute("dobavnica_stranke_show");
@@ -868,6 +917,13 @@ var c_km = new Array();
 <%=c_km%>
 var c_ura = new Array();
 <%=c_ura%>
+var arso_aktivnost_prjm = new Array();
+<%=arso_aktivnost_prjm%>
+var arso_odp_embalaza_shema = new Array();
+<%=arso_odp_embalaza_shema%>
+var arso_odp_dej_nastanka = new Array();
+<%=arso_odp_dej_nastanka%>
+
 
 function updateSubfileds(EW_this){
 	document.dobavnicaadd.x_c_km.value = c_km[document.dobavnicaadd.x_sif_kam.value];
@@ -894,6 +950,10 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobavnicaadd.x_sif_str.value];
+
+	document.dobavnicaadd.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobavnicaadd.x_sif_str.value];
+	document.dobavnicaadd.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobavnicaadd.x_sif_str.value];
+	document.dobavnicaadd.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobavnicaadd.x_sif_str.value];
 
 }
 
@@ -960,6 +1020,9 @@ return true;
 <input type="hidden" name="x_cena_ura" size="30" value="<%= HTMLEncode((String)x_cena_ura) %>">
 <input type="hidden" name="x_c_km" size="30" value="<%= HTMLEncode((String)x_c_km) %>">
 <input type="hidden" name="x_c_ura" size="30" value="<%= HTMLEncode((String)x_c_ura) %>">
+<input type="hidden" name="x_arso_aktivnost_prjm" size="30" value="<%= HTMLEncode((String)x_arso_aktivnost_prjm) %>">
+<input type="hidden" name="x_arso_odp_embalaza_shema" size="30" value="<%= HTMLEncode((String)x_arso_odp_embalaza_shema) %>">
+<input type="hidden" name="x_arso_odp_dej_nastanka" size="30" value="<%= HTMLEncode((String)x_arso_odp_dej_nastanka) %>">
 
 <table class="ewTable">
 	<tr>
