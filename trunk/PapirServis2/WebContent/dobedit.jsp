@@ -1352,11 +1352,6 @@ function updateDropDowns(EW_this){
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
-	updateArso();
-
-}
-
-function updateArso(){
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
@@ -1860,7 +1855,4 @@ return true;
 <p>
 <input type="submit" name="Action" value="Potrdi" tabindex=1>
 </form>
-<script language="JavaScript">
-updateArso();
-</script>
 <%@ include file="footer.jsp" %>
