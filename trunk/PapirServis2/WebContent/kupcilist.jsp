@@ -186,7 +186,7 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT *, skup.tekst, uporabniki.ime_in_priimek FROM kupci, skup, uporabniki ";
+String strsql = "SELECT *, skup.tekst, uporabniki.ime_in_priimek FROM kupci, skup, (select ime_in_priimek, sif_upor from uporabniki) as uporabniki ";
 whereClause = " kupci.skupina = skup.skupina AND uporabniki.sif_upor = kupci.potnik AND ";
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
@@ -241,7 +241,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("kupci_OT");
 }
 
-
+out.println(strsql);
 
 
 
