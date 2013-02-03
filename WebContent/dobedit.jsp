@@ -90,6 +90,7 @@ String x_arso_emb_st_enot = "";
 String x_arso_odp_fiz_last = "";
 String x_arso_odp_tip = "";
 String x_arso_aktivnost_pslj = "";
+String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
@@ -118,6 +119,7 @@ StringBuffer material_sit_sort = new StringBuffer();
 StringBuffer material_sit_zaup = new StringBuffer();
 StringBuffer material_sit_smet = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
+StringBuffer arso_prjm_status = new StringBuffer();
 StringBuffer arso_aktivnost_prjm = new StringBuffer();
 StringBuffer arso_odp_embalaza_shema = new StringBuffer();
 StringBuffer arso_odp_dej_nastanka = new StringBuffer();
@@ -269,6 +271,14 @@ try{
 				x_arso_aktivnost_pslj = "";
 			}
 
+
+			// x_arso_prjm_status
+			if (rs.getString("arso_prjm_status") != null){
+				x_arso_prjm_status = rs.getString("arso_prjm_status");
+			}else{
+				x_arso_prjm_status = "";
+			}
+			
 			// arso_aktivnost_prjm
 			if (rs.getString("arso_aktivnost_prjm") != null){
 				x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
@@ -480,6 +490,11 @@ try{
 			x_arso_aktivnost_pslj = (String) request.getParameter("x_arso_aktivnost_pslj");
 		}else{
 			x_arso_aktivnost_pslj = "";
+		}
+		if (request.getParameter("x_arso_prjm_status") != null){
+			x_arso_prjm_status = (String) request.getParameter("x_arso_prjm_status");
+		}else{
+			x_arso_prjm_status = "";
 		}
 		if (request.getParameter("x_arso_aktivnost_prjm") != null){
 			x_arso_aktivnost_prjm = (String) request.getParameter("x_arso_aktivnost_prjm");
@@ -948,6 +963,17 @@ try{
 		}
 		//updateSql += "arso_aktivnost_pslj= " + tmpfld + ", ";
 
+		// Field x_arso_prjm_status
+		tmpfld = ((String) x_arso_prjm_status).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_prjm_status");
+		} else {
+			rs.updateString("arso_prjm_status", tmpfld);
+		}
+		
 		// Field arso_aktivnost_prjm
 		tmpfld = ((String) x_arso_aktivnost_prjm).trim();
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -1074,7 +1100,7 @@ String cbo_x_sif_str_js = "";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -1107,6 +1133,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
 
+		arso_prjm_status.append("arso_prjm_status[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_prjm_status"))).append("';");
 		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
 		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
 		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
@@ -1326,6 +1353,8 @@ var material_sit_smet = new Array();
 var sif_ewc = new Array();
 <%=sif_ewc%>
 
+var arso_prjm_status = new Array();
+<%=arso_prjm_status%>
 var arso_aktivnost_prjm = new Array();
 <%=arso_aktivnost_prjm%>
 var arso_odp_embalaza_shema = new Array();
@@ -1352,6 +1381,7 @@ function updateDropDowns(EW_this){
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
+	document.dobedit.x_arso_prjm_status.value = arso_prjm_status[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
@@ -1746,6 +1776,35 @@ return true;
 						for (int i=0; i<x_arso_list.length; i++) {
 							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
 							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_pslj)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso prejemnikov status&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_prjm_status">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_prjm_status'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_prjm_status)) {
 								x_arso_listOption += " selected";
 							}
 							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";

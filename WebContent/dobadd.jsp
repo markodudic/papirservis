@@ -88,6 +88,7 @@ String x_arso_emb_st_enot = "1";
 String x_arso_odp_fiz_last = "";
 String x_arso_odp_tip = "";
 String x_arso_aktivnost_pslj = "";
+String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
@@ -255,6 +256,13 @@ try{
 			x_arso_aktivnost_pslj = "";
 		}
 	
+		// arso_prjm_status
+		if (rs.getString("arso_prjm_status") != null){
+			x_arso_prjm_status = rs.getString("arso_prjm_status");
+		}else{
+			x_arso_prjm_status = "";
+		}
+		
 		// arso_aktivnost_prjm
 		if (rs.getString("arso_aktivnost_prjm") != null){
 			x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
@@ -444,6 +452,11 @@ try{
 		}else{
 			x_arso_aktivnost_pslj = "";
 		}
+		if (request.getParameter("x_arso_prjm_status") != null){
+			x_arso_prjm_status = (String) request.getParameter("x_arso_prjm_status");
+		}else{
+			x_arso_prjm_status = "";
+		}
 		if (request.getParameter("x_arso_aktivnost_prjm") != null){
 			x_arso_aktivnost_prjm = (String) request.getParameter("x_arso_aktivnost_prjm");
 		}else{
@@ -461,7 +474,7 @@ try{
 		}
 		
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, uporabnik) values (";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, uporabnik) values (";
 
 
 		// Field st_dob
@@ -714,6 +727,16 @@ try{
 		else
 			strsql += tmpfld + ", ";
 
+		// Field arso_prjm_status
+		tmpfld = ((String) x_arso_prjm_status).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
+		
 		// Field arso_aktivnost_prjm
 		tmpfld = ((String) x_arso_aktivnost_prjm).trim();
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -1437,6 +1460,35 @@ return true;
 						for (int i=0; i<x_arso_list.length; i++) {
 							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
 							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_pslj)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso staus prejemnika&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_prjm_status">
+			<%
+				sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ session.getAttribute("letoTabela") + "' AND COLUMN_NAME = 'arso_prjm_status'";
+				stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_prjm_status)) {
 								x_arso_listOption += " selected";
 							}
 							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";

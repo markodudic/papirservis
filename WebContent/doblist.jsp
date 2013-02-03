@@ -1505,6 +1505,11 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status prejemnika&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "</b>" : ""%>
@@ -1608,6 +1613,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_arso_odp_tip = "";
 	String x_arso_aktivnost_pslj = "";
 	String x_arso_aktivnost_prjm = "";
+	String x_arso_prjm_status = "";
 	String x_arso_odp_embalaza_shema = "";
 	String x_arso_odp_dej_nastanka = "";
 	String x_arso_status = "";
@@ -1829,6 +1835,13 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_arso_aktivnost_pslj = "";
 	}
 
+	// arso_prjm_status
+	if (rs.getString("arso_prjm_status") != null){
+		x_arso_prjm_status = rs.getString("arso_prjm_status");
+	}else{
+		x_arso_prjm_status = "";
+	}
+	
 	// arso_aktivnost_prjm
 	if (rs.getString("arso_aktivnost_prjm") != null){
 		x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
@@ -1945,6 +1958,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_arso_odp_fiz_last); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_tip); %>&nbsp;</td>
 		<td><% out.print(x_arso_aktivnost_pslj); %>&nbsp;</td>
+		<td><% out.print(x_arso_prjm_status); %>&nbsp;</td>
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
