@@ -43,7 +43,7 @@
 	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.EWC AS dob_koda, 
-materiali.`material` AS material,
+okolje.`material` AS material,
 sum(dob.use_it) stevilo_odvozov,
 SUM(IF(skup.prevoz_material=1, 
 	dob.kolicina*stranke.obracun_km*if(stranke.obracun_km <= 5, materiali.prevoz1, 
@@ -96,6 +96,7 @@ FROM
 		WHERE stranke.sif_kupca = $P{sif_str} and
 			stranke.sif_str = zadnji.sif_str and
 	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str)
+	left join okolje on (okolje.koda = dob.ewc)
 WHERE dob.`koda` = materiali.`koda` 
 GROUP BY dob.EWC
 ORDER BY dob.EWC]]></queryString>
