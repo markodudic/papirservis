@@ -1456,13 +1456,14 @@ return true;
 					if (rswrk_x_arso_status.next()) {
 						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
 						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
-						String[] x_arso_list = x_arso_listEnum.split(",");
+						String[] x_arso_list = x_arso_listEnum.split("',");
 						for (int i=0; i<x_arso_list.length; i++) {
-							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
-							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_pslj)) {
+							String val = x_arso_list[i].replaceAll("'", "");
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(val) + "\"";
+							if (HTMLEncode(val).equals(x_arso_aktivnost_pslj)) {
 								x_arso_listOption += " selected";
 							}
-							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							x_arso_listOption += ">" + HTMLEncode(val) + "</option>";
 							out.println(x_arso_listOption);			
 						}
 					}
@@ -1514,13 +1515,14 @@ return true;
 					if (rswrk_x_arso_status.next()) {
 						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
 						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
-						String[] x_arso_list = x_arso_listEnum.split(",");
+						String[] x_arso_list = x_arso_listEnum.split("',");
 						for (int i=0; i<x_arso_list.length; i++) {
-							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
-							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_prjm)) {
+							String val = x_arso_list[i].replaceAll("'", "");
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(val) + "\"";
+							if (HTMLEncode(val).equals(x_arso_aktivnost_prjm)) {
 								x_arso_listOption += " selected";
 							}
-							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							x_arso_listOption += ">" + HTMLEncode(val.replaceAll("'", "")) + "</option>";
 							out.println(x_arso_listOption);			
 						}
 					}
