@@ -1266,7 +1266,7 @@ if (totalRecs > 0) {
 <% } %>
 <% if ((ewCurSec & ewAllowEdit) == ewAllowEdit ) { %>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
+<!-- td>&nbsp;</td -->
 <% } %>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td>&nbsp;</td>
@@ -1892,12 +1892,12 @@ if (key != null && key.length() > 0) {
 	<td></td>	
 <% } %>
 <% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && !x_arso_status.equals("2") ) { %>
-<td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
+<!-- td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
 	out.print("dobeditsmall.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>"><img width="16" height="16" border="0" alt="Spremeni 2" title="Spremeni 2" src="images/edit2.gif"></a></span></td>
+} %>"><img width="16" height="16" border="0" alt="Spremeni 2" title="Spremeni 2" src="images/edit2.gif"></a></span></td -->
 <% } if (x_arso_status.equals("2")) { %>
 	<td></td>	
 <% } %>
