@@ -1044,7 +1044,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-StringBuffer strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat " +
+StringBuffer strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
 		"FROM " + session.getAttribute("letoTabela") + " dob " +
 		"left join kupci k on dob.sif_kupca = k.sif_kupca " +
 		"left join uporabniki u on dob.uporabnik = u.sif_upor "+
@@ -1617,6 +1617,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_arso_odp_embalaza_shema = "";
 	String x_arso_odp_dej_nastanka = "";
 	String x_arso_status = "";
+	String x_arso_prenos = "";
 	
 	String x_uporabnik = "";
 
@@ -1869,6 +1870,9 @@ while (rs.next() ){//&& recCount < stopRec) {
 	}else{
 		x_arso_status = "";
 	}
+	
+	
+	x_arso_prenos = String.valueOf(rs.getLong("arso_prenos"));
 
 	
 %>
@@ -1899,7 +1903,7 @@ if (key != null && key.length() > 0) {
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Spremeni 2" title="Spremeni 2" src="images/edit2.gif"></a></span></td -->
 <% } if (x_arso_status.equals("2")) { %>
-	<td></td>	
+	<!-- td></td -->	
 <% } %>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
@@ -1912,7 +1916,7 @@ if (key != null && key.length() > 0) {
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
 <% } %>
-		<td><% out.print(x_st_dob); %>&nbsp;</td>
+		<td class=<% out.print((x_arso_prenos.equals("1") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
