@@ -50,7 +50,24 @@ function strankeExport() {
 //	alert(result);
 }
 
+function arsoPrepareXML(keys, tabela) {
+	keyChecked = "";
+	for (var i = 0; i < keys.length; i++){
+		var key = keys.item(i);
+		if (key.checked) {
+			if (keyChecked != "") {
+				keyChecked += "," + key.value;
+			} else {
+				keyChecked += key.value;
+			}
+		}
+	}
 
+	if (keyChecked != "") {
+		document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?tabela='+tabela+'&keyChecked='+keyChecked;
+		document.getElementById('arsopaketinew').submit();
+	}
+}
 
 syncAjax = function (url, contentType, isPost, postContent) {
 	   var http_request = false;

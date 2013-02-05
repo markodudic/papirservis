@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -158,5 +158,14 @@
       <url-pattern>/StrankeServlet</url-pattern>
     </servlet-mapping>
 	
-
+	<servlet>
+		<servlet-name>ArsoPrepareXMLServlet</servlet-name>
+		<servlet-class>si.papirservis.ArsoPrepareXMLServlet</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>ArsoPrepareXMLServlet</servlet-name>
+      <url-pattern>/ArsoPrepareXMLServlet</url-pattern>
+    </servlet-mapping>
+	
+	
 </web-app>

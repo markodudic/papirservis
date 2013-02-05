@@ -179,7 +179,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("arso_OT");
 }
 
-//out.println(strsql);
+out.println(strsql);
 rs = stmt.executeQuery(strsql);
 rs.last();
 totalRecs = rs.getRow();
@@ -216,8 +216,26 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		session.setAttribute("arso_REC", new Integer(startRec));
 	}
 }
+
+
+Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
+String y 	= String.valueOf(dat.get(Calendar.YEAR));
+String m 	= String.valueOf(dat.get(Calendar.MONTH) + 1);
+String d  = String.valueOf(dat.get(Calendar.DAY_OF_MONTH));
+if(d.length() == 1) d = "0" + d;
+if(m.length() == 1) m = "0" + m;
+
+String s = d;
+s = s + "." + m;
+s = s + "." + y;
+
+String od_datum = s;
+String do_datum = s;
+
+
 %>
 <%@ include file="header.jsp" %>
+<script language="JavaScript" src="popcalendar.js"></script>
 <script language="JavaScript">
 function disableSome(EW_this){
 }
@@ -237,18 +255,20 @@ function disableSome(EW_this){
 	<tr>
 		<td><span class="jspmaker">Kreiraj nov paket</span></td>
 		<td><span class="jspmaker">
-		<input type="text" name="psearch" size="20">
-		<input type="text" name="psearch" size="20">
-		&nbsp;&nbsp;<a href="arsopaketinew.jsp?cmd=reset">Potrdi</a>
+			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
+			<input type="text" name="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
+		&nbsp;&nbsp;<input type="button" name="btnnew" value="Potrdi" onClick="this.form.action='arsopaketinew.jsp?cmd=reset&od_datum=this.form.od_datum.value&do_datum=this.form.do_datum.value';this.form.submit();">
 		</span></td>
 	</tr>
-	<!-- tr><td>&nbsp;</td><td><span class="jspmaker"><input type="radio" name="psearchtype" value="" checked>Exact phrase&nbsp;&nbsp;<input type="radio" name="psearchtype" value="AND">All words&nbsp;&nbsp;<input type="radio" name="psearchtype" value="OR">Any word</span></td></tr-->
 </table>
 </form>
 <form method="post">
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
+<td>&nbsp;</td>
 <td>&nbsp;</td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
@@ -369,10 +389,15 @@ if (key != null && key.length() > 0) {
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Pregled</a></span></td>
+<td><% if (x_potrjen.equals("1")) { %><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
+if (key != null && key.length() > 0) { 
+	out.print("arsopaketiview.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+}else{
+	out.print("javascript:alert('Invalid Record! Key is null');");
+} %>">Potrdi</a></span><% } %></td>
 <% } %>
-
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
-<td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Potrdi</span><% } %></td>
+<td><% if (x_potrjen.equals("1")) { %><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span><% } %></td>
 <% } %>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
@@ -389,7 +414,7 @@ if (key != null && key.length() > 0) {
 </table>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick="this.form.action='arsopaketipotrdi.jsp';this.form.submit();"></p>
+<p><input type="button" name="btndelete" value="Izbriši izbrane" onClick="this.form.action='arsopaketidelete.jsp';this.form.submit();"></p>
 <% } %>
 <% } %>
 </form>
@@ -423,13 +448,13 @@ if (totalRecs > 0) {
 	<% if (startRec==1) { %>
 	<td><img src="images/firstdisab.gif" alt="First" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="okoljelist.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketilist.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--previous page button-->
 	<% if (PrevStart == startRec) { %>
 	<td><img src="images/prevdisab.gif" alt="Previous" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="okoljelist.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketilist.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--current page number-->
 	<td><input type="text" name="pageno" value="<%=(startRec-1)/displayRecs+1%>" size="4"></td>
@@ -437,13 +462,13 @@ if (totalRecs > 0) {
 	<% if (NextStart == startRec) { %>
 	<td><img src="images/nextdisab.gif" alt="Next" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="okoljelist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketilist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--last page button-->
 	<% if (LastStart == startRec) { %>
 	<td><img src="images/lastdisab.gif" alt="Last" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="okoljelist.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketilist.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
 	<% } %>
 	<td><span class="jspmaker">&nbsp;od <%=(totalRecs-1)/displayRecs+1%></span></td>
 	</tr></table>
