@@ -241,10 +241,6 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("kupci_OT");
 }
 
-out.println(strsql);
-
-
-
 
 rs = stmt.executeQuery(strsql);
 rs.last();
