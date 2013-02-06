@@ -11,6 +11,8 @@
 <% 
 String reports = (String)session.getAttribute("papirservis1_status_Reports");
 String narocila = (String)session.getAttribute("papirservis1_status_Narocila");
+String arso = (String)session.getAttribute("papirservis1_status_Arso");
+
 int meni = 	((Integer) session.getAttribute("meni")).intValue();
 
 // user menues
@@ -66,7 +68,9 @@ if ((meni & ewDriveOut) == ewDriveOut){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=9">Delovni nalog (Izpis)</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=1">Delovni nalog bianko (Izpis)</a></span></td></tr>
 			<% } %>
-			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="arsopaketilist.jsp?cmd=resetall">Arso poro&#269;anje</a></span></td></tr>
+			<% if (Integer.parseInt(arso) == 1) { %>
+				<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="arsopaketilist.jsp?cmd=resetall">Arso poro&#269;anje</a></span></td></tr>
+			<% } %>
 			<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="sledenje.jsp">Sledenje (Uvoz podatkov)</a></span></td></tr-->
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=17">Sumarno vozniki</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=20">Vozniki planirane dobavnice</a></span></td></tr>

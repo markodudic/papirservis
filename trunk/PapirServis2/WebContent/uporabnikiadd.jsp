@@ -65,6 +65,7 @@ boolean x_aktiven = false;
 boolean x_porocila = false;
 boolean x_narocila = false;
 boolean x_narocila_potrjevanje = false;
+boolean x_arso = false;
 boolean x_vse = false;
 boolean x_enote = false;
 
@@ -134,6 +135,7 @@ try{
 	x_porocila = rs.getBoolean("porocila");
 	x_narocila = rs.getBoolean("narocila");
 	x_narocila_potrjevanje = rs.getBoolean("narocila_potrjevanje");
+	x_arso = rs.getBoolean("arso");
 	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
 	x_sif_kupca = String.valueOf(rs.getLong("sif_kupca"));
 
@@ -238,6 +240,9 @@ try{
 		if (request.getParameter("x_narocila_potrjevanje") != null){
 			x_narocila_potrjevanje = true;
 		}
+		if (request.getParameter("x_arso") != null){
+			x_arso = true;
+		}
 
 		if (request.getParameter("x_vse") != null){
 			x_vse = true;
@@ -329,6 +334,7 @@ try{
 		rs.updateBoolean("porocila",x_porocila);
 		rs.updateBoolean("narocila",x_narocila);
 		rs.updateBoolean("narocila_potrjevanje",x_narocila_potrjevanje);
+		rs.updateBoolean("arso",x_arso);
 		rs.updateBoolean("vse",x_vse);
 		rs.updateBoolean("enote",x_enote);
 
@@ -441,6 +447,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">naročila&nbsp;potrjevanje&nbsp;</td>
 		<td class="ewTableAltRow"><input type="checkbox" name="x_narocila_potrjevanje"  <%= x_narocila_potrjevanje? "checked" : "" %>></td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">arso&nbsp;</td>
+		<td class="ewTableAltRow"><input type="checkbox" name="x_arso"  <%= x_arso? "checked" : "" %>></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">vse&nbsp;</td>

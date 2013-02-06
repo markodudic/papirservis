@@ -161,6 +161,14 @@
 	<servlet>
 		<servlet-name>ArsoPrepareXMLServlet</servlet-name>
 		<servlet-class>si.papirservis.ArsoPrepareXMLServlet</servlet-class>
+		<init-param>
+		  	<param-name>ZAVEZANEC_ST</param-name>
+			<param-value>37113</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>ZAVEZANEC_MATICNA_ST</param-name>
+			<param-value>5226236000</param-value>
+		</init-param>
 	</servlet>
     <servlet-mapping>
       <servlet-name>ArsoPrepareXMLServlet</servlet-name>

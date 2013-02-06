@@ -179,7 +179,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("arso_OT");
 }
 
-out.println(strsql);
+//out.println(strsql);
 rs = stmt.executeQuery(strsql);
 rs.last();
 totalRecs = rs.getRow();
@@ -269,9 +269,6 @@ function disableSome(EW_this){
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
-<% } %>
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
 <td>&nbsp;</td>
 <% } %>
 		<td>
@@ -382,23 +379,13 @@ while (rs.next() && recCount < stopRec) {
 
 %>
 	<tr class="<%= rowclass %>">
-<% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
-<td><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
-if (key != null && key.length() > 0) { 
-	out.print("arsopaketiview.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
-}else{
-	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Pregled</a></span></td>
-<td><% if (x_potrjen.equals("1")) { %><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
+<td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
 if (key != null && key.length() > 0) { 
 	out.print("arsopaketiview.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Potrdi</a></span><% } %></td>
-<% } %>
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
-<td><% if (x_potrjen.equals("1")) { %><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span><% } %></td>
-<% } %>
+<td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span><% } %></td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_potrjen.equals("0") ? "NE" : "DA" ); %>&nbsp;</td>
@@ -412,10 +399,8 @@ if (key != null && key.length() > 0) {
 }
 %>
 </table>
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
 <% if (recActual > 0) { %>
 <p><input type="button" name="btndelete" value="Izbriši izbrane" onClick="this.form.action='arsopaketidelete.jsp';this.form.submit();"></p>
-<% } %>
 <% } %>
 </form>
 <%
