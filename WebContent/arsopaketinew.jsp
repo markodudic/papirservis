@@ -27,7 +27,7 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
 <%
-int displayRecs = 20;
+int displayRecs = 1000;
 int recRange = 10;
 %>
 <%
@@ -181,7 +181,9 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT dob.*, kupci.naziv FROM " + session.getAttribute("letoTabela") + " dob left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
+String strsql = "SELECT dob.*, kupci.naziv " +
+					 "FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " +
+					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
 whereClause = " arso_status = 0 AND arso_prenos = 1 AND ";
 if (od_datum != null && od_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum >= '" + (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString() + "' AND ";
@@ -272,9 +274,10 @@ function disableSome(EW_this){
 <form method="post" id="arsopaketinew">
 <table class="ewTable">
 	<tr class="ewTableHeader">
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td>&nbsp;</td>
-<% } %>
+<td>
+<input type="button" name="btnVsi" value="Vsi" onClick='izberiVse(this.form.key,true);'>
+<input type="button" name="btnNoben" value="Noben" onClick='izberiVse(this.form.key,false);'>
+</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "<b>" : ""%>
 <a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("st_dob","UTF-8") %>">Številka dobavnice(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("st_dob")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -427,7 +430,7 @@ while (rs.next() && recCount < stopRec) {
 
 	// Load Key for record
 	String key = "";
-	key = String.valueOf(rs.getLong("st_dob"));
+	key = String.valueOf(rs.getLong("id"))+"-"+String.valueOf(rs.getLong("st_dob"))+"-"+String.valueOf(rs.getLong("pozicija"));
 
 	// st_dob
 	x_st_dob = String.valueOf(rs.getLong("st_dob"));
@@ -574,10 +577,8 @@ while (rs.next() && recCount < stopRec) {
 }
 %>
 </table>
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>");'></p>
-<% } %>
+<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>");'></p>
 <% } %>
 </form>
 <%

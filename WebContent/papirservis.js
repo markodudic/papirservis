@@ -50,23 +50,25 @@ function strankeExport() {
 //	alert(result);
 }
 
-function arsoPrepareXML(keys, tabela) {
+function arsoPrepareXML(keys, tabela, sif_upor) {
 	keyChecked = "";
 	for (var i = 0; i < keys.length; i++){
 		var key = keys.item(i);
 		if (key.checked) {
 			if (keyChecked != "") {
-				keyChecked += "," + key.value;
+				keyChecked += ",'" + key.value + "'";
 			} else {
-				keyChecked += key.value;
+				keyChecked += "'" + key.value + "'";
 			}
 		}
 	}
 
 	if (keyChecked != "") {
-		document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?tabela='+tabela+'&keyChecked='+keyChecked;
+		document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked;
 		document.getElementById('arsopaketinew').submit();
 	}
+	
+	izberiVse(keys, false);
 }
 
 syncAjax = function (url, contentType, isPost, postContent) {
@@ -112,6 +114,12 @@ syncAjax = function (url, contentType, isPost, postContent) {
 	   }
 	}
 
+function izberiVse(keys, tip) {
+	for (var i = 0; i < keys.length; i++){
+		var key = keys.item(i);
+		key.checked = tip;
+	}
+}
 
 
 
