@@ -1,0 +1,16 @@
+CREATE TABLE `arso_paketi` (
+	`sifra` INT(10) NULL DEFAULT NULL,
+	`datum` DATETIME NULL DEFAULT NULL,
+	`potrjen` INT(1) NULL DEFAULT '0',
+	`sif_upor` INT(10) NULL DEFAULT NULL,
+	`xml` BLOB NULL,
+	PRIMARY KEY (`sifra`),
+	INDEX `datum` (`datum`),
+	INDEX `sif_upor` (`sif_upor`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+
+ALTER TABLE `uporabniki`
+	ADD COLUMN `ars` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '0 - false, 1 - true' AFTER `narocila_potrjevanje`;
