@@ -67,7 +67,7 @@ function  EW_checkMyForm(EW_this)
 			
 			//generiram delovne naloge
 	//		String sql = "SELECT sif_str FROM stranke WHERE " + day + " = " + type + " or " + day + " = 3";
-			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka "+
+			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, kupci.arso_prenos "+
 						 "FROM (SELECT stranke.* "+
 						 "		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 						 "		WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -102,6 +102,7 @@ function  EW_checkMyForm(EW_this)
 				String arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
 				if (arso_odp_embalaza_shema != null) arso_odp_embalaza_shema = "'"+arso_odp_embalaza_shema+"'";
 				String arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+				String arso_prenos = rs.getString("arso_prenos");
 				
 				//povecam prvo stevilko za 1
 				String sqlwrk_bianco_u = "UPDATE dob_bianco set st_dob = st_dob + 1 where id = '" + session.getAttribute("letoTabela") + "'";
@@ -119,8 +120,8 @@ function  EW_checkMyForm(EW_this)
 				
 					
 				//Vpisem generirane delovne naloge
-				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka) " +
-							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', " + arso_odp_embalaza_shema + ", '" + arso_odp_dej_nastanka + "')";
+				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) " +
+							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', " + arso_odp_embalaza_shema + ", '" + arso_odp_dej_nastanka + ", '" + arso_prenos + "')";
 
 				stmtI.executeUpdate(sqlI);
 				i++;
