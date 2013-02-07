@@ -92,6 +92,7 @@ String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
+String x_arso_prenos = "";
 
 
 StringBuffer x_sif_strList = null;
@@ -111,7 +112,7 @@ StringBuffer material_sit_sort = new StringBuffer();
 StringBuffer material_sit_zaup = new StringBuffer();
 StringBuffer material_sit_smet = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
-
+StringBuffer arso_prenos = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -283,6 +284,15 @@ try{
 		}else{
 			x_arso_odp_dej_nastanka = "";
 		}	
+
+
+		// arso_prenos
+		if (rs.getString("arso_prenos") != null){
+			x_arso_prenos = rs.getString("arso_prenos");
+		}else{
+			x_arso_prenos = "";
+		}
+		
 		rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
@@ -472,9 +482,14 @@ try{
 		}else{
 			x_arso_odp_dej_nastanka = "";
 		}
+		if (request.getParameter("x_arso_prenos") != null){
+			x_arso_prenos = (String) request.getParameter("x_arso_prenos");
+		}else{
+			x_arso_prenos = "";
+		}		
 		
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, uporabnik) values (";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, uporabnik) values (";
 
 
 		// Field st_dob
@@ -767,6 +782,15 @@ try{
 		else
 			strsql += tmpfld + ", ";
 		
+		// Field arso_prenos
+		tmpfld = ((String) x_arso_prenos);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = "";
+		}
+		if(tmpfld != null)
+			strsql += "'" + tmpfld + "', ";
+		else
+			strsql += tmpfld + ", ";
 		
 		//Uporabnik
 		strsql += session.getAttribute("papirservis1_status_UserID") + ")";
@@ -1592,6 +1616,10 @@ return true;
 			</select>
 		</td>
 	</tr>				
+	<tr>
+		<td class="ewTableHeader">Arso prenos&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;</td>
+	</tr>
 	
 	<input type="hidden" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;
 	<input type="hidden" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;

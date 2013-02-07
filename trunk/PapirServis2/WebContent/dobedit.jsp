@@ -94,6 +94,7 @@ String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
+String x_arso_prenos = "";
 int x_arso_status = 0;
 
 
@@ -123,6 +124,7 @@ StringBuffer arso_prjm_status = new StringBuffer();
 StringBuffer arso_aktivnost_prjm = new StringBuffer();
 StringBuffer arso_odp_embalaza_shema = new StringBuffer();
 StringBuffer arso_odp_dej_nastanka = new StringBuffer();
+StringBuffer arso_prenos = new StringBuffer();
 
 String opomba = "/";
 
@@ -299,6 +301,14 @@ try{
 			}else{
 				x_arso_odp_dej_nastanka = "";
 			}
+			
+			// x_arso_prenos
+			if (rs.getString("arso_prenos") != null){
+				x_arso_prenos = rs.getString("arso_prenos");
+			}else{
+				x_arso_prenos = "";
+			}
+
 
 			x_arso_status = rs.getInt("arso_status");
 
@@ -510,6 +520,11 @@ try{
 			x_arso_odp_dej_nastanka = (String) request.getParameter("x_arso_odp_dej_nastanka").replace(",", ";");
 		}else{
 			x_arso_odp_dej_nastanka = "";
+		}
+		if (request.getParameter("x_arso_prenos") != null){
+			x_arso_prenos = (String) request.getParameter("x_arso_prenos").replace(",", ";");
+		}else{
+			x_arso_prenos = "";
 		}
 		
 		if (request.getParameter("x_arso_status") != null){
@@ -1008,7 +1023,17 @@ try{
 		} else {
 			rs.updateString("arso_odp_dej_nastanka", tmpfld);
 		}
-		//updateSql += "arso_odp_dej_nastanka= " + tmpfld + ", ";
+		
+		// Field x_arso_prenos
+		tmpfld = ((String) x_arso_prenos).trim();
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_prenos");
+		} else {
+			rs.updateString("arso_prenos", tmpfld);
+		}
 
 		rs.updateInt("arso_status",x_arso_status);
 		
@@ -1100,7 +1125,7 @@ String cbo_x_sif_str_js = "";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -1137,6 +1162,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
 		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
 		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
+		arso_prenos.append("arso_prenos[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_prenos"))).append("';");
 
 		String tmpValue_x_sif_str = "";
 		String find = (String)session.getAttribute("dob_stranke_show");
@@ -1361,7 +1387,8 @@ var arso_odp_embalaza_shema = new Array();
 <%=arso_odp_embalaza_shema%>
 var arso_odp_dej_nastanka = new Array();
 <%=arso_odp_dej_nastanka%>
-
+var arso_prenos = new Array();
+<%=arso_prenos%>
 
 function updateSubfileds(EW_this){
 	document.dobedit.x_c_km.value = c_km[document.dobedit.x_sif_kam.value];
@@ -1385,6 +1412,7 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_prenos.value = arso_prenos[document.dobedit.x_sif_str.value];
 
 }
 
@@ -1908,6 +1936,10 @@ return true;
 			</select>
 		</td>
 	</tr>				
+	<tr>
+		<td class="ewTableHeader">Arso prenos&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;</td>
+	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso status&nbsp;</td>
 		<td class="ewTableAltRow"><input type="radio" name="x_arso_status"  <%= x_arso_status == 0? "checked" : "" %> value = "0" >ni poslan&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 1? "checked" : "" %> value = "1">poslan ni potrjen&nbsp;<input type="radio" name="x_arso_status"  <%= x_arso_status == 2? "checked" : "" %> value = "2">poslan in potrjen&nbsp;</td>

@@ -184,7 +184,7 @@ ResultSet rs = null;
 String strsql = "SELECT dob.*, kupci.naziv " +
 					 "FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " +
 					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
-whereClause = " arso_status = 0 AND arso_prenos = 1 AND ";
+whereClause = " arso_status = 0 AND arso_prenos = 1 AND obdelana = 1 AND ";
 if (od_datum != null && od_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum >= '" + (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString() + "' AND ";
 }

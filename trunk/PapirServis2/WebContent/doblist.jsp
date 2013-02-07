@@ -1525,6 +1525,11 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_prenos")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_prenos","UTF-8") %>">Arso prenos&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_prenos")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_status")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_status")) ? "</b>" : ""%>
@@ -1620,6 +1625,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_arso_prenos = "";
 	
 	String x_uporabnik = "";
+	String x_obdelana = "";
 
 	// Load Key for record
 	String key = "";
@@ -1874,6 +1880,8 @@ while (rs.next() ){//&& recCount < stopRec) {
 	
 	x_arso_prenos = String.valueOf(rs.getLong("arso_prenos"));
 
+	// obdelana
+	x_obdelana = String.valueOf(rs.getLong("obdelana"));
 	
 %>
 	<tr class="<%= rowclass %>">
@@ -1885,26 +1893,18 @@ if (key != null && key.length() > 0) {
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Pregled" title="Pregled" src="images/browse.gif"></a></span></td>
 <% } %>
-<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && !x_arso_status.equals("2")) { %>
+
+<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && x_arso_status.equals("0")) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
 	out.print("dobedit.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Spremeni" title="Spremeni" src="images/edit.gif"></a></span></td>
-<% } if (x_arso_status.equals("2")) { %>
-	<td></td>	
+<% } else {%>
+	<td></td>
 <% } %>
-<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && !x_arso_status.equals("2") ) { %>
-<!-- td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
-if (key != null && key.length() > 0) { 
-	out.print("dobeditsmall.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
-}else{
-	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>"><img width="16" height="16" border="0" alt="Spremeni 2" title="Spremeni 2" src="images/edit2.gif"></a></span></td -->
-<% } if (x_arso_status.equals("2")) { %>
-	<!-- td></td -->	
-<% } %>
+
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
@@ -1913,10 +1913,13 @@ if (key != null && key.length() > 0) {
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/copy.gif"></a></span></td>
 <% } %>
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
+
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_obdelana.equals("0") || x_arso_status.equals("0") || x_arso_prenos.equals("0")) ) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
+<% } else {%>
+	<td></td>
 <% } %>
-		<td class=<% out.print((x_arso_prenos.equals("1") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
+		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
@@ -1966,6 +1969,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
+		<td><% out.print((x_arso_prenos.equals("1") ? "DA" : "NE")); %>&nbsp;</td>
 		<td nowrap><% out.print((x_arso_status.equals("0") ? "NI POSLAN-NI POTRJEN" : (x_arso_status.equals("1") ? "POSLAN-NI POTRJEN" : "POSLAN-POTRJEN"))); %>&nbsp;</td>
 	</tr>
 <%

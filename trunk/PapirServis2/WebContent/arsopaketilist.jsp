@@ -381,11 +381,19 @@ while (rs.next() && recCount < stopRec) {
 	<tr class="<%= rowclass %>">
 <td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
 if (key != null && key.length() > 0) { 
-	out.print("arsopaketiview.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+	out.print("arsopaketilist.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>">Potrdi</a></span><% } %></td>
-<td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Briši</span><% } %></td>
+<td><% if (x_potrjen.equals("0")) { %>
+<span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
+if (key != null && key.length() > 0) { 
+	out.print("arsopaketilist.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
+}else{
+	out.print("javascript:alert('Invalid Record! Key is null');");
+} %>">Briši</a></span>
+<% } %>
+</td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_potrjen.equals("0") ? "NE" : "DA" ); %>&nbsp;</td>
@@ -399,9 +407,6 @@ if (key != null && key.length() > 0) {
 }
 %>
 </table>
-<% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Izbriši izbrane" onClick="this.form.action='arsopaketidelete.jsp';this.form.submit();"></p>
-<% } %>
 </form>
 <%
 

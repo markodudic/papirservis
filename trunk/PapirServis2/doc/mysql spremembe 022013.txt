@@ -11,6 +11,12 @@ CREATE TABLE `arso_paketi` (
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
+ALTER TABLE `dob2012`
+	ADD COLUMN `arso_prenos` TINYINT(1) NULL DEFAULT '0' AFTER `arso_odp_dej_nastanka`;
 
+ALTER TABLE `dob2013`
+	ADD COLUMN `arso_prenos` TINYINT(1) NULL DEFAULT '0' AFTER `arso_odp_dej_nastanka`;
+
+	
 ALTER TABLE `uporabniki`
 	ADD COLUMN `ars` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '0 - false, 1 - true' AFTER `narocila_potrjevanje`;
