@@ -595,7 +595,7 @@ try{
 		}		
 
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, uporabnik) values(";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, uporabnik) values(";
 //		String strsql = "insert into dob (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, obdelana, uporabnik) values(" + x_st_dob  + ", ";
 
 
@@ -988,10 +988,7 @@ try{
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
 			tmpfld = "";
 		}
-		if(tmpfld != null)
-			strsql += "'" + tmpfld + "', ";
-		else
-			strsql += tmpfld + ", ";
+		strsql += tmpfld + ", ";
 
 
 		//Uporabnik
@@ -1396,7 +1393,12 @@ function updateDropDowns(EW_this){
 	document.dobadd.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobadd.x_sif_str.value];
 	document.dobadd.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobadd.x_sif_str.value];
 	document.dobadd.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobadd.x_sif_str.value];
-	document.dobavnicaadd.x_arso_prenos.value = arso_prenos[document.dobavnicaadd.x_sif_str.value];
+	if(arso_prenos[document.dobadd.x_sif_str.value] == "0") {
+		document.dobadd.x_arso_prenos[0].checked = true;
+	} else {
+		document.dobadd.x_arso_prenos[1].checked = true;		
+	}
+
 }
 
 

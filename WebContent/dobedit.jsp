@@ -94,7 +94,7 @@ String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
 String x_arso_odp_embalaza_shema = "";
 String x_arso_odp_dej_nastanka = "";
-String x_arso_prenos = "";
+int x_arso_prenos = 0;
 int x_arso_status = 0;
 
 
@@ -303,12 +303,7 @@ try{
 			}
 			
 			// x_arso_prenos
-			if (rs.getString("arso_prenos") != null){
-				x_arso_prenos = rs.getString("arso_prenos");
-			}else{
-				x_arso_prenos = "";
-			}
-
+			x_arso_prenos = rs.getInt("arso_prenos");
 
 			x_arso_status = rs.getInt("arso_status");
 
@@ -522,9 +517,7 @@ try{
 			x_arso_odp_dej_nastanka = "";
 		}
 		if (request.getParameter("x_arso_prenos") != null){
-			x_arso_prenos = (String) request.getParameter("x_arso_prenos").replace(",", ";");
-		}else{
-			x_arso_prenos = "";
+			x_arso_prenos = Integer.parseInt(request.getParameter("x_arso_prenos"));
 		}
 		
 		if (request.getParameter("x_arso_status") != null){
@@ -1025,15 +1018,7 @@ try{
 		}
 		
 		// Field x_arso_prenos
-		tmpfld = ((String) x_arso_prenos).trim();
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
-		if (tmpfld == null) {
-			rs.updateNull("arso_prenos");
-		} else {
-			rs.updateString("arso_prenos", tmpfld);
-		}
+		rs.updateInt("arso_prenos",x_arso_prenos);
 
 		rs.updateInt("arso_status",x_arso_status);
 		
@@ -1412,7 +1397,11 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
-	document.dobedit.x_arso_prenos.value = arso_prenos[document.dobedit.x_sif_str.value];
+	if(arso_prenos[document.dobadd.x_sif_str.value] == "0") {
+		document.dobadd.x_arso_prenos[0].checked = true;
+	} else {
+		document.dobadd.x_arso_prenos[1].checked = true;		
+	}
 
 }
 
@@ -1938,7 +1927,7 @@ return true;
 	</tr>				
 	<tr>
 		<td class="ewTableHeader">Arso prenos&nbsp;</td>
-		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 0? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 1? "checked" : "" %> value = "1">DA&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso status&nbsp;</td>
