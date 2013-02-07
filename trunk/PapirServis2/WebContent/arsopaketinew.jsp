@@ -46,6 +46,8 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 // Get search criteria for basic search
 String od_datum = request.getParameter("od_datum");
 String do_datum = request.getParameter("do_datum");
+String skupina = request.getParameter("skupina");
+out.println(skupina);
 if (od_datum != null && od_datum.length() > 0)
 	session.setAttribute("od_datum", od_datum);
 else
@@ -54,6 +56,10 @@ if (do_datum != null && do_datum.length() > 0)
 	session.setAttribute("do_datum", do_datum);
 else
 	do_datum = (String) session.getAttribute("do_datum");
+if (skupina != null && skupina.length() > 0)
+	session.setAttribute("skupina", skupina);
+else
+	skupina = (String) session.getAttribute("skupina");
 
 String pSearch = request.getParameter("psearch");
 String pSearchType = request.getParameter("psearchtype");
@@ -117,15 +123,19 @@ if (request.getParameter("cmd") != null && request.getParameter("cmd").length() 
 		session.removeAttribute("arso_new_OB");
 		od_datum = null;
 		do_datum = null;
+		skupina = null;
 		session.setAttribute("od_datum", od_datum);
 		session.setAttribute("do_datum", do_datum);
+		session.setAttribute("skupina", skupina);
 	}else if (cmd.toUpperCase().equals("RESETALL")) {
 		searchwhere = ""; // Reset search criteria
 		session.setAttribute("arso_new_searchwhere", searchwhere);
 		od_datum = null;
 		do_datum = null;
+		skupina = null;
 		session.setAttribute("od_datum", od_datum);
 		session.setAttribute("do_datum", do_datum);
+		session.setAttribute("skupina", skupina);
 	}
 	startRec = 1; // Reset start record counter (reset command)
 	session.setAttribute("arso_new_REC", new Integer(startRec));
@@ -181,15 +191,37 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT dob.*, kupci.naziv " +
-					 "FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " +
-					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
-whereClause = " arso_status = 0 AND arso_prenos = 1 AND obdelana = 1 AND ";
+//String strsql = "SELECT dob.*, kupci.naziv " +
+//					 "FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " +
+//					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
+String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.*, " +
+						"	kupci.naziv, kupci.maticna kupci_maticna, kupci.arso_pslj_st, kupci.arso_pslj_status, " +
+						"	enote.maticna enote_maticna, enote.arso_prjm_st, enote.arso_prjm_status, enote.arso_odp_locpr_id,  " +
+						"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
+						"	str.arso_odp_loc_id, " +
+						"	mat.arso_odp_locpr_id material_arso_odp_locpr_id " +
+						" FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " + 
+						" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
+						" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
+						" LEFT JOIN kamion ON (dob.sif_kam = kamion.sif_kam) " +
+						" LEFT JOIN (select stranke.* " +
+						"			from stranke, (select sif_str, max(zacetek) zac from stranke group by sif_str) zadnji " +
+						"			where stranke.sif_str = zadnji.sif_str and stranke.zacetek = zadnji.zac) str " +
+						"		ON (dob.sif_str = str.sif_str) " +
+						" LEFT JOIN (select materiali.* " +
+						"			from materiali, (select koda, max(zacetek) zac from materiali group by koda) zadnji1 " +
+						"			where materiali.koda = zadnji1.koda and materiali.zacetek = zadnji1.zac) mat " +
+						"		ON (dob.koda = mat.koda) ";
+
+whereClause = " arso_status = 0 AND dob.arso_prenos = 1 AND obdelana = 1 AND ";
 if (od_datum != null && od_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum >= '" + (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString() + "' AND ";
 }
 if (do_datum != null && do_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum <= '" + (EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)).toString() + "' AND ";
+}
+if (skupina != null && skupina.length() > 0 && !skupina.equals("-1")) {
+	whereClause = whereClause + " dob.skupina = " + skupina + " AND ";
 }
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
@@ -210,7 +242,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("arso_new_OT");
 }
 
-out.println(strsql);
+//out.println(strsql);
 rs = stmt.executeQuery(strsql);
 rs.last();
 totalRecs = rs.getRow();
@@ -330,48 +362,53 @@ function disableSome(EW_this){
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza","UTF-8") %>">Arso vrts emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza","UTF-8") %>">Arso vrts emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_emb_st_enot","UTF-8") %>">Arso št. enot emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_emb_st_enot","UTF-8") %>">Arso št. enot emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_emb_st_enot")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_fiz_last","UTF-8") %>">Arso fizikalna lastnost&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_fiz_last","UTF-8") %>">Arso fizikalna lastnost&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_tip","UTF-8") %>">Arso tip odpadka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_tip","UTF-8") %>">Arso tip odpadka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_tip")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status prejemnika&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status prejemnika&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso embalaža shema&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso embalaža shema&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("error")) ? "<b>" : ""%>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("error","UTF-8") %>">Napake&nbsp;<% if (OrderBy != null && OrderBy.equals("error")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("error")) ? "</b>" : ""%>
 		</td>
 </tr>
 <%
@@ -396,6 +433,34 @@ if (startRec == 1)
 else
    rs.previous();
 while (rs.next() && recCount < stopRec) {
+	//preverim ali dobavnica ima vse podatke. ce nima je oznacim rdece in prikazem errorje
+	String error = "";
+	
+	if (rs.getString("arso_pslj_st")==null || rs.getString("arso_pslj_st").equals("")) 								error += "Številka pošiljatelja,";
+	if (rs.getString("kupci_maticna")==null || rs.getString("kupci_maticna").equals("")) 							error += "Matična pošiljatelja,";
+	if (rs.getString("arso_pslj_status")==null || rs.getString("arso_pslj_status").equals("")) 					error += "Status pošiljatelja,";
+	if (rs.getString("arso_prjm_st")==null || rs.getString("arso_prjm_st").equals("")) 								error += "Številka prejemnika,";
+	if (rs.getString("enote_maticna")==null || rs.getString("enote_maticna").equals("")) 							error += "Matična prejemnika,";
+	if (rs.getString("arso_prjm_status")==null || rs.getString("arso_prjm_status").equals("")) 					error += "Status prejemnika,";
+	if (rs.getString("arso_prvz_st")==null || rs.getString("arso_prvz_st").equals("")) 								error += "Številka prevoznika,";
+	if (rs.getString("kamion_maticna")==null || rs.getString("kamion_maticna").equals("")) 						error += "Matična prevoznika,";
+	if (rs.getString("arso_prvz_status")==null || rs.getString("arso_prvz_status").equals("")) 					error += "Status prevoznika,";
+	if (rs.getString("datum_odaje")==null || rs.getString("datum_odaje").equals("")) 								error += "Datum oddaje/prevzema,";
+	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 				error += "Lokacija prevzema,";
+	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 				error += "Lokacija prevzema,";
+	if (rs.getString("ewc")==null || rs.getString("ewc").equals("")) 														error += "EWC koda,";
+	if (rs.getString("kolicina")==null || rs.getString("kolicina").equals("")) 										error += "Količina,";
+	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 				error += "Embalaža,";
+	if (rs.getString("arso_emb_st_enot")==null || rs.getString("arso_emb_st_enot").equals("")) 					error += "Embalaža število enot,";
+	if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) error += "Embalaža shema,";
+	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 				error += "Fizikalna lastnost,";
+	if (rs.getString("arso_odp_tip")==null || rs.getString("arso_odp_tip").equals("")) 								error += "Tip odpadka,";
+	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 		error += "Dejavnost nastanka,";
+	if (rs.getString("arso_odp_loc_id")==null || rs.getString("arso_odp_loc_id").equals("")) 						error += "Lokacija ravnanja,";
+	if (rs.getString("arso_aktivnost_pslj")==null || rs.getString("arso_aktivnost_pslj").equals("")) 			error += "Aktivnost pošiljatelja,";
+	if (rs.getString("arso_aktivnost_prjm")==null || rs.getString("arso_aktivnost_prjm").equals("")) 			error += "Aktivnost prejemnika,";
+	
+	//
 	recCount++;
 	if (recCount >= startRec) {
 		recActual++;
@@ -546,9 +611,11 @@ while (rs.next() && recCount < stopRec) {
 
 
 %>
-	<tr class="<%= rowclass %>">
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
+	<tr class=<% out.print(!error.equals("") ? "ewCellDontSendRow" : rowclass); %> >
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && error.equals("")) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Izberi</span></td>
+<% } else {%>
+<td></td>
 <% } %>
 		<td><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
@@ -569,6 +636,7 @@ while (rs.next() && recCount < stopRec) {
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
+		<td><% out.print(error); %>&nbsp;</td>
 	</tr>
 <%
 

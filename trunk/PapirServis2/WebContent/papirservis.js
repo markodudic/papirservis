@@ -4,6 +4,50 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	alert('The File APIs are not fully supported in this browser.');
 }
 
+syncAjax = function (url, contentType, isPost, postContent) {
+	   var http_request = false;
+	   http_request = false;
+	   if (window.XMLHttpRequest) { // Mozilla, Safari,...
+	      http_request = new XMLHttpRequest();
+	      if (http_request.overrideMimeType) {
+	         http_request.overrideMimeType('text/html');
+	      }
+	   } else if (window.ActiveXObject) { // IE
+	      try {
+	         http_request = new ActiveXObject("Msxml2.XMLHTTP");
+	      } catch (e) {
+	         try {
+	            http_request = new ActiveXObject("Microsoft.XMLHTTP");
+	         } catch (e) {}
+	      }
+	   }
+	   if (!http_request) {
+	      alert('Cannot create XMLHTTP instance');
+	      return false;
+	   }
+	   try {
+	   	   var httpMethod = isPost ? "POST" : "GET";
+	   	   var httpBody = isPost ? postContent : null;
+	   	   http_request.open(httpMethod, url, false);
+	   	   if (isPost) {
+	   	   	   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+	   	   } else {
+		   	   if (contentType) {
+		   	   		http_request.setRequestHeader("Content-type", contentType);
+		   	   } else {
+		   	   		http_request.setRequestHeader("Content-type", "text/html; charset=utf-8");
+		   	   }
+	   	   }
+		   //http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+		   http_request.send(httpBody);
+		   return http_request.responseText;
+	   } catch (e) {
+	   //console.info(e);
+	   		return false;
+	   }
+}
+
+
 document.getElementById('csvfile').addEventListener('change', handleFileSelect, false);
 
 function handleFileSelect(evt) {
@@ -63,56 +107,22 @@ function arsoPrepareXML(keys, tabela, sif_upor) {
 		}
 	}
 
-	if (keyChecked != "") {
+	/*if (keyChecked != "") {
 		document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked;
 		document.getElementById('arsopaketinew').submit();
+	}*/
+	var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked));
+
+	if(result == "false") 
+		alert("Prišlo je do napake pri pripravi podatkov.");
+	else {
+		alert("Datoteka "+result+" je uspešno pripravljena.");
+		document.getElementById('arsopaketinew').action = '/papirservis/paketi/'+result;
+		document.getElementById('arsopaketinew').submit();
 	}
-	
+
 	izberiVse(keys, false);
 }
-
-syncAjax = function (url, contentType, isPost, postContent) {
-	   var http_request = false;
-	   http_request = false;
-	   if (window.XMLHttpRequest) { // Mozilla, Safari,...
-	      http_request = new XMLHttpRequest();
-	      if (http_request.overrideMimeType) {
-	         http_request.overrideMimeType('text/html');
-	      }
-	   } else if (window.ActiveXObject) { // IE
-	      try {
-	         http_request = new ActiveXObject("Msxml2.XMLHTTP");
-	      } catch (e) {
-	         try {
-	            http_request = new ActiveXObject("Microsoft.XMLHTTP");
-	         } catch (e) {}
-	      }
-	   }
-	   if (!http_request) {
-	      alert('Cannot create XMLHTTP instance');
-	      return false;
-	   }
-	   try {
-	   	   var httpMethod = isPost ? "POST" : "GET";
-	   	   var httpBody = isPost ? postContent : null;
-	   	   http_request.open(httpMethod, url, false);
-	   	   if (isPost) {
-	   	   	   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
-	   	   } else {
-		   	   if (contentType) {
-		   	   		http_request.setRequestHeader("Content-type", contentType);
-		   	   } else {
-		   	   		http_request.setRequestHeader("Content-type", "text/html; charset=utf-8");
-		   	   }
-	   	   }
-		   //http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
-		   http_request.send(httpBody);
-		   return http_request.responseText;
-	   } catch (e) {
-	   //console.info(e);
-	   		return false;
-	   }
-	}
 
 function izberiVse(keys, tip) {
 	for (var i = 0; i < keys.length; i++){
@@ -121,5 +131,14 @@ function izberiVse(keys, tip) {
 	}
 }
 
+function zbrisiPaket(key) {
+	var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('key='+key));
 
+	if(result == "false") {
+		alert("Prišlo je do napake pri brisanju paketa.");
+		return false;
+	} else {
+		alert("Datoteka je uspešno zbrisana.");
+	}
+}
 

@@ -162,6 +162,10 @@
 		<servlet-name>ArsoPrepareXMLServlet</servlet-name>
 		<servlet-class>si.papirservis.ArsoPrepareXMLServlet</servlet-class>
 		<init-param>
+		  	<param-name>SAVE_FILES</param-name>
+			<param-value>C:/projects/Monolit/PapirServis/papirservis/WebContent/paketi/</param-value>
+		</init-param>
+		<init-param>
 		  	<param-name>ZAVEZANEC_ST</param-name>
 			<param-value>37113</param-value>
 		</init-param>
