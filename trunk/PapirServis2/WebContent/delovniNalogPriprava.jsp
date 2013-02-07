@@ -72,7 +72,7 @@ function  EW_checkMyForm(EW_this)
 						 "		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 						 "		WHERE stranke.sif_str = zadnji.sif_str and "+
 						 "		      stranke.zacetek = zadnji.datum) st, "+
-						 "		(select sif_kupca, skupina, sif_enote " +
+						 "		(select sif_kupca, skupina, sif_enote, arso_prenos " +
 						 "		from kupci " +
 						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
 						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci, " +
@@ -121,7 +121,7 @@ function  EW_checkMyForm(EW_this)
 					
 				//Vpisem generirane delovne naloge
 				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) " +
-							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', " + arso_odp_embalaza_shema + ", '" + arso_odp_dej_nastanka + ", '" + arso_prenos + "')";
+							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', " + arso_odp_embalaza_shema + ", '" + arso_odp_dej_nastanka + "', " + arso_prenos + ")";
 
 				stmtI.executeUpdate(sqlI);
 				i++;

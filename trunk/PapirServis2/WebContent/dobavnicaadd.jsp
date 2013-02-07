@@ -523,7 +523,7 @@ try{
 			}
 	
 	
-			// Field skupina
+			// Field cena
 			tmpfld = ((String) x_cena).trim();
 			if (!IsNumeric(tmpfld) || i!=0) { tmpfld = null;}
 			strsql += tmpfld + ",";
@@ -594,15 +594,15 @@ try{
 			if (tmpfld == null || tmpfld.trim().length() == 0) {
 				tmpfld = "";
 			}
-			strsql += "'" + tmpfld + "')";
+			strsql += "'" + tmpfld + "',";
 	
 			
 			// Field arso_prenos
-			tmpfld = ((String) x_arso_prenos);
-			if (tmpfld == null || tmpfld.trim().length() == 0) {
-				tmpfld = "";
-			}
-			strsql += "'" + tmpfld + "')";
+			tmpfld = ((String) x_arso_prenos).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			strsql += tmpfld + ")";
+			
+			out.println(strsql);
 			
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
