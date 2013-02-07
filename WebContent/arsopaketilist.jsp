@@ -27,6 +27,40 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
 <%
+String a = request.getParameter("a"); //tip
+out.println(a);
+
+String key1 = "";
+if (a != null && a.length() != 0) {  //Potrdi paket
+	key1 = request.getParameter("key");
+	out.println(key1);
+	if (key1 != null && key1.length() > 0) {
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			int status = 2; //potrdi paket
+			if (a.equals("D")) { // brisi paket
+				status = 0;
+			}
+	    	String sqlquery = "update  " + session.getAttribute("letoTabela") +
+						" set arso_status = " + status +
+						" WHERE concat(id,'-',st_dob,'-',pozicija) IN (select xml from arso_paketi where sifra="+key1+")";
+	    	stmt.executeUpdate(sqlquery);
+	    	
+			if (a.equals("D")) // brisi paket
+		    	sqlquery = "delete from arso_paketi where sifra="+key1;
+			else
+		    	sqlquery = "update arso_paketi set potrjen=1 where sifra="+key1;
+
+	    	stmt.executeUpdate(sqlquery);
+	    	stmt.close();
+			stmt = null;
+		}catch(SQLException ex){
+			out.println(ex.toString());
+		}
+	}
+}
+
+
 int displayRecs = 20;
 int recRange = 10;
 %>
@@ -236,6 +270,7 @@ String do_datum = s;
 %>
 <%@ include file="header.jsp" %>
 <script language="JavaScript" src="popcalendar.js"></script>
+<script language="JavaScript" src="papirservis.js"></script>
 <script language="JavaScript">
 function disableSome(EW_this){
 }
@@ -253,6 +288,31 @@ function disableSome(EW_this){
 		</span></td>
 	</tr>
 	<tr>
+		<td class="jspmaker">Skupina&nbsp;</td>
+		<td class="jspmaker"><%
+String cbo_x_skupina_js = "";
+String x_skupinaList = "<select name=\"skupina\"><option value=\"-1\">Izberi</option>";
+String sqlwrk_x_skupina = "SELECT `skupina`, `tekst` FROM `skup` ORDER BY `tekst` ASC";
+Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_skupina = stmtwrk_x_skupina.executeQuery(sqlwrk_x_skupina);
+	int rowcntwrk_x_skupina = 0;
+	while (rswrk_x_skupina.next()) {
+		x_skupinaList += "<option value=\"" + HTMLEncode(rswrk_x_skupina.getString("skupina")) + "\"";
+		String tmpValue_x_skupina = "";
+		if (rswrk_x_skupina.getString("tekst")!= null) tmpValue_x_skupina = rswrk_x_skupina.getString("tekst");
+		x_skupinaList += ">" + tmpValue_x_skupina + "</option>";
+		rowcntwrk_x_skupina++;
+	}
+rswrk_x_skupina.close();
+rswrk_x_skupina = null;
+stmtwrk_x_skupina.close();
+stmtwrk_x_skupina = null;
+x_skupinaList += "</select>";
+out.println(x_skupinaList);
+%>
+&nbsp;</td>
+	</tr>
+	<tr>
 		<td><span class="jspmaker">Kreiraj nov paket</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
@@ -264,7 +324,7 @@ function disableSome(EW_this){
 	</tr>
 </table>
 </form>
-<form method="post">
+<form id="arsopaketi" action="arsopaketilist.jsp" method="post">
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -379,23 +439,18 @@ while (rs.next() && recCount < stopRec) {
 
 %>
 	<tr class="<%= rowclass %>">
-<td><% if (x_potrjen.equals("0")) { %><span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
-if (key != null && key.length() > 0) { 
-	out.print("arsopaketilist.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
-}else{
-	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Potrdi</a></span><% } %></td>
 <td><% if (x_potrjen.equals("0")) { %>
-<span class="jspmaker"><a href="<% key =  rs.getString("sifra"); 
-if (key != null && key.length() > 0) { 
-	out.print("arsopaketilist.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
-}else{
-	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Briši</a></span>
+<input type="hidden" name="a" id="a" value="C">
+<input type="hidden" name="key" value=<%= HTMLEncode((String)key) %>>
+<input type="submit" name="btnconfirm" value="Potrdi" onClick='if(!confirm("Res želite potrditi paket <%= HTMLEncode((String)key) %>?")) return false;'>
+<% } %>
+</td>
+<td><% if (x_potrjen.equals("0")) { %>
+<input type="submit" name="btndelete" value="Briši" onClick='if(!confirm("Res želite zbrisati paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="D"; if (zbrisiPaket(<%= HTMLEncode((String)key) %>)) return false;'>
 <% } %>
 </td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
-		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+		<td><% out.print(EW_FormatDateTime(x_datum,8,locale)); %>&nbsp;</td>
 		<td><% out.print(x_potrjen.equals("0") ? "NE" : "DA" ); %>&nbsp;</td>
 		<td><% out.print(x_uporabnik); %>&nbsp;</td>
 		<td><% out.print(x_xml); %>&nbsp;</td>

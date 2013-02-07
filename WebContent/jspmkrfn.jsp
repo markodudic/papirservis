@@ -123,6 +123,10 @@ private String EW_FormatDateTime(Object ADate, int ANamedFormat,Locale locale){
 			formatter = new SimpleDateFormat("dd.MM.yyyy", locale);
 			output = formatter.format(ts);
 			break;
+		case 8:
+			formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", locale);
+			output = formatter.format(ts);
+			break;
 		default:
 			dateformat = DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,java.text.DateFormat.DEFAULT,locale);
 			output = dateformat.format(ts);
