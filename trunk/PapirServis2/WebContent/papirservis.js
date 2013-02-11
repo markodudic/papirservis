@@ -131,6 +131,14 @@ function izberiVse(keys, tip) {
 	}
 }
 
+function izberiVse2(tip) {
+	var keys = document.getElementById('arsopaketinew').key;
+	for (var i = 0; i < keys.length; i++){
+		var key = keys.item(i);
+		key.checked = tip;
+	}
+}
+
 function zbrisiPaket(key) {
 	var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('key='+key));
 

@@ -28,7 +28,6 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 <%@ include file="jspmkrfn.jsp" %>
 <%
 String a = request.getParameter("a"); //tip
-//out.println(a);
 
 String key1 = "";
 if (a != null && a.length() != 0) {  //Potrdi paket
@@ -50,7 +49,7 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 		    	sqlquery = "delete from arso_paketi where sifra="+key1;
 			else
 		    	sqlquery = "update arso_paketi set potrjen=1 where sifra="+key1;
-
+out.println(sqlquery);
 	    	stmt.executeUpdate(sqlquery);
 	    	stmt.close();
 			stmt = null;
@@ -327,6 +326,8 @@ out.println(x_skupinaList);
 </table>
 </form>
 <form id="arsopaketi" action="arsopaketilist.jsp" method="post">
+<input type="hidden" name="a" id="a" value="C">
+<input type="hidden" name="key" id="key" value="">
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -489,13 +490,11 @@ while (rs.next() && recCount < stopRec) {
 %>
 	<tr class="<%= rowclass %>">
 <td><% if (x_potrjen.equals("0")) { %>
-<input type="hidden" name="a" id="a" value="C">
-<input type="hidden" name="key" value=<%= HTMLEncode((String)key) %>>
-<input type="submit" name="btnconfirm" value="Potrdi" onClick='if(!confirm("Res želite potrditi paket <%= HTMLEncode((String)key) %>?")) return false;'>
+<input type="submit" name="btnconfirm" value="Potrdi" onClick='if(!confirm("Res želite potrditi paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="C"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>;'>
 <% } %>
 </td>
 <td><% if (x_potrjen.equals("0")) { %>
-<input type="submit" name="btndelete" value="Briši" onClick='if(!confirm("Res želite zbrisati paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="D"; if (zbrisiPaket(<%= HTMLEncode((String)key) %>)) return false;'>
+<input type="submit" name="btndelete" value="Briši" onClick='if(!confirm("Res želite zbrisati paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="D"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>; if (zbrisiPaket(<%= HTMLEncode((String)key) %>)) return false;'>
 <% } %>
 </td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
