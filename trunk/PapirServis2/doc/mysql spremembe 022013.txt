@@ -1,8 +1,12 @@
 CREATE TABLE `arso_paketi` (
-	`sifra` INT(10) NULL DEFAULT NULL,
+	`sifra` INT(10) NOT NULL DEFAULT '0',
 	`datum` DATETIME NULL DEFAULT NULL,
+	`od` DATETIME NULL DEFAULT NULL,
+	`do` DATETIME NULL DEFAULT NULL,
+	`sif_skup` INT(10) NULL DEFAULT NULL,
 	`potrjen` INT(1) NULL DEFAULT '0',
 	`sif_upor` INT(10) NULL DEFAULT NULL,
+	`naziv` VARCHAR(50) NULL DEFAULT NULL,
 	`xml` BLOB NULL,
 	PRIMARY KEY (`sifra`),
 	INDEX `datum` (`datum`),
