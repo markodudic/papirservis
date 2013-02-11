@@ -47,7 +47,7 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 String od_datum = request.getParameter("od_datum");
 String do_datum = request.getParameter("do_datum");
 String skupina = request.getParameter("skupina");
-out.println(skupina);
+//out.println(skupina);
 if (od_datum != null && od_datum.length() > 0)
 	session.setAttribute("od_datum", od_datum);
 else
@@ -203,7 +203,13 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						" FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " + 
 						" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
 						" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
-						" LEFT JOIN kamion ON (dob.sif_kam = kamion.sif_kam) " +
+						" LEFT JOIN ( " +
+						"		SELECT kamion.* " +
+						"		FROM kamion, ( " +
+						"		SELECT sif_kam, MAX(zacetek) zac " +
+						"		FROM kamion " +
+						"		GROUP BY sif_kam) zadnji " +
+						"		WHERE kamion.sif_kam = zadnji.sif_kam AND kamion.zacetek = zadnji.zac) kamion ON (dob.sif_kam = kamion.sif_kam) " +
 						" LEFT JOIN (select stranke.* " +
 						"			from stranke, (select sif_str, max(zacetek) zac from stranke group by sif_str) zadnji " +
 						"			where stranke.sif_str = zadnji.sif_str and stranke.zacetek = zadnji.zac) str " +
@@ -438,27 +444,27 @@ while (rs.next() && recCount < stopRec) {
 	
 	if (rs.getString("arso_pslj_st")==null || rs.getString("arso_pslj_st").equals("")) 								error += "Številka pošiljatelja,";
 	if (rs.getString("kupci_maticna")==null || rs.getString("kupci_maticna").equals("")) 							error += "Matična pošiljatelja,";
-	if (rs.getString("arso_pslj_status")==null || rs.getString("arso_pslj_status").equals("")) 					error += "Status pošiljatelja,";
+	if (rs.getString("arso_pslj_status")==null || rs.getString("arso_pslj_status").equals("")) 						error += "Status pošiljatelja,";
 	if (rs.getString("arso_prjm_st")==null || rs.getString("arso_prjm_st").equals("")) 								error += "Številka prejemnika,";
 	if (rs.getString("enote_maticna")==null || rs.getString("enote_maticna").equals("")) 							error += "Matična prejemnika,";
-	if (rs.getString("arso_prjm_status")==null || rs.getString("arso_prjm_status").equals("")) 					error += "Status prejemnika,";
-	if (rs.getString("arso_prvz_st")==null || rs.getString("arso_prvz_st").equals("")) 								error += "Številka prevoznika,";
-	if (rs.getString("kamion_maticna")==null || rs.getString("kamion_maticna").equals("")) 						error += "Matična prevoznika,";
-	if (rs.getString("arso_prvz_status")==null || rs.getString("arso_prvz_status").equals("")) 					error += "Status prevoznika,";
+	if (rs.getString("arso_prjm_status")==null || rs.getString("arso_prjm_status").equals("")) 						error += "Status prejemnika,";
+	if (!rs.getString("sif_kam").equals("0") && ((rs.getString("arso_prvz_st")==null || rs.getString("arso_prvz_st").equals("")))) 							error += "Številka prevoznika,";
+	if (!rs.getString("sif_kam").equals("0") && (rs.getString("kamion_maticna")==null || rs.getString("kamion_maticna").equals(""))) 							error += "Matična prevoznika,";
+	if (!rs.getString("sif_kam").equals("0") && (rs.getString("arso_prvz_status")==null || rs.getString("arso_prvz_status").equals(""))) 						error += "Status prevoznika,";
 	if (rs.getString("datum_odaje")==null || rs.getString("datum_odaje").equals("")) 								error += "Datum oddaje/prevzema,";
-	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 				error += "Lokacija prevzema,";
-	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 				error += "Lokacija prevzema,";
-	if (rs.getString("ewc")==null || rs.getString("ewc").equals("")) 														error += "EWC koda,";
+	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija prevzema,";
+	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija prevzema,";
+	if (rs.getString("ewc")==null || rs.getString("ewc").equals("")) 												error += "EWC koda,";
 	if (rs.getString("kolicina")==null || rs.getString("kolicina").equals("")) 										error += "Količina,";
-	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 				error += "Embalaža,";
-	if (rs.getString("arso_emb_st_enot")==null || rs.getString("arso_emb_st_enot").equals("")) 					error += "Embalaža število enot,";
-	if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) error += "Embalaža shema,";
-	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 				error += "Fizikalna lastnost,";
+	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 					error += "Embalaža,";
+	if (rs.getString("arso_emb_st_enot")==null || rs.getString("arso_emb_st_enot").equals("")) 						error += "Embalaža število enot,";
+	if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) 		error += "Embalaža shema,";
+	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 					error += "Fizikalna lastnost,";
 	if (rs.getString("arso_odp_tip")==null || rs.getString("arso_odp_tip").equals("")) 								error += "Tip odpadka,";
-	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 		error += "Dejavnost nastanka,";
+	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 			error += "Dejavnost nastanka,";
 	if (rs.getString("arso_odp_loc_id")==null || rs.getString("arso_odp_loc_id").equals("")) 						error += "Lokacija ravnanja,";
-	if (rs.getString("arso_aktivnost_pslj")==null || rs.getString("arso_aktivnost_pslj").equals("")) 			error += "Aktivnost pošiljatelja,";
-	if (rs.getString("arso_aktivnost_prjm")==null || rs.getString("arso_aktivnost_prjm").equals("")) 			error += "Aktivnost prejemnika,";
+	if (rs.getString("arso_aktivnost_pslj")==null || rs.getString("arso_aktivnost_pslj").equals("")) 				error += "Aktivnost pošiljatelja,";
+	if (rs.getString("arso_aktivnost_prjm")==null || rs.getString("arso_aktivnost_prjm").equals("")) 				error += "Aktivnost prejemnika,";
 	
 	//
 	recCount++;
@@ -646,7 +652,7 @@ while (rs.next() && recCount < stopRec) {
 %>
 </table>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>");'></p>
+<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>");'></p>
 <% } %>
 </form>
 <%

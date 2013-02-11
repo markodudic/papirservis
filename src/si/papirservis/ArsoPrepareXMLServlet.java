@@ -87,10 +87,13 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			String tabela = (String) request.getParameter("tabela");
 			String sif_upor = (String) request.getParameter("sif_upor");
 			String keyChecked = (String) request.getParameter("keyChecked");
+			String od_datum = (String) request.getParameter("od_datum");
+			String do_datum = (String) request.getParameter("do_datum");
+			String skupina = (String) request.getParameter("skupina");
 			
 			try {
 				
-				String ret = createArsoPaket(keyChecked, sif_upor, tabela);
+				String ret = createArsoPaket(keyChecked, sif_upor, tabela, od_datum, do_datum, skupina);
 				if (ret == null) throw new Exception("napaka");
 	
 				//System.out.println("XML="+ret[0]);
@@ -131,7 +134,13 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    					" FROM " + tabela + " as dob " +
 	    					" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
 	    					" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
-	    					" LEFT JOIN kamion ON (dob.sif_kam = kamion.sif_kam) " +
+							" LEFT JOIN ( " +
+							"		SELECT kamion.* " +
+							"		FROM kamion, ( " +
+							"		SELECT sif_kam, MAX(zacetek) zac " +
+							"		FROM kamion " +
+							"		GROUP BY sif_kam) zadnji " +
+							"		WHERE kamion.sif_kam = zadnji.sif_kam AND kamion.zacetek = zadnji.zac) kamion ON (dob.sif_kam = kamion.sif_kam) " +
 	    					" LEFT JOIN (select stranke.* " +
 	    					"			from stranke, (select sif_str, max(zacetek) zac from stranke group by sif_str) zadnji " +
 	    					"			where stranke.sif_str = zadnji.sif_str and stranke.zacetek = zadnji.zac) str " +
@@ -176,6 +185,8 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
 	    	while (rs.next()) {
+	    		boolean prevoznikPosiljatelj = rs.getString("sif_kam").equals("0");
+
 	    		Element ODPADKI_EVL_PODATKI_1 = doc.createElement("ODPADKI_EVL_PODATKI_1");
 	    		evls_paket.appendChild(ODPADKI_EVL_PODATKI_1);
 	    		
@@ -217,15 +228,24 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		ODPADKI_EVL_PODATKI_1.appendChild(PREVOZNIK);
 
 	    		Element PRVZ_ST = doc.createElement("PRVZ_ST");
-	    		PRVZ_ST.appendChild(doc.createTextNode(rs.getString("arso_prvz_st")));
+	    		if (!prevoznikPosiljatelj)
+	    			PRVZ_ST.appendChild(doc.createTextNode(rs.getString("arso_prvz_st")));
+	    		else
+	    			PRVZ_ST.appendChild(doc.createTextNode(rs.getString("arso_pslj_st")));
 	    		PREVOZNIK.appendChild(PRVZ_ST);
 
 	    		Element PRVZ_MATICNA_ST = doc.createElement("PRJM_MATICNA_ST");
-	    		PRVZ_MATICNA_ST.appendChild(doc.createTextNode(rs.getString("kamion_maticna")));
+	    		if (!prevoznikPosiljatelj)
+	    			PRVZ_MATICNA_ST.appendChild(doc.createTextNode(rs.getString("kamion_maticna")));
+	    		else
+	    			PRVZ_MATICNA_ST.appendChild(doc.createTextNode(rs.getString("kupci_maticna")));
 	    		PREVOZNIK.appendChild(PRVZ_MATICNA_ST);
 
 	    		Element PRVZ_STATUS = doc.createElement("PRVZ_STATUS");
-	    		PRVZ_STATUS.appendChild(doc.createTextNode(rs.getString("arso_prvz_status")));
+	    		if (!prevoznikPosiljatelj)
+		    		PRVZ_STATUS.appendChild(doc.createTextNode(rs.getString("arso_prvz_status")));
+	    		else
+	    			PRVZ_STATUS.appendChild(doc.createTextNode("PREVOZNIK"));
 	    		PREVOZNIK.appendChild(PRVZ_STATUS);
 
 	    		Element DATUM_ODDAJE = doc.createElement("DATUM_ODDAJE");
@@ -355,7 +375,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		return null;
 	}
 	
-	private String createArsoPaket(String keyChecked, String sif_upor, String tabela) {
+	private String createArsoPaket(String keyChecked, String sif_upor, String tabela, String od_datum, String do_datum, String skupina) {
 
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -373,11 +393,12 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	while (rs.next()) {
 	    		sifra = rs.getInt("sifra");
 	    	}
-			
+	    	String imePaketa = "arso_paket_"+sifra+".xml";
+			if (skupina.equals("-1")) skupina = null;
 	    	
 	    	//kreiram nov paket
-	    	query = 	"insert into arso_paketi (sifra, datum, potrjen, sif_upor, xml) " +
-	    				"values (" + sifra + ",now(),0," + sif_upor + ",'" + keyChecked.replaceAll("'", "") + "')";
+	    	query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml) " +
+	    				"values (" + sifra + ",now(),'" + od_datum + "','" + od_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked.replaceAll("'", "") + "')";
 	    	
 	    	System.out.println(query);
 			stmt = con.createStatement();   	
@@ -398,7 +419,6 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			if (doc == null) throw new Exception("napaka");
 
 			//zapisem datoteko na disk
-			String imePaketa = "arso_paket_"+sifra+".xml";
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);

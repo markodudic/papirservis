@@ -28,12 +28,12 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 <%@ include file="jspmkrfn.jsp" %>
 <%
 String a = request.getParameter("a"); //tip
-out.println(a);
+//out.println(a);
 
 String key1 = "";
 if (a != null && a.length() != 0) {  //Potrdi paket
 	key1 = request.getParameter("key");
-	out.println(key1);
+	//out.println(key1);
 	if (key1 != null && key1.length() > 0) {
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -192,7 +192,9 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT * FROM arso_paketi left join uporabniki on (arso_paketi.sif_upor = uporabniki.sif_upor) ";
+String strsql = "SELECT * FROM arso_paketi " +
+				"left join uporabniki on (arso_paketi.sif_upor = uporabniki.sif_upor) " +
+				"left join skup on (arso_paketi.sif_skup = skup.skupina) ";
 whereClause = "";
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
@@ -342,6 +344,21 @@ out.println(x_skupinaList);
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("od")) ? "<b>" : ""%>
+<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("od","UTF-8") %>">Od&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("od")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("od")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("do")) ? "<b>" : ""%>
+<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("do","UTF-8") %>">Do&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("do")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("do")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
+<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("skupina","UTF-8") %>">Skupina&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("potrjen")) ? "<b>" : ""%>
 <a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("potrjen","UTF-8") %>">Potrjen&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("potrjen")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("potrjen")) ? "</b>" : ""%>
@@ -351,6 +368,7 @@ out.println(x_skupinaList);
 <a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>
+		<td>Naziv paketa&nbsp;</td>
 		<td>XML&nbsp;</td>
 </tr>
 <%
@@ -390,8 +408,12 @@ while (rs.next() && recCount < stopRec) {
 <%
 	String x_sifra = "";
 	Object x_datum = "";
+	Object x_od = "";
+	Object x_do = "";
+	String x_skupina = "";
 	String x_potrjen = "";
 	String x_uporabnik = "";
+	String x_naziv = "";
 	String x_xml = "";
 
 	// Load Key for record
@@ -414,13 +436,34 @@ while (rs.next() && recCount < stopRec) {
 		x_datum = "";
 	}
 
+	// od
+	if (rs.getTimestamp("od") != null){
+		x_od = rs.getTimestamp("od");
+	}else{
+		x_od = "";
+	}
+
+	
+	// do
+	if (rs.getTimestamp("do") != null){
+		x_do = rs.getTimestamp("do");
+	}else{
+		x_do = "";
+	}
+
+	// skupina
+	if (rs.getString("tekst") != null){
+		x_skupina = rs.getString("tekst");
+	}else{
+		x_skupina = "";
+	}
+
 	// potrjen
 	if (rs.getString("potrjen") != null){
 		x_potrjen = rs.getString("potrjen");
 	}else{
 		x_potrjen = "";
 	}
-
 	
 	// uporabnik
 	if (rs.getString("ime_in_priimek") != null){
@@ -429,6 +472,12 @@ while (rs.next() && recCount < stopRec) {
 		x_uporabnik = "";
 	}
 
+	// naziv
+	if (rs.getString("naziv") != null){
+		x_naziv = rs.getString("naziv");
+	}else{
+		x_naziv = "";
+	}
 	
 	// xml
 	if (rs.getString("xml") != null){
@@ -451,8 +500,12 @@ while (rs.next() && recCount < stopRec) {
 </td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,8,locale)); %>&nbsp;</td>
+		<td><% out.print(EW_FormatDateTime(x_od,7,locale)); %>&nbsp;</td>
+		<td><% out.print(EW_FormatDateTime(x_do,7,locale)); %>&nbsp;</td>
+		<td><% out.print(x_skupina); %>&nbsp;</td>
 		<td><% out.print(x_potrjen.equals("0") ? "NE" : "DA" ); %>&nbsp;</td>
 		<td><% out.print(x_uporabnik); %>&nbsp;</td>
+		<td><% out.print(x_naziv); %>&nbsp;</td>
 		<td><% out.print(x_xml); %>&nbsp;</td>
 	</tr>
 <%
