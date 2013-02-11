@@ -312,9 +312,9 @@ function disableSome(EW_this){
 <form method="post" id="arsopaketinew">
 <table class="ewTable">
 	<tr class="ewTableHeader">
-<td>
-<input type="button" name="btnVsi" value="Vsi" onClick='izberiVse(this.form.key,true);'>
-<input type="button" name="btnNoben" value="Noben" onClick='izberiVse(this.form.key,false);'>
+<td nowrap>
+<img src="images/checkall.gif" alt="Vsi" width="20" height="20" border="0" onClick='izberiVse2(true);'>
+<img src="images/uncheckall.gif" alt="Noben" width="20" height="20" border="0" onClick='izberiVse2(false);'>
 </td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "<b>" : ""%>
@@ -619,7 +619,7 @@ while (rs.next() && recCount < stopRec) {
 %>
 	<tr class=<% out.print(!error.equals("") ? "ewCellDontSendRow" : rowclass); %> >
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && error.equals("")) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Izberi</span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" id="key" value="<%=key %>" class="jspmaker">Izberi</span></td>
 <% } else {%>
 <td></td>
 <% } %>
