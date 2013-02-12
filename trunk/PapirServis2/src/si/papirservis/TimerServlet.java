@@ -268,7 +268,8 @@ public class TimerServlet extends InitServlet implements Servlet {
 						for (int j=0; j<ordersForDateVehicle.size(); j++) {
 							Order order = (Order) ordersForDateVehicle.get(j);
 							//ce ni loakacij za stranko preskocim
-							if (order.getStranke_x_koord()==null || order.getStranke_y_koord()==null) continue;
+							if (order.getStranke_x_koord()==null || order.getStranke_y_koord()==null ||
+								order.getEnote_x_koord()==null  || order.getEnote_y_koord()==null) continue;
 							
 							//razdalja do enote izhodisca
         					Double dist_x_enota = Math.abs(relation.getAvg_sdo_x() - Double.parseDouble(order.getEnote_x_koord()));
