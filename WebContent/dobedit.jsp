@@ -1441,10 +1441,18 @@ if (EW_this.x_datum && !EW_checkeurodate(EW_this.x_datum.value)) {
         if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "NapaÄŤen datum (dd.mm.yyyy) - datum"))
             return false; 
         }
+if(EW_this.x_datum.value.length == 0 ){
+    if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
+        return false; 
+}
 if (EW_this.x_sif_str && !EW_hasValue(EW_this.x_sif_str, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "NapaÄŤna Ĺˇtevilka - sif str"))
                 return false; 
         }
+if (EW_this.x_sif_str.value.length == 0) {
+    if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "NapaÄŤna Ĺˇtevilka - sif str"))
+        return false; 
+}
 if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "NapaÄŤan vnos - sif kupca"))
                 return false; 
@@ -1453,6 +1461,10 @@ if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "NapaÄŤan vnos - sif kam"))
                 return false; 
         }
+if (EW_this.x_sif_kam.value.length == 0) {
+    if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "NapaÄŤan vnos - sif kam"))
+        return false; 
+}
 if (EW_this.x_cena_km && !EW_checknumber(EW_this.x_cena_km.value)) {
         if (!EW_onError(EW_this, EW_this.x_cena_km, "TEXT", "NapaÄŤna Ĺˇtevilka - cena km"))
             return false; 

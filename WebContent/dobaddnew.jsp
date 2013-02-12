@@ -1436,10 +1436,18 @@ if (EW_this.x_datum && !EW_checkeurodate(EW_this.x_datum.value) && !EW_hasValue(
         if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
             return false; 
         }
+if(EW_this.x_datum.value.length == 0 ){
+    if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
+        return false; 
+}     
 if (EW_this.x_sif_str && !EW_hasValue(EW_this.x_sif_str, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "Napačna številka - sif str"))
                 return false; 
-        }
+        }        
+if (EW_this.x_sif_str.value.length == 0) {
+    if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "NapaÄŤna Ĺˇtevilka - sif str"))
+        return false; 
+}
 if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
                 return false; 
@@ -1448,6 +1456,10 @@ if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "Napačan vnos - sif kam"))
                 return false; 
         }
+if (EW_this.x_sif_kam.value.length == 0) {
+    if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "NapaÄŤan vnos - sif kam"))
+        return false; 
+}
 if (EW_this.x_cena_km && !EW_checknumber(EW_this.x_cena_km.value)) {
         if (!EW_onError(EW_this, EW_this.x_cena_km, "TEXT", "Napačna številka - cena km"))
             return false; 
@@ -1546,7 +1558,7 @@ return true;
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="key" value="<%= key %>">
 <!-- input type="hidden" name="x_st_dob" size="30" value="<%= HTMLEncode((String)x_st_dob) %>" -->
-<input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
+<!-- input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>" -->
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_st_dob) %>">
 <input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
 <table class="ewTable">
