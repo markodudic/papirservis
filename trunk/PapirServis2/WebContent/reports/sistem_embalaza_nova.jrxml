@@ -56,6 +56,9 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2010"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="brezKoda" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      kupci.`naslov` AS kupci_naslov,
@@ -269,7 +272,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="40"
 						key="subreport-16"
-						positionType="Float"/>
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -715,7 +720,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="30"
 						key="subreport-17"
-						positionType="Float"/>
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="sif_str">
 						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
 					</subreportParameter>

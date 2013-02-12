@@ -266,6 +266,12 @@ function disableSome(EW_this){
 		 }
 			 
 	}
+
+	if (Integer.parseInt(reportID) == 24)
+	{
+	    String brezKoda = request.getParameter("brezKoda");
+	    parameters.put("brezKoda", brezKoda);
+	}
 	
 	//če je bianco dobavnica preberem naslednjo stevilko in stevilo bianco dobavnic ter obstojeco sifro povecam za stevilo
     String x_stev_bianco = request.getParameter("x_stev_bianco");

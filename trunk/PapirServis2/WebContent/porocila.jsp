@@ -473,7 +473,17 @@ function  EW_checkMyForm(EW_this)
 		</td>
 	</tr>
 	<%}%>
-		
+
+	<%if ((reportID == 24)) {%>
+	<tr>
+		<td class="ewTableHeader">Brez table KODA:&nbsp;</td>
+		<td class="ewTableAltRow">
+    		<INPUT type="radio" name="brezKoda" value="0" checked>Ne
+    		<INPUT type="radio" name="brezKoda" value="1">Da
+		</td>
+	</tr>
+	<%}%>
+			
 	<tr>
 		<td class="ewTableHeader">Tip poro&#269;ila:&nbsp;</td>
 		<td class="ewTableAltRow">

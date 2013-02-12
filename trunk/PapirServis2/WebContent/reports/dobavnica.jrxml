@@ -60,7 +60,8 @@
      stranke.`kol_os` AS stranke_kol_os,
      stranke.`opomba` AS stranke_opomba,
      uporabniki.ime_in_priimek as potnik,
-     skup.tekst as skupina
+     skup.tekst as skupina,
+     kupci.arso_prenos
 FROM
      (select *, max(dob.zacetek) from $P!{dobLeto} dob where  dob.st_dob =  $P{st_dob} group by st_dob) dob,
       (SELECT stranke.*
@@ -107,6 +108,7 @@ WHERE
 	<field name="stranke_opomba" class="java.lang.String"/>
 	<field name="potnik" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>
+	<field name="arso_prenos" class="java.lang.Boolean"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -218,7 +220,7 @@ WHERE
 					<reportElement
 						x="158"
 						y="92"
-						width="367"
+						width="167"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1166,6 +1168,54 @@ WHERE
 						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<staticText>
+					<reportElement
+						x="400"
+						y="92"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-36"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="340"
+						y="92"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-37"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[STATUS]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="420"
+						y="92"
+						width="110"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-13"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{arso_prenos}.booleanValue() ? "D" : "N"]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
