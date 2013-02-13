@@ -616,7 +616,7 @@ try{
 
 		// Field pozicija
 		tmpfld = ((String) x_pozicija).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = "0";}
+		if (!IsNumeric(tmpfld)) { tmpfld = "1";}
 		/*if (tmpfld == null) {
 			rs.updateNull("pozicija");
 		} else {
@@ -1568,7 +1568,7 @@ return true;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Pozicija&nbsp;</td>
-		<td class="ewTableAltRow"><% if (x_pozicija== null || ((String)x_pozicija).equals("")) {x_pozicija = "0"; } // set default value %><input type="text" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>" disabled>&nbsp;</td>
+		<td class="ewTableAltRow"><% if (x_pozicija== null || ((String)x_pozicija).equals("")) {x_pozicija = "1"; } // set default value %><input type="text" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>" disabled>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
