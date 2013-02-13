@@ -180,6 +180,8 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
     		zavezanec_maticna_st.appendChild(doc.createTextNode(ZAVEZANEC_MATICNA_ST));
     		evls_paket.appendChild(zavezanec_maticna_st);
 
+    		Element evidencni_listi = doc.createElement("EVIDENCNI_LISTI");
+    		evls_paket.appendChild(evidencni_listi);
     		
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
@@ -188,7 +190,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		boolean prevoznikPosiljatelj = rs.getString("sif_kam").equals("0");
 
 	    		Element ODPADKI_EVL_PODATKI_1 = doc.createElement("ODPADKI_EVL_PODATKI_1");
-	    		evls_paket.appendChild(ODPADKI_EVL_PODATKI_1);
+	    		evidencni_listi.appendChild(ODPADKI_EVL_PODATKI_1);
 	    		
 	    		Element EVLS_INT_ID = doc.createElement("EVLS_INT_ID");
 	    		EVLS_INT_ID.appendChild(doc.createTextNode(rs.getString("st_dob")));
@@ -234,7 +236,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    			PRVZ_ST.appendChild(doc.createTextNode(rs.getString("arso_pslj_st")));
 	    		PREVOZNIK.appendChild(PRVZ_ST);
 
-	    		Element PRVZ_MATICNA_ST = doc.createElement("PRJM_MATICNA_ST");
+	    		Element PRVZ_MATICNA_ST = doc.createElement("PRVZ_MATICNA_ST");
 	    		if (!prevoznikPosiljatelj)
 	    			PRVZ_MATICNA_ST.appendChild(doc.createTextNode(rs.getString("kamion_maticna")));
 	    		else
@@ -260,7 +262,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		KRAJ_ODDAJE.appendChild(TIP_LOKACIJE_ODDAJE);
 
 	    		Element ODP_LOC_ID = doc.createElement("ODP_LOC_ID");
-	    		ODP_LOC_ID.appendChild(doc.createTextNode(rs.getString("enote_maticna")));
+	    		ODP_LOC_ID.appendChild(doc.createTextNode(rs.getString("arso_odp_loc_id")));
 	    		KRAJ_ODDAJE.appendChild(ODP_LOC_ID);
 
 	    		Element KRAJ_PREJEMA = doc.createElement("KRAJ_PREJEMA");
@@ -270,7 +272,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		TIP_LOKACIJE_PREJEMA.appendChild(doc.createTextNode("STALNA"));
 	    		KRAJ_PREJEMA.appendChild(TIP_LOKACIJE_PREJEMA);
 	    		
-	    		Element ODP_LOC_ID1 = doc.createElement("ODP_LOC_ID1");
+	    		Element ODP_LOC_ID1 = doc.createElement("ODP_LOC_ID");
 	    		ODP_LOC_ID1.appendChild(doc.createTextNode(rs.getString("arso_odp_locpr_id")));
 	    		KRAJ_PREJEMA.appendChild(ODP_LOC_ID1);
 
@@ -290,7 +292,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 
 	    		Element IND_POOBLASTILO_OBSTAJA = doc.createElement("IND_POOBLASTILO_OBSTAJA");
 	    		IND_POOBLASTILO_OBSTAJA.appendChild(doc.createTextNode("D"));
-	    		ODPADKI_EVL_PODATKI_1.appendChild(PRVZ_SREDSTVO);
+	    		ODPADKI_EVL_PODATKI_1.appendChild(IND_POOBLASTILO_OBSTAJA);
 
 	    		Element SEZNAM_ODPADKOV = doc.createElement("SEZNAM_ODPADKOV");
 	    		ODPADKI_EVL_PODATKI_1.appendChild(SEZNAM_ODPADKOV);
