@@ -107,7 +107,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="40"
 						key="subreport-13"
-						positionType="Float"/>
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -272,9 +274,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="40"
 						key="subreport-16"
-						positionType="Float">
-							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
-						</reportElement>
+						positionType="Float"/>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -348,7 +348,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="588"  isSplitAllowed="true" >
+			<band height="750"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -690,7 +690,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="30"
 						key="subreport-9"
-						positionType="Float"/>
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="sif_str">
 						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -720,9 +722,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 						width="530"
 						height="30"
 						key="subreport-17"
-						positionType="Float">
-							<printWhenExpression><![CDATA[new Boolean($P{brezKoda}.equals("0"))]]></printWhenExpression>
-						</reportElement>
+						positionType="Float"/>
 					<subreportParameter  name="sif_str">
 						<subreportParameterExpression><![CDATA[$F{sif_kupca}]]></subreportParameterExpression>
 					</subreportParameter>
