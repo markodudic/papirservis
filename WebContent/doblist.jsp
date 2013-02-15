@@ -1905,13 +1905,15 @@ if (key != null && key.length() > 0) {
 	<td></td>
 <% } %>
 
-<% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
+<% if ((ewCurSec & ewAllowAdd) == ewAllowAdd && x_arso_status.equals("0") ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
 	out.print("dobadd.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/copy.gif"></a></span></td>
+<% } else {%>
+	<td></td>
 <% } %>
 
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_obdelana.equals("0") || x_arso_status.equals("0") || x_arso_prenos.equals("0")) ) { %>
@@ -1919,7 +1921,7 @@ if (key != null && key.length() > 0) {
 <% } else {%>
 	<td></td>
 <% } %>
-		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
+		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") && !x_kolicina.equals("0") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>

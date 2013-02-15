@@ -321,7 +321,10 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		ODPADEK.appendChild(ODP_EMB_ST_ENOT);
 
 	    		Element ODP_EMB_SHEMA = doc.createElement("ODP_EMB_SHEMA");
-	    		ODP_EMB_SHEMA.appendChild(doc.createTextNode(rs.getString("arso_odp_embalaza_shema")));
+	    		if (rs.getString("arso_odp_embalaza_shema") != null)
+	    			ODP_EMB_SHEMA.appendChild(doc.createTextNode(rs.getString("arso_odp_embalaza_shema")));
+	    		else
+	    			ODP_EMB_SHEMA.appendChild(doc.createTextNode(""));
 	    		ODPADEK.appendChild(ODP_EMB_SHEMA);
 
 	    		Element ODP_FIZ_LAST = doc.createElement("ODP_FIZ_LAST");

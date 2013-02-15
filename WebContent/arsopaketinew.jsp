@@ -200,7 +200,7 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
 						"	str.arso_odp_loc_id, " +
 						"	mat.arso_odp_locpr_id material_arso_odp_locpr_id " +
-						" FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " + 
+						" FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob, pozicija) dob " + 
 						" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
 						" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
 						" LEFT JOIN ( " +
@@ -219,7 +219,7 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						"			where materiali.koda = zadnji1.koda and materiali.zacetek = zadnji1.zac) mat " +
 						"		ON (dob.koda = mat.koda) ";
 
-whereClause = " arso_status = 0 AND dob.arso_prenos = 1 AND obdelana = 1 AND ";
+whereClause = " arso_status = 0 AND dob.arso_prenos = 1 AND obdelana = 1 AND kolicina > 0 AND ";
 if (od_datum != null && od_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum >= '" + (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString() + "' AND ";
 }
@@ -458,7 +458,7 @@ while (rs.next() && recCount < stopRec) {
 	if (rs.getString("kolicina")==null || rs.getString("kolicina").equals("")) 										error += "Količina,";
 	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 					error += "Embalaža,";
 	if (rs.getString("arso_emb_st_enot")==null || rs.getString("arso_emb_st_enot").equals("")) 						error += "Embalaža število enot,";
-	if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) 		error += "Embalaža shema,";
+	//if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) 		error += "Embalaža shema,";
 	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 					error += "Fizikalna lastnost,";
 	if (rs.getString("arso_odp_tip")==null || rs.getString("arso_odp_tip").equals("")) 								error += "Tip odpadka,";
 	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 			error += "Dejavnost nastanka,";
