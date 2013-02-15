@@ -655,7 +655,7 @@ public class TimerServlet extends InitServlet implements Servlet {
 	    				   	"	(SELECT db.datum, db.error, db.sif_kam, db.sif_str " +
 	    				   	"	 FROM dob" + dobLeto + " as db , (SELECT st_dob, max(dob.zacetek) z " +
 	    				   	"	 				   				  FROM dob" + dobLeto + " as dob " +
-	    				   	"	 				   				  WHERE datum < NOW()-1 AND " +
+	    				   	"	 				   				  WHERE datum < NOW()-3 AND " +
 	    				   	"											pozicija = 1 and" +
 	    				   	"											sif_kam is not null and " +
 	    				   	"											((dob.stev_km_sled is null) OR (dob.stev_ur_sled is null))" +
