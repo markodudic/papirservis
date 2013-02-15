@@ -45,13 +45,13 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 						" WHERE concat(id,'-',st_dob,'-',pozicija) IN " +
 						" 		 (select CAST(xml AS CHAR(10000) CHARACTER SET utf8) from arso_paketi where sifra="+key1+")";
 	    	stmt.executeUpdate(sqlquery);
-	    	out.println(sqlquery);
+	    	//out.println(sqlquery);
 	    	
 			if (a.equals("D")) // brisi paket
 		    	sqlquery = "delete from arso_paketi where sifra="+key1;
 			else
 		    	sqlquery = "update arso_paketi set potrjen=1 where sifra="+key1;
-out.println(sqlquery);
+			//out.println(sqlquery);
 	    	stmt.executeUpdate(sqlquery);
 	    	stmt.close();
 			stmt = null;
