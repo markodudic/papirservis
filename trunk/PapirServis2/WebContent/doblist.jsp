@@ -1921,7 +1921,7 @@ if (key != null && key.length() > 0) {
 <% } else {%>
 	<td></td>
 <% } %>
-		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") && !x_kolicina.equals("0") ? (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow")):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
+		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") ? (x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow"))):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>

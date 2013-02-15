@@ -114,6 +114,10 @@ a:visited {
 	background-color: #FFFFE0;	
 }
 
+.ewCellNoKolicinaRow {
+	background-color: #808080; /* kolicina = 0  */		
+}
+	
 .ewCellDontSendRow {
 	background-color: #FF0000; /* arso dont send  */	
 }
