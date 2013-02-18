@@ -42,8 +42,8 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 			}
 	    	String sqlquery = "update  " + session.getAttribute("letoTabela") +
 						" set arso_status = " + status +
-						" WHERE concat(id,'-',st_dob,'-',pozicija) IN " +
-						" 		 (select CAST(xml AS CHAR(10000) CHARACTER SET utf8) from arso_paketi where sifra="+key1+")";
+						" WHERE id IN " +
+						" 		 (select CAST(ids AS CHAR(10000) CHARACTER SET utf8) from arso_paketi where sifra="+key1+")";
 	    	stmt.executeUpdate(sqlquery);
 	    	//out.println(sqlquery);
 	    	
