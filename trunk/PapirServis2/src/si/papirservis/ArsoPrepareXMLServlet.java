@@ -138,7 +138,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	}	
 	
 
-	private Document getEVL(String keyChecked, String tabela, int PAKET_INT_ID) {
+	private Document getEVL(String ids, String tabela, int PAKET_INT_ID) {
 
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -171,7 +171,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    					"			from materiali, (select koda, max(zacetek) zac from materiali group by koda) zadnji1 " +
 	    					"			where materiali.koda = zadnji1.koda and materiali.zacetek = zadnji1.zac) mat " +
 							"		ON (dob.koda = mat.koda) " +
-	    					" WHERE concat(dob.id,'-',st_dob,'-',pozicija) IN ("+keyChecked+")";
+	    					" WHERE concat(dob.id) IN ("+ids+")";
 
 	    	
 	    	xml = PAKET_INT_ID + ";" + ZAVEZANEC_ST + ";" + ZAVEZANEC_MATICNA_ST + ";\"\n";
@@ -413,9 +413,17 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	
 			if (skupina.equals("-1")) skupina = null;
 	    	
+			keyChecked = keyChecked.replaceAll("'", "");
+			String[] keys = keyChecked.split(",");
+			String ids = keyChecked.substring(0, keyChecked.indexOf("-"));
+			for (int i=1; i<keys.length; i++){
+				String key = keys[i];
+				ids += "," + key.substring(0, key.indexOf("-"));
+			}
+			
 	    	//kreiram nov paket
-	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml) " +
-	    				"values (" + sifra + ",now(),'" + od_datum + "','" + od_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked.replaceAll("'", "") + "')";
+	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml, ids) " +
+	    				"values (" + sifra + ",now(),'" + od_datum + "','" + od_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked + "','"+ids+"')";
 	    	
 	    	System.out.println(query);
 			stmt = con.createStatement();   	
@@ -425,14 +433,14 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	//updatetam vse dobavnice v paketu
 	    	query = 	"update  " + tabela +
 	    				" set arso_status = 1 " + 
-						" WHERE concat(id,'-',st_dob,'-',pozicija) IN ("+keyChecked+")";
+						" WHERE id IN ("+ids+")";
 	    	
 	    	System.out.println(query);
 			stmt = con.createStatement();   	
 			stmt.executeUpdate(query);
 			
 			//pripravim xml datoteko
-			Document doc = getEVL(keyChecked, tabela, sifra);
+			Document doc = getEVL(ids, tabela, sifra);
 			if (doc == null) throw new Exception("napaka");
 
 			//zapisem datoteko na disk
