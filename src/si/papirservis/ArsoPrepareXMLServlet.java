@@ -67,7 +67,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		ZAVEZANEC_MATICNA_ST = (String) getServletConfig().getInitParameter("ZAVEZANEC_MATICNA_ST");
 
 		String key = (String) request.getParameter("key");
-		if (key!=null) {
+		if (key!=null && !key.equals("null")) {
 			//zbrisem datoteko
 			try{
 	    		File file = new File(SAVE_FILES+"arso_paket_"+key+".xml");
@@ -78,7 +78,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
     			out.close();
 	    	}catch(Exception e){
 				OutputStream out = response.getOutputStream();
-				out.write("false".getBytes("utf-8"));
+				out.write("Napaka pri brisanju paketa.".getBytes("utf-8"));
 				out.flush();
 				out.close();
 	    		e.printStackTrace();
@@ -91,25 +91,47 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			String do_datum = (String) request.getParameter("do_datum");
 			String skupina = (String) request.getParameter("skupina");
 			
+	    	Statement stmt = null;
+	    	ResultSet rs = null;
 			try {
-				
-				String ret = createArsoPaket(keyChecked, sif_upor, tabela, od_datum, do_datum, skupina);
+		    	//preberem id paketa
+			    connectionMake();
+			    String query = 	"select max(sifra)+1 as sifra from arso_paketi";
+		    	
+		    	stmt = con.createStatement();   	
+		    	rs = stmt.executeQuery(query);
+		    	int sifra = 0;
+		    	while (rs.next()) {
+		    		sifra = rs.getInt("sifra");
+		    	}
+		    	String imePaketa = "arso_paket_"+sifra+".xml";
+
+		    	String ret = createArsoPaket(keyChecked, sif_upor, tabela, od_datum, do_datum, skupina, sifra, imePaketa);
 				if (ret == null) throw new Exception("napaka");
 	
-				//System.out.println("XML="+ret[0]);
-							
 				//vrnemo rezultat
+				response.setContentType("application/octet-stream");
+				response.setHeader("Content-disposition", "attachment; filename=arso_paket_"+sifra+".xml");
 				OutputStream out = response.getOutputStream();
 				out.write(ret.getBytes("utf-8"));
 				out.flush();
 				out.close();
 				
 			} catch (Exception e) {
+				e.printStackTrace();
 				OutputStream out = response.getOutputStream();
-				out.write("false".getBytes("utf-8"));
+				out.write("Napaka pri pripravi podatkov.".getBytes("utf-8"));
 				out.flush();
 				out.close();
-				e.printStackTrace();
+		    	try {
+		    		if (rs != null) {
+		    			rs.close();
+		    		}
+		    		if (stmt != null) {
+		    			stmt.close();
+		    		}
+				} catch (Exception ex) {
+				}
 			}
 		}
 	
@@ -380,7 +402,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		return null;
 	}
 	
-	private String createArsoPaket(String keyChecked, String sif_upor, String tabela, String od_datum, String do_datum, String skupina) {
+	private String createArsoPaket(String keyChecked, String sif_upor, String tabela, String od_datum, String do_datum, String skupina, int sifra, String imePaketa) {
 
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -389,20 +411,10 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 	    	con.setAutoCommit(false);
 	    	
-	    	//preberem id paketa
-	    	String query = 	"select max(sifra)+1 as sifra from arso_paketi";
-	    	
-	    	stmt = con.createStatement();   	
-	    	rs = stmt.executeQuery(query);
-	    	int sifra = 0;
-	    	while (rs.next()) {
-	    		sifra = rs.getInt("sifra");
-	    	}
-	    	String imePaketa = "arso_paket_"+sifra+".xml";
 			if (skupina.equals("-1")) skupina = null;
 	    	
 	    	//kreiram nov paket
-	    	query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml) " +
+	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml) " +
 	    				"values (" + sifra + ",now(),'" + od_datum + "','" + od_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked.replaceAll("'", "") + "')";
 	    	
 	    	System.out.println(query);
@@ -438,7 +450,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			
 			con.commit();
 			
-			return imePaketa;
+			return stringWriter.toString();
 	    } catch (Exception theException) {
 	    	try{
 	   		 if(con!=null) con.rollback();
