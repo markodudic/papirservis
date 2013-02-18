@@ -107,11 +107,11 @@ function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina) {
 		}
 	}
 
-	/*if (keyChecked != "") {
-		document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked;
-		document.getElementById('arsopaketinew').submit();
-	}*/
-	var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
+	document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina;
+	document.getElementById('arsopaketinew').submit();
+	
+	
+	/*var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
 
 	if(result == "false") 
 		alert("Prišlo je do napake pri pripravi podatkov.");
@@ -119,9 +119,9 @@ function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina) {
 		alert("Datoteka "+result+" je uspešno pripravljena.");
 		document.getElementById('arsopaketinew').action = '/papirservis/paketi/'+result;
 		document.getElementById('arsopaketinew').submit();
-	}
-
-	izberiVse(keys, false);
+	}*/
+	
+//	izberiVse(keys, false);
 }
 
 function izberiVse(keys, tip) {
