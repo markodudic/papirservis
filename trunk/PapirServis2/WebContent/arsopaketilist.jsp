@@ -45,7 +45,7 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 						" WHERE id IN " +
 						" 		 (select CAST(ids AS CHAR(10000) CHARACTER SET utf8) from arso_paketi where sifra="+key1+")";
 	    	stmt.executeUpdate(sqlquery);
-	    	//out.println(sqlquery);
+	    	out.println(sqlquery);
 	    	
 			if (a.equals("D")) // brisi paket
 		    	sqlquery = "delete from arso_paketi where sifra="+key1;
