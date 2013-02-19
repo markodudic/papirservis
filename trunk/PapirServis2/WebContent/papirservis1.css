@@ -118,6 +118,10 @@ a:visited {
 	background-color: #808080; /* kolicina = 0  */		
 }
 	
+.ewCellNoPrenosRow {
+	background-color: #0583f8; /* arso_prenos = 0  */		
+}
+
 .ewCellDontSendRow {
 	background-color: #FF0000; /* arso dont send  */	
 }
