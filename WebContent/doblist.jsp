@@ -1916,12 +1916,23 @@ if (key != null && key.length() > 0) {
 	<td></td>
 <% } %>
 
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_obdelana.equals("0") || x_arso_status.equals("0") || x_arso_prenos.equals("0")) ) { %>
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && x_arso_status.equals("0") ) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
 <% } else {%>
 	<td></td>
 <% } %>
-		<td class=<% out.print((x_obdelana.equals("1") && x_arso_prenos.equals("1") ? (x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : (x_arso_status.equals("0") ? "ewCellDontSendRow" : (x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : "ewCellConfirmedRow"))):"")); %> ><% out.print(x_st_dob); %>&nbsp;</td>
+		<td class=<% out.print((x_obdelana.equals("1") ? 
+								(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
+									(x_arso_prenos.equals("0") &&  !x_kolicina.equals("0") &&  x_arso_status.equals("0") ? "ewCellNoPrenosRow" : 
+										(x_arso_prenos.equals("1") &&  x_arso_status.equals("0") ? "ewCellDontSendRow" : 
+											(x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : 
+												(x_arso_status.equals("2") ? "ewCellConfirmedRow" : "")
+											)
+										)
+									)
+								):""
+							   )
+							 ); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
