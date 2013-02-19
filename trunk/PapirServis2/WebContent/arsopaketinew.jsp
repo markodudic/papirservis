@@ -452,8 +452,7 @@ while (rs.next() && recCount < stopRec) {
 	if (!rs.getString("sif_kam").equals("0") && (rs.getString("kamion_maticna")==null || rs.getString("kamion_maticna").equals(""))) 							error += "Matična prevoznika,";
 	if (!rs.getString("sif_kam").equals("0") && (rs.getString("arso_prvz_status")==null || rs.getString("arso_prvz_status").equals(""))) 						error += "Status prevoznika,";
 	if (rs.getString("datum_odaje")==null || rs.getString("datum_odaje").equals("")) 								error += "Datum oddaje/prevzema,";
-	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija prevzema,";
-	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija prevzema,";
+	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija ravnanja,";
 	if (rs.getString("ewc")==null || rs.getString("ewc").equals("")) 												error += "EWC koda,";
 	if (rs.getString("kolicina")==null || rs.getString("kolicina").equals("")) 										error += "Količina,";
 	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 					error += "Embalaža,";
@@ -462,7 +461,7 @@ while (rs.next() && recCount < stopRec) {
 	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 					error += "Fizikalna lastnost,";
 	if (rs.getString("arso_odp_tip")==null || rs.getString("arso_odp_tip").equals("")) 								error += "Tip odpadka,";
 	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 			error += "Dejavnost nastanka,";
-	if (rs.getString("arso_odp_loc_id")==null || rs.getString("arso_odp_loc_id").equals("")) 						error += "Lokacija ravnanja,";
+	if (rs.getString("arso_odp_loc_id")==null || rs.getString("arso_odp_loc_id").equals("")) 						error += "Lokacija prevzema,";
 	if (rs.getString("arso_aktivnost_pslj")==null || rs.getString("arso_aktivnost_pslj").equals("")) 				error += "Aktivnost pošiljatelja,";
 	if (rs.getString("arso_aktivnost_prjm")==null || rs.getString("arso_aktivnost_prjm").equals("")) 				error += "Aktivnost prejemnika,";
 	
