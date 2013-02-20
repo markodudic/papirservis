@@ -651,7 +651,7 @@ while (rs.next() && recCount < stopRec) {
 %>
 </table>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>");'></p>
+<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>");'></p>
 <% } %>
 </form>
 <%

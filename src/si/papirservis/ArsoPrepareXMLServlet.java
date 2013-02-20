@@ -423,7 +423,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			
 	    	//kreiram nov paket
 	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml, ids) " +
-	    				"values (" + sifra + ",now(),'" + od_datum + "','" + od_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked + "','"+ids+"')";
+	    				"values (" + sifra + ",now(),'" + od_datum + "','" + do_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked + "','"+ids+"')";
 	    	
 	    	System.out.println(query);
 			stmt = con.createStatement();   	
