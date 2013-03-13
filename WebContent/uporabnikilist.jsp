@@ -326,6 +326,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("arso")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_popravljanje")) ? "<b>" : ""%>
+<a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("arso_popravljanje","UTF-8") %>">arso popravljanje&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("arso_popravljanje")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_popravljanje")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("vse")) ? "<b>" : ""%>
 <a href="uporabnikilist.jsp?order=<%= java.net.URLEncoder.encode("vse","UTF-8") %>">vse stranke&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("vse")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("uporabniki_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("uporabniki_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("vse")) ? "</b>" : ""%>
@@ -393,6 +398,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_narocila = "";
 	String x_narocila_potrjevanje = "";
 	String x_arso = "";
+	String x_arso_popravljanje = "";
 	String x_vse = "";
 	String x_enote= "";
 	String x_sif_enote = "";
@@ -462,8 +468,11 @@ while (rs.next() && recCount < stopRec) {
 	}
 
 	// narocila
-	if (rs.getBoolean("narocila")){
-		x_narocila = "X";
+	if (rs.getString("narocila") != null){
+		if (rs.getString("narocila").equals("1"))
+			x_narocila = "X";
+		else if (rs.getString("narocila").equals("2"))
+			x_narocila = "XX";
 	}else{
 		x_narocila = "";
 	}
@@ -481,6 +490,14 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_arso = "";
 	}
+
+	// arso popravljanje
+	if (rs.getBoolean("arso_popravljanje")){
+		x_arso_popravljanje = "X";
+	}else{
+		x_arso_popravljanje = "";
+	}
+	
 	
 	// vse
 	if (rs.getBoolean("vse")){
@@ -533,6 +550,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_narocila);%>&nbsp;</td>		
 		<td><% out.print(x_narocila_potrjevanje);%>&nbsp;</td>		
 		<td><% out.print(x_arso);%>&nbsp;</td>		
+		<td><% out.print(x_arso_popravljanje);%>&nbsp;</td>		
 		<td><% out.print(x_vse);%>&nbsp;</td>
 		<td><% out.print(x_enote);%>&nbsp;</td>		
 <td><%

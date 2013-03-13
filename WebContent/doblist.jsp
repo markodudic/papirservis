@@ -25,6 +25,8 @@ final int ewAllowAdmin = 16;
 int ewCurSec = 0; // initialise
 ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).intValue();
 
+int arsoPopravljanje = ((Integer) session.getAttribute("papirservis1_status_Arso_popravljanje")).intValue();
+
 %>
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
@@ -1894,7 +1896,7 @@ if (key != null && key.length() > 0) {
 } %>"><img width="16" height="16" border="0" alt="Pregled" title="Pregled" src="images/browse.gif"></a></span></td>
 <% } %>
 
-<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && x_arso_status.equals("0")) { %>
+<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit && (x_arso_status.equals("0") || arsoPopravljanje==1)) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
 	out.print("dobedit.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
@@ -1905,7 +1907,7 @@ if (key != null && key.length() > 0) {
 	<td></td>
 <% } %>
 
-<% if ((ewCurSec & ewAllowAdd) == ewAllowAdd && x_arso_status.equals("0") ) { %>
+<% if ((ewCurSec & ewAllowAdd) == ewAllowAdd && (x_arso_status.equals("0") || arsoPopravljanje==1) ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
 	out.print("dobadd.jsp?key=" + java.net.URLEncoder.encode(key,"UTF-8"));
@@ -1916,7 +1918,7 @@ if (key != null && key.length() > 0) {
 	<td></td>
 <% } %>
 
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && x_arso_status.equals("0") ) { %>
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_arso_status.equals("0") || arsoPopravljanje==1) ) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
 <% } else {%>
 	<td></td>
