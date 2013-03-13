@@ -50,7 +50,7 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 			if (a.equals("D")) // brisi paket
 		    	sqlquery = "delete from arso_paketi where sifra="+key1;
 			else 
-		    	sqlquery = "update arso_paketi set potrjen=1, arso_st=" + request.getParameter("arso_st") + " where sifra="+key1;
+		    	sqlquery = "update arso_paketi set potrjen=1 where sifra="+key1;
 			//out.println(sqlquery);
 	    	stmt.executeUpdate(sqlquery);
 	    	stmt.close();
@@ -286,14 +286,14 @@ function disableSome(EW_this){
 </script>
 
 <p><span class="jspmaker">Pregled: arso paketi</span></p>
-<form action="arsopaketilist.jsp">
+<form action="arsopaketirocnolist.jsp">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
-		&nbsp;&nbsp;<a href="arsopaketilist.jsp?cmd=reset">Prikaži vse</a>
+		&nbsp;&nbsp;<a href="arsopaketirocnolist.jsp?cmd=reset">Prikaži vse</a>
 		</span></td>
 	</tr>
 	<tr>
@@ -328,12 +328,12 @@ out.println(x_skupinaList);
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
 			<input type="text" name="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
-		&nbsp;&nbsp;<input type="button" name="btnnew" value="Potrdi" onClick="this.form.action='arsopaketinew.jsp?cmd=reset&od_datum=this.form.od_datum.value&do_datum=this.form.do_datum.value';this.form.submit();">
+		&nbsp;&nbsp;<input type="button" name="btnnew" value="Potrdi" onClick="this.form.action='arsopaketirocnonew.jsp?cmd=reset&od_datum=this.form.od_datum.value&do_datum=this.form.do_datum.value';this.form.submit();">
 		</span></td>
 	</tr>
 </table>
 </form>
-<form id="arsopaketi" action="arsopaketilist.jsp" method="post">
+<form id="arsopaketi" action="arsopaketirocnolist.jsp" method="post">
 <input type="hidden" name="a" id="a" value="C">
 <input type="hidden" name="key" id="key" value="">
 <input type="hidden" name="arso_st" id="arso_st" value="">
@@ -345,52 +345,52 @@ out.println(x_skupinaList);
 <% } %>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sifra")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("sifra","UTF-8") %>">Sifra&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sifra")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("sifra","UTF-8") %>">Sifra&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sifra")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sifra")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("od")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("od","UTF-8") %>">Od&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("od")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("od","UTF-8") %>">Od&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("od")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("od")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("do")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("do","UTF-8") %>">Do&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("do")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("do","UTF-8") %>">Do&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("do")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("do")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("skupina","UTF-8") %>">Skupina&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("skupina","UTF-8") %>">Skupina&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("skupina")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("potrjen")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("potrjen","UTF-8") %>">Potrjen&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("potrjen")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("potrjen","UTF-8") %>">Potrjen&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("potrjen")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("potrjen")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","UTF-8") %>">Uporabnik&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("naziv")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("naziv","UTF-8") %>">Naziv&nbsp;paketa(*)<% if (OrderBy != null && OrderBy.equals("naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("naziv","UTF-8") %>">Naziv&nbsp;paketa(*)<% if (OrderBy != null && OrderBy.equals("naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("naziv")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_st")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("arso_st","UTF-8") %>">Arso&nbsp;št.(*)<% if (OrderBy != null && OrderBy.equals("arso_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("arso_st","UTF-8") %>">Arso&nbsp;št.(*)<% if (OrderBy != null && OrderBy.equals("arso_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_st")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("xml")) ? "<b>" : ""%>
-<a href="arsopaketilist.jsp?order=<%= java.net.URLEncoder.encode("xml","UTF-8") %>">Dobavnice&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("xml")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnolist.jsp?order=<%= java.net.URLEncoder.encode("xml","UTF-8") %>">Dobavnice&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("xml")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("xml")) ? "</b>" : ""%>
 		</td>
 </tr>
@@ -520,11 +520,11 @@ while (rs.next() && recCount < stopRec) {
 %>
 	<tr class="<%= rowclass %>">
 <td><% if (x_potrjen.equals("0")) { %>
-<input type="submit" name="btnconfirm" value="Potrdi" onClick='var arso_st=prompt("Vnesite ARSO številko paketa.","");if(arso_st==null) return false; document.getElementById("arso_st").value=arso_st; document.getElementById("a").value="C"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>;'>
+<input type="submit" name="btnconfirm" value="Potrdi" onClick='if(!confirm("Res želite potrditi paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("arso_st").value=arso_st; document.getElementById("a").value="C"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>;'>
 <% } %>
 </td>
 <td><% if (x_potrjen.equals("0")) { %>
-<input type="submit" name="btndelete" value="Briši" onClick='if(!confirm("Res želite zbrisati paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="D"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>; if (zbrisiPaket("<%= HTMLEncode((String)x_naziv)%>")) return false;'>
+<input type="submit" name="btndelete" value="Briši" onClick='if(!confirm("Res želite zbrisati paket <%= HTMLEncode((String)key) %>?")) return false; document.getElementById("a").value="D"; document.getElementById("key").value=<%= HTMLEncode((String)key) %>; '>
 <% } %>
 </td>
 		<td><% out.print(x_sifra); %>&nbsp;</td>
@@ -576,13 +576,13 @@ if (totalRecs > 0) {
 	<% if (startRec==1) { %>
 	<td><img src="images/firstdisab.gif" alt="First" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketilist.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnolist.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--previous page button-->
 	<% if (PrevStart == startRec) { %>
 	<td><img src="images/prevdisab.gif" alt="Previous" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketilist.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnolist.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--current page number-->
 	<td><input type="text" name="pageno" value="<%=(startRec-1)/displayRecs+1%>" size="4"></td>
@@ -590,13 +590,13 @@ if (totalRecs > 0) {
 	<% if (NextStart == startRec) { %>
 	<td><img src="images/nextdisab.gif" alt="Next" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketilist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnolist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--last page button-->
 	<% if (LastStart == startRec) { %>
 	<td><img src="images/lastdisab.gif" alt="Last" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketilist.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnolist.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
 	<% } %>
 	<td><span class="jspmaker">&nbsp;od <%=(totalRecs-1)/displayRecs+1%></span></td>
 	</tr></table>
