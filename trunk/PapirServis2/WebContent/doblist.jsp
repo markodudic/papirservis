@@ -52,6 +52,10 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 <%
 
 // Get search criteria for basic search
+String skupina = request.getParameter("skupina");
+String od_datum = request.getParameter("od_datum");
+String do_datum = request.getParameter("do_datum");
+
 String pSearch = request.getParameter("psearch");
 String pSearchType = request.getParameter("psearchtype");
 if (pSearch != null && pSearch.length() > 0) {
@@ -961,17 +965,32 @@ else{
 		countQuery.append(" WHERE (dob.st_dob = zadnji.sd and dob.pozicija = zadnji.pozicija and dob.zacetek = zadnji.zacetek)");
 	}
 }
+if (skupina!=null && !skupina.equals("-1")) {
+	countQuery.append(" AND dob.skupina = " + skupina);
+}
+if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
+	if (od_datum!=null && !od_datum.equals("")) {
+		countQuery.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
+	}
+	if (do_datum!=null && !do_datum.equals("")) {
+		countQuery.append(" AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
+	}
+}
 
 String strankeTip = (String) session.getAttribute("vse");
 if(strankeTip.equals("0")){
 	countQuery.append(" and potnik = " + session.getAttribute("papirservis1_status_UserID"));
 }
 
+
+
 Statement stmtCount = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 ResultSet rsCount = null;
 String countQueryStr = countQuery.toString().replace("dob.*", "count(dob.id)");
 rsCount = stmtCount.executeQuery(countQueryStr);
 rsCount.next();
+
+
 
 totalRecs = rsCount.getInt(1);
 rsCount = null;
@@ -1064,12 +1083,41 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 	String enoteTip = (String) session.getAttribute("enote");
 
 	strsql.append(" , (SELECT st_dob sd, pozicija, max(zacetek) zacetek FROM " + session.getAttribute("letoTabela") + " dob ");
+	boolean where = false;
 	if(enoteTip.equals("0")){
 		strsql.append(" LEFT JOIN kupci k ON dob.sif_kupca = k.sif_kupca ");
 		strsql.append(" WHERE k.sif_enote = " + session.getAttribute("papirservis1_status_Enota"));
+		where = true;
+	}
+	if (skupina!=null && !skupina.equals("-1")) {
+		if(where)
+			strsql.append(" AND dob.skupina = " + skupina);
+		else {
+			where = true;
+			strsql.append(" WHERE dob.skupina = " + skupina);
+		}
+	}
+
+	if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
+		if (od_datum!=null && !od_datum.equals("")) {
+			if(where)
+				strsql.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
+			else {
+				where = true;
+				strsql.append(" WHERE dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
+			}
+		}
+		if (do_datum!=null && !do_datum.equals("")) {
+			if(where)
+				strsql.append(" AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
+			else {
+				where = true;
+				strsql.append(" WHERE dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
+			}
+		}
 	}
 	if (dbwhere.length() > 0) {
-		if(enoteTip.equals("0"))
+		if(enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")))
 			strsql.append(" AND (" + dbwhere + ") ");
 		else
 			strsql.append(" WHERE (" + dbwhere + ") ");
@@ -1128,6 +1176,7 @@ if(strankeTip.equals("0")){
 
 
 
+
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql.append(" ORDER BY `").append(OrderBy).append("` ").append((String) session.getAttribute("dob_OT"));
 }
@@ -1150,6 +1199,20 @@ rs = stmt.executeQuery(strsql.toString());
 //stmtCount = null;
 }
 rs.beforeFirst();
+
+Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
+String y 	= String.valueOf(dat.get(Calendar.YEAR));
+String m 	= String.valueOf(dat.get(Calendar.MONTH) + 1);
+String d  = String.valueOf(dat.get(Calendar.DAY_OF_MONTH));
+if(d.length() == 1) d = "0" + d;
+if(m.length() == 1) m = "0" + m;
+
+String s = d;
+s = s + "." + m;
+s = s + "." + y;
+
+if (od_datum == null) od_datum = s;
+if (do_datum == null) do_datum = s;
 %>
 <%@ include file="header.jsp" %>
 <script language="JavaScript">
@@ -1161,6 +1224,7 @@ function setShowRecords(c){
 	document.getElementById("dobForm").submit();	
 }
 </script>
+<script language="JavaScript" src="popcalendar.js"></script>
 
 <p><span class="jspmaker">Pregled: dobavnice</span></p>
 <form id="dobForm" action="doblist.jsp" accept-charset="UTF-8"  method="post">
@@ -1170,10 +1234,47 @@ function setShowRecords(c){
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
-			<input type="text" name="psearch" size="20">
+			<input type="text" name="psearch" value='<%= pSearch!=null?pSearch:"" %>' size="20">
 			<input type="Submit" name="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="doblist.jsp?cmd=reset">Prikaži vse</a>
 		&nbsp;&nbsp;<a href="doblist.jsp?cmd=top">Prikaži zadnje</a>
+		</span></td>
+	</tr>
+	<tr>
+		<td class="jspmaker">Skupina&nbsp;</td>
+		<td class="jspmaker"><%
+String cbo_x_skupina_js = "";
+String x_skupinaList = "<select name=\"skupina\"><option value=\"-1\">Izberi</option>";
+String sqlwrk_x_skupina = "SELECT `skupina`, `tekst` FROM `skup` ORDER BY `tekst` ASC";
+Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_skupina = stmtwrk_x_skupina.executeQuery(sqlwrk_x_skupina);
+	int rowcntwrk_x_skupina = 0;
+	while (rswrk_x_skupina.next()) {
+		x_skupinaList += "<option value=\"" + HTMLEncode(rswrk_x_skupina.getString("skupina")) + "\"";
+		if (rswrk_x_skupina.getString("skupina").equals(skupina)) {
+			x_skupinaList += " selected";
+		}		
+		String tmpValue_x_skupina = "";
+		if (rswrk_x_skupina.getString("tekst")!= null) tmpValue_x_skupina = rswrk_x_skupina.getString("tekst");
+		x_skupinaList += ">" + tmpValue_x_skupina + "</option>";
+		rowcntwrk_x_skupina++;
+	}
+rswrk_x_skupina.close();
+rswrk_x_skupina = null;
+stmtwrk_x_skupina.close();
+stmtwrk_x_skupina = null;
+x_skupinaList += "</select>";
+out.println(x_skupinaList);
+%>
+&nbsp;</td>
+	</tr>
+	<tr>
+		<td><span class="jspmaker">Datum</span></td>
+		<td><span class="jspmaker">
+			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
+			<input type="text" name="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
 		</span></td>
 	</tr>
 </table>
