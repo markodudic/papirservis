@@ -67,7 +67,18 @@ Object x_skupina_text = null;
 Object x_opomba = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
-
+Object x_stev_km_norm = null;
+Object x_stev_ur_norm = null;
+Object x_cena = null;
+Object x_cena_km = null;
+Object x_cena_ura = null;
+Object x_c_km = null;
+Object x_c_ura = null;
+String x_arso_prjm_status = "";
+String x_arso_aktivnost_prjm = "";
+String x_arso_odp_embalaza_shema = "";
+String x_arso_odp_dej_nastanka = "";
+String x_arso_prenos = "";
 
 StringBuffer x_sif_strList = null;
 StringBuffer x_sif_kupcaList = null;
@@ -82,6 +93,19 @@ StringBuffer sif_skupina = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
+
+StringBuffer stranka_cena = new StringBuffer();
+StringBuffer stranka_stev_km_norm = new StringBuffer();
+StringBuffer stranka_stev_ur_norm = new StringBuffer();
+StringBuffer cena_km = new StringBuffer();
+StringBuffer cena_ura = new StringBuffer();
+StringBuffer c_km = new StringBuffer();
+StringBuffer c_ura = new StringBuffer();
+StringBuffer arso_prjm_status = new StringBuffer();
+StringBuffer arso_aktivnost_prjm = new StringBuffer();
+StringBuffer arso_odp_embalaza_shema = new StringBuffer();
+StringBuffer arso_odp_dej_nastanka = new StringBuffer();
+StringBuffer arso_prenos = new StringBuffer();
 
 String opomba = "/";
 
@@ -176,6 +200,8 @@ try{
 				x_zacetek = null;
 			}
 			x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			
+	
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -455,6 +481,7 @@ try{
 		updateSql += "opomba= '" + tmpfld + "', ";
 
 
+		
 		//Set it as dobavnica
 		updateSql += "where id = " + tkey;
 		
@@ -547,10 +574,44 @@ try{
 		if (request.getParameter("x_uporabnik") != null){
 			x_uporabnik = request.getParameter("x_uporabnik");
 		}
+		if (request.getParameter("x_stev_km_norm") != null){
+			x_stev_km_norm = (String) request.getParameter("x_stev_km_norm");
+		}else{
+			x_stev_km_norm = "";
+		}
+		if (request.getParameter("x_stev_ur_norm") != null){
+			x_stev_ur_norm = (String) request.getParameter("x_stev_ur_norm");
+		}else{
+			x_stev_ur_norm = "";
+		}
+		if (request.getParameter("x_cena_km") != null){
+			x_cena_km = (String) request.getParameter("x_cena_km");
+		}else{
+			x_cena_km = "";
+		}
+		if (request.getParameter("x_cena_ura") != null){
+			x_cena_ura = (String) request.getParameter("x_cena_ura");
+		}else{
+			x_cena_ura = "";
+		}
+		if (request.getParameter("x_c_km") != null){
+			x_c_km = (String) request.getParameter("x_c_km");
+		}else{
+			x_c_km = "";
+		}
+		if (request.getParameter("x_c_ura") != null){
+			x_c_ura = (String) request.getParameter("x_c_ura");
+		}else{
+			x_c_ura = "";
+		}
+		if (request.getParameter("x_cena") != null){
+			x_cena = (String) request.getParameter("x_cena");
+		}else{
+			x_cena = "";
+		}
 
 
-
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion, koda, ewc, kolicina, skupina, skupina_text, opomba, uporabnik, aplikacija) values(";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion, koda, ewc, kolicina, skupina, skupina_text, opomba, cena_km, cena_ura, c_km, c_ura, cena, stev_km_norm, stev_ur_norm, uporabnik, aplikacija ) values(";
 
 
 		// Open record
@@ -762,12 +823,48 @@ try{
 		else
 			strsql += tmpfld + ", ";
 
+		// Field cena_km
+		tmpfld = ((String) x_cena_km).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field cena_ura
+		tmpfld = ((String) x_cena_ura).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field c_km
+		tmpfld = ((String) x_c_km).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field c_ura
+		tmpfld = ((String) x_c_ura).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field cena
+		tmpfld = ((String) x_cena).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		
+		// Field stev_km_norm
+		tmpfld = ((String) x_stev_km_norm).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
+		// Field stev_ur_norm
+		tmpfld = ((String) x_stev_ur_norm).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+		
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 
 		strsql += session.getAttribute("papirservis1_status_UserID") + ", 1 )"; //1 - aplikacija
 		Statement stmt1 = conn.createStatement();
-
+System.out.println(strsql);
 		stmt1.executeUpdate(strsql);
 		stmt1.close();
 		stmt1 = null;
@@ -852,7 +949,7 @@ String cbo_x_sif_str_js = "";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -861,8 +958,8 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"		FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji1 "+
 	"		WHERE osnovna.sif_os = zadnji1.sif_os and "+
 	"		      osnovna.zacetek = zadnji1.datum) o, "+
-	"	`kupci` k, `skup` sk  "+
-	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and "+ 
+	"	`kupci` k, `skup` sk, enote  "+
+	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + strankeQueryFilter  + 
 	" ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
 
@@ -883,6 +980,15 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
+		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
+		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
+		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
+
+		arso_prjm_status.append("arso_prjm_status[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_prjm_status"))).append("';");
+		arso_aktivnost_prjm.append("arso_aktivnost_prjm[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_aktivnost_prjm"))).append("';");
+		arso_odp_embalaza_shema.append("arso_odp_embalaza_shema[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_embalaza_shema"))).append("';");
+		arso_odp_dej_nastanka.append("arso_odp_dej_nastanka[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_odp_dej_nastanka"))).append("';");
+		arso_prenos.append("arso_prenos[").append(tmpSif).append("]='").append(String.valueOf(rswrk_x_sif_str.getString("arso_prenos"))).append("';");
 
 
 		String tmpValue_x_sif_str = "";
@@ -924,6 +1030,11 @@ ResultSet rswrk_x_sif_kam = stmtwrk_x_sif_kam.executeQuery(sqlwrk_x_sif_kam);
 		String tmpValue_x_sif_kam = "";
 		if (tmpKamion!= null) tmpValue_x_sif_kam = tmpKamion;
 		x_sif_kamList.append(">").append(tmpValue_x_sif_kam).append("</option>");
+
+		cena_km.append("cena_km[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_kam.getDouble("cena_km"))).append(";");
+		cena_ura.append("cena_ura[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_kam.getDouble("cena_ura"))).append(";");
+		c_km.append("c_km[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_kam.getDouble("c_km"))).append(";");
+		c_ura.append("c_ura[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_kam.getDouble("c_ura"))).append(";");
 
 		rowcntwrk_x_sif_kam++;
 	}
@@ -1068,10 +1179,41 @@ var skupina = new Array();
 <%=skupina%>
 var sif_ewc = new Array();
 <%=sif_ewc%>
-
-
+var stranka_cena = new Array();
+<%=stranka_cena%>
+var stranka_stev_ur_norm = new Array();
+<%=stranka_stev_ur_norm%>
+var stranka_stev_km_norm = new Array();
+<%=stranka_stev_km_norm%>
+var cena_km = new Array();
+<%=cena_km%>
+var cena_ura = new Array();
+<%=cena_ura%>
+var c_km = new Array();
+<%=c_km%>
+var c_ura = new Array();
+<%=c_ura%>
+var arso_prjm_status = new Array();
+<%=arso_prjm_status%>
+var arso_aktivnost_prjm = new Array();
+<%=arso_aktivnost_prjm%>
+var arso_odp_embalaza_shema = new Array();
+<%=arso_odp_embalaza_shema%>
+var arso_odp_dej_nastanka = new Array();
+<%=arso_odp_dej_nastanka%>
+var arso_prenos = new Array();
+<%=arso_prenos%>
 
 function updateSubfileds(EW_this){
+	updateKamion();
+}
+
+
+function updateKamion(){
+	document.dobedit.x_c_km.value = c_km[document.dobedit.x_sif_kam.value];
+	document.dobedit.x_c_ura.value = c_ura[document.dobedit.x_sif_kam.value];
+	document.dobedit.x_cena_km.value = cena_km[document.dobedit.x_sif_kam.value];
+	document.dobedit.x_cena_ura.value = cena_ura[document.dobedit.x_sif_kam.value];
 }
 
 
@@ -1081,8 +1223,22 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_sif_kupca.value = sif_kupac[document.dobedit.x_sif_str.value];
 	document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
 	document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
-
+	
+	updateStranke();
 }
+
+function updateStranke(){
+	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
+	document.dobedit.x_stev_km_norm.value = stranka_stev_km_norm[document.dobedit.x_sif_str.value];
+	document.dobedit.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobedit.x_sif_str.value];
+
+	document.dobedit.x_arso_prjm_status.value = arso_prjm_status[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
+	document.dobedit.x_arso_prenos.value = arso_prenos[document.dobedit.x_sif_str.value];
+}
+
 
 function updateKoda(EW_this){
 	document.dobedit.x_sit_sort.value = material_sit_sort[document.dobedit.x_koda.selectedIndex - 1];
@@ -1099,6 +1255,7 @@ function disableSome(){
 	document.dobedit.x_sif_kupca_ll.disabled=true;
 	document.dobedit.x_skupina_ll.disabled=true;
 }
+
 function  EW_checkMyForm(EW_this) {
 if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
             if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
@@ -1159,6 +1316,18 @@ return true;
 <input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
 <input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
+<input type="hidden" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">
+<input type="hidden" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">
+<input type="hidden" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">
+<input type="hidden" name="x_cena_km" size="30" value="<%= HTMLEncode((String)x_cena_km) %>">
+<input type="hidden" name="x_cena_ura" size="30" value="<%= HTMLEncode((String)x_cena_ura) %>">
+<input type="hidden" name="x_c_km" size="30" value="<%= HTMLEncode((String)x_c_km) %>">
+<input type="hidden" name="x_c_ura" size="30" value="<%= HTMLEncode((String)x_c_ura) %>">
+<input type="hidden" name="x_arso_prjm_status" size="30" value="<%= HTMLEncode((String)x_arso_prjm_status) %>">
+<input type="hidden" name="x_arso_aktivnost_prjm" size="30" value="<%= HTMLEncode((String)x_arso_aktivnost_prjm) %>">
+<input type="hidden" name="x_arso_odp_embalaza_shema" size="30" value="<%= HTMLEncode((String)x_arso_odp_embalaza_shema) %>">
+<input type="hidden" name="x_arso_odp_dej_nastanka" size="30" value="<%= HTMLEncode((String)x_arso_odp_dej_nastanka) %>">
+<input type="hidden" name="x_arso_prenos" size="30" value="<%= HTMLEncode((String)x_arso_prenos) %>">
 
 <table class="ewTable">
 <tr><td class="ewTableAltRow">Opomba stranke:<%=opomba%></td></tr>
@@ -1240,6 +1409,6 @@ return true;
 </table>
 <p>
 <input type="submit" name="Action" value="Potrdi spremembo" tabindex=1>
-<input type="submit" name="Action" value="Potrdi naro&#269;ilo" tabindex=1 onclick="document.dobedit.a.value='C';">
+<input type="submit" name="Action" value="Potrdi naro&#269;ilo" tabindex=1 onclick="updateKamion();updateStranke();document.dobedit.a.value='C';">
 </form>
 <%@ include file="footer.jsp" %>

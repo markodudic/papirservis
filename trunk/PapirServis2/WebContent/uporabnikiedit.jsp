@@ -68,12 +68,13 @@ Object x_sif_enote = null;
 Object x_sif_kupca = null;
 boolean x_aktiven = false;
 boolean x_porocila = false;
-boolean x_narocila = false;
+Object x_narocila = null;
 boolean x_narocila_potrjevanje = false;
 boolean x_arso = false;
+boolean x_arso_popravljanje = false;
 boolean x_vse = false;
 boolean x_enote = false;
-
+StringBuffer x_sif_kupcaList = null;
 // Open Connection to the database
 try{
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -136,9 +137,14 @@ try{
 
 			x_aktiven = rs.getBoolean("aktiven");
 			x_porocila = rs.getBoolean("porocila");
-			x_narocila = rs.getBoolean("narocila");
+			if (rs.getString("narocila") != null){
+				x_narocila = rs.getString("narocila");
+			}else{
+				x_narocila = "";
+			}
 			x_narocila_potrjevanje = rs.getBoolean("narocila_potrjevanje");
 			x_arso = rs.getBoolean("arso");
+			x_arso_popravljanje = rs.getBoolean("arso_popravljanje");
 			x_vse = rs.getBoolean("vse");
 			x_enote = rs.getBoolean("enote");
 			x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
@@ -238,13 +244,16 @@ try{
 			x_porocila = true;
 		}
 		if (request.getParameter("x_narocila") != null){
-			x_narocila = true;
+			x_narocila = request.getParameter("x_narocila");
 		}
 		if (request.getParameter("x_narocila_potrjevanje") != null){
 			x_narocila_potrjevanje = true;
 		}
 		if (request.getParameter("x_arso") != null){
 			x_arso = true;
+		}
+		if (request.getParameter("x_arso_popravljanje") != null){
+			x_arso_popravljanje = true;
 		}
 		if (request.getParameter("x_vse") != null){
 			x_vse = true;
@@ -351,9 +360,19 @@ try{
 		
 		rs.updateBoolean("aktiven",x_aktiven);
 		rs.updateBoolean("porocila",x_porocila);
-		rs.updateBoolean("narocila",x_narocila);
+		// Field tip
+		tmpfld = ((String) x_narocila);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("narocila");
+		}else{
+			rs.updateString("narocila", tmpfld);
+		}
 		rs.updateBoolean("narocila_potrjevanje",x_narocila_potrjevanje);
 		rs.updateBoolean("arso",x_arso);
+		rs.updateBoolean("arso_popravljanje",x_arso_popravljanje);
 		rs.updateBoolean("vse",x_vse);
 		rs.updateBoolean("enote",x_enote);
 		rs.updateRow();
@@ -367,6 +386,28 @@ try{
 		response.flushBuffer();
 		return;
 	}
+	
+	String cbo_x_sif_kupca_js = "";
+	x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
+	String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv` FROM `kupci` ORDER BY `naziv` ASC";
+	Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
+		int rowcntwrk_x_sif_kupca = 0;
+		while (rswrk_x_sif_kupca.next()) {
+			x_sif_kupcaList.append("<option value=\"" + HTMLEncode(rswrk_x_sif_kupca.getString("sif_kupca")) + "\"");
+			if (rswrk_x_sif_kupca.getString("sif_kupca").equals(x_sif_kupca)) {
+				x_sif_kupcaList.append(" selected");
+			}
+			String tmpValue_x_sif_kupca = "";
+			if (rswrk_x_sif_kupca.getString("naziv")!= null) tmpValue_x_sif_kupca = rswrk_x_sif_kupca.getString("naziv");
+			x_sif_kupcaList.append(">" + tmpValue_x_sif_kupca + "</option>");
+			rowcntwrk_x_sif_kupca++;
+		}
+	rswrk_x_sif_kupca.close();
+	rswrk_x_sif_kupca = null;
+	stmtwrk_x_sif_kupca.close();
+	stmtwrk_x_sif_kupca = null;
+	x_sif_kupcaList.append("</select>");	
 }catch (SQLException ex){
 		out.println(ex.toString());
 }
@@ -435,7 +476,11 @@ return true;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">naročila&nbsp;</td>
-		<td class="ewTableAltRow"><input type="checkbox" name="x_narocila"  <%= x_narocila? "checked" : "" %>></td>
+		<td class="ewTableAltRow">
+    		<INPUT type="radio" name="x_narocila" value="0" <%= x_narocila.equals("0")? "checked" : "" %>>Ni dostopa
+    		<INPUT type="radio" name="x_narocila" value="1" <%= x_narocila.equals("1")? "checked" : "" %>>Kupec
+    		<INPUT type="radio" name="x_narocila" value="2" <%= x_narocila.equals("2")? "checked" : "" %>>Zaposlen
+		</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">naročila&nbsp;potrjevanje&nbsp;</td>
@@ -444,6 +489,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">arso&nbsp;</td>
 		<td class="ewTableAltRow"><input type="checkbox" name="x_arso"  <%= x_arso? "checked" : "" %>></td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">arso&nbsp;popravljanje</td>
+		<td class="ewTableAltRow"><input type="checkbox" name="x_arso_popravljanje"  <%= x_arso_popravljanje? "checked" : "" %>></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">vse stranke&nbsp;</td>
@@ -485,32 +534,7 @@ out.println(x_sif_enoteList);
 
 	<tr>
 		<td class="ewTableHeader">podjetje&nbsp;</td>
-		<td class="ewTableAltRow"><%
-String cbo_x_sif_kupca_js = "";
-String x_sif_kupcaList = "<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>";
-String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv` FROM `kupci` ORDER BY `naziv` ASC";
-Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
-	int rowcntwrk_x_sif_kupca = 0;
-	while (rswrk_x_sif_kupca.next()) {
-		x_sif_kupcaList += "<option value=\"" + HTMLEncode(rswrk_x_sif_kupca.getString("sif_kupca")) + "\"";
-		if (rswrk_x_sif_kupca.getString("sif_kupca").equals(x_sif_kupca)) {
-			x_sif_kupcaList += " selected";
-		}
-		String tmpValue_x_sif_kupca = "";
-		if (rswrk_x_sif_kupca.getString("naziv")!= null) tmpValue_x_sif_kupca = rswrk_x_sif_kupca.getString("naziv");
-		x_sif_kupcaList += ">" + tmpValue_x_sif_kupca
- + "</option>";
-		rowcntwrk_x_sif_kupca++;
-	}
-rswrk_x_sif_kupca.close();
-rswrk_x_sif_kupca = null;
-stmtwrk_x_sif_kupca.close();
-stmtwrk_x_sif_kupca = null;
-x_sif_kupcaList += "</select>";
-out.println(x_sif_kupcaList);
-%>
-&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
 	</tr>
 
 	
