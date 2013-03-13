@@ -70,6 +70,7 @@ if ((meni & ewDriveOut) == ewDriveOut){
 			<% } %>
 			<% if (Integer.parseInt(arso) == 1) { %>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="arsopaketilist.jsp?cmd=resetall">Arso poro&#269;anje</a></span></td></tr>
+				<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="arsopaketirocnolist.jsp?cmd=resetall">Arso poro&#269;anje ro&#269;no</a></span></td></tr>
 			<% } %>
 			<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="sledenje.jsp">Sledenje (Uvoz podatkov)</a></span></td></tr-->
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=17">Sumarno vozniki</a></span></td></tr>

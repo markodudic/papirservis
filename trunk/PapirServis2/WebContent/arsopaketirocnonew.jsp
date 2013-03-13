@@ -219,7 +219,7 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						"			where materiali.koda = zadnji1.koda and materiali.zacetek = zadnji1.zac) mat " +
 						"		ON (dob.koda = mat.koda) ";
 
-whereClause = " arso_status = 0 AND dob.arso_prenos = 1 AND obdelana = 1 AND kolicina > 0 AND ";
+whereClause = " arso_status = 0 AND dob.arso_prenos = 0 AND obdelana = 1 AND kolicina > 0 AND ";
 if (od_datum != null && od_datum.length() > 0) {
 	whereClause = whereClause + " dob.datum >= '" + (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString() + "' AND ";
 }
@@ -411,11 +411,6 @@ function disableSome(EW_this){
 <a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "</b>" : ""%>
 		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("error")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("error","UTF-8") %>">Napake&nbsp;<% if (OrderBy != null && OrderBy.equals("error")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("error")) ? "</b>" : ""%>
-		</td>
 </tr>
 <%
 
@@ -439,32 +434,6 @@ if (startRec == 1)
 else
    rs.previous();
 while (rs.next() && recCount < stopRec) {
-	//preverim ali dobavnica ima vse podatke. ce nima je oznacim rdece in prikazem errorje
-	String error = "";
-	
-	if (rs.getString("arso_pslj_st")==null || rs.getString("arso_pslj_st").equals("")) 								error += "Številka pošiljatelja,";
-	if (rs.getString("kupci_maticna")==null || rs.getString("kupci_maticna").equals("")) 							error += "Matična pošiljatelja,";
-	if (rs.getString("arso_pslj_status")==null || rs.getString("arso_pslj_status").equals("")) 						error += "Status pošiljatelja,";
-	if (rs.getString("arso_prjm_st")==null || rs.getString("arso_prjm_st").equals("")) 								error += "Številka prejemnika,";
-	if (rs.getString("enote_maticna")==null || rs.getString("enote_maticna").equals("")) 							error += "Matična prejemnika,";
-	if (rs.getString("arso_prjm_status")==null || rs.getString("arso_prjm_status").equals("")) 						error += "Status prejemnika,";
-	if (!rs.getString("sif_kam").equals("0") && ((rs.getString("arso_prvz_st")==null || rs.getString("arso_prvz_st").equals("")))) 							error += "Številka prevoznika,";
-	if (!rs.getString("sif_kam").equals("0") && (rs.getString("kamion_maticna")==null || rs.getString("kamion_maticna").equals(""))) 							error += "Matična prevoznika,";
-	if (!rs.getString("sif_kam").equals("0") && (rs.getString("arso_prvz_status")==null || rs.getString("arso_prvz_status").equals(""))) 						error += "Status prevoznika,";
-	if (rs.getString("datum_odaje")==null || rs.getString("datum_odaje").equals("")) 								error += "Datum oddaje/prevzema,";
-	if (rs.getString("arso_odp_locpr_id")==null || rs.getString("arso_odp_locpr_id").equals("")) 					error += "Lokacija ravnanja,";
-	if (rs.getString("ewc")==null || rs.getString("ewc").equals("")) 												error += "EWC koda,";
-	if (rs.getString("kolicina")==null || rs.getString("kolicina").equals("")) 										error += "Količina,";
-	if (rs.getString("arso_odp_embalaza")==null || rs.getString("arso_odp_embalaza").equals("")) 					error += "Embalaža,";
-	if (rs.getString("arso_emb_st_enot")==null || rs.getString("arso_emb_st_enot").equals("")) 						error += "Embalaža število enot,";
-	//if (rs.getString("arso_odp_embalaza_shema")==null || rs.getString("arso_odp_embalaza_shema").equals("")) 		error += "Embalaža shema,";
-	if (rs.getString("arso_odp_fiz_last")==null || rs.getString("arso_odp_fiz_last").equals("")) 					error += "Fizikalna lastnost,";
-	if (rs.getString("arso_odp_tip")==null || rs.getString("arso_odp_tip").equals("")) 								error += "Tip odpadka,";
-	if (rs.getString("arso_odp_dej_nastanka")==null || rs.getString("arso_odp_dej_nastanka").equals("")) 			error += "Dejavnost nastanka,";
-	if (rs.getString("arso_odp_loc_id")==null || rs.getString("arso_odp_loc_id").equals("")) 						error += "Lokacija prevzema,";
-	if (rs.getString("arso_aktivnost_pslj")==null || rs.getString("arso_aktivnost_pslj").equals("")) 				error += "Aktivnost pošiljatelja,";
-	if (rs.getString("arso_aktivnost_prjm")==null || rs.getString("arso_aktivnost_prjm").equals("")) 				error += "Aktivnost prejemnika,";
-	
 	//
 	recCount++;
 	if (recCount >= startRec) {
@@ -616,8 +585,8 @@ while (rs.next() && recCount < stopRec) {
 
 
 %>
-	<tr class=<% out.print(!error.equals("") ? "ewCellDontSendRow" : rowclass); %> >
-<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && error.equals("")) { %>
+	<tr class=<% out.print(rowclass); %> >
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" id="key" value="<%=key %>" class="jspmaker">Izberi</span></td>
 <% } else {%>
 <td></td>
@@ -641,7 +610,6 @@ while (rs.next() && recCount < stopRec) {
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
-		<td><% out.print(error); %>&nbsp;</td>
 	</tr>
 <%
 
@@ -651,7 +619,7 @@ while (rs.next() && recCount < stopRec) {
 %>
 </table>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>", "<%out.print(session.getAttribute("papirservis1_status_User")); %>", true ) '></p>
+<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>", "<%out.print(session.getAttribute("papirservis1_status_User")); %>", false ) '></p>
 <% } %>
 </form>
 <%

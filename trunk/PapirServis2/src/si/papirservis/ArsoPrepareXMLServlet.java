@@ -70,7 +70,8 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		if (key!=null && !key.equals("null")) {
 			//zbrisem datoteko
 			try{
-	    		File file = new File(SAVE_FILES+"arso_paket_"+key+".xml");
+				System.out.println(SAVE_FILES+key);
+	    		File file = new File(SAVE_FILES+key);
 	    		boolean f = file.delete();
     			OutputStream out = response.getOutputStream();
     			out.write((f+"").getBytes("utf-8"));
@@ -90,6 +91,8 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			String od_datum = (String) request.getParameter("od_datum");
 			String do_datum = (String) request.getParameter("do_datum");
 			String skupina = (String) request.getParameter("skupina");
+			String uporabnik = (String) request.getParameter("uporabnik");
+			boolean xmlCreate = new Boolean((String) request.getParameter("xml_create"));
 			
 	    	Statement stmt = null;
 	    	ResultSet rs = null;
@@ -104,14 +107,21 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		    	while (rs.next()) {
 		    		sifra = rs.getInt("sifra");
 		    	}
-		    	String imePaketa = "arso_paket_"+sifra+".xml";
-
-		    	String ret = createArsoPaket(keyChecked, sif_upor, tabela, od_datum, do_datum, skupina, sifra, imePaketa);
+		    	String imePaketa = "";
+				if (xmlCreate) {
+					imePaketa = uporabnik.substring(0, 2)+"_arso_paket_"+sifra+".xml";
+				}
+				
+		    	String ret = createArsoPaket(keyChecked, sif_upor, tabela, od_datum, do_datum, skupina, sifra, imePaketa, xmlCreate);
 				if (ret == null) throw new Exception("napaka");
 	
 				//vrnemo rezultat
-				response.setContentType("application/octet-stream");
-				response.setHeader("Content-disposition", "attachment; filename=arso_paket_"+sifra+".xml");
+				if (xmlCreate) {
+					response.setContentType("application/octet-stream");
+					response.setHeader("Content-disposition", "attachment; filename="+imePaketa);
+				} else {
+					response.setContentType("text/plain");
+				}
 				OutputStream out = response.getOutputStream();
 				out.write(ret.getBytes("utf-8"));
 				out.flush();
@@ -402,7 +412,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		return null;
 	}
 	
-	private String createArsoPaket(String keyChecked, String sif_upor, String tabela, String od_datum, String do_datum, String skupina, int sifra, String imePaketa) {
+	private String createArsoPaket(String keyChecked, String sif_upor, String tabela, String od_datum, String do_datum, String skupina, int sifra, String imePaketa, boolean xmlCreate) {
 
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -421,9 +431,16 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 				ids += "," + key.substring(0, key.indexOf("-"));
 			}
 			
+			String st_dob = "";
+			for (int i=0; i<keys.length; i++){
+				String key = keys[i];
+				if (st_dob.length()>0) st_dob += ",";
+				st_dob += key.substring(key.indexOf("-")+1, key.lastIndexOf("-"));
+			}
+			
 	    	//kreiram nov paket
 	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml, ids) " +
-	    				"values (" + sifra + ",now(),'" + od_datum + "','" + do_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + keyChecked + "','"+ids+"')";
+	    				"values (" + sifra + ",now(),'" + od_datum + "','" + do_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + st_dob + "','"+ids+"')";
 	    	
 	    	System.out.println(query);
 			stmt = con.createStatement();   	
@@ -440,25 +457,29 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			stmt.executeUpdate(query);
 			
 			//pripravim xml datoteko
-			Document doc = getEVL(ids, tabela, sifra);
-			if (doc == null) throw new Exception("napaka");
-
-			//zapisem datoteko na disk
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			StringWriter stringWriter = new StringWriter(); 
-	        transformer.transform(source, new StreamResult(stringWriter)); 
-	        System.out.println(stringWriter.toString());
-	        
-	        FileWriter fstream = new FileWriter(SAVE_FILES+imePaketa);
-			BufferedWriter outFile = new BufferedWriter(fstream);
-			outFile.write(stringWriter.toString());
-			outFile.close();
+			if (xmlCreate) {
+				Document doc = getEVL(ids, tabela, sifra);
+				if (doc == null) throw new Exception("napaka");
+	
+				//zapisem datoteko na disk
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				StringWriter stringWriter = new StringWriter(); 
+		        transformer.transform(source, new StreamResult(stringWriter)); 
+		        System.out.println(stringWriter.toString());
+		        
+		        FileWriter fstream = new FileWriter(SAVE_FILES+imePaketa);
+				BufferedWriter outFile = new BufferedWriter(fstream);
+				outFile.write(stringWriter.toString());
+				outFile.close();
 			
-			con.commit();
+				con.commit();
 			
-			return stringWriter.toString();
+				return stringWriter.toString();
+			} else {
+				return "Paket uspešno kreiran";
+			}
 	    } catch (Exception theException) {
 	    	try{
 	   		 if(con!=null) con.rollback();
