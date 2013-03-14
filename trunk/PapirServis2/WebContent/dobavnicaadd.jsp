@@ -90,6 +90,7 @@ StringBuffer x_skupinaList = null;
 
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
+StringBuffer sif_kupec_enota = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
@@ -777,7 +778,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, enote.naziv as enota_naziv  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -790,7 +791,7 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-
+System.out.println(sqlwrk_x_sif_str);
 Statement stmtwrk_x_sif_str = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 	int rowcntwrk_x_sif_str = 0;
@@ -802,6 +803,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 			x_sif_strList.append(" selected");
 		}
 		
+		sif_kupec_enota.append("sif_kupec_enota[").append(tmpSif).append("]='").append(rswrk_x_sif_str.getString("enota_naziv")).append("';");
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
@@ -929,6 +931,8 @@ var sif_kupac = new Array();
 <%=sif_kupac%>
 var sif_skupina = new Array();
 <%=sif_skupina%>
+var sif_kupec_enota = new Array();
+<%=sif_kupec_enota%>
 var kupac = new Array();
 <%=kupac%>
 var skupina = new Array();
@@ -983,6 +987,7 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobavnicaadd.x_sif_str.value]];
 	document.dobavnicaadd.x_skupina.value = sif_skupina[document.dobavnicaadd.x_sif_str.value];
 	
+	document.dobavnicaadd.kupec_enota.value = sif_kupec_enota[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobavnicaadd.x_sif_str.value];
@@ -1078,6 +1083,10 @@ return true;
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=sif_str&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a></span>&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" id="kupec_enota" name="kupec_enota" value="" readonly></td>
+	</tr>
+	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobavnicaadd.jsp?prikaz_kupca=sif_kupca&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_kupca=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_kupca=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a></span-->&nbsp;</td>
 	</tr>
@@ -1114,3 +1123,7 @@ return true;
 <input type="submit" name="Action" value="Dodaj">
 </form>
 <%@ include file="footer.jsp" %>
+<script language="JavaScript">
+if (document.dobavnicaadd.x_sif_str.value)
+	document.dobavnicaadd.kupec_enota.value = sif_kupec_enota[document.dobavnicaadd.x_sif_str.value];
+</script>
