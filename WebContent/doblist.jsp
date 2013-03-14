@@ -11,7 +11,6 @@ response.flushBuffer();
 return; 
 }%>
 <% 
-
 // user levels
 final int ewAllowAdd = 1;
 final int ewAllowDelete = 2;
@@ -48,6 +47,8 @@ String a_search = "";
 String b_search = "";
 String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
+
+StringBuffer strsql = null;
 %>
 <%
 
@@ -1065,7 +1066,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-StringBuffer strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
+strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, k.maticna, oko.material, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
 		"FROM " + session.getAttribute("letoTabela") + " dob " +
 		"left join kupci k on dob.sif_kupca = k.sif_kupca " +
 		"left join uporabniki u on dob.uporabnik = u.sif_upor "+
@@ -1225,6 +1226,7 @@ function setShowRecords(c){
 }
 </script>
 <script language="JavaScript" src="popcalendar.js"></script>
+<script language="JavaScript" src="papirservis.js"></script>
 
 <p><span class="jspmaker">Pregled: dobavnice</span></p>
 <form id="dobForm" action="doblist.jsp" accept-charset="UTF-8"  method="post">
@@ -1235,9 +1237,12 @@ function setShowRecords(c){
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="psearch" value='<%= pSearch!=null?pSearch:"" %>' size="20">
-			<input type="Submit" name="Submit" value="Išči">
-		&nbsp;&nbsp;<a href="doblist.jsp?cmd=reset">Prikaži vse</a>
-		&nbsp;&nbsp;<a href="doblist.jsp?cmd=top">Prikaži zadnje</a>
+			<input type="Submit" name="Submit" value="Išči">&nbsp;&nbsp;
+			<a href="doblist.jsp?cmd=reset">Prikaži vse</a>&nbsp;&nbsp;
+			<a href="doblist.jsp?cmd=top">Prikaži zadnje</a>&nbsp;&nbsp;
+			<% if ((meni & ewProcess) == ewProcess){ %>
+				<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create('<%=strsql%>');">
+			<% } %>
 		</span></td>
 	</tr>
 	<tr>
@@ -1639,6 +1644,7 @@ if (totalRecs > 0) {
 		</td>
 </tr>
 <%
+
 // Avoid starting record > total records
 if (startRec > totalRecs) {
 	startRec = totalRecs;

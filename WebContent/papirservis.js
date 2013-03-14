@@ -150,3 +150,8 @@ function zbrisiPaket(key) {
 	}
 }
 
+function xls_create(sql) {
+	document.getElementById('dobForm').action = '/papirservis/XLSCreateServlet?sql='+sql;
+	document.getElementById('dobForm').submit();
+	document.getElementById('dobForm').action = 'doblist.jsp';
+}
