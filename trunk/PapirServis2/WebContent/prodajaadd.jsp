@@ -327,6 +327,11 @@ try{
 		} else {
 			rs.updateInt("sif_enote",Integer.parseInt(tmpfld));
 		}
+
+		// Field uporabnik
+		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+
+		
 		rs.insertRow();
 		rs.close();
 		rs = null;
@@ -354,7 +359,7 @@ if(request.getParameter("prikaz_okolje")!= null){
 
 String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
-String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `" + (String)session.getAttribute("prodaja_kupci_show") + "` ASC";
+String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = 20 ORDER BY `" + (String)session.getAttribute("prodaja_kupci_show") + "` ASC";
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
 	int rowcntwrk_x_sif_kupca = 0;
