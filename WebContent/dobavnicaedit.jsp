@@ -93,6 +93,7 @@ StringBuffer x_skupinaList = null;
 
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
+StringBuffer sif_kupec_enota = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
@@ -768,7 +769,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, enote.naziv as enota_naziv  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -777,8 +778,8 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"		FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji1 "+
 	"		WHERE osnovna.sif_os = zadnji1.sif_os and "+
 	"		      osnovna.zacetek = zadnji1.datum) o, "+
-	"	`kupci` k, `skup` sk  "+
-	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and "+ 
+	"	`kupci` k, `skup` sk, enote  "+
+	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
 
@@ -793,6 +794,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 			x_sif_strList.append(" selected");
 		}
 		
+		sif_kupec_enota.append("sif_kupec_enota[").append(tmpSif).append("]='").append(rswrk_x_sif_str.getString("enota_naziv")).append("';");
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
@@ -1045,6 +1047,8 @@ var sif_kupac = new Array();
 <%=sif_kupac%>
 var sif_skupina = new Array();
 <%=sif_skupina%>
+var sif_kupec_enota = new Array();
+<%=sif_kupec_enota%>
 var kupac = new Array();
 <%=kupac%>
 var skupina = new Array();
@@ -1087,6 +1091,8 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_sif_kupca.value = sif_kupac[document.dobedit.x_sif_str.value];
 	document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
 	document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
+	
+	document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
@@ -1099,6 +1105,7 @@ function disableSome(){
 	document.dobedit.x_sif_kupca_ll.disabled=true;
 	document.dobedit.x_skupina_ll.disabled=true;
 }
+
 // end JavaScript -->
 </script>
 <form onSubmit="return EW_checkMyForm(this);"  name="dobedit" action="dobavnicaedit.jsp" method="post">
@@ -1130,6 +1137,10 @@ function disableSome(){
 	<tr>
 		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a></span>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" id="kupec_enota" name="kupec_enota" value="" readonly></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
@@ -1168,3 +1179,6 @@ function disableSome(){
 <input type="submit" name="Action" value="Potrdi">
 </form>
 <%@ include file="footer.jsp" %>
+<script language="JavaScript">
+document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
+</script>
