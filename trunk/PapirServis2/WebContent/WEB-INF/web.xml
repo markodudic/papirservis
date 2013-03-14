@@ -163,7 +163,7 @@
 		<servlet-class>si.papirservis.ArsoPrepareXMLServlet</servlet-class>
 		<init-param>
 		  	<param-name>SAVE_FILES</param-name>
-			<param-value>C:/projects/Monolit/PapirServis/papirservis/WebContent/paketi/</param-value>
+			<param-value>D:/projects/monolit/papirservis/WebContent/paketi/</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>ZAVEZANEC_ST</param-name>
@@ -179,5 +179,13 @@
       <url-pattern>/ArsoPrepareXMLServlet</url-pattern>
     </servlet-mapping>
 	
+	<servlet>
+		<servlet-name>XLSCreateServlet</servlet-name>
+		<servlet-class>si.papirservis.XLSCreateServlet</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>XLSCreateServlet</servlet-name>
+      <url-pattern>/XLSCreateServlet</url-pattern>
+    </servlet-mapping>    
 	
 </web-app>
