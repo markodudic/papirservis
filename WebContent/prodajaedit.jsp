@@ -298,6 +298,10 @@ try{
 		} else {
 			rs.updateInt("sif_enote",Integer.parseInt(tmpfld));
 		}
+
+		// Field uporabnik
+		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
+
 		rs.updateRow();
 		rs.close();
 		rs = null;
