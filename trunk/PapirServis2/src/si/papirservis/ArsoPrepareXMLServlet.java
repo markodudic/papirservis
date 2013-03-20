@@ -305,7 +305,11 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		KRAJ_PREJEMA.appendChild(TIP_LOKACIJE_PREJEMA);
 	    		
 	    		Element ODP_LOC_ID1 = doc.createElement("ODP_LOC_ID");
-	    		ODP_LOC_ID1.appendChild(doc.createTextNode(rs.getString("arso_odp_locpr_id")));
+	    		String material_arso_odp_locpr_id = rs.getString("material_arso_odp_locpr_id");
+				if (material_arso_odp_locpr_id != null)
+					ODP_LOC_ID1.appendChild(doc.createTextNode(material_arso_odp_locpr_id));
+				else	
+					ODP_LOC_ID1.appendChild(doc.createTextNode(rs.getString("arso_odp_locpr_id")));
 	    		KRAJ_PREJEMA.appendChild(ODP_LOC_ID1);
 
 	    		Element OPOMBA_VOZNIK = doc.createElement("OPOMBA_VOZNIK");
@@ -380,8 +384,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		ODPADEK.appendChild(ODP_AKTIVNOST_PSLJ);
 
 	    		Element ODP_LOCPR_ID = doc.createElement("ODP_LOCPR_ID");
-	    		String material_arso_odp_locpr_id = rs.getString("material_arso_odp_locpr_id");
-				if (material_arso_odp_locpr_id != null)
+	    		if (material_arso_odp_locpr_id != null)
 					ODP_LOCPR_ID.appendChild(doc.createTextNode(material_arso_odp_locpr_id));
 				else	
 					ODP_LOCPR_ID.appendChild(doc.createTextNode(rs.getString("arso_odp_locpr_id")));
