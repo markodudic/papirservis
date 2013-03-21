@@ -56,7 +56,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		for (int i = 0; i < arpSearch.length; i++){
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
-			b_search = b_search + "`sif_kupca` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "prodaja.sif_kupca LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`koda` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`ewc` LIKE '%" + kw + "%' OR ";
 			//b_search = b_search + "`reg_st` LIKE '%" + kw + "%' OR ";
@@ -65,7 +65,7 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
-		b_search = b_search + "`sif_kupca` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "prodaja.sif_kupca LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`koda` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`ewc` LIKE '%" + pSearch + "%' OR ";
 		//b_search = b_search + "`reg_st` LIKE '%" + pSearch + "%' OR ";
@@ -184,7 +184,6 @@ if (whereClause.length() > 0) {
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("prodaja_OT");
 }
-
 
 rs = stmt.executeQuery(strsql);
 rs.last();
