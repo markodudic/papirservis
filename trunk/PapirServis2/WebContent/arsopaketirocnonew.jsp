@@ -200,7 +200,16 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
 						"	str.arso_odp_loc_id, " +
 						"	mat.arso_odp_locpr_id material_arso_odp_locpr_id " +
-						" FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob, pozicija) dob " + 
+						//" FROM (select *, max(dob.zacetek) " + 
+						//"		from " + session.getAttribute("letoTabela") + " dob " + 
+						//"		group by st_dob, pozicija) dob " + 
+						" FROM  (SELECT dob.*  " +
+						"		FROM " + session.getAttribute("letoTabela") + " dob, (SELECT st_dob, pozicija, max(zacetek) datum " + 
+						"				FROM dob2013 dob  " +
+						"				group by st_dob, pozicija) zadnji " +
+						"		WHERE dob.st_dob = zadnji.st_dob and " +
+						"		      dob.pozicija = zadnji.pozicija and " +
+						"		      dob.zacetek = zadnji.datum ) dob " +
 						" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
 						" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
 						" LEFT JOIN ( " +
@@ -297,19 +306,19 @@ function disableSome(EW_this){
 </script>
 
 <p><span class="jspmaker">Pregled: arso paketi</span></p>
-<form action="arsopaketinew.jsp">
+<form action="arsopaketirocnonew.jsp">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
-		&nbsp;&nbsp;<a href="arsopaketinew.jsp?cmd=reset">Prikaži vse</a>
+		&nbsp;&nbsp;<a href="arsopaketirocnonew.jsp?cmd=reset">Prikaži vse</a>
 		</span></td>
 	</tr>
 </table>
 </form>
-<form method="post" id="arsopaketinew">
+<form method="post" id="arsopaketirocnonew">
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <td nowrap>
@@ -318,97 +327,97 @@ function disableSome(EW_this){
 </td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("st_dob","UTF-8") %>">Številka dobavnice(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("st_dob")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("st_dob","UTF-8") %>">Številka dobavnice(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("st_dob")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("pozicija")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("pozicija","UTF-8") %>">Pozicija&nbsp;<% if (OrderBy != null && OrderBy.equals("pozicija")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("pozicija","UTF-8") %>">Pozicija&nbsp;<% if (OrderBy != null && OrderBy.equals("pozicija")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("pozicija")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("sif_str","UTF-8") %>">Šifra stranke&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_str")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("sif_str","UTF-8") %>">Šifra stranke&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_str")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "</b>" : ""%>
 		</td>
 		<td id="td1">
 <%=(OrderBy != null && OrderBy.equals("stranka")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("stranka","UTF-8") %>">Stranka&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("stranka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("stranka","UTF-8") %>">Stranka&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("stranka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("stranka")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Šifra kupca&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Šifra kupca&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "</b>" : ""%>
 		</td>
 		<td id="td1">
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Kupac&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("sif_kupca","UTF-8") %>">Kupac&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_kupca")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("koda")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">Koda&nbsp;<% if (OrderBy != null && OrderBy.equals("koda")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">Koda&nbsp;<% if (OrderBy != null && OrderBy.equals("koda")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("koda")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("ewc")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">EWC&nbsp;<% if (OrderBy != null && OrderBy.equals("ewc")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("koda","UTF-8") %>">EWC&nbsp;<% if (OrderBy != null && OrderBy.equals("ewc")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("ewc")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("kolicina")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("kolicina","UTF-8") %>">Količina&nbsp;<% if (OrderBy != null && OrderBy.equals("kolicina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("kolicina","UTF-8") %>">Količina&nbsp;<% if (OrderBy != null && OrderBy.equals("kolicina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("kolicina")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza","UTF-8") %>">Arso vrts emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza","UTF-8") %>">Arso vrts emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_emb_st_enot","UTF-8") %>">Arso št. enot emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_emb_st_enot")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_emb_st_enot","UTF-8") %>">Arso št. enot emb.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_emb_st_enot")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_emb_st_enot")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_fiz_last","UTF-8") %>">Arso fizikalna lastnost&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_fiz_last","UTF-8") %>">Arso fizikalna lastnost&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_fiz_last")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_tip","UTF-8") %>">Arso tip odpadka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_tip")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_tip","UTF-8") %>">Arso tip odpadka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_tip")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_tip")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status prejemnika&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_status","UTF-8") %>">Arso status prejemnika&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_status")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_prjm","UTF-8") %>">Arso postopek ravnanja&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_aktivnost_prjm")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso embalaža shema&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_embalaza_shema","UTF-8") %>">Arso embalaža shema&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_embalaza_shema")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "<b>" : ""%>
-<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("arso_odp_dej_nastanka","UTF-8") %>">Arso dejavnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_odp_dej_nastanka")) ? "</b>" : ""%>
 		</td>
 </tr>
@@ -652,13 +661,13 @@ if (totalRecs > 0) {
 	<% if (startRec==1) { %>
 	<td><img src="images/firstdisab.gif" alt="First" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketinew.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnonew.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--previous page button-->
 	<% if (PrevStart == startRec) { %>
 	<td><img src="images/prevdisab.gif" alt="Previous" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketinew.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnonew.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--current page number-->
 	<td><input type="text" name="pageno" value="<%=(startRec-1)/displayRecs+1%>" size="4"></td>
@@ -666,13 +675,13 @@ if (totalRecs > 0) {
 	<% if (NextStart == startRec) { %>
 	<td><img src="images/nextdisab.gif" alt="Next" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketinew.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnonew.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--last page button-->
 	<% if (LastStart == startRec) { %>
 	<td><img src="images/lastdisab.gif" alt="Last" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="arsopaketinew.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
+	<td><a href="arsopaketirocnonew.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
 	<% } %>
 	<td><span class="jspmaker">&nbsp;od <%=(totalRecs-1)/displayRecs+1%></span></td>
 	</tr></table>

@@ -32,7 +32,7 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra stranke", "Naziv stranke",
 										"Šifra kupca", "Naziv kupca", "Matièna", "Prevoz", "EWC Koda", "Material",
 										"Kolièina", "Cena", "Skupina"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "N", "S"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "S"};
 	
 	/*
 	 * (non-Java-doc)
@@ -62,9 +62,9 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	 *      HttpServletResponse arg1)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 
-		String sql = (String) request.getParameter("sql");
+		String sql = (String) request.getParameter("sql").replace("XX", "'").replace("YY", "%");
 		try{
 			int l = sql.indexOf("LIMIT");
 			int ll = sql.indexOf(")", l);
@@ -143,27 +143,34 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 		// declare a cell object reference
 		HSSFCell c = null;
 
-		HSSFCellStyle cs = wb.createCellStyle();
-		HSSFDataFormat df = wb.createDataFormat();
-		cs.setDataFormat(df.getFormat("#,##0"));
 
 		// write data
 		r = s.createRow(rownum);
 		
 		for (int n=0; n<rowNames.length;n++) {
 			c = r.createCell(n);
+
+			HSSFCellStyle cs = wb.createCellStyle();
+			HSSFDataFormat df = wb.createDataFormat();
+			if (rowTypes[n].equals("D"))
+				cs.setDataFormat(df.getFormat("#,##0.00"));
+			else
+				cs.setDataFormat(df.getFormat("#,##0"));
+
 			c.setCellStyle(cs);
 			Object v = rowData[n];
 			if (v != null) {
 				if (rowTypes[n].equals("S"))
 					c.setCellValue(v.toString());
-				else
+				else if (rowTypes[n].equals("N"))
 					c.setCellValue(Integer.parseInt(v.toString()));
+				else if (rowTypes[n].equals("D"))
+					c.setCellValue(Double.parseDouble(v.toString()));
 			} else {
 				c.setCellValue("");
 			}
 		}
-		c.setCellStyle(cs);
+//		c.setCellStyle(cs);
 		
 		rownum++;
 
@@ -203,7 +210,8 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 		//cs2.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
 		//cs2.setFont(f2);
 
-
+		rownum = 0;
+		
 		// Define a few rows
 		//Object[] mun = (Object[]) municipality.keySet().toArray();
 		// write header

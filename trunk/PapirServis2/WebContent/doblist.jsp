@@ -826,6 +826,31 @@ String z_stev_ur_norm = request.getParameter("z_stev_ur_norm");
 	}	
 %>
 <%
+//out.println("b_search="+b_search+";");
+if (skupina!=null && !skupina.equals("-1")) {
+	//countQuery.append(" AND dob.skupina = " + skupina);
+	if (b_search.length()>0)
+		b_search = "(" + b_search + ")" + " AND dob.skupina = " + skupina;
+	else
+		b_search += " dob.skupina = " + skupina;
+}
+if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
+	if (od_datum!=null && !od_datum.equals("")) {
+//		countQuery.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
+		if (b_search.length()>0)
+			b_search = "(" + b_search + ")" + " AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')";
+		else
+			b_search += " dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')";
+	}
+	if (do_datum!=null && !do_datum.equals("")) {
+//		countQuery.append(" AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
+		if (b_search.length()>0)
+			b_search = "(" + b_search + ")" + " AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')";
+		else
+			b_search += " dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')";
+	}
+}
+
 
 // Build search criteria
 if (a_search != null && a_search.length() > 0) {
@@ -966,24 +991,14 @@ else{
 		countQuery.append(" WHERE (dob.st_dob = zadnji.sd and dob.pozicija = zadnji.pozicija and dob.zacetek = zadnji.zacetek)");
 	}
 }
-if (skupina!=null && !skupina.equals("-1")) {
-	countQuery.append(" AND dob.skupina = " + skupina);
-}
-if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
-	if (od_datum!=null && !od_datum.equals("")) {
-		countQuery.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
-	}
-	if (do_datum!=null && !do_datum.equals("")) {
-		countQuery.append(" AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
-	}
-}
+
 
 String strankeTip = (String) session.getAttribute("vse");
 if(strankeTip.equals("0")){
 	countQuery.append(" and potnik = " + session.getAttribute("papirservis1_status_UserID"));
 }
 
-
+//out.println(countQuery);
 
 Statement stmtCount = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 ResultSet rsCount = null;
@@ -1118,7 +1133,7 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 		}
 	}
 	if (dbwhere.length() > 0) {
-		if(enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")))
+		if(where || enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")))
 			strsql.append(" AND (" + dbwhere + ") ");
 		else
 			strsql.append(" WHERE (" + dbwhere + ") ");
@@ -1186,6 +1201,8 @@ if (searchwhere1 == null || (searchwhere1 == null && searchwhere1.length() == 0)
 	strsql.append(" LIMIT ").append((startRec - 1)).append(", ").append(displayRecs);
 }
 
+//out.println(strsql.toString());
+
 rs = stmt.executeQuery(strsql.toString());
 {
 //Statement stmtCount = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -1214,6 +1231,11 @@ s = s + "." + y;
 
 if (od_datum == null) od_datum = s;
 if (do_datum == null) do_datum = s;
+
+String sqlParam = strsql.toString();
+sqlParam = sqlParam.replace("'", "XX");
+sqlParam = sqlParam.replace("%", "YY");
+
 %>
 <%@ include file="header.jsp" %>
 <script language="JavaScript">
@@ -1241,7 +1263,7 @@ function setShowRecords(c){
 			<a href="doblist.jsp?cmd=reset">Prikaži vse</a>&nbsp;&nbsp;
 			<a href="doblist.jsp?cmd=top">Prikaži zadnje</a>&nbsp;&nbsp;
 			<% if ((meni & ewProcess) == ewProcess){ %>
-				<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create('<%=strsql%>');">
+				<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create('<%=sqlParam%>')";>
 			<% } %>
 		</span></td>
 	</tr>
@@ -1276,9 +1298,9 @@ out.println(x_skupinaList);
 	<tr>
 		<td><span class="jspmaker">Datum</span></td>
 		<td><span class="jspmaker">
-			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
+			<input type="text" name="od_datum" value="<%= od_datum %>">&nbsp;
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
-			<input type="text" name="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
+			<input type="text" name="do_datum" value="<%= do_datum %>">&nbsp;
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
 		</span></td>
 	</tr>
