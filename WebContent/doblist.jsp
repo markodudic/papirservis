@@ -1081,7 +1081,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, k.maticna, oko.material, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
+strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, k.maticna, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
 		"FROM " + session.getAttribute("letoTabela") + " dob " +
 		"left join kupci k on dob.sif_kupca = k.sif_kupca " +
 		"left join uporabniki u on dob.uporabnik = u.sif_upor "+
