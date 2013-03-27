@@ -51,7 +51,13 @@ SUM(IF(skup.prevoz_material=1,
 						if(stranke.obracun_km > 10 and stranke.obracun_km <= 20, materiali.prevoz3, 
 						materiali.prevoz4))),
 	dob.cena*dob.use_it)) as vrednost_odvoza,
-SUM(dob.`kolicina`) AS dob_kolicina,
+skup.prevoz_material,
+if(stranke.obracun_km is null, 0, stranke.obracun_km) obracun_km,
+FORMAT(if(stranke.obracun_km <= 5, materiali.prevoz1, 
+	if(stranke.obracun_km > 5 and stranke.obracun_km <= 10, materiali.prevoz2, 
+	if(stranke.obracun_km > 10 and stranke.obracun_km <= 20, materiali.prevoz3, 
+	materiali.prevoz4))), 5) prevoz,
+FORMAT(SUM(dob.`kolicina`), 2) AS dob_kolicina,
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
 when 2 then materiali.`ravnanje2`
@@ -105,11 +111,14 @@ ORDER BY dob.EWC]]></queryString>
 	<field name="material" class="java.lang.String"/>
 	<field name="stevilo_odvozov" class="java.math.BigDecimal"/>
 	<field name="vrednost_odvoza" class="java.lang.Double"/>
-	<field name="dob_kolicina" class="java.math.BigDecimal"/>
+	<field name="prevoz_material" class="java.lang.Boolean"/>
+	<field name="obracun_km" class="java.lang.Long"/>
+	<field name="prevoz" class="java.lang.String"/>
+	<field name="dob_kolicina" class="java.lang.String"/>
 	<field name="cena_ravnanje" class="java.lang.Double"/>
 	<field name="vrednost_ravnanje" class="java.lang.Double"/>
 
-	<variable name="sum_kol" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+	<variable name="sum_kol" class="java.lang.String" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_kolicina}]]></variableExpression>
 	</variable>
 	<variable name="sum_rav" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -166,9 +175,9 @@ ORDER BY dob.EWC]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="335"
+						x="354"
 						y="1"
-						width="70"
+						width="60"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -184,7 +193,7 @@ ORDER BY dob.EWC]]></queryString>
 						mode="Opaque"
 						x="66"
 						y="1"
-						width="152"
+						width="174"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -198,9 +207,9 @@ ORDER BY dob.EWC]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="218"
+						x="240"
 						y="1"
-						width="54"
+						width="50"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -214,7 +223,7 @@ ORDER BY dob.EWC]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="272"
+						x="291"
 						y="1"
 						width="63"
 						height="16"
@@ -230,7 +239,7 @@ ORDER BY dob.EWC]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="405"
+						x="415"
 						y="1"
 						width="65"
 						height="16"
@@ -246,9 +255,9 @@ ORDER BY dob.EWC]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="469"
+						x="480"
 						y="1"
-						width="66"
+						width="55"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -262,11 +271,11 @@ ORDER BY dob.EWC]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="19"  isSplitAllowed="true" >
+			<band height="30"  isSplitAllowed="true" >
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="17"
+						y="29"
 						width="535"
 						height="0"
 						forecolor="#808080"
@@ -289,22 +298,22 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="335"
+						x="354"
 						y="1"
-						width="70"
+						width="60"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{dob_kolicina}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dob_kolicina}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="66"
 						y="1"
-						width="152"
+						width="174"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -315,7 +324,7 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="405"
+						x="415"
 						y="1"
 						width="65"
 						height="15"
@@ -328,9 +337,9 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="470"
+						x="480"
 						y="1"
-						width="65"
+						width="55"
 						height="15"
 						key="textField-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -341,9 +350,9 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="218"
+						x="240"
 						y="1"
-						width="54"
+						width="50"
 						height="15"
 						key="textField-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -354,7 +363,7 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="272"
+						x="291"
 						y="1"
 						width="63"
 						height="15"
@@ -365,6 +374,22 @@ ORDER BY dob.EWC]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{vrednost_odvoza}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="66"
+						y="17"
+						width="468"
+						height="11"
+						key="textField-9"
+						positionType="Float">
+							<printWhenExpression><![CDATA[$F{prevoz_material}]]></printWhenExpression>
+						</reportElement>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Vrednost odvoza = " + $F{obracun_km} + "KM * " + $F{prevoz} + "EUR/KG  * " + $F{dob_kolicina} + "KG"]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
@@ -373,7 +398,7 @@ ORDER BY dob.EWC]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="1"
-						y="0"
+						y="1"
 						width="534"
 						height="17"
 						forecolor="#000000"
@@ -383,24 +408,24 @@ ORDER BY dob.EWC]]></queryString>
 				</rectangle>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="335"
-						y="1"
-						width="70"
+						x="352"
+						y="2"
+						width="60"
 						height="15"
 						key="textField-5"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_kol}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{sum_kol}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						mode="Opaque"
 						x="1"
-						y="1"
+						y="2"
 						width="66"
-						height="16"
+						height="15"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-96"/>
@@ -412,9 +437,9 @@ ORDER BY dob.EWC]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="469"
-						y="1"
-						width="65"
+						x="478"
+						y="2"
+						width="55"
 						height="15"
 						key="textField-6"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -425,9 +450,9 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="218"
-						y="1"
-						width="54"
+						x="238"
+						y="2"
+						width="50"
 						height="15"
 						key="textField-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -438,8 +463,8 @@ ORDER BY dob.EWC]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="272"
-						y="1"
+						x="289"
+						y="2"
 						width="63"
 						height="15"
 						key="textField-8"/>
