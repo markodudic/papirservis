@@ -475,7 +475,11 @@ function disableSome(EW_this){
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_pslj_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_pslj_status")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_pslj_status")) ? "</b>" : ""%>
 		</td>
-
+		<td>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("arso_aktivnost_pslj","UTF-8") %>">Arso aktivnost nastanka&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("arso_aktivnost_pslj")) ? "</b>" : ""%>
+		</td>
 
 
 
@@ -548,6 +552,7 @@ while (rs.next() && recCount < stopRec) {
 	int x_arso_prenos = 0;
 	String x_arso_pslj_st = "";
 	String x_arso_pslj_status = "";
+	String x_arso_aktivnost_pslj = "";
 
 	// Load Key for record
 	String key = "";
@@ -745,7 +750,12 @@ while (rs.next() && recCount < stopRec) {
 		x_arso_pslj_status = "";
 	}
 
-	
+	//arso_aktivnost_pslj
+	if (rs.getString("arso_aktivnost_pslj") != null){
+		x_arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
+	}else{
+		x_arso_aktivnost_pslj = "";
+	}	
 	
 	
 	// skupina
@@ -870,6 +880,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print((x_arso_prenos == 1 ? "DA" : "NE")); %>&nbsp;</td>
 		<td><% out.print(x_arso_pslj_st); %>&nbsp;</td>
 		<td><% out.print(x_arso_pslj_status); %>&nbsp;</td>
+		<td><% out.print(x_arso_aktivnost_pslj); %>&nbsp;</td>
 
 	</tr>
 <%
