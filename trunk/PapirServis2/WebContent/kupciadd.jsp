@@ -79,6 +79,7 @@ Object x_datum = null;
 int x_arso_prenos = 0;
 String x_arso_pslj_st = "";
 String x_arso_pslj_status = "";
+String x_arso_aktivnost_pslj = "";
 
 
 
@@ -255,7 +256,14 @@ try{
 				x_arso_pslj_status = "";
 			}
 
-		rs.close();
+			// arso_aktivnost_pslj
+			if (rs.getString("arso_aktivnost_pslj") != null){
+				x_arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
+			}else{
+				x_arso_aktivnost_pslj = "";
+			}
+
+			rs.close();
 		rs = null;
 	}else if (a.equals("A")) { // Add
 
@@ -403,6 +411,11 @@ try{
 			x_arso_pslj_status = (String) request.getParameter("x_arso_pslj_status");
 		}else{
 			x_arso_pslj_status = "";
+		}
+		if (request.getParameter("x_arso_aktivnost_pslj") != null){
+			x_arso_aktivnost_pslj = (String) request.getParameter("x_arso_aktivnost_pslj");
+		}else{
+			x_arso_aktivnost_pslj = "";
 		}
 
 
@@ -729,6 +742,16 @@ try{
 			rs.updateString("arso_pslj_status", tmpfld);
 		}
 
+		// Field arso_aktivnost_pslj
+		tmpfld = ((String) x_arso_aktivnost_pslj);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("arso_aktivnost_pslj");
+		}else{
+			rs.updateString("arso_aktivnost_pslj", tmpfld);
+		}
 		
 		// Field sif_enote
 		tmpfld = ((String) x_sif_enote).trim();
@@ -1053,6 +1076,35 @@ out.println(x_sif_enoteList);
 				rswrk_x_arso_status = null;
 				stmtwrk_x_arso_status.close();
 				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Arso aktivnost nastanka&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_arso_aktivnost_pslj">
+			<%
+				String sqlwrk_x_arso_aktivnost = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'kupci' AND COLUMN_NAME = 'arso_aktivnost_pslj'";
+				Statement stmtwrk_x_arso_aktivnost = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_aktivnost = stmtwrk_x_arso_aktivnost.executeQuery(sqlwrk_x_arso_aktivnost);
+					if (rswrk_x_arso_aktivnost.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_aktivnost.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_aktivnost_pslj)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_aktivnost.close();
+				rswrk_x_arso_aktivnost = null;
+				stmtwrk_x_arso_aktivnost.close();
+				stmtwrk_x_arso_aktivnost = null;
 			%>
 			</select>
 		</td>
