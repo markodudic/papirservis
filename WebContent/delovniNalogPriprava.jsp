@@ -67,12 +67,12 @@ function  EW_checkMyForm(EW_this)
 			
 			//generiram delovne naloge
 	//		String sql = "SELECT sif_str FROM stranke WHERE " + day + " = " + type + " or " + day + " = 3";
-			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, kupci.arso_prenos "+
+			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, kupci.arso_prenos "+
 						 "FROM (SELECT stranke.* "+
 						 "		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 						 "		WHERE stranke.sif_str = zadnji.sif_str and "+
 						 "		      stranke.zacetek = zadnji.datum) st, "+
-						 "		(select sif_kupca, skupina, sif_enote, arso_prenos " +
+						 "		(select sif_kupca, skupina, sif_enote, arso_prenos, arso_aktivnost_pslj " +
 						 "		from kupci " +
 						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
 						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci, " +
@@ -99,7 +99,9 @@ function  EW_checkMyForm(EW_this)
 				String stev_ur_norm = rs.getString("stev_ur_norm");
 				String arso_prjm_status = rs.getString("arso_prjm_status");
 				String arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+				String arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
 				String arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+				if ((arso_odp_embalaza_shema != null) && (arso_odp_embalaza_shema.length()==0)) arso_odp_embalaza_shema = null;
 				if (arso_odp_embalaza_shema != null) arso_odp_embalaza_shema = "'"+arso_odp_embalaza_shema+"'";
 				String arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
 				String arso_prenos = rs.getString("arso_prenos");
@@ -120,8 +122,8 @@ function  EW_checkMyForm(EW_this)
 				
 					
 				//Vpisem generirane delovne naloge
-				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) " +
-							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', " + arso_odp_embalaza_shema + ", '" + arso_odp_dej_nastanka + "', " + arso_prenos + ")";
+				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) " +
+							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', '" + arso_aktivnost_pslj + "', " + arso_odp_embalaza_shema + " , '" + arso_odp_dej_nastanka + "', " + arso_prenos + ")";
 
 				stmtI.executeUpdate(sqlI);
 				i++;
