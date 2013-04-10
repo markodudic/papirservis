@@ -57,7 +57,7 @@ FORMAT(if(stranke.obracun_km <= 5, materiali.prevoz1,
 	if(stranke.obracun_km > 5 and stranke.obracun_km <= 10, materiali.prevoz2, 
 	if(stranke.obracun_km > 10 and stranke.obracun_km <= 20, materiali.prevoz3, 
 	materiali.prevoz4))), 5) prevoz,
-FORMAT(SUM(dob.`kolicina`), 2) AS dob_kolicina,
+SUM(dob.`kolicina`) AS dob_kolicina,
 IF ($P{sif_skupine} = -1, 0, case skup.ravnanje
 when 1 then materiali.`ravnanje1`
 when 2 then materiali.`ravnanje2`
@@ -114,11 +114,11 @@ ORDER BY dob.EWC]]></queryString>
 	<field name="prevoz_material" class="java.lang.Boolean"/>
 	<field name="obracun_km" class="java.lang.Long"/>
 	<field name="prevoz" class="java.lang.String"/>
-	<field name="dob_kolicina" class="java.lang.String"/>
+	<field name="dob_kolicina" class="java.math.BigDecimal"/>
 	<field name="cena_ravnanje" class="java.lang.Double"/>
 	<field name="vrednost_ravnanje" class="java.lang.Double"/>
 
-	<variable name="sum_kol" class="java.lang.String" resetType="Report" calculation="Sum">
+	<variable name="sum_kol" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_kolicina}]]></variableExpression>
 	</variable>
 	<variable name="sum_rav" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -307,7 +307,7 @@ ORDER BY dob.EWC]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dob_kolicina}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{dob_kolicina}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -417,7 +417,7 @@ ORDER BY dob.EWC]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{sum_kol}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sum_kol}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement

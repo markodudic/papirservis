@@ -113,7 +113,7 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    		String[] dobavnica = {rs.getString("st_dob"), rs.getString("pozicija"), to.format(from.parse(rs.getString("datum"))),
 	    							  rs.getString("sif_str"), rs.getString("stranka"), rs.getString("sif_kupca"),
 	    							  rs.getString("naziv"), rs.getString("maticna"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
-	    							  rs.getString("ewc"), rs.getString("material"), rs.getString("kolicina"), 
+	    							  rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kolicina"), 
 	    							  rs.getString("cena"), rs.getString("skupina_text")};
 	    		createRow(dobavnica);
 	    	}
