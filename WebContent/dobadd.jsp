@@ -116,30 +116,44 @@ StringBuffer arso_prenos = new StringBuffer();
 
 // Open Connection to the database
 try{
-		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = null;
-		if (a.equals("C")){ // Get a record to display
-			String tkey = "" + key.replaceAll("'",escapeString) + "";
-			String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE `id`=" + tkey;
-			rs = stmt.executeQuery(strsql);
-			if (!rs.next()){
-				rs.close();
-				rs = null;
-				stmt.close();
-				stmt = null;
-				//conn.close();
-				conn = null;
-				out.clear();
-				response.sendRedirect("doblist.jsp");
-				response.flushBuffer();
-				return;
-			}
-			rs.first();
+	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	ResultSet rs = null;
+	if (a.equals("C")){ // Get a record to display
+		String tkey = "" + key.replaceAll("'",escapeString) + "";
+		
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabela") + " dob WHERE `id`=" + tkey;
+		rs = stmt.executeQuery(strsql);
+		if (!rs.next()){
+			rs.close();
+			rs = null;
+			stmt.close();
+			stmt = null;
+			//conn.close();
+			conn = null;
+			out.clear();
+			response.sendRedirect("doblist.jsp");
+			response.flushBuffer();
+			return;
+		}
+		rs.first();
 	
 		// Get the field contents
 		x_st_dob = String.valueOf(rs.getLong("st_dob"));
-		x_pozicija = String.valueOf(rs.getLong("pozicija") + 1);//avtomati�no se pove�a ua 1 ob kopiranju
-	
+		
+		//dolocim max pozicije in povecam za 1
+		Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		ResultSet rs1 = null;
+		String strsql1 = "SELECT max(pozicija)+1 as pozicija FROM " + session.getAttribute("letoTabela") + " dob WHERE st_dob=" + x_st_dob;
+		rs1 = stmt1.executeQuery(strsql1);
+		if (rs1.next()){
+			x_pozicija = String.valueOf(rs1.getLong("pozicija"));
+			
+			rs1.close();
+			rs1 = null;
+			stmt1.close();
+			stmt1 = null;
+		}
+			
 		if (rs.getTimestamp("datum") != null){
 			x_datum = rs.getTimestamp("datum");
 		}else{
