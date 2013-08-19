@@ -36,6 +36,8 @@ public class TravelOrderRelation  implements java.io.Serializable {
 
     private java.lang.String driver_key;
 
+    private java.lang.Double fuel_100Km;
+
     private int id;
 
     private java.lang.Double load_amount;
@@ -74,6 +76,7 @@ public class TravelOrderRelation  implements java.io.Serializable {
            int dist_km_s,
            java.lang.String driver,
            java.lang.String driver_key,
+           java.lang.Double fuel_100Km,
            int id,
            java.lang.Double load_amount,
            int load_km,
@@ -98,6 +101,7 @@ public class TravelOrderRelation  implements java.io.Serializable {
            this.dist_km_s = dist_km_s;
            this.driver = driver;
            this.driver_key = driver_key;
+           this.fuel_100Km = fuel_100Km;
            this.id = id;
            this.load_amount = load_amount;
            this.load_km = load_km;
@@ -392,6 +396,26 @@ public class TravelOrderRelation  implements java.io.Serializable {
 
 
     /**
+     * Gets the fuel_100Km value for this TravelOrderRelation.
+     * 
+     * @return fuel_100Km
+     */
+    public java.lang.Double getFuel_100Km() {
+        return fuel_100Km;
+    }
+
+
+    /**
+     * Sets the fuel_100Km value for this TravelOrderRelation.
+     * 
+     * @param fuel_100Km
+     */
+    public void setFuel_100Km(java.lang.Double fuel_100Km) {
+        this.fuel_100Km = fuel_100Km;
+    }
+
+
+    /**
      * Gets the id value for this TravelOrderRelation.
      * 
      * @return id
@@ -636,6 +660,9 @@ public class TravelOrderRelation  implements java.io.Serializable {
             ((this.driver_key==null && other.getDriver_key()==null) || 
              (this.driver_key!=null &&
               this.driver_key.equals(other.getDriver_key()))) &&
+            ((this.fuel_100Km==null && other.getFuel_100Km()==null) || 
+             (this.fuel_100Km!=null &&
+              this.fuel_100Km.equals(other.getFuel_100Km()))) &&
             this.id == other.getId() &&
             ((this.load_amount==null && other.getLoad_amount()==null) || 
              (this.load_amount!=null &&
@@ -704,6 +731,9 @@ public class TravelOrderRelation  implements java.io.Serializable {
         }
         if (getDriver_key() != null) {
             _hashCode += getDriver_key().hashCode();
+        }
+        if (getFuel_100Km() != null) {
+            _hashCode += getFuel_100Km().hashCode();
         }
         _hashCode += getId();
         if (getLoad_amount() != null) {
@@ -830,6 +860,13 @@ public class TravelOrderRelation  implements java.io.Serializable {
         elemField.setFieldName("driver_key");
         elemField.setXmlName(new javax.xml.namespace.QName("", "driver_key"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("fuel_100Km");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "fuel_100km"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "double"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
