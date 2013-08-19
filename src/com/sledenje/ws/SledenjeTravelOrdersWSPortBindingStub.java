@@ -16,7 +16,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[25];
+        _operations = new org.apache.axis.description.OperationDesc[27];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -430,6 +430,49 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
         _operations[8] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("getTravelOrderGroupRelByDAs");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fromDate"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "toDate"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "vehgr_id"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "to_id"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "veh_id"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderGroupRelByDAsList"));
+        oper.setReturnClass(com.sledenje.ws.TravelOrderGroupRelByDA[].class);
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        param = oper.getReturnParamDesc();
+        param.setItemQName(new javax.xml.namespace.QName("", "travelordergrouprelbydaslist"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"),
+                      "com.sledenje.ws.WSMissingLoginException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
+                      true
+                     ));
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"),
+                      "com.sledenje.ws.WSException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
+                      true
+                     ));
+        _operations[9] = oper;
+
+    }
+
+    private static void _initOperationDesc2(){
+        org.apache.axis.description.OperationDesc oper;
+        org.apache.axis.description.ParameterDesc param;
+        oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getDailyAllowanceRelations");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fromDate"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
@@ -462,13 +505,8 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[9] = oper;
+        _operations[10] = oper;
 
-    }
-
-    private static void _initOperationDesc2(){
-        org.apache.axis.description.OperationDesc oper;
-        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getTravelOrderStops");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fromDate"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -499,7 +537,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[10] = oper;
+        _operations[11] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getTravelOrderStopsIdent");
@@ -546,7 +584,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[11] = oper;
+        _operations[12] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getVehicleOdos");
@@ -584,7 +622,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[12] = oper;
+        _operations[13] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("addVehicleOdo");
@@ -635,7 +673,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSVehicleOdoDecreasingKmException"), 
                       true
                      ));
-        _operations[13] = oper;
+        _operations[14] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("deleteVehicleOdo");
@@ -664,7 +702,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[14] = oper;
+        _operations[15] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("login");
@@ -691,7 +729,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSDatabaseErrorException"), 
                       true
                      ));
-        _operations[15] = oper;
+        _operations[16] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("logout");
@@ -704,7 +742,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[16] = oper;
+        _operations[17] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getCompanyLogin");
@@ -727,33 +765,10 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[17] = oper;
-
-        oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("getUserLogin");
-        oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "usersList"));
-        oper.setReturnClass(com.sledenje.ws.User[].class);
-        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
-        param = oper.getReturnParamDesc();
-        param.setItemQName(new javax.xml.namespace.QName("", "usersList"));
-        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
-        oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        oper.addFault(new org.apache.axis.description.FaultDesc(
-                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"),
-                      "com.sledenje.ws.WSMissingLoginException",
-                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
-                      true
-                     ));
-        oper.addFault(new org.apache.axis.description.FaultDesc(
-                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"),
-                      "com.sledenje.ws.WSException",
-                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
-                      true
-                     ));
         _operations[18] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("getCompanyUsersLogin");
+        oper.setName("getUserLogin");
         oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "usersList"));
         oper.setReturnClass(com.sledenje.ws.User[].class);
         oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
@@ -781,6 +796,29 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("getCompanyUsersLogin");
+        oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "usersList"));
+        oper.setReturnClass(com.sledenje.ws.User[].class);
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        param = oper.getReturnParamDesc();
+        param.setItemQName(new javax.xml.namespace.QName("", "usersList"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"),
+                      "com.sledenje.ws.WSMissingLoginException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
+                      true
+                     ));
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"),
+                      "com.sledenje.ws.WSException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
+                      true
+                     ));
+        _operations[20] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getCompanyVehicleGroupsLogin");
         oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "vehicleGroupsList"));
         oper.setReturnClass(com.sledenje.ws.VehicleGroup[].class);
@@ -801,7 +839,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[20] = oper;
+        _operations[21] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getCompanyDriversLogin");
@@ -824,7 +862,33 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
                       true
                      ));
-        _operations[21] = oper;
+        _operations[22] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("getCompanyDriversLoginByVehicle");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "voz_id"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "driversList"));
+        oper.setReturnClass(com.sledenje.ws.Driver[].class);
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        param = oper.getReturnParamDesc();
+        param.setItemQName(new javax.xml.namespace.QName("", "driversList"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"),
+                      "com.sledenje.ws.WSMissingLoginException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
+                      true
+                     ));
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"),
+                      "com.sledenje.ws.WSException",
+                      new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSException"), 
+                      true
+                     ));
+        _operations[23] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getCompanyID");
@@ -839,7 +903,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
                       true
                      ));
-        _operations[22] = oper;
+        _operations[24] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getUserID");
@@ -854,7 +918,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
                       new javax.xml.namespace.QName("http://ws.sledenje.com/", "WSMissingLoginException"), 
                       true
                      ));
-        _operations[23] = oper;
+        _operations[25] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("appBuildDate");
@@ -863,7 +927,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
         oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[24] = oper;
+        _operations[26] = oper;
 
     }
 
@@ -966,6 +1030,22 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderGroupRelByDA");
+            cachedSerQNames.add(qName);
+            cls = com.sledenje.ws.TravelOrderGroupRelByDA.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderGroupRelByDAsList");
+            cachedSerQNames.add(qName);
+            cls = com.sledenje.ws.TravelOrderGroupRelByDA[].class;
+            cachedSerClasses.add(cls);
+            qName = new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderGroupRelByDA");
+            qName2 = new javax.xml.namespace.QName("", "travelordergrouprelbydaslist");
+            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
+            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
 
             qName = new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderPrint");
             cachedSerQNames.add(qName);
@@ -1632,12 +1712,57 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
 }
     }
 
-    public com.sledenje.ws.TravelOrderRelation[] getDailyAllowanceRelations(java.lang.String fromDate, java.lang.String toDate, java.lang.Integer veh_id, java.lang.Boolean includeSLO) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException {
+    public com.sledenje.ws.TravelOrderGroupRelByDA[] getTravelOrderGroupRelByDAs(java.lang.String fromDate, java.lang.String toDate, java.lang.Integer vehgr_id, java.lang.Integer to_id, java.lang.Integer veh_id) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[9]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://ws.sledenje.com/", "getTravelOrderGroupRelByDAs"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {fromDate, toDate, vehgr_id, to_id, veh_id});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (com.sledenje.ws.TravelOrderGroupRelByDA[]) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (com.sledenje.ws.TravelOrderGroupRelByDA[]) org.apache.axis.utils.JavaUtils.convert(_resp, com.sledenje.ws.TravelOrderGroupRelByDA[].class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+    if (axisFaultException.detail != null) {
+        if (axisFaultException.detail instanceof java.rmi.RemoteException) {
+              throw (java.rmi.RemoteException) axisFaultException.detail;
+         }
+        if (axisFaultException.detail instanceof com.sledenje.ws.WSMissingLoginException) {
+              throw (com.sledenje.ws.WSMissingLoginException) axisFaultException.detail;
+         }
+        if (axisFaultException.detail instanceof com.sledenje.ws.WSException) {
+              throw (com.sledenje.ws.WSException) axisFaultException.detail;
+         }
+   }
+  throw axisFaultException;
+}
+    }
+
+    public com.sledenje.ws.TravelOrderRelation[] getDailyAllowanceRelations(java.lang.String fromDate, java.lang.String toDate, java.lang.Integer veh_id, java.lang.Boolean includeSLO) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[10]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1682,7 +1807,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[10]);
+        _call.setOperation(_operations[11]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1727,7 +1852,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[11]);
+        _call.setOperation(_operations[12]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1772,7 +1897,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[12]);
+        _call.setOperation(_operations[13]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1817,7 +1942,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[13]);
+        _call.setOperation(_operations[14]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1871,7 +1996,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[14]);
+        _call.setOperation(_operations[15]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1919,7 +2044,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[15]);
+        _call.setOperation(_operations[16]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1964,7 +2089,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[16]);
+        _call.setOperation(_operations[17]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -1999,7 +2124,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[17]);
+        _call.setOperation(_operations[18]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2044,7 +2169,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[18]);
+        _call.setOperation(_operations[19]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2089,7 +2214,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[19]);
+        _call.setOperation(_operations[20]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2134,7 +2259,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[20]);
+        _call.setOperation(_operations[21]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2179,7 +2304,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[21]);
+        _call.setOperation(_operations[22]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2219,12 +2344,57 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
 }
     }
 
+    public com.sledenje.ws.Driver[] getCompanyDriversLoginByVehicle(java.lang.Integer voz_id) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[23]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://ws.sledenje.com/", "getCompanyDriversLoginByVehicle"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {voz_id});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (com.sledenje.ws.Driver[]) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (com.sledenje.ws.Driver[]) org.apache.axis.utils.JavaUtils.convert(_resp, com.sledenje.ws.Driver[].class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+    if (axisFaultException.detail != null) {
+        if (axisFaultException.detail instanceof java.rmi.RemoteException) {
+              throw (java.rmi.RemoteException) axisFaultException.detail;
+         }
+        if (axisFaultException.detail instanceof com.sledenje.ws.WSMissingLoginException) {
+              throw (com.sledenje.ws.WSMissingLoginException) axisFaultException.detail;
+         }
+        if (axisFaultException.detail instanceof com.sledenje.ws.WSException) {
+              throw (com.sledenje.ws.WSException) axisFaultException.detail;
+         }
+   }
+  throw axisFaultException;
+}
+    }
+
     public java.lang.Integer getCompanyID() throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[22]);
+        _call.setOperation(_operations[24]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2266,7 +2436,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[23]);
+        _call.setOperation(_operations[25]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
@@ -2308,7 +2478,7 @@ public class SledenjeTravelOrdersWSPortBindingStub extends org.apache.axis.clien
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[24]);
+        _call.setOperation(_operations[26]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("");
         _call.setEncodingStyle(null);
