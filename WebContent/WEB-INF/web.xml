@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -96,8 +96,20 @@
 		 <param-value>http://okolje.arso.gov.si/service/distributionservlet?SERVIS=SIFRANTIODPADKI&amp;ZETON=ODP1&amp;ZAHTEVEK=ZAVEZANCI&amp;IZHODNI_FORMAT=XML&amp;MATICNA_ST=</param-value>
 	 </init-param>
 	 <init-param>
+		 <param-name>ArsoPrevoznikiURL</param-name>
+		 <param-value>http://okolje.arso.gov.si/service/prevozniki.zip</param-value>
+	 </init-param>
+	 	 <init-param>
+		 <param-name>ArsoPosiljateljiURL</param-name>
+		 <param-value>http://okolje.arso.gov.si/service/posiljatelji.zip</param-value>
+	 </init-param>
+	 	 <init-param>
+		 <param-name>ArsoPrejemnikiURL</param-name>
+		 <param-value>http://okolje.arso.gov.si/service/prejemniki.zip</param-value>
+	 </init-param>
+	 <init-param>
 	   	<param-name>scheduler_pattern</param-name>
-		<param-value>0 1 * * *</param-value>
+		<param-value>*/2 9-15 * * *</param-value>
 	 </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>  
@@ -120,7 +132,7 @@
 	 </init-param>
 	 <init-param>
 	   <param-name>scheduler_pattern</param-name>
-		<param-value>*/30 9-15 * * *</param-value>
+		<param-value>*/1 9-10 * * *</param-value>
 	 </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  
