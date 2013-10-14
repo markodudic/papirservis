@@ -5,8 +5,8 @@ import it.sauronsoftware.cron4j.Scheduler;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -46,7 +46,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				
 	Locale locale = Locale.getDefault();
     private String scheduler_pattern;
-	private String url;
+	//private String url;
 	private String prevoznikiURL;
 	private String posiljateljiURL;
 	private String prejemnikiURL;
@@ -76,7 +76,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
         System.out.println("*** Arso Initialized successfully ***");
         System.out.println("***********");
 
-        url = (String) getServletConfig().getInitParameter("ArsoZavezanciURL");
+        //url = (String) getServletConfig().getInitParameter("ArsoZavezanciURL");
         prevoznikiURL = (String) getServletConfig().getInitParameter("ArsoPrevoznikiURL");
         posiljateljiURL = (String) getServletConfig().getInitParameter("ArsoPosiljateljiURL");
         prejemnikiURL = (String) getServletConfig().getInitParameter("ArsoPrejemnikiURL");
@@ -84,15 +84,15 @@ public class ArsoServlet extends InitServlet implements Servlet {
         scheduler_pattern = (String) getServletConfig().getInitParameter("scheduler_pattern");
 
        
-        /*Scheduler s = new Scheduler();
+        Scheduler s = new Scheduler();
   	  	s.schedule(scheduler_pattern, new Runnable() {
-  	  		public void run() {*/
+  	  		public void run() {
 	  	  		try
 	  			{
 	  				String xml = getArsoZipData(prevoznikiURL);
 	  				Document doc = parseXmlFile(xml);
 	  				if (doc == null) {
-	  					System.out.println("Napaka pri poizvedbi na Arso za: " + url);
+	  					System.out.println("Napaka pri poizvedbi na Arso za: " + prevoznikiURL);
 	  				} else {
 	  			        getKupciIdZavezanca(doc);
 	  				}
@@ -100,19 +100,19 @@ public class ArsoServlet extends InitServlet implements Servlet {
 	  				xml = getArsoZipData(prejemnikiURL);
 	  				doc = parseXmlFile(xml);
 	  				if (doc == null) {
-	  					System.out.println("Napaka pri poizvedbi na Arso za: " + url);
+	  					System.out.println("Napaka pri poizvedbi na Arso za: " + prejemnikiURL);
 	  				} else {
 	  			        getKupciIdZavezanca(doc);
-	  			        //getStrankeIdLokacije(doc);
+	  			        getStrankeIdLokacije(doc);
 	  				}
 
 	  				xml = getArsoZipData(posiljateljiURL);
 	  				doc = parseXmlFile(xml);
 	  				if (doc == null) {
-	  					System.out.println("Napaka pri poizvedbi na Arso za: " + url);
+	  					System.out.println("Napaka pri poizvedbi na Arso za: " + posiljateljiURL);
 	  				} else {
 	  			        getKupciIdZavezanca(doc);
-	  			        //getStrankeIdLokacije(doc);
+	  			        getStrankeIdLokacije(doc);
 	  				}	  			
 	  			}
 	  			catch (Exception e)
@@ -120,9 +120,9 @@ public class ArsoServlet extends InitServlet implements Servlet {
 	  				e.printStackTrace();
 	  				
 	  			}	  				
-  	  	//	}
-  	  	//});
-  	  	//s.start();   
+  	  		}
+  	  	});
+  	  	s.start();   
     }
 
 	public void getKupciIdZavezanca(Document doc) {
@@ -148,8 +148,8 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				if (idZavezanca == null) {
 					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\r\n";
 				} else {
-					System.out.println("SET: "+maticna+":"+idZavezanca);
-					//setIdZavezanca(maticna, idZavezanca);
+					System.out.println("PSLJ_ST: "+maticna+":"+idZavezanca);
+					setIdZavezanca(maticna, idZavezanca);
 				}
 			}
 			System.out.println("**************** Kupci, ki ne obstajajo v arso bazi. ***********************");
@@ -183,8 +183,8 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				if (idLokacije == null) {
 					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\n";
 				} else {
-					System.out.println("SET: "+sif_str+":"+idLokacije);
-					//setIdLokacije(sif_str, idLokacije);
+					System.out.println("LOC_ID: "+sif_str+":"+idLokacije);
+					setIdLokacije(sif_str, idLokacije);
 				}
 			}
 			System.out.println("**************** Stranka, ki ne obstajajo v arso bazi. ***********************");
@@ -349,7 +349,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 				String m = getTextValue(el, ITEM_MATICNA);
 				if (m.equals(maticna)) {
 					//get a nodelist of  elements
-					NodeList nll = docEle.getElementsByTagName(NODE_LOKACIJA);
+					NodeList nll = el.getElementsByTagName(NODE_LOKACIJA);
 					if(nll != null && nll.getLength() > 0) {
 						for(int ii = 0 ; ii < nll.getLength();ii++) {
 							//get the employee element
@@ -391,7 +391,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 	    	connectionMake();
 	    	String query = 	"select sif_kupca, naziv, naslov, posta, kraj, maticna from kupci where arso_pslj_st is null and (maticna is not null and maticna != '')";
 
-	    	System.out.println(query);	           
+	    	//System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
 
@@ -468,7 +468,7 @@ public class ArsoServlet extends InitServlet implements Servlet {
 	    					"from stranke left join kupci on (stranke.sif_kupca = kupci.sif_kupca) " + 
 	    					"where arso_odp_loc_id is null and (maticna is not null and maticna != '')";
 
-	    	System.out.println(query);	           
+	    	//System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
 
@@ -601,19 +601,23 @@ public class ArsoServlet extends InitServlet implements Servlet {
               System.out.println("entry: " + entry.getName() + ", " + entry.getSize());
               
               //FileOutputStream output = null;
+              ByteArrayOutputStream fos = new ByteArrayOutputStream();
+
               try
               {
                   //output = new FileOutputStream(outpath);
                   int len = 0;
                   while ((len = zis.read(buffer)) > 0)
                   {
-                	  result += new String(buffer).trim();
-                      System.out.println(new String(buffer).trim());
-                	  buffer = new byte[20480];
+                	  fos.write(buffer, 0, len);
+                      //result += fos.toString();
+                	  //System.out.println(len);
                   }
               }
               finally
               {
+                  //System.out.println(fos.toString());
+                  result = fos.toString();
                   // we must always close the output file
                   //if(output!=null) output.close();
               }
