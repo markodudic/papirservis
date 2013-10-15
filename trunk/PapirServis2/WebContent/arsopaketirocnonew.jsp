@@ -205,7 +205,7 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						//"		group by st_dob, pozicija) dob " + 
 						" FROM  (SELECT dob.*  " +
 						"		FROM " + session.getAttribute("letoTabela") + " dob, (SELECT st_dob, pozicija, max(zacetek) datum " + 
-						"				FROM dob2013 dob  " +
+						"				FROM " + session.getAttribute("letoTabela") + " dob  " +
 						"				group by st_dob, pozicija) zadnji " +
 						"		WHERE dob.st_dob = zadnji.st_dob and " +
 						"		      dob.pozicija = zadnji.pozicija and " +
