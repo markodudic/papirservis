@@ -322,6 +322,31 @@ out.println(x_skupinaList);
 &nbsp;</td>
 	</tr>
 	<tr>
+		<td class="jspmaker">Enota&nbsp;</td>
+		<td class="jspmaker"><%
+		String cbo_x_enota_js = "";
+		String x_enotaList = "<select name=\"enota\"><option value=\"-1\">Izberi</option>";
+		String sqlwrk_x_enota = "SELECT `sif_enote`, `naziv` FROM `enote` ORDER BY `naziv` ASC";
+		Statement stmtwrk_x_enota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_enota = stmtwrk_x_enota.executeQuery(sqlwrk_x_enota);
+			int rowcntwrk_x_enota = 0;
+			while (rswrk_x_enota.next()) {
+				x_enotaList += "<option value=\"" + HTMLEncode(rswrk_x_enota.getString("sif_enote")) + "\"";
+				String tmpValue_x_enota = "";
+				if (rswrk_x_enota.getString("naziv")!= null) tmpValue_x_enota = rswrk_x_enota.getString("naziv");
+				x_enotaList += ">" + tmpValue_x_enota + "</option>";
+				rowcntwrk_x_enota++;
+			}
+		rswrk_x_enota.close();
+		rswrk_x_enota = null;
+		stmtwrk_x_enota.close();
+		stmtwrk_x_enota = null;
+		x_enotaList += "</select>";
+		out.println(x_enotaList);
+%>
+&nbsp;</td>
+	</tr>
+	<tr>
 		<td><span class="jspmaker">Kreiraj nov paket</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;

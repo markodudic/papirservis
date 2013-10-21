@@ -47,6 +47,7 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 String od_datum = request.getParameter("od_datum");
 String do_datum = request.getParameter("do_datum");
 String skupina = request.getParameter("skupina");
+String enota = request.getParameter("enota");
 //out.println(skupina);
 if (od_datum != null && od_datum.length() > 0)
 	session.setAttribute("od_datum", od_datum);
@@ -60,6 +61,10 @@ if (skupina != null && skupina.length() > 0)
 	session.setAttribute("skupina", skupina);
 else
 	skupina = (String) session.getAttribute("skupina");
+if (enota != null && enota.length() > 0)
+	session.setAttribute("enota", enota);
+else
+	enota = (String) session.getAttribute("enota");
 
 String pSearch = request.getParameter("psearch");
 String pSearchType = request.getParameter("psearchtype");
@@ -124,8 +129,10 @@ if (request.getParameter("cmd") != null && request.getParameter("cmd").length() 
 		od_datum = null;
 		do_datum = null;
 		skupina = null;
+		enota = null;
 		session.setAttribute("od_datum", od_datum);
 		session.setAttribute("do_datum", do_datum);
+		session.setAttribute("skupina", skupina);
 		session.setAttribute("skupina", skupina);
 	}else if (cmd.toUpperCase().equals("RESETALL")) {
 		searchwhere = ""; // Reset search criteria
@@ -133,8 +140,10 @@ if (request.getParameter("cmd") != null && request.getParameter("cmd").length() 
 		od_datum = null;
 		do_datum = null;
 		skupina = null;
+		enota = null;
 		session.setAttribute("od_datum", od_datum);
 		session.setAttribute("do_datum", do_datum);
+		session.setAttribute("skupina", skupina);
 		session.setAttribute("skupina", skupina);
 	}
 	startRec = 1; // Reset start record counter (reset command)
@@ -196,7 +205,7 @@ ResultSet rs = null;
 //					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
 String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.*, " +
 						"	kupci.naziv, kupci.maticna kupci_maticna, kupci.arso_pslj_st, kupci.arso_pslj_status, " +
-						"	enote.maticna enote_maticna, enote.arso_prjm_st, enote.arso_prjm_status, enote.arso_odp_locpr_id,  " +
+						"	enote.naziv enote_naziv, enote.maticna enote_maticna, enote.arso_prjm_st, enote.arso_prjm_status, enote.arso_odp_locpr_id,  " +
 						"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
 						"	str.arso_odp_loc_id, " +
 						"	mat.arso_odp_locpr_id material_arso_odp_locpr_id " +
@@ -237,6 +246,9 @@ if (do_datum != null && do_datum.length() > 0) {
 }
 if (skupina != null && skupina.length() > 0 && !skupina.equals("-1")) {
 	whereClause = whereClause + " dob.skupina = " + skupina + " AND ";
+}
+if (enota != null && enota.length() > 0 && !enota.equals("-1")) {
+	whereClause = whereClause + " kupci.sif_enote = " + enota + " AND ";
 }
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
@@ -339,6 +351,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "<b>" : ""%>
 <a href="arsopaketirocnonew.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("enotenaziv")) ? "<b>" : ""%>
+<a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("enote_naziv","UTF-8") %>">Enota&nbsp;<% if (OrderBy != null && OrderBy.equals("enote_naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("enote_naziv")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "<b>" : ""%>
@@ -460,6 +477,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_st_dob = "";
 	String x_pozicija = "";
 	Object x_datum = null;
+	String x_enote_naziv = "";
 	String x_sif_str = "";
 	String x_stranka = "";
 	String x_sif_kupca = "";
@@ -491,6 +509,13 @@ while (rs.next() && recCount < stopRec) {
 		x_datum = rs.getTimestamp("datum");
 	}else{
 		x_datum = "";
+	}
+
+	// enota
+	if (rs.getString("enote_naziv") != null){
+		x_enote_naziv = rs.getString("enote_naziv");
+	}else{
+		x_enote_naziv = "";
 	}
 
 	// sif_str
@@ -603,6 +628,7 @@ while (rs.next() && recCount < stopRec) {
 		<td><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+		<td><% out.print(x_enote_naziv);%>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
 		<td><%out.print(rs.getString("stranka"));%>&nbsp;</td>
 		<td><%out.print(x_sif_kupca);%>&nbsp;</td>
@@ -628,7 +654,7 @@ while (rs.next() && recCount < stopRec) {
 %>
 </table>
 <% if (recActual > 0) { %>
-<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>", "<%out.print(session.getAttribute("papirservis1_status_User")); %>", false ) '></p>
+<p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>", "<%out.print(enota); %>", "<%out.print(session.getAttribute("papirservis1_status_User")); %>", false ) '></p>
 <% } %>
 </form>
 <%
