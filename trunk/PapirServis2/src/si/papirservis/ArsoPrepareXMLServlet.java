@@ -183,42 +183,48 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 							"		ON (dob.koda = mat.koda) " +
 	    					" WHERE concat(dob.id) IN ("+ids+")";
 
-	    	
-	    	xml = PAKET_INT_ID + ";" + ZAVEZANEC_ST + ";" + ZAVEZANEC_MATICNA_ST + ";\"\n";
-	    	    
-    		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-     
-    		// root elements
-    		Document doc = docBuilder.newDocument();
-    		Element rootElement = doc.createElement("ARSO_VHOD_DOK");
-    		rootElement.setAttribute("PODROCJE", "ODPADKI");
-    		rootElement.setAttribute("TIP", "EVLS_OBICAJNI_PRJMPSLJ");
-    		rootElement.setAttribute("VERZIJA", "1.0.0");
-    		doc.appendChild(rootElement);
-
-    		Element evls_paket = doc.createElement("EVLS_PAKET");
-    		rootElement.appendChild(evls_paket);
-     	    		
-    		Element paket_ind_id = doc.createElement("PAKET_INT_ID");
-    		paket_ind_id.appendChild(doc.createTextNode(PAKET_INT_ID+""));
-    		evls_paket.appendChild(paket_ind_id);
-
-    		Element zavezanec_st = doc.createElement("ZAVEZANEC_ST");
-    		zavezanec_st.appendChild(doc.createTextNode(ZAVEZANEC_ST));
-    		evls_paket.appendChild(zavezanec_st);
-
-    		Element zavezanec_maticna_st = doc.createElement("ZAVEZANEC_MATICNA_ST");
-    		zavezanec_maticna_st.appendChild(doc.createTextNode(ZAVEZANEC_MATICNA_ST));
-    		evls_paket.appendChild(zavezanec_maticna_st);
-
-    		Element evidencni_listi = doc.createElement("EVIDENCNI_LISTI");
-    		evls_paket.appendChild(evidencni_listi);
-    		
 	    	System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
+	    	
+	    	boolean root = false;
+    		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    		Document doc = docBuilder.newDocument();
+    		Element evidencni_listi = doc.createElement("EVIDENCNI_LISTI");
+	    	
+	    	//xml = PAKET_INT_ID + ";" + ZAVEZANEC_ST + ";" + ZAVEZANEC_MATICNA_ST + ";\"\n";
 	    	while (rs.next()) {
+	    	    if (!root) {
+		     
+		    		// root elements
+		    		Element rootElement = doc.createElement("ARSO_VHOD_DOK");
+		    		rootElement.setAttribute("PODROCJE", "ODPADKI");
+		    		rootElement.setAttribute("TIP", "EVLS_OBICAJNI_PRJMPSLJ");
+		    		rootElement.setAttribute("VERZIJA", "1.0.0");
+		    		doc.appendChild(rootElement);
+		
+		    		Element evls_paket = doc.createElement("EVLS_PAKET");
+		    		rootElement.appendChild(evls_paket);
+		     	    		
+		    		Element paket_ind_id = doc.createElement("PAKET_INT_ID");
+		    		paket_ind_id.appendChild(doc.createTextNode(PAKET_INT_ID+""));
+		    		evls_paket.appendChild(paket_ind_id);
+		
+		    		Element zavezanec_st = doc.createElement("ZAVEZANEC_ST");
+		    		zavezanec_st.appendChild(doc.createTextNode(rs.getString("arso_prjm_st")));
+		    		evls_paket.appendChild(zavezanec_st);
+		
+		    		Element zavezanec_maticna_st = doc.createElement("ZAVEZANEC_MATICNA_ST");
+		    		zavezanec_maticna_st.appendChild(doc.createTextNode(rs.getString("enote_maticna")));
+		    		evls_paket.appendChild(zavezanec_maticna_st);
+		
+		    		evls_paket.appendChild(evidencni_listi);
+		    		
+		    		root = true;
+	    		}
+	    	
+	    		//Items
 	    		boolean prevoznikPosiljatelj = rs.getString("sif_kam").equals("0");
 
 	    		Element ODPADKI_EVL_PODATKI_1 = doc.createElement("ODPADKI_EVL_PODATKI_1");
@@ -425,7 +431,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	con.setAutoCommit(false);
 	    	
 			if (skupina.equals("-1")) skupina = null;
-	    	
+			
 			keyChecked = keyChecked.replaceAll("'", "");
 			String[] keys = keyChecked.split(",");
 			String ids = keyChecked.substring(0, keyChecked.indexOf("-"));
@@ -481,7 +487,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 			
 				return stringWriter.toString();
 			} else {
-				return "Paket uspešno kreiran";
+				return "Paket uspeï¿½no kreiran";
 			}
 	    } catch (Exception theException) {
 	    	try{
