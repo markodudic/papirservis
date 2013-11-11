@@ -965,7 +965,7 @@ String enoteQueryFilter = "";
 if(enote.equals("0")){
  enoteQueryFilter = "where sif_enote = " + session.getAttribute("papirservis1_status_Enota");
 }
-
+ 
 
 String cbo_x_sif_enote_js = "";
 String x_sif_enoteList = "<select name=\"x_sif_enote\"><option value=\"\">Izberi</option>";
