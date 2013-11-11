@@ -64,6 +64,8 @@ String[] x_koda = {"","","",""};
 String[] x_ewc = {"","","",""};
 Object x_skupina = null;
 Object x_skupina_text = null;
+Object x_sif_enote = null;
+Object x_enote = null;
 Object x_opomba = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
@@ -88,12 +90,15 @@ StringBuffer[] x_ewc_List = new StringBuffer[4];;
 StringBuffer x_sif_sofList = null;
 StringBuffer x_sif_kamList = null;
 StringBuffer x_skupinaList = null;
+StringBuffer x_enoteList = null;
 
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
+StringBuffer sif_enote = new StringBuffer();
 StringBuffer sif_kupec_enota = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
+StringBuffer enote = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
 StringBuffer stranka_stev_km_norm = new StringBuffer();
 StringBuffer stranka_stev_ur_norm = new StringBuffer();
@@ -262,6 +267,12 @@ try{
 		}else{
 			x_skupina_text = "";
 		}
+		x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+		if (rs.getString("naziv_enote") != null){
+			x_enote = rs.getString("naziv_enote");
+		}else{
+			x_enote = "";
+		}
 		if (rs.getString("opomba") != null){
 			x_opomba = rs.getString("opomba");
 		}else{
@@ -351,6 +362,16 @@ try{
 			x_skupina_text = (String) request.getParameter("x_skupina_text");
 		}else{
 			x_skupina_text = "";
+		}
+		if (request.getParameter("x_enote_ll") != null){
+			x_sif_enote = request.getParameter("x_enote_ll");
+		}else{
+			x_sif_enote = "";
+		}
+		if (request.getParameter("x_enote") != null){
+			x_enote = (String) request.getParameter("x_enote");
+		}else{
+			x_enote = "";
 		}
 		if (request.getParameter("x_cena") != null){
 			x_cena = (String) request.getParameter("x_cena");
@@ -451,7 +472,7 @@ try{
 		int koda_cnt_vse = 1;
 		if (koda_cnt>0) koda_cnt_vse = koda_cnt;
 		for (int i=0; i<koda_cnt_vse; i++) {
-			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) values (";
+			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, sif_enote, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) values (";
 
 			// Field st_dob
 			tmpfld = ((String) x_st_dob).trim();
@@ -530,6 +551,10 @@ try{
 				strsql += tmpfld + ",";
 			}
 	
+			// Field enota
+			tmpfld = ((String) x_sif_enote).trim();
+			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			strsql += tmpfld + ", ";
 	
 			// Field cena
 			tmpfld = ((String) x_cena).trim();
@@ -770,9 +795,9 @@ if(stranke.equals("0")){
 	strankeQueryFilter = " k.potnik = " + session.getAttribute("papirservis1_status_UserID");
 }
 
-String enote = (String) session.getAttribute("enote");
+String enote1 = (String) session.getAttribute("enote");
 String enoteQueryFilter = "";
-if(enote.equals("0")){
+if(enote1.equals("0")){
 	enoteQueryFilter = "k.sif_enote = " + session.getAttribute("papirservis1_status_Enota");
 }
 
@@ -792,7 +817,7 @@ String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, enote.naziv as enota_naziv  "+
+String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, k.sif_enote, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, enote.naziv as enota_naziv  "+
 	"FROM (SELECT stranke.* "+
 	"	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 	"	WHERE stranke.sif_str = zadnji.sif_str and "+
@@ -820,6 +845,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		sif_kupec_enota.append("sif_kupec_enota[").append(tmpSif).append("]='").append(rswrk_x_sif_str.getString("enota_naziv")).append("';");
 		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
+		sif_enote.append("sif_enote[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("sif_enote"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
 		stranka_stev_km_norm.append("stranka_stev_km_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_km_norm"))).append(";");
 		stranka_stev_ur_norm.append("stranka_stev_ur_norm[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("stev_ur_norm"))).append(";");
@@ -876,6 +902,33 @@ rswrk_x_skupina = null;
 stmtwrk_x_skupina.close();
 stmtwrk_x_skupina = null;
 x_skupinaList.append("</select>");
+
+String cbo_x_enota_js = "";
+x_enoteList = new StringBuffer("<select name=\"x_enote_ll\"><option value=\"\">Izberi</option>");
+
+String sqlwrk_x_enota = "SELECT `sif_enote`, `naziv` FROM `enote`";
+Statement stmtwrk_x_enota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_enota = stmtwrk_x_enota.executeQuery(sqlwrk_x_enota);
+	int rowcntwrk_x_enota = 0;
+	while (rswrk_x_enota.next()) {
+		x_enoteList.append("<option value=\"").append(HTMLEncode(rswrk_x_enota.getString("sif_enote"))).append("\"");
+		if (rswrk_x_enota.getString("sif_enote").equals(x_sif_enote)) {
+			x_enoteList.append(" selected");
+		}
+
+
+		enote.append("enota[").append(rswrk_x_enota.getString("sif_enote")).append("]=").append(String.valueOf(rowcntwrk_x_enota)).append(";");
+
+		String tmpValue_x_enota = "";
+		if (rswrk_x_enota.getString("naziv")!= null) tmpValue_x_enota = rswrk_x_enota.getString("naziv");
+		x_enoteList.append(">").append(tmpValue_x_enota).append("</option>");
+		rowcntwrk_x_enota++;
+	}
+rswrk_x_enota.close();
+rswrk_x_enota = null;
+stmtwrk_x_enota.close();
+stmtwrk_x_enota = null;
+x_enoteList.append("</select>");
 
 String cbo_x_sif_sof_js = "";
 x_sif_sofList = new StringBuffer("<select name=\"x_sif_sof\"><option value=\"\">Izberi</option>");
@@ -952,6 +1005,10 @@ var kupac = new Array();
 <%=kupac%>
 var skupina = new Array();
 <%=skupina%>
+var sif_enote = new Array();
+<%=sif_enote%>
+var enota = new Array();
+<%=enote%>
 var stranka_cena = new Array();
 <%=stranka_cena%>
 var stranka_stev_ur_norm = new Array();
@@ -1003,6 +1060,8 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_sif_kupca.value = sif_kupac[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobavnicaadd.x_sif_str.value]];
 	document.dobavnicaadd.x_skupina.value = sif_skupina[document.dobavnicaadd.x_sif_str.value];
+	document.dobavnicaadd.x_enote_ll.selectedIndex = 1 + enota[sif_enote[document.dobavnicaadd.x_sif_str.value]];
+	//document.dobavnicaadd.x_enote.value = sif_enote[document.dobavnicaadd.x_sif_str.value];
 	
 	document.dobavnicaadd.kupec_enota.value = sif_kupec_enota[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
@@ -1132,6 +1191,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_skupinaList);%>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_enoteList);%>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
