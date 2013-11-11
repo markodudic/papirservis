@@ -1,0 +1,79 @@
+update dob2013
+set sif_enote = (select sif_enote from kupci where kupci.sif_kupca = dob2013.sif_kupca),
+naziv_enote = (select naziv from enote where enote.sif_enote = dob2013.sif_enote)
+where datum > '2013-11-01';
+
+
+//tole ponovim za vsa leta
+CREATE DEFINER=`root`@`%` TRIGGER `dob2013_update` BEFORE UPDATE ON `dob2013` FOR EACH ROW BEGIN
+set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+set NEW.naziv_enote = (select naziv from enote where sif_enote = NEW.sif_enote);
+set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+set NEW.zacetek = current_timestamp();
+END;
+
+
+CREATE DEFINER=`root`@`%` TRIGGER `dob2013_insert` BEFORE INSERT ON `dob2013` FOR EACH ROW BEGIN
+set NEW.stranka = (select naziv from stranke where id = (select max(id) from stranke where sif_str = NEW.sif_str));
+set NEW.skupina_text = (select tekst from skup where skupina = NEW.skupina);
+set NEW.naziv_enote = (select naziv from enote where sif_enote = NEW.sif_enote);
+set NEW.sofer = (select sofer from sofer where sif_sof = NEW.sif_sof);
+set NEW.kamion = (select kamion from kamion where id = (select max(id) from kamion where sif_kam = NEW.sif_kam));
+set NEW.zacetek = current_timestamp();
+END;
+//
+
+
+ALTER TABLE `dob`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
+ALTER TABLE `dob2009`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2009_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+		
+		
+ALTER TABLE `dob2010`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2010_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
+ALTER TABLE `dob2011`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2011_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
+ALTER TABLE `dob2012`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2012_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
+ALTER TABLE `dob2013`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2013_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;					
+
+ALTER TABLE `dob2014`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2014_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;					
+
+ALTER TABLE `dob2015`
+	ADD COLUMN `sif_enote` INT(11) NULL DEFAULT NULL AFTER `skupina_text`,
+	ADD COLUMN `naziv_enote` VARCHAR(255) NULL DEFAULT NULL AFTER `sif_enote`,,
+	ADD INDEX `dob_enote_indx` (`sif_enote`),
+	ADD CONSTRAINT `dob2015_enota_fk` FOREIGN KEY (`sif_enote`) REFERENCES `enote` (`sif_enote`) ON UPDATE NO ACTION ON DELETE NO ACTION;					
+
+	
+	

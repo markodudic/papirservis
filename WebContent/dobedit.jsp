@@ -77,6 +77,8 @@ Object x_sit_sort = null;
 Object x_sit_smet = null;
 Object x_skupina = null;
 Object x_skupina_text = null;
+Object x_sif_enote = null;
+Object x_enote = null;
 Object x_opomba = null;
 //Object x_stev_km_sled = null;
 //Object x_stev_ur_sled = null;
@@ -105,6 +107,7 @@ StringBuffer x_kodaList = null;
 StringBuffer x_ewcList = null;
 StringBuffer x_sif_sofList = null;
 StringBuffer x_skupinaList = null;
+StringBuffer x_enoteList = null;
 StringBuffer cena_km = new StringBuffer();
 StringBuffer cena_ura = new StringBuffer();
 StringBuffer cena_kg = new StringBuffer();
@@ -113,8 +116,10 @@ StringBuffer c_ura = new StringBuffer();
 
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
+StringBuffer sif_enote = new StringBuffer();
 StringBuffer kupac = new StringBuffer();
 StringBuffer skupina = new StringBuffer();
+StringBuffer enote = new StringBuffer();
 StringBuffer stranka_cena = new StringBuffer();
 StringBuffer material_sit_sort = new StringBuffer();
 StringBuffer material_sit_zaup = new StringBuffer();
@@ -219,6 +224,12 @@ try{
 				x_skupina_text = rs.getString("skupina_text");
 			}else{
 				x_skupina_text = "";
+			}
+			x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+			if (rs.getString("naziv_enote") != null){
+				x_enote = rs.getString("naziv_enote");
+			}else{
+				x_enote = "";
 			}
 			if (rs.getString("opomba") != null){
 				x_opomba = rs.getString("opomba");
@@ -440,6 +451,16 @@ try{
 			x_skupina_text = (String) request.getParameter("x_skupina_text");
 		}else{
 			x_skupina_text = "";
+		}
+		if (request.getParameter("x_enote_ll") != null){
+			x_sif_enote = request.getParameter("x_enote_ll");
+		}else{
+			x_sif_enote = "";
+		}
+		if (request.getParameter("x_enote") != null){
+			x_enote = (String) request.getParameter("x_enote");
+		}else{
+			x_enote = "";
 		}
 		if (request.getParameter("x_opomba") != null){
 			x_opomba = (String) request.getParameter("x_opomba");
@@ -847,8 +868,27 @@ try{
 		}else{
 			rs.updateString("skupina_text", tmpfld);
 		}
-		//updateSql += "skupina_text= " + tmpfld + ", ";
 
+		// Field enota
+		tmpfld = ((String) x_sif_enote).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("sif_enote");
+		} else {
+			rs.updateInt("sif_enote",Integer.parseInt(tmpfld));
+		}
+		
+		// Field naziv enote
+		tmpfld = ((String) x_enote);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("naziv_enote");
+		}else{
+			rs.updateString("naziv_enote", tmpfld);
+		}
+		
 		// Field opomba
 		tmpfld = ((String) x_opomba);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -1324,6 +1364,33 @@ stmtwrk_x_skupina = null;
 x_skupinaList.append("</select>");
 
 
+String cbo_x_enota_js = "";
+x_enoteList = new StringBuffer("<select name=\"x_enote_ll\"><option value=\"\">Izberi</option>");
+
+String sqlwrk_x_enota = "SELECT `sif_enote`, `naziv` FROM `enote`";
+Statement stmtwrk_x_enota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_enota = stmtwrk_x_enota.executeQuery(sqlwrk_x_enota);
+	int rowcntwrk_x_enota = 0;
+	while (rswrk_x_enota.next()) {
+		x_enoteList.append("<option value=\"").append(HTMLEncode(rswrk_x_enota.getString("sif_enote"))).append("\"");
+		if (rswrk_x_enota.getString("sif_enote").equals(x_sif_enote)) {
+			x_enoteList.append(" selected");
+		}
+
+
+		enote.append("enota[").append(rswrk_x_enota.getString("sif_enote")).append("]=").append("'"+rswrk_x_enota.getString("naziv")+"'").append(";");
+
+		String tmpValue_x_enota = "";
+		if (rswrk_x_enota.getString("naziv")!= null) tmpValue_x_enota = rswrk_x_enota.getString("naziv");
+		x_enoteList.append(">").append(tmpValue_x_enota).append("</option>");
+		rowcntwrk_x_enota++;
+	}
+rswrk_x_enota.close();
+rswrk_x_enota = null;
+stmtwrk_x_enota.close();
+stmtwrk_x_enota = null;
+x_enoteList.append("</select>");
+
 
 }catch (SQLException ex){
 		out.println(ex.toString());
@@ -1348,10 +1415,14 @@ var sif_kupac = new Array();
 <%=sif_kupac%>
 var sif_skupina = new Array();
 <%=sif_skupina%>
+var sif_enote = new Array();
+<%=sif_enote%>
 var kupac = new Array();
 <%=kupac%>
 var skupina = new Array();
 <%=skupina%>
+var enota = new Array();
+<%=enote%>
 var stranka_cena = new Array();
 <%=stranka_cena%>
 
@@ -1390,6 +1461,7 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_sif_kupca.value = sif_kupac[document.dobedit.x_sif_str.value];
 	document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
 	document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
+	//document.dobedit.x_enote_ll.value = sif_enote[document.dobedit.x_sif_str.value];
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
@@ -1533,6 +1605,10 @@ if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "NapaÄŤna Ĺˇtevilka - skupina"))
                 return false; 
         }
+if (EW_this.x_enote && !EW_hasValue(EW_this.x_enote, "SELECT" )) {
+    if (!EW_onError(EW_this, EW_this.x_enote, "SELECT", "NapaÄŤna Ĺˇtevilka - enote"))
+        return false; 
+}
 if (EW_this.x_stev_km_norm && !EW_checknumber(EW_this.x_stev_km_norm.value)) {
     if (!EW_onError(EW_this, EW_this.x_stev_km_norm, "TEXT", "NapaÄŤna Ĺˇtevilka - stev km normativ"))
         return false; 
@@ -1546,7 +1622,6 @@ if (EW_this.x_dod_stroski && !EW_checknumber(EW_this.x_dod_stroski.value)) {
             return false; 
         }
         
-
 return true;
 }
 </script>
@@ -1558,7 +1633,7 @@ return true;
 <input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
 <input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
-
+ 
 <table class="ewTable">
 <tr><td class="ewTableAltRow">Opomba stranke:<%=opomba%></td></tr>
 </table>
@@ -1579,9 +1654,9 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>
-	</tr>
+	</tr> 
 	<tr>
-		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
+		<td class="ewTableHeader">Šifra stranke&nbsp;</td> 
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
 	</tr>
 	<tr>
@@ -1671,7 +1746,7 @@ return true;
 		<td class="ewTableHeader">sit sort&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_sort" size="30" value="<%= HTMLEncode((String)x_sit_sort) %>">&nbsp;</td>
 	</tr>
-	<tr>
+	<tr> 
 		<td class="ewTableHeader">sit smet&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_smet" size="30" value="<%= HTMLEncode((String)x_sit_smet) %>">&nbsp;</td>
 	</tr>
@@ -1682,6 +1757,14 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_enoteList);%>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enote&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_enote" size="30" maxlength="255" value="<%= HTMLEncode((String)x_enote) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
@@ -1715,7 +1798,7 @@ return true;
 							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
 							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_arso_odp_embalaza)) {
 								x_arso_listOption += " selected";
-							}
+							} 
 							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
 							out.println(x_arso_listOption);			
 						}

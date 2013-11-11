@@ -1560,6 +1560,16 @@ if (totalRecs > 0) {
 <%=(OrderBy != null && OrderBy.equals("skupina_text")) ? "</b>" : ""%>
 		</td>
 		<td id="td1">
+<%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","UTF-8") %>">Šifra enote&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "</b>" : ""%>
+		</td>
+		<td id="td1">
+<%=(OrderBy != null && OrderBy.equals("naziv_enote")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("naziv_enote","UTF-8") %>">Enota&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("naziv_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naziv_enote")) ? "</b>" : ""%>
+		</td>
+		<td id="td1">
 <%=(OrderBy != null && OrderBy.equals("opomba")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("opomba","UTF-8") %>">Opomba&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("opomba")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba")) ? "</b>" : ""%>
@@ -1734,6 +1744,8 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_sit_smet = "";
 	String x_skupina = "";
 	String x_skupina_text = "";
+	String x_sif_enote = "";
+	String x_naziv_enote = "";
 	String x_opomba = "";
 	String x_dod_stroski = "";
 	String x_stev_km_sled = "";
@@ -1887,6 +1899,17 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_skupina_text = "";
 	}
 
+	// enota
+	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+
+	// naziv_enote
+	if (rs.getString("naziv_enote") != null){
+		x_naziv_enote = rs.getString("naziv_enote");
+	}else{
+		x_naziv_enote = "";
+	}
+
+	
 	// opomba
 	if (rs.getString("opomba") != null){
 		x_opomba = rs.getString("opomba");
@@ -2088,6 +2111,8 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("skupina_text"));%>&nbsp;</td>
 		<td><% out.print(x_skupina_text); %>&nbsp;</td>
+		<td><%out.print(rs.getString("sif_enote"));%>&nbsp;</td>
+		<td><% out.print(x_naziv_enote); %>&nbsp;</td>
 		<td><% out.print(x_opomba); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_dod_stroski, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(x_stev_km_sled); %>&nbsp;</td>
