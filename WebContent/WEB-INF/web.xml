@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -109,7 +109,7 @@
 	 </init-param>
 	 <init-param>
 	   	<param-name>scheduler_pattern</param-name>
-		<param-value>*/2 9-10 * * *</param-value>
+		<param-value>*/2 6-7 * * *</param-value>
 	 </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>  
@@ -175,7 +175,7 @@
 		<servlet-class>si.papirservis.ArsoPrepareXMLServlet</servlet-class>
 		<init-param>
 		  	<param-name>SAVE_FILES</param-name>
-			<param-value>D:/projects/monolit/papirservis/WebContent/paketi/</param-value>
+			<param-value>c:/temp</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>ZAVEZANEC_ST</param-name>

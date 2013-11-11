@@ -60,6 +60,8 @@ String x_sofer = "";
 String[] x_koda = {"","","",""};
 String x_skupina = "";
 String x_skupina_text = "";
+String x_sif_enote = "";
+String x_naziv_enote = "";
 String x_opomba = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
@@ -143,6 +145,16 @@ try{
 			x_skupina_text = "";
 		}
 
+		// enota
+		x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+
+		// naziv enote
+		if (rs.getString("naziv_enote") != null){
+			x_naziv_enote = rs.getString("naziv_enote");
+		}else{
+			x_naziv_enote = "";
+		}
+		
 		// opomba
 		if (rs.getString("opomba") != null){
 			x_opomba = rs.getString("opomba");
@@ -318,6 +330,29 @@ if (x_skupina!=null && ((String)x_skupina).length() > 0) {
 &nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><%
+if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
+	String sqlwrk_where = "";
+	sqlwrk_where = "`sif_enote` = " + x_sif_enote;
+	String sqlwrk = "SELECT `naziv` FROM `enote`";
+	if (sqlwrk_where.length() > 0) {
+	sqlwrk += " WHERE " + sqlwrk_where;
+	}
+	Statement stmtwrk = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk = stmtwrk.executeQuery(sqlwrk);
+	if (rswrk.next()) {
+		out.print(rswrk.getString("naziv"));
+	}
+	rswrk.close();
+	rswrk = null;
+	stmtwrk.close();
+	stmtwrk = null;
+}
+%>
+&nbsp;</td>
+	</tr>
+		<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_opomba); %>&nbsp;</td>
 	</tr>

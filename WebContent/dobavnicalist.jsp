@@ -800,6 +800,12 @@ if (totalRecs > 0) {
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("skupina_text","UTF-8") %>">Skupina&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina_text")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 		</td>
 		<td>
+<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","UTF-8") %>">Enota&nbsp;<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+		</td>
+		<td>
+<a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("naziv_enote","UTF-8") %>">Enota&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina_text")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("opomba")) ? "<b>" : ""%>
 <a href="dobavnicalist.jsp?order=<%= java.net.URLEncoder.encode("opomba","UTF-8") %>">Opomba&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("opomba")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dobavnica_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dobavnica_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba")) ? "</b>" : ""%>
@@ -869,6 +875,8 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_koda_text = "";
 	String x_skupina = "";
 	String x_skupina_text = "";
+	String x_sif_enote = "";
+	String x_naziv_enote = "";
 	String x_opomba = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
@@ -956,6 +964,17 @@ while (rs.next() ){//&& recCount < stopRec) {
 		x_skupina_text = "";
 	}
 
+	// enota
+	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+
+	// naziv enote
+	if (rs.getString("naziv_enote") != null){
+		x_naziv_enote = rs.getString("naziv_enote");
+	}else{
+		x_naziv_enote = "";
+	}
+
+
 	// opomba
 	if (rs.getString("opomba") != null){
 		x_opomba = rs.getString("opomba");
@@ -1041,6 +1060,8 @@ if (x_koda!=null && ((String)x_koda).length() > 0) {
 &nbsp;</td>
 		<td><% out.print(x_skupina); %>&nbsp;</td>
 		<td><%out.print(rs.getString("skupina_text"));%>&nbsp;</td>
+		<td><% out.print(x_sif_enote); %>&nbsp;</td>
+		<td><%out.print(rs.getString("naziv_enote"));%>&nbsp;</td>
 		<td><% out.print(x_opomba); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("u.ime_in_priimek"));%>&nbsp;</td>

@@ -220,7 +220,7 @@ String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.
 						"		      dob.pozicija = zadnji.pozicija and " +
 						"		      dob.zacetek = zadnji.datum ) dob " +
 						" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
-						" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
+						" LEFT JOIN enote on (dob.sif_enote = enote.sif_enote) " +
 						" LEFT JOIN ( " +
 						"		SELECT kamion.* " +
 						"		FROM kamion, ( " +
@@ -248,7 +248,7 @@ if (skupina != null && skupina.length() > 0 && !skupina.equals("-1")) {
 	whereClause = whereClause + " dob.skupina = " + skupina + " AND ";
 }
 if (enota != null && enota.length() > 0 && !enota.equals("-1")) {
-	whereClause = whereClause + " kupci.sif_enote = " + enota + " AND ";
+	whereClause = whereClause + " dob.sif_enote = " + enota + " AND ";
 }
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
