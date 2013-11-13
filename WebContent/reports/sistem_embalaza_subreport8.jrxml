@@ -51,7 +51,7 @@ FROM
 	      dob.zacetek = zadnji.datum)  dob,
       kupci
 WHERE dob.sif_kupca = kupci.sif_kupca and
-     ((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     ((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1))]]></queryString>
 
 	<field name="dob_kolicina" class="java.math.BigDecimal"/>
@@ -84,8 +84,8 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 				</rectangle>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="335"
-						y="2"
+						x="374"
+						y="1"
 						width="70"
 						height="15"
 						key="textField"/>
@@ -111,19 +111,6 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 					</textElement>
 				<text><![CDATA[SKUPAJ]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="470"
-						y="2"
-						width="65"
-						height="15"
-						key="textField-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right">
-						<font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="false" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{dob_kolicina}]]></textFieldExpression>
-				</textField>
 			</band>
 		</columnHeader>
 		<detail>

@@ -73,7 +73,7 @@ FROM kupci, uporabniki, skup, enote,
 SELECT kupci.sif_kupca, IFNULL(a.acena, 0) + IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) 
 FROM kupci left join
 (SELECT IFNULL(SUM(dob.`cena`), 0) + IFNULL(SUM(dob.`kg_zaup` * dob.`sit_zaup`), 0) + IFNULL(SUM(dob.`kolicina` * dob.`sit_smet`), 0) AS acena,
-dob.sif_kupca
+dob.sif_kupca, dob.sif_enote
 FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 		FROM $P!{dobLeto} dob 
 		WHERE obdelana > 0
@@ -116,16 +116,14 @@ WHERE stranke.najem = "X" and
 group by stranke.sif_kupca) as c on (kupci.sif_kupca = c.sif_kupca)
 where IFNULL(a.acena, 0) + IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) > 0
 ) as imajoceno
-WHERE (
-	  (kupci.sif_kupca = $P{sif_str}) 
-	  or 
-	  (
-	    ($P{sif_str} = -1) 
-	   )
-	) and 
+WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and 
      kupci.skupina = skup.skupina and
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     kupci.sif_enote = enote.sif_enote and
+     exists (select * 
+			from $P!{dobLeto} dob 
+			where kupci.sif_kupca = dob.sif_kupca and kupci.sif_enote = enote.sif_enote and
+			datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE)) and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.potnik = uporabniki.sif_upor and
     kupci.sif_kupca = imajoceno.sif_kupca]]></queryString>

@@ -68,10 +68,14 @@ FROM
      kupci, enote, uporabniki, skup
 WHERE 
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     kupci.sif_enote = enote.sif_enote and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.skupina = skup.skupina and
      kupci.potnik = uporabniki.sif_upor and
+     exists (select * 
+			from dob2013 dob 
+			where kupci.sif_kupca = dob.sif_kupca and kupci.sif_enote = enote.sif_enote and
+			datum >= CAST('2013-11-11' AS DATE) 
+			AND datum <= CAST('2013-11-13' AS DATE)) and
      kupci.sif_kupca IN (select sif_kupca 
 			from $P!{dobLeto} dob 
 			where datum >= CAST($P{od_datum} AS DATE) 
