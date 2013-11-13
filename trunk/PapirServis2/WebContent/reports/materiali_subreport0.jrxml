@@ -75,7 +75,7 @@ ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
      kupci 
 WHERE dob.`koda` = materiali.`koda` and
 	dob.sif_kupca = kupci.sif_kupca and
-	((kupci.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
+	((dob.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
 	((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
 GROUP BY dob.`koda`, materiali.`material`
 ORDER BY dob.`koda`]]></queryString>

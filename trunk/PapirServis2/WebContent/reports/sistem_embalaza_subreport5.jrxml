@@ -52,7 +52,7 @@ from (SELECT dob.*
 	      dob.zacetek = zadnji.datum)  dob,
 	kupci
 WHERE dob.sif_kupca = kupci.sif_kupca and
-     ((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     ((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1))]]></queryString>
 
 	<field name="dob_stev_km" class="java.math.BigDecimal"/>
