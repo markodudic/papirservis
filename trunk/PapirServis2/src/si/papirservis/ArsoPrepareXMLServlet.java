@@ -165,7 +165,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    					"	mat.arso_odp_locpr_id material_arso_odp_locpr_id " +
 	    					" FROM " + tabela + " as dob " +
 	    					" LEFT JOIN kupci ON (dob.sif_kupca = kupci.sif_kupca) " +
-	    					" LEFT JOIN enote on (kupci.sif_enote = enote.sif_enote) " +
+	    					" LEFT JOIN enote on (dob.sif_enote = enote.sif_enote) " +
 							" LEFT JOIN ( " +
 							"		SELECT kamion.* " +
 							"		FROM kamion, ( " +
