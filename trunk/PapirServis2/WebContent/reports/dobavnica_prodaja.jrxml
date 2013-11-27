@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(5251)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis\\images\\ps.jpg"]]></defaultValueExpression>
@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="prodajaLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["prodaja2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["prodaja2013"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      prodaja.`st_dob` AS prodaja_st_dob,
@@ -226,7 +226,8 @@ GROUP BY prodaja.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-2"/>
+						key="staticText-2"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -241,7 +242,8 @@ GROUP BY prodaja.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-5"/>
+						key="staticText-5"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -299,7 +301,8 @@ GROUP BY prodaja.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-9"/>
+						key="staticText-9"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -314,7 +317,8 @@ GROUP BY prodaja.st_dob]]></queryString>
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-10"/>
+						key="staticText-10"
+						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
