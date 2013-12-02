@@ -54,6 +54,8 @@ StringBuffer strsql = null;
 
 // Get search criteria for basic search
 String skupina = request.getParameter("skupina");
+String enota = request.getParameter("enota");
+String kamion = request.getParameter("kamion");
 String od_datum = request.getParameter("od_datum");
 String do_datum = request.getParameter("do_datum");
 
@@ -834,6 +836,20 @@ if (skupina!=null && !skupina.equals("-1")) {
 	else
 		b_search += " dob.skupina = " + skupina;
 }
+if (enota!=null && !enota.equals("-1")) {
+	//countQuery.append(" AND dob.skupina = " + skupina);
+	if (b_search.length()>0)
+		b_search = "(" + b_search + ")" + " AND dob.sif_enote = " + enota;
+	else
+		b_search += " dob.sif_enote = " + enota;
+}
+if (kamion!=null && !kamion.equals("-1")) {
+	//countQuery.append(" AND dob.skupina = " + skupina);
+	if (b_search.length()>0)
+		b_search = "(" + b_search + ")" + " AND dob.sif_kam = " + kamion;
+	else
+		b_search += " dob.sif_kam = " + kamion;
+}
 if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
 	if (od_datum!=null && !od_datum.equals("")) {
 //		countQuery.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
@@ -1113,6 +1129,22 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 			strsql.append(" WHERE dob.skupina = " + skupina);
 		}
 	}
+	if (enota!=null && !enota.equals("-1")) {
+		if(where)
+			strsql.append(" AND dob.sif_enote = " + enota);
+		else {
+			where = true;
+			strsql.append(" WHERE dob.sif_enote = " + enota);
+		}
+	}
+	if (kamion!=null && !kamion.equals("-1")) {
+		if(where)
+			strsql.append(" AND dob.sif_kam = " + kamion);
+		else {
+			where = true;
+			strsql.append(" WHERE dob.sif_kam = " + kamion);
+		}
+	}
 
 	if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
 		if (od_datum!=null && !od_datum.equals("")) {
@@ -1133,7 +1165,7 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 		}
 	}
 	if (dbwhere.length() > 0) {
-		if(where || enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")))
+		if(where || enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")) || (enota!=null && !enota.equals("-1")) || (kamion!=null && !kamion.equals("-1")))
 			strsql.append(" AND (" + dbwhere + ") ");
 		else
 			strsql.append(" WHERE (" + dbwhere + ") ");
@@ -1295,6 +1327,65 @@ out.println(x_skupinaList);
 %>
 &nbsp;</td>
 	</tr>
+	<tr>
+		<td class="jspmaker">Enota&nbsp;</td>
+		<td class="jspmaker"><%
+		String cbo_x_enota_js = "";
+		String x_enotaList = "<select name=\"enota\"><option value=\"-1\">Izberi</option>";
+		String sqlwrk_x_enota = "SELECT `sif_enote`, `naziv` FROM `enote` ORDER BY `naziv` ASC";
+		Statement stmtwrk_x_enota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_enota = stmtwrk_x_enota.executeQuery(sqlwrk_x_enota);
+			int rowcntwrk_x_enota = 0;
+			while (rswrk_x_enota.next()) {
+				x_enotaList += "<option value=\"" + HTMLEncode(rswrk_x_enota.getString("sif_enote")) + "\"";
+				if (rswrk_x_enota.getString("sif_enote").equals(enota)) {
+					x_enotaList += " selected";
+				}		
+				String tmpValue_x_enota = "";
+				if (rswrk_x_enota.getString("naziv")!= null) tmpValue_x_enota = rswrk_x_enota.getString("naziv");
+				x_enotaList += ">" + tmpValue_x_enota + "</option>";
+				rowcntwrk_x_enota++;
+			}
+		rswrk_x_enota.close();
+		rswrk_x_enota = null;
+		stmtwrk_x_enota.close();
+		stmtwrk_x_enota = null;
+		x_enotaList += "</select>";
+		out.println(x_enotaList);
+%>
+&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="jspmaker">Kamion&nbsp;</td>
+		<td class="jspmaker"><%
+		String cbo_x_kamion_js = "";
+		String x_kamionList = "<select name=\"kamion\"><option value=\"-1\">Izberi</option>";
+		String sqlwrk_x_kamion = "SELECT kamion.sif_kam, kamion.kamion "+
+								"FROM `kamion`, (select sif_kam, max(zacetek) as zacetek from kamion group by sif_kam) as k "+
+								"where kamion.sif_kam = k.sif_kam and kamion.zacetek = k.zacetek "+
+								"order by kamion asc";
+		Statement stmtwrk_x_kamion = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_kamion = stmtwrk_x_kamion.executeQuery(sqlwrk_x_kamion);
+			int rowcntwrk_x_kamion = 0;
+			while (rswrk_x_kamion.next()) {
+				x_kamionList += "<option value=\"" + HTMLEncode(rswrk_x_kamion.getString("sif_kam")) + "\"";
+				if (rswrk_x_kamion.getString("sif_kam").equals(kamion)) {
+					x_kamionList += " selected";
+				}		
+				String tmpValue_x_kamion = "";
+				if (rswrk_x_kamion.getString("kamion")!= null) tmpValue_x_kamion = rswrk_x_kamion.getString("kamion");
+				x_kamionList += ">" + tmpValue_x_kamion + "</option>";
+				rowcntwrk_x_kamion++;
+			}
+		rswrk_x_kamion.close();
+		rswrk_x_kamion = null;
+		stmtwrk_x_kamion.close();
+		stmtwrk_x_kamion = null;
+		x_kamionList += "</select>";
+		out.println(x_kamionList);
+%>
+&nbsp;</td>
+	</tr>	
 	<tr>
 		<td><span class="jspmaker">Datum</span></td>
 		<td><span class="jspmaker">

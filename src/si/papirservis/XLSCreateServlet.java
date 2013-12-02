@@ -30,10 +30,10 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static HSSFWorkbook wb;
 	private static HSSFSheet s;
 	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra stranke", "Naziv stranke",
-										"Šifra kupca", "Naziv kupca", "Matièna", "Prevoz", "EWC Koda", "Material",
-										"Kolièina", "Cena", "Skupina"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "S"};
-	
+										"Šifra kupca", "Naziv kupca", "Matièna", "Skupina", "Prevoz", "EWC Koda", "Material",
+										"Kolièina", "Cena", "Stroški", "KM strošek", "Ure strošek"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D"};
+	 
 	/*
 	 * (non-Java-doc)
 	 * 
@@ -112,9 +112,9 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    	while (rs.next()) {
 	    		String[] dobavnica = {rs.getString("st_dob"), rs.getString("pozicija"), to.format(from.parse(rs.getString("datum"))),
 	    							  rs.getString("sif_str"), rs.getString("stranka"), rs.getString("sif_kupca"),
-	    							  rs.getString("naziv"), rs.getString("maticna"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
+	    							  rs.getString("naziv"), rs.getString("maticna"), rs.getString("skupina_text"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
 	    							  rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kolicina"), 
-	    							  rs.getString("cena"), rs.getString("skupina_text")};
+	    							  rs.getString("cena"), rs.getString("stroski"), String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))};
 	    		createRow(dobavnica);
 	    	}
 	    	
