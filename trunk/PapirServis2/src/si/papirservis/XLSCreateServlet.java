@@ -29,10 +29,10 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static int rownum = 0;
 	private static HSSFWorkbook wb;
 	private static HSSFSheet s;
-	private static String[] rowNames = {"ät. dobavnice", "Pozicija", "Datum", "äifra stranke", "Naziv stranke",
-										"äifra kupca", "Naziv kupca", "MatiËna", "Skupina", "Prevoz", "EWC Koda", "Material",
-										"KoliËina", "Cena", "Stroöki", "KM stroöek", "Ure stroöek"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D"};
+	private static String[] rowNames = {"≈†t. dobavnice", "Pozicija", "Datum", "≈†ifra stranke", "Naziv stranke",
+										"≈†ifra kupca", "Naziv kupca", "Matiƒçna", "Skupina", "Prevoz", "EWC Koda", "Material", "Kamion",
+										"Koliƒçina", "Cena", "Stro≈°ki", "KM stro≈°ek", "Ure stro≈°ek", "Skupaj stro≈°ek"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D"};
 	 
 	/*
 	 * (non-Java-doc)
@@ -113,8 +113,10 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    		String[] dobavnica = {rs.getString("st_dob"), rs.getString("pozicija"), to.format(from.parse(rs.getString("datum"))),
 	    							  rs.getString("sif_str"), rs.getString("stranka"), rs.getString("sif_kupca"),
 	    							  rs.getString("naziv"), rs.getString("maticna"), rs.getString("skupina_text"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
-	    							  rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kolicina"), 
-	    							  rs.getString("cena"), rs.getString("stroski"), String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))};
+	    							  rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), 
+	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("stroski"), 
+	    							  String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")),
+	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")))};
 	    		createRow(dobavnica);
 	    	}
 	    	
