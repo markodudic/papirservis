@@ -1487,7 +1487,6 @@ if (totalRecs > 0) {
 <% } %>
 <% if ((ewCurSec & ewAllowEdit) == ewAllowEdit ) { %>
 <td>&nbsp;</td>
-<!-- td>&nbsp;</td -->
 <% } %>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td>&nbsp;</td>
@@ -2146,8 +2145,9 @@ if (key != null && key.length() > 0) {
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Spremeni" title="Spremeni" src="images/edit.gif"></a></span></td>
+<% } else {%>
+<td>&nbsp;</td>
 <% } %>
-
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd && (x_arso_status.equals("0") || arsoPopravljanje==1) ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
 if (key != null && key.length() > 0) { 
@@ -2155,10 +2155,14 @@ if (key != null && key.length() > 0) {
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
 } %>"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/copy.gif"></a></span></td>
+<% } else {%>
+<td>&nbsp;</td>
 <% } %>
 
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_arso_status.equals("0") || arsoPopravljanje==1) ) { %>
 <td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
+<% } else {%>
+<td>&nbsp;</td>
 <% } %>
 		<td class=<% out.print((x_obdelana.equals("1") ? 
 								(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
