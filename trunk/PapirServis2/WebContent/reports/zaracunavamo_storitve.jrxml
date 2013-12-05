@@ -119,11 +119,7 @@ where IFNULL(a.acena, 0) + IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) > 0
 WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and 
      kupci.skupina = skup.skupina and
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     exists (select * 
-			from $P!{dobLeto} dob 
-			where kupci.sif_kupca = dob.sif_kupca and kupci.sif_enote = enote.sif_enote and
-			datum >= CAST($P{od_datum} AS DATE) 
-			AND datum <= CAST($P{do_datum} AS DATE)) and
+	kupci.sif_enote = enote.sif_enote and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.potnik = uporabniki.sif_upor and
     kupci.sif_kupca = imajoceno.sif_kupca]]></queryString>
