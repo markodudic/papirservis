@@ -1,0 +1,6 @@
+1. popraviš web.xml
+- context in poti reportDir in logoPdf
+- zamenjaj username na root
+2. popraviš context v project properties
+3. popraviš papirservis.js
+4. login.jsp zbriši vse letnice do 2014
