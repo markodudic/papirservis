@@ -1,0 +1,216 @@
+--KOVINE
+-- zbrišem kupce in lokacije, ki niso iz enote logatec sif_enote!=4
+
+use kovine;
+
+select * 
+from stranke left join kupci on (stranke.sif_kupca = kupci.sif_kupca)
+where sif_enote!=4;
+
+delete from stranke 
+where sif_kupca IN (select sif_kupca from kupci where sif_enote!=4);
+
+update uporabniki set sif_kupca = null;
+
+delete from kupci where sif_enote!=4;
+
+delete from cenastr
+where sif_kupca NOT IN (select sif_kupca from kupci);
+
+
+--zbrisem zgodovino
+-- cenastr
+CREATE TABLE `ids` (
+	`id` INT(11) NULL DEFAULT NULL
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select cenastr.id
+from cenastr, (select sif_kupca, material_koda, max(zacetek) max_date
+				from cenastr
+				group by sif_kupca, material_koda) as zadnji
+where cenastr.sif_kupca = zadnji.sif_kupca and
+		cenastr.material_koda = zadnji.material_koda and
+		cenastr.zacetek < zadnji.max_date;
+						
+						
+delete from cenastr
+where id IN (select id from ids);	
+
+-- kamion
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select kamion.id
+from kamion, (select sif_kam, max(zacetek) max_date
+				from kamion
+				group by sif_kam) as zadnji
+where kamion.sif_kam = zadnji.sif_kam and
+		kamion.zacetek < zadnji.max_date;					
+						
+delete from kamion
+where id IN (select id from ids);
+					
+-- materiali
+alter table material_okolje
+DROP FOREIGN KEY `material_okolje_material_fk`;
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select materiali.id
+from materiali, (select koda, max(zacetek) max_date
+				from materiali
+				group by koda) as zadnji
+where materiali.koda = zadnji.koda and
+		materiali.zacetek < zadnji.max_date;	
+		
+						
+						
+delete from materiali
+where id IN (select id from ids);
+
+alter table material_okolje
+add CONSTRAINT `material_okolje_material_fk` FOREIGN KEY (`material_koda`) REFERENCES `materiali` (`koda`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+-- stranke
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select stranke.id
+from stranke, (select sif_str, max(zacetek) max_date
+				from stranke
+				group by sif_str) as zadnji
+where stranke.sif_str = zadnji.sif_str and
+		stranke.zacetek < zadnji.max_date;					
+						
+delete from stranke
+where id IN (select id from ids);
+
+
+
+--NEKOVINE
+-- zbrišem kupce in lokacije, ki niso so enote logatec sif_enote!=4
+
+use nekovine;
+
+select * 
+from stranke left join kupci on (stranke.sif_kupca = kupci.sif_kupca)
+where sif_enote=4;
+
+delete from stranke 
+where sif_kupca IN (select sif_kupca from kupci where sif_enote=4);
+
+update uporabniki set sif_kupca = null;
+
+delete from kupci where sif_enote=4;
+
+delete from cenastr
+where sif_kupca NOT IN (select sif_kupca from kupci);
+
+delete
+from kupci
+where not exists (select id from stranke where stranke.sif_kupca = kupci.sif_kupca);
+
+--zbrisem tiste ki niso imele dogodek v 2013 in nimajo osnovno na nobeni od lokacij
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select kupci.sif_kupca
+from kupci left join stranke on (stranke.sif_kupca = kupci.sif_kupca)
+where kupci.sif_kupca not in (select sif_kupca from papirservis.dob2013) and
+stranke.sif_os = 0
+order by kupci.sif_kupca;
+
+delete from stranke
+where sif_kupca IN (select id from ids);
+
+delete from kupci
+where sif_kupca IN (select id from ids);
+
+delete from cenastr
+where sif_kupca NOT IN (select sif_kupca from kupci);
+
+--zbrisem zgodovino
+-- cenastr
+CREATE TABLE `ids` (
+	`id` INT(11) NULL DEFAULT NULL
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select cenastr.id
+from cenastr, (select sif_kupca, material_koda, max(zacetek) max_date
+				from cenastr
+				group by sif_kupca, material_koda) as zadnji
+where cenastr.sif_kupca = zadnji.sif_kupca and
+		cenastr.material_koda = zadnji.material_koda and
+		cenastr.zacetek < zadnji.max_date;
+						
+						
+delete from cenastr
+where id IN (select id from ids);	
+
+-- kamion
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select kamion.id
+from kamion, (select sif_kam, max(zacetek) max_date
+				from kamion
+				group by sif_kam) as zadnji
+where kamion.sif_kam = zadnji.sif_kam and
+		kamion.zacetek < zadnji.max_date;					
+						
+delete from kamion
+where id IN (select id from ids);
+					
+-- materiali
+alter table material_okolje
+DROP FOREIGN KEY `material_okolje_material_fk`;
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select materiali.id
+from materiali, (select koda, max(zacetek) max_date
+				from materiali
+				group by koda) as zadnji
+where materiali.koda = zadnji.koda and
+		materiali.zacetek < zadnji.max_date;	
+		
+						
+						
+delete from materiali
+where id IN (select id from ids);
+
+alter table material_okolje
+add CONSTRAINT `material_okolje_material_fk` FOREIGN KEY (`material_koda`) REFERENCES `materiali` (`koda`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+-- stranke
+
+TRUNCATE TABLE ids;
+
+INSERT INTO ids
+select stranke.id
+from stranke, (select sif_str, max(zacetek) max_date
+				from stranke
+				group by sif_str) as zadnji
+where stranke.sif_str = zadnji.sif_str and
+		stranke.zacetek < zadnji.max_date;					
+						
+delete from stranke
+where id IN (select id from ids);
