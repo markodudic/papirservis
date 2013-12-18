@@ -272,6 +272,17 @@ function disableSome(EW_this){
 	    String brezKoda = request.getParameter("brezKoda");
 	    parameters.put("brezKoda", brezKoda);
 	}
+
+	if (Integer.parseInt(reportID) == 2)
+	{
+	    String nadenota = request.getParameter("x_sif_nadenote");
+		 if ((nadenota != null) && (nadenota != "")) {
+	    	parameters.put("nadenota", nadenota);
+		 } else {
+		    	parameters.put("nadenota", "Vse nadenote");			 
+		 }
+	}
+
 	
 	//če je bianco dobavnica preberem naslednjo stevilko in stevilo bianco dobavnic ter obstojeco sifro povecam za stevilo
     String x_stev_bianco = request.getParameter("x_stev_bianco");
