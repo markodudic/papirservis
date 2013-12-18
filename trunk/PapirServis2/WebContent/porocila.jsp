@@ -129,9 +129,38 @@ function  EW_checkMyForm(EW_this)
 	}
 
 	
+	//preberem vse nadenote iz baze
+	StringBuffer x_sif_nadenoteList = null;
+
+	if (reportID == 2)
+	{
+		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
+		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
+		Statement stmtwrk_x_nadenota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_nadenota = stmtwrk_x_nadenota.executeQuery(sqlwrk_x_nadenota);
+			if (rswrk_x_nadenota.next()) {
+				String x_nadenota_listEnum = HTMLEncode(rswrk_x_nadenota.getString("COLUMN_TYPE"));
+				x_nadenota_listEnum = x_nadenota_listEnum.substring(5, x_nadenota_listEnum.length()-1);
+				String[] x_nadenota_list = x_nadenota_listEnum.split(",");
+				for (int i=0; i<x_nadenota_list.length; i++) {
+					String x_arso_listOption = "<option value=\"" + HTMLEncode(x_nadenota_list[i].replaceAll("'", "")) + "\"";
+					x_arso_listOption += ">" + HTMLEncode(x_nadenota_list[i].replaceAll("'", "")) + "</option>";
+					x_sif_nadenoteList.append(x_arso_listOption);
+				}
+			}
+		rswrk_x_nadenota.close();
+		rswrk_x_nadenota = null;
+		stmtwrk_x_nadenota.close();
+		stmtwrk_x_nadenota = null;
+		x_sif_nadenoteList.append("</select>");
+		
+
+		
+	}
+	
 	//preberem vse enote iz baze
 	StringBuffer x_sif_enoteList = null;
-
+	
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
 		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
 		 (reportID == 21) || (reportID == 22) || (reportID == 24))
@@ -335,6 +364,8 @@ function  EW_checkMyForm(EW_this)
 		stmtwrk_x_sif_vozniki = null;
 		x_sif_voznikiList.append("</select>");
 	}
+	
+	
 %>
 
 
@@ -366,6 +397,12 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">&#352;ifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
+	</tr>
+	<%}%>
+	<%if (reportID == 2) {%>
+	<tr>
+		<td class="ewTableHeader">Nadnota&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_nadenoteList);%>&nbsp;</td>
 	</tr>
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 

@@ -53,6 +53,7 @@ Object x_lokacija = null;
 String x_maticna = "";
 String x_dejavnost = "";
 Object x_dovoljenje = null;
+String x_nadenota = "";
 String x_arso_prjm_st = "";
 String x_arso_prjm_status = "";
 String x_arso_aktivnost_prjm = "";
@@ -118,6 +119,13 @@ try{
 			x_dovoljenje = "";
 		}
 
+		// nadenota
+		if (rs.getString("nadenota") != null){
+			x_nadenota = rs.getString("nadenota");
+		}else{
+			x_nadenota = "";
+		}
+		
 		// arso_prjm_st
 		if (rs.getString("arso_prjm_st") != null){
 			x_arso_prjm_st = rs.getString("arso_prjm_st");
@@ -221,6 +229,12 @@ try{
 		}else{
 			x_radij = "";
 		}
+		if (request.getParameter("x_nadenota") != null){
+			x_nadenota = (String) request.getParameter("x_nadenota");
+		}else{
+			x_nadenota = "";
+		}
+		
 		if (request.getParameter("x_arso_prjm_st") != null){
 			x_arso_prjm_st = (String) request.getParameter("x_arso_prjm_st");
 		}else{
@@ -322,6 +336,16 @@ try{
 			rs.updateNull("dovoljenje");
 		}else{
 			rs.updateString("dovoljenje", tmpfld);
+		}
+		// Field nadenota
+		tmpfld = ((String) x_nadenota);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("nadenota");
+		}else{
+			rs.updateString("nadenota", tmpfld);
 		}
 		
 		// Field arso_prjm_st
@@ -486,6 +510,35 @@ function  EW_checkMyForm(EW_this) {
 	<tr>
 		<td class="ewTableHeader">Dovoljenje&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_dovoljenje" size="30" maxlength="255" value="<%= HTMLEncode((String)x_dovoljenje) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Nadenota&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_nadenota">
+			<%
+			String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
+			Statement stmtwrk_x_nadenota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rswrk_x_nadenota = stmtwrk_x_nadenota.executeQuery(sqlwrk_x_nadenota);
+				if (rswrk_x_nadenota.next()) {
+					String x_nadenota_listEnum = HTMLEncode(rswrk_x_nadenota.getString("COLUMN_TYPE"));
+					x_nadenota_listEnum = x_nadenota_listEnum.substring(5, x_nadenota_listEnum.length()-1);
+					String[] x_nadenota_list = x_nadenota_listEnum.split(",");
+					for (int i=0; i<x_nadenota_list.length; i++) {
+						String x_arso_listOption = "<option value=\"" + HTMLEncode(x_nadenota_list[i].replaceAll("'", "")) + "\"";
+						if (HTMLEncode(x_nadenota_list[i].replaceAll("'", "")).equals(x_nadenota)) {
+							x_arso_listOption += " selected";
+						}
+						x_arso_listOption += ">" + HTMLEncode(x_nadenota_list[i].replaceAll("'", "")) + "</option>";
+						out.println(x_arso_listOption);			
+					}
+				}
+			rswrk_x_nadenota.close();
+			rswrk_x_nadenota = null;
+			stmtwrk_x_nadenota.close();
+			stmtwrk_x_nadenota = null;
+			%>
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso št.&nbsp;</td>
