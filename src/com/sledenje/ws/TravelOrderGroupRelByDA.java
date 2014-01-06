@@ -8,6 +8,10 @@
 package com.sledenje.ws;
 
 public class TravelOrderGroupRelByDA  implements java.io.Serializable {
+    private java.math.BigDecimal daily_allow_count;
+
+    private java.lang.String daily_allow_currency;
+
     private java.lang.String daily_allow_descr;
 
     private int daily_allow_id;
@@ -22,16 +26,60 @@ public class TravelOrderGroupRelByDA  implements java.io.Serializable {
     }
 
     public TravelOrderGroupRelByDA(
+           java.math.BigDecimal daily_allow_count,
+           java.lang.String daily_allow_currency,
            java.lang.String daily_allow_descr,
            int daily_allow_id,
            java.math.BigDecimal daily_allow_total,
            int order_id,
            long time_diff_total) {
+           this.daily_allow_count = daily_allow_count;
+           this.daily_allow_currency = daily_allow_currency;
            this.daily_allow_descr = daily_allow_descr;
            this.daily_allow_id = daily_allow_id;
            this.daily_allow_total = daily_allow_total;
            this.order_id = order_id;
            this.time_diff_total = time_diff_total;
+    }
+
+
+    /**
+     * Gets the daily_allow_count value for this TravelOrderGroupRelByDA.
+     * 
+     * @return daily_allow_count
+     */
+    public java.math.BigDecimal getDaily_allow_count() {
+        return daily_allow_count;
+    }
+
+
+    /**
+     * Sets the daily_allow_count value for this TravelOrderGroupRelByDA.
+     * 
+     * @param daily_allow_count
+     */
+    public void setDaily_allow_count(java.math.BigDecimal daily_allow_count) {
+        this.daily_allow_count = daily_allow_count;
+    }
+
+
+    /**
+     * Gets the daily_allow_currency value for this TravelOrderGroupRelByDA.
+     * 
+     * @return daily_allow_currency
+     */
+    public java.lang.String getDaily_allow_currency() {
+        return daily_allow_currency;
+    }
+
+
+    /**
+     * Sets the daily_allow_currency value for this TravelOrderGroupRelByDA.
+     * 
+     * @param daily_allow_currency
+     */
+    public void setDaily_allow_currency(java.lang.String daily_allow_currency) {
+        this.daily_allow_currency = daily_allow_currency;
     }
 
 
@@ -146,6 +194,12 @@ public class TravelOrderGroupRelByDA  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            ((this.daily_allow_count==null && other.getDaily_allow_count()==null) || 
+             (this.daily_allow_count!=null &&
+              this.daily_allow_count.equals(other.getDaily_allow_count()))) &&
+            ((this.daily_allow_currency==null && other.getDaily_allow_currency()==null) || 
+             (this.daily_allow_currency!=null &&
+              this.daily_allow_currency.equals(other.getDaily_allow_currency()))) &&
             ((this.daily_allow_descr==null && other.getDaily_allow_descr()==null) || 
              (this.daily_allow_descr!=null &&
               this.daily_allow_descr.equals(other.getDaily_allow_descr()))) &&
@@ -166,6 +220,12 @@ public class TravelOrderGroupRelByDA  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getDaily_allow_count() != null) {
+            _hashCode += getDaily_allow_count().hashCode();
+        }
+        if (getDaily_allow_currency() != null) {
+            _hashCode += getDaily_allow_currency().hashCode();
+        }
         if (getDaily_allow_descr() != null) {
             _hashCode += getDaily_allow_descr().hashCode();
         }
@@ -186,6 +246,20 @@ public class TravelOrderGroupRelByDA  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://ws.sledenje.com/", "travelOrderGroupRelByDA"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("daily_allow_count");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "daily_allow_count"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("daily_allow_currency");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "daily_allow_currency"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("daily_allow_descr");
         elemField.setXmlName(new javax.xml.namespace.QName("", "daily_allow_descr"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
