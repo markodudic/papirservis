@@ -44,6 +44,8 @@ public class TravelOrderRelation  implements java.io.Serializable {
 
     private int load_km;
 
+    private java.lang.Double mileage_expen;
+
     private int order_id;
 
     private java.lang.String point_end;
@@ -80,6 +82,7 @@ public class TravelOrderRelation  implements java.io.Serializable {
            int id,
            java.lang.Double load_amount,
            int load_km,
+           java.lang.Double mileage_expen,
            int order_id,
            java.lang.String point_end,
            java.lang.String point_start,
@@ -105,6 +108,7 @@ public class TravelOrderRelation  implements java.io.Serializable {
            this.id = id;
            this.load_amount = load_amount;
            this.load_km = load_km;
+           this.mileage_expen = mileage_expen;
            this.order_id = order_id;
            this.point_end = point_end;
            this.point_start = point_start;
@@ -476,6 +480,26 @@ public class TravelOrderRelation  implements java.io.Serializable {
 
 
     /**
+     * Gets the mileage_expen value for this TravelOrderRelation.
+     * 
+     * @return mileage_expen
+     */
+    public java.lang.Double getMileage_expen() {
+        return mileage_expen;
+    }
+
+
+    /**
+     * Sets the mileage_expen value for this TravelOrderRelation.
+     * 
+     * @param mileage_expen
+     */
+    public void setMileage_expen(java.lang.Double mileage_expen) {
+        this.mileage_expen = mileage_expen;
+    }
+
+
+    /**
      * Gets the order_id value for this TravelOrderRelation.
      * 
      * @return order_id
@@ -668,6 +692,9 @@ public class TravelOrderRelation  implements java.io.Serializable {
              (this.load_amount!=null &&
               this.load_amount.equals(other.getLoad_amount()))) &&
             this.load_km == other.getLoad_km() &&
+            ((this.mileage_expen==null && other.getMileage_expen()==null) || 
+             (this.mileage_expen!=null &&
+              this.mileage_expen.equals(other.getMileage_expen()))) &&
             this.order_id == other.getOrder_id() &&
             ((this.point_end==null && other.getPoint_end()==null) || 
              (this.point_end!=null &&
@@ -740,6 +767,9 @@ public class TravelOrderRelation  implements java.io.Serializable {
             _hashCode += getLoad_amount().hashCode();
         }
         _hashCode += getLoad_km();
+        if (getMileage_expen() != null) {
+            _hashCode += getMileage_expen().hashCode();
+        }
         _hashCode += getOrder_id();
         if (getPoint_end() != null) {
             _hashCode += getPoint_end().hashCode();
@@ -887,6 +917,13 @@ public class TravelOrderRelation  implements java.io.Serializable {
         elemField.setFieldName("load_km");
         elemField.setXmlName(new javax.xml.namespace.QName("", "load_km"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("mileage_expen");
+        elemField.setXmlName(new javax.xml.namespace.QName("", "mileage_expen"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "double"));
+        elemField.setMinOccurs(0);
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

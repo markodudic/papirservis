@@ -98,6 +98,12 @@ public class SledenjeTravelOrdersWSProxy implements com.sledenje.ws.SledenjeTrav
     return sledenjeTravelOrdersWS.getTravelOrderPrints(fromDate, toDate, vehgr_id, to_id, veh_id);
   }
   
+  public com.sledenje.ws.TravelOrderGroupRelByDA[] getTravelOrderGroupRelByDAs(java.lang.String fromDate, java.lang.String toDate, java.lang.Integer vehgr_id, java.lang.Integer to_id, java.lang.Integer veh_id) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException{
+    if (sledenjeTravelOrdersWS == null)
+      _initSledenjeTravelOrdersWSProxy();
+    return sledenjeTravelOrdersWS.getTravelOrderGroupRelByDAs(fromDate, toDate, vehgr_id, to_id, veh_id);
+  }
+  
   public com.sledenje.ws.TravelOrderRelation[] getDailyAllowanceRelations(java.lang.String fromDate, java.lang.String toDate, java.lang.Integer veh_id, java.lang.Boolean includeSLO) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException{
     if (sledenjeTravelOrdersWS == null)
       _initSledenjeTravelOrdersWSProxy();
@@ -174,6 +180,12 @@ public class SledenjeTravelOrdersWSProxy implements com.sledenje.ws.SledenjeTrav
     if (sledenjeTravelOrdersWS == null)
       _initSledenjeTravelOrdersWSProxy();
     return sledenjeTravelOrdersWS.getCompanyDriversLogin();
+  }
+  
+  public com.sledenje.ws.Driver[] getCompanyDriversLoginByVehicle(java.lang.Integer voz_id) throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException, com.sledenje.ws.WSException{
+    if (sledenjeTravelOrdersWS == null)
+      _initSledenjeTravelOrdersWSProxy();
+    return sledenjeTravelOrdersWS.getCompanyDriversLoginByVehicle(voz_id);
   }
   
   public java.lang.Integer getCompanyID() throws java.rmi.RemoteException, com.sledenje.ws.WSMissingLoginException{
