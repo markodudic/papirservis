@@ -486,23 +486,15 @@ try{
 	
 			// Field sif_sof
 			tmpfld = ((String) x_sif_sof);
-			if (tmpfld == null || tmpfld.trim().length() == 0) {
-				tmpfld = null;
-			}
-			if (tmpfld == null) {
-				//rs.updateNull("sif_sof");
-			}else{
-				strsql += tmpfld + ",";
-			}
+			if (tmpfld == null || tmpfld.trim().length() == 0) {tmpfld = null;}
+			strsql += tmpfld + ", ";
+
 	
 			// Field sif_kam
 			tmpfld = ((String) x_sif_kam).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
-			if (tmpfld == null) {
-				//rs.updateNull("sif_str");
-			} else {
-				strsql += tmpfld + ",";
-			}
+			strsql += tmpfld + ", ";
+
 
 			// Field cena_km
 			tmpfld = ((String) x_cena_km).trim();
@@ -1115,10 +1107,10 @@ if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
                 return false; 
         }
-if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_sof, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_sof, "SELECT", "Napačan vnos - sif sof"))
-                return false; 
-        }
+//if (EW_this.x_sif_sof && !EW_hasValue(EW_this.x_sif_sof, "SELECT" )) {
+//            if (!EW_onError(EW_this, EW_this.x_sif_sof, "SELECT", "Napačan vnos - sif sof"))
+//                return false; 
+//        }
 if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
                 return false; 
@@ -1128,7 +1120,7 @@ return true;
 
 // end JavaScript -->
 </script>
-<form onSubmit="return EW_checkMyForm(this);"  name="dobavnicaadd" action="dobavnicaadd.jsp" method="post">
+<form onSubmit="updateDropDowns(this); return EW_checkMyForm(this);"  name="dobavnicaadd" action="dobavnicaadd.jsp" method="post">
 <p>
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
