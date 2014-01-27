@@ -260,7 +260,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("arso_new_OT");
 }
 
-out.println(strsql);
+//out.println(strsql);
 rs = stmt.executeQuery(strsql);
 rs.last();
 totalRecs = rs.getRow();
