@@ -31,8 +31,8 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static HSSFSheet s;
 	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra stranke", "Naziv stranke",
 										"Šifra kupca", "Naziv kupca", "Matična", "Skupina", "Enota", "Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion",
-										"Količina", "Cena", "Dod. stroški", "KM strošek", "Ure strošek", "Skupaj strošek"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D"};
+										"Količina", "Cena", "Stroški", "Dod. stroški", "KM strošek", "Ure strošek", "Skupaj strošek"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D", "D"};
 	 
 	/*
 	 * (non-Java-doc)
@@ -114,9 +114,9 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  rs.getString("sif_str"), rs.getString("stranka"), rs.getString("sif_kupca"),
 	    							  rs.getString("naziv"), rs.getString("maticna"), rs.getString("skupina_text"), rs.getString("naziv_enote"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
 	    							  rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), 
-	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("dod_stroski"), 
+	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("stroski"), rs.getString("dod_stroski"), 
 	    							  String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")),
-	    							  String.valueOf(rs.getDouble("dod_stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")))};
+	    							  String.valueOf(rs.getDouble("stroski")+rs.getDouble("dod_stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")))};
 	    		createRow(dobavnica);
 	    	}
 	    	
