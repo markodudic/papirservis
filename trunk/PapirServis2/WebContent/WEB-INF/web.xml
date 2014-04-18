@@ -53,7 +53,7 @@
   </context-param>
   <context-param>
     <param-name>logoPdf</param-name>
-    <param-value>D://projects//monolit//papirservis//WebContent//images//ps.jpg</param-value>
+    <param-value>D://projects//monolit//papirservis//WebContent//images//kovine.jpg</param-value>
   </context-param>
   <context-param>
 	 <param-name>SledenjeServerURL</param-name>
