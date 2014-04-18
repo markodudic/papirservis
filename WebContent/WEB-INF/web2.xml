@@ -65,7 +65,7 @@
 
     <context-param>
       <param-name>logoPdf</param-name>
-      <param-value>C://projects//Monolit//PapirServis//papirservis//images//ps.jpg</param-value>
+      <param-value>C://projects//Monolit//PapirServis//papirservis//images//kovine.jpg</param-value>
     </context-param>
 
 

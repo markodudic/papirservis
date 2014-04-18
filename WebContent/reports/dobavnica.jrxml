@@ -24,16 +24,16 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(30941)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\PapirServis\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\WebContent\\images\\kovine.jpg"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2013"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      dob.`st_dob` AS dob_st_dob,
@@ -156,7 +156,7 @@ WHERE
 					<reportElement
 						x="158"
 						y="54"
-						width="167"
+						width="84"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -188,7 +188,7 @@ WHERE
 					<reportElement
 						x="158"
 						y="73"
-						width="167"
+						width="84"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -220,7 +220,7 @@ WHERE
 					<reportElement
 						x="158"
 						y="92"
-						width="167"
+						width="84"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -809,7 +809,7 @@ WHERE
 				</line>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="54"
 						width="60"
 						height="17"
@@ -825,7 +825,7 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="73"
 						width="60"
 						height="17"
@@ -841,7 +841,7 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="54"
 						width="11"
 						height="17"
@@ -857,7 +857,7 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="73"
 						width="11"
 						height="17"
@@ -873,9 +873,9 @@ WHERE
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="73"
-						width="110"
+						width="203"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -889,9 +889,9 @@ WHERE
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="54"
-						width="110"
+						width="212"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1170,7 +1170,7 @@ WHERE
 				</line>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="92"
 						width="11"
 						height="17"
@@ -1186,7 +1186,7 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="92"
 						width="60"
 						height="17"
@@ -1202,9 +1202,9 @@ WHERE
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="92"
-						width="110"
+						width="203"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"

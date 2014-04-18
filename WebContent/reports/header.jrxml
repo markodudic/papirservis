@@ -43,34 +43,68 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="401"
+						x="452"
 						y="0"
-						width="132"
+						width="83"
 						height="62"
 						key="staticText-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Papir servis, d.o.o., Ljubljana
-Pod ježami 3
-1000 Ljubljana
-tel:  01 588 08 50
-fax:  01 588 08 54
-www.papir-servis.si
-]]></text>
+				<text><![CDATA[LOGATEC
+IOC Zapolje III/9
+1370 Logatec
+Tel: 041 333 769
+Fax: 01 750 97 82]]></text>
 				</staticText>
 				<image  isLazy="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
 						y="0"
-						width="104"
-						height="53"
+						width="184"
+						height="62"
 						key="image-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<graphicElement stretchType="NoStretch"/>
 					<imageExpression class="java.lang.String"><![CDATA[$P{picture}]]></imageExpression>
 				</image>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="368"
+						y="0"
+						width="83"
+						height="62"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[LENART
+Industrijska ulica 2
+2230 Lenart
+Tel: 02 720 78 13
+Fax: 02 720 78 14]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="285"
+						y="0"
+						width="83"
+						height="62"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOMERCIALA
+Papirniški trg 17
+1000 Ljubljana
+Tel: 01 588 08 40
+Fax: 01 588 08 53]]></text>
+				</staticText>
 			</band>
 		</pageHeader>
 		<columnHeader>

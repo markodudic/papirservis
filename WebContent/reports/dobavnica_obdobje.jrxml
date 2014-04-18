@@ -141,7 +141,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						x="158"
 						y="55"
-						width="167"
+						width="83"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -173,7 +173,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						x="158"
 						y="74"
-						width="167"
+						width="83"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -205,7 +205,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						x="158"
 						y="93"
-						width="167"
+						width="83"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -817,7 +817,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="55"
 						width="60"
 						height="17"
@@ -833,7 +833,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="74"
 						width="60"
 						height="17"
@@ -849,7 +849,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="55"
 						width="11"
 						height="17"
@@ -865,7 +865,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="74"
 						width="11"
 						height="17"
@@ -897,9 +897,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="74"
-						width="110"
+						width="203"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -913,9 +913,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="55"
-						width="110"
+						width="213"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1174,7 +1174,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						x="340"
+						x="241"
 						y="93"
 						width="60"
 						height="17"
@@ -1190,7 +1190,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="400"
+						x="301"
 						y="93"
 						width="11"
 						height="17"
@@ -1206,9 +1206,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="321"
 						y="93"
-						width="110"
+						width="203"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
