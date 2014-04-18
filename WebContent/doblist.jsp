@@ -58,6 +58,10 @@ String enota = request.getParameter("enota");
 String kamion = request.getParameter("kamion");
 String od_datum = request.getParameter("od_datum");
 String do_datum = request.getParameter("do_datum");
+String nadenota = request.getParameter("nadenota");
+String arsoStatus = request.getParameter("arsoStatus");
+
+//out.println("arsoStatus="+arsoStatus);
 
 String pSearch = request.getParameter("psearch");
 String pSearchType = request.getParameter("psearchtype");
@@ -866,7 +870,19 @@ if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
 			b_search += " dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')";
 	}
 }
-
+if (nadenota!=null && !nadenota.equals("-1")) {
+	if (b_search.length()>0)
+		b_search = "(" + b_search + ")" + " AND e.nadenota = '" + nadenota + "'";
+	else
+		b_search += " e.nadenota = '" + nadenota + "'";
+}
+if (arsoStatus!=null && !arsoStatus.equals("-1")) {
+	//countQuery.append(" AND dob.skupina = " + skupina);
+	if (b_search.length()>0)
+		b_search = "(" + b_search + ")" + " AND dob.arso_status = " + arsoStatus;
+	else
+		b_search += " dob.arso_status = " + arsoStatus;
+}
 
 // Build search criteria
 if (a_search != null && a_search.length() > 0) {
@@ -972,6 +988,7 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 	String enoteTip = (String) session.getAttribute("enote");
 	
 	countQuery.append(" , (SELECT st_dob sd, pozicija, max(zacetek) zacetek FROM " + session.getAttribute("letoTabela") + " dob ");
+	countQuery.append(" left join enote e on dob.sif_enote = e.sif_enote ");
 	if(enoteTip.equals("0")){
 		countQuery.append(" LEFT JOIN kupci k ON dob.sif_kupca = k.sif_kupca ");
 		countQuery.append(" WHERE k.sif_enote = " + session.getAttribute("papirservis1_status_Enota"));
@@ -1115,6 +1132,7 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 	String enoteTip = (String) session.getAttribute("enote");
 
 	strsql.append(" , (SELECT st_dob sd, pozicija, max(zacetek) zacetek FROM " + session.getAttribute("letoTabela") + " dob ");
+	strsql.append(" left join enote e on dob.sif_enote = e.sif_enote ");
 	boolean where = false;
 	if(enoteTip.equals("0")){
 		strsql.append(" LEFT JOIN kupci k ON dob.sif_kupca = k.sif_kupca ");
@@ -1164,8 +1182,24 @@ if (searchwhere1 != null && searchwhere1.length() > 0){
 			}
 		}
 	}
+	if (nadenota!=null && !nadenota.equals("-1")) {
+		if(where)
+			strsql.append(" AND e.nadenota = '" + nadenota + "'");
+		else {
+			where = true;
+			strsql.append(" WHERE e.nadenota = '" + nadenota + "'");
+		}
+	}
+	if (arsoStatus!=null && !arsoStatus.equals("-1")) {
+		if(where)
+			strsql.append(" AND dob.arso_status = " + arsoStatus);
+		else {
+			where = true;
+			strsql.append(" WHERE dob.arso_status = " + arsoStatus);
+		}
+	}	
 	if (dbwhere.length() > 0) {
-		if(where || enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")) || (enota!=null && !enota.equals("-1")) || (kamion!=null && !kamion.equals("-1")))
+		if(where || enoteTip.equals("0") || (skupina!=null && !skupina.equals("-1")) || (enota!=null && !enota.equals("-1")) || (kamion!=null && !kamion.equals("-1")) || (nadenota!=null && !nadenota.equals("-1")) || (arsoStatus!=null && !arsoStatus.equals("-1")))
 			strsql.append(" AND (" + dbwhere + ") ");
 		else
 			strsql.append(" WHERE (" + dbwhere + ") ");
@@ -1328,6 +1362,33 @@ out.println(x_skupinaList);
 &nbsp;</td>
 	</tr>
 	<tr>
+		<td class="jspmaker">Nadenota&nbsp;</td>
+		<td class="jspmaker"><%
+		String x_nadenotaList = "<select name=\"nadenota\"><option value=\"-1\">Izberi</option>";
+		
+		x_nadenotaList += "<option value=\"PAPIR SERVIS\"";
+		if (nadenota!=null && nadenota.equals("PAPIR SERVIS")) x_nadenotaList += " selected";
+		x_nadenotaList += ">PAPIR SERVIS</option>";
+		
+		x_nadenotaList += "<option value=\"DINOS\"";
+		if (nadenota!=null && nadenota.equals("DINOS")) x_nadenotaList += " selected";
+		x_nadenotaList += ">DINOS</option>";
+		
+		x_nadenotaList += "<option value=\"SALOMON\"";
+		if (nadenota!=null && nadenota.equals("SALOMON")) x_nadenotaList += " selected";
+		x_nadenotaList += ">SALOMON</option>";
+		
+		x_nadenotaList += "<option value=\"OSTALO\"";
+		if (nadenota!=null && nadenota.equals("OSTALO")) x_nadenotaList += " selected";
+		x_nadenotaList += ">OSTALO</option>";
+		
+		x_nadenotaList += "</select>";
+		out.println(x_nadenotaList);
+%>
+&nbsp;</td>
+	</tr>
+	</tr>
+	<tr>
 		<td class="jspmaker">Enota&nbsp;</td>
 		<td class="jspmaker"><%
 		String cbo_x_enota_js = "";
@@ -1383,6 +1444,28 @@ out.println(x_skupinaList);
 		stmtwrk_x_kamion = null;
 		x_kamionList += "</select>";
 		out.println(x_kamionList);
+%>
+&nbsp;</td>
+	</tr>	
+	<tr>
+		<td class="jspmaker">ARSO status&nbsp;</td>
+		<td class="jspmaker"><%
+		String x_arsoStatusList = "<select name=\"arsoStatus\"><option value=\"-1\">Izberi</option>";
+		
+		x_arsoStatusList += "<option value=0";
+		if (arsoStatus!=null && arsoStatus.equals("0")) x_arsoStatusList += " selected";
+		x_arsoStatusList += ">Ni poslan - ni potrjen</option>";
+		
+		x_arsoStatusList += "<option value=\"1\"";
+		if (arsoStatus!=null && arsoStatus.equals("1")) x_arsoStatusList += " selected";
+		x_arsoStatusList += ">Poslan - ni potrjen</option>";
+		
+		x_arsoStatusList += "<option value=\"2\"";
+		if (arsoStatus!=null && arsoStatus.equals("2")) x_arsoStatusList += " selected";
+		x_arsoStatusList += ">Poslan - potrjen</option>";
+		
+		x_arsoStatusList += "</select>";
+		out.println(x_arsoStatusList);
 %>
 &nbsp;</td>
 	</tr>	
@@ -2165,15 +2248,17 @@ if (key != null && key.length() > 0) {
 <td>&nbsp;</td>
 <% } %>
 		<td class=<% out.print((x_obdelana.equals("1") ? 
-								(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
-									(x_arso_prenos.equals("0") &&  !x_kolicina.equals("0") &&  x_arso_status.equals("0") ? "ewCellNoPrenosRow" : 
-										(x_arso_prenos.equals("1") &&  x_arso_status.equals("0") ? "ewCellDontSendRow" : 
-											(x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : 
-												(x_arso_status.equals("2") ? "ewCellConfirmedRow" : "")
+								(rs.getString("dob.koda").indexOf("D")==0 ? "ewCellDinosRow" :	
+									(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
+										(x_arso_prenos.equals("0") &&  !x_kolicina.equals("0") &&  x_arso_status.equals("0") ? "ewCellNoPrenosRow" : 
+											(x_arso_prenos.equals("1") &&  x_arso_status.equals("0") ? "ewCellDontSendRow" : 
+												(x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : 
+													(x_arso_status.equals("2") ? "ewCellConfirmedRow" : "")
+												)
 											)
 										)
 									)
-								):""
+								) : ""
 							   )
 							 ); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>

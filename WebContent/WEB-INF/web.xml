@@ -21,7 +21,7 @@
   </context-param>
   <context-param>
     <param-name>conn</param-name>
-    <param-value>jdbc:mysql://localhost:3306/papirservis</param-value>
+    <param-value>jdbc:mysql://192.168.1.107:3306/papirservis</param-value>
   </context-param>
   <context-param>
     <param-name>user</param-name>
@@ -45,7 +45,7 @@
   </context-param>
   <context-param>
     <param-name>reportDir</param-name>
-    <param-value>D:\projects\monolit\papirservis\WebContent\reports\</param-value>
+    <param-value>c:\projects\monolit\papirservis\WebContent\reports\</param-value>
   </context-param>
   <context-param>
     <param-name>logo</param-name>
@@ -53,7 +53,7 @@
   </context-param>
   <context-param>
     <param-name>logoPdf</param-name>
-    <param-value>D://projects//monolit//papirservis//WebContent//images//kovine.jpg</param-value>
+    <param-value>c://projects//monolit//papirservis//WebContent//images//kovine.jpg</param-value>
   </context-param>
   <context-param>
 	 <param-name>SledenjeServerURL</param-name>
@@ -136,10 +136,7 @@
 	 </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>  
-  <servlet-mapping>
-    <servlet-name>TimerServlet</servlet-name>
-    <url-pattern>/TimerServlet</url-pattern>
-  </servlet-mapping>
+
   
 	
 	<servlet>

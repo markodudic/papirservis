@@ -133,6 +133,12 @@ a:visited {
 .ewCellConfirmedRow {
 	background-color: #00FF00; /* arso confirmed */	
 }
+
+.ewCellDinosRow {
+	background-color: #006600; /* dinos */	
+}
+
+
 .ewTableHeader2 {
 	background-color: #594FBF; /* header color */
 	color: #FF0000; /* header font color */	

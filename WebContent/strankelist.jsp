@@ -63,6 +63,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		for (int i = 0; i < arpSearch.length; i++){
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
+			b_search = b_search + "`stranke`.`sif_str` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`stranke`.`naziv` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`stranke`.`naslov` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`stranke`.`posta` LIKE '%" + kw + "%' OR ";
@@ -79,6 +80,7 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
+		b_search = b_search + "`stranke`.`sif_str` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`stranke`.`naziv` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`stranke`.`naslov` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`stranke`.`posta` LIKE '%" + pSearch + "%' OR ";
@@ -375,7 +377,7 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <% } %>
 		<td nowrap>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "<b>" : ""%>
-<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("sif_str","UTF-8") %>">Šifra stranke&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_str")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("sif_str","UTF-8") %>">Šifra stranke&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("sif_str")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_str")) ? "</b>" : ""%>
 		</td>
 		<td>
