@@ -164,7 +164,7 @@ for (int i = 0; i < ar_cookie.length; i++){
 <table border="0" cellspacing="0" cellpadding="4" align="center">
 	<tr>
 		<td colspan=2>
-			<img src="./images/ps.jpg" width="300">
+			<img src="./images/kovine.jpg" width="300">
 		</td>
 	</tr>
 	<tr>
