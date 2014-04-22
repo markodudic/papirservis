@@ -179,12 +179,6 @@ for (int i = 0; i < ar_cookie.length; i++){
 		<td><span class="jspmaker">Leto</span></td>
 		<td><span class="jspmaker">
 			<select style="width: 100px" name="leto">
-				<option value="2008" <%= year.equals("2008") ? "selected=\"selected\"" : "" %>>2008</option>
-				<option value="2009" <%= year.equals("2009") ? "selected=\"selected\"" : "" %>>2009</option>
-				<option value="2010" <%= year.equals("2010") ? "selected=\"selected\"" : "" %>>2010</option>
-				<option value="2011" <%= year.equals("2011") ? "selected=\"selected\"" : "" %>>2011</option>
-				<option value="2012" <%= year.equals("2012") ? "selected=\"selected\"" : "" %>>2012</option>
-				<option value="2013" <%= year.equals("2013") ? "selected=\"selected\"" : "" %>>2013</option>
 				<option value="2014" <%= year.equals("2014") ? "selected=\"selected\"" : "" %>>2014</option>
 				<option value="2015" <%= year.equals("2015") ? "selected=\"selected\"" : "" %>>2015</option>
 			</select>
