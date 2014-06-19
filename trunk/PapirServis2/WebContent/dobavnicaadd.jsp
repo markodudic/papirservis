@@ -288,6 +288,38 @@ try{
 		x_stev_km_norm = String.valueOf(rs.getDouble("stev_km_norm"));
 		x_stev_ur_norm = String.valueOf(rs.getDouble("stev_ur_norm"));
 
+		if (rs.getString("arso_prjm_status") != null){
+			x_arso_prjm_status = rs.getString("arso_prjm_status");
+		}else{
+			x_arso_prjm_status = null;
+		}
+		if (rs.getString("arso_aktivnost_prjm") != null){
+			x_arso_aktivnost_prjm = rs.getString("arso_aktivnost_prjm");
+		}else{
+			x_arso_aktivnost_prjm = null;
+		}
+		if (rs.getString("arso_aktivnost_pslj") != null){
+			x_arso_aktivnost_pslj = rs.getString("arso_aktivnost_pslj");
+		}else{
+			x_arso_aktivnost_pslj = null;
+		}
+
+		if (rs.getString("arso_odp_embalaza_shema") != null){
+			x_arso_odp_embalaza_shema = rs.getString("arso_odp_embalaza_shema");
+		}else{
+			x_arso_odp_embalaza_shema = null;
+		}
+		if (rs.getString("arso_odp_dej_nastanka") != null){
+			x_arso_odp_dej_nastanka = rs.getString("arso_odp_dej_nastanka");
+		}else{
+			x_arso_odp_dej_nastanka = null;
+		}
+		if (rs.getString("arso_prenos") != null){
+			x_arso_prenos = rs.getString("arso_prenos");
+		}else{
+			x_arso_prenos = null;
+		}
+		
 		int cnt=1;
 		while (rs.next()) {
 			// koda
@@ -1066,7 +1098,6 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_arso_prenos.value = arso_prenos[document.dobavnicaadd.x_sif_str.value];
-
 }
 
 function disableSome(){
