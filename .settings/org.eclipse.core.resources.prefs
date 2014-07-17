@@ -1,4 +1,3 @@
-#Mon Jan 16 11:18:33 CET 2012
 eclipse.preferences.version=1
 encoding//src/com/sledenje/ws/AuToken.java=UTF-8
 encoding//src/com/sledenje/ws/Company.java=UTF-8
@@ -34,3 +33,4 @@ encoding//src/com/sledenje/ws/WSUnauthorisedVehicleOdoException.java=UTF-8
 encoding//src/com/sledenje/ws/WSUniqueConstraintException.java=UTF-8
 encoding//src/com/sledenje/ws/WSVehicleOdoDecreasingKmException.java=UTF-8
 encoding//src/com/sledenje/ws/WSVehicleOdoIntersectedByTravelOrderException.java=UTF-8
+encoding/<project>=UTF-8
