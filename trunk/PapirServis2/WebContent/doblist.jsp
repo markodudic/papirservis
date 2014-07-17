@@ -1328,9 +1328,7 @@ function setShowRecords(c){
 			<input type="Submit" name="Submit" value="Išči">&nbsp;&nbsp;
 			<a href="doblist.jsp?cmd=reset">Prikaži vse</a>&nbsp;&nbsp;
 			<a href="doblist.jsp?cmd=top">Prikaži zadnje</a>&nbsp;&nbsp;
-			<% if ((meni & ewProcess) == ewProcess){ %>
-				<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create('<%=sqlParam%>')";>
-			<% } %>
+			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create('<%=sqlParam%>')";>
 		</span></td>
 	</tr>
 	<tr>
