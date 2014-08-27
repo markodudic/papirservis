@@ -95,17 +95,24 @@ function strankeExport() {
 }
 
 function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina, uporabnik, xml_create) {
+	alert(keys.value);
 	keyChecked = "";
-	for (var i = 0; i < keys.length; i++){
-		var key = keys.item(i);
-		if (key.checked) {
-			if (keyChecked != "") {
-				keyChecked += ",'" + key.value + "'";
-			} else {
-				keyChecked += "'" + key.value + "'";
+	if (keys.length == undefined) {
+		keyChecked = "'" + keys.value + "'";
+	}
+	else {
+		for (var i = 0; i < keys.length; i++){
+			var key = keys.item(i);
+			if (key.checked) {
+				if (keyChecked != "") {
+					keyChecked += ",'" + key.value + "'";
+				} else {
+					keyChecked += "'" + key.value + "'";
+				}
 			}
 		}
 	}
+	alert(keyChecked);
 
 	document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
 	document.getElementById('arsopaketinew').submit();
