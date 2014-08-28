@@ -132,7 +132,7 @@ function  EW_checkMyForm(EW_this)
 	//preberem vse nadenote iz baze
 	StringBuffer x_sif_nadenoteList = null;
 
-	if (reportID == 2)
+	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 15) || (reportID == 24)) 
 	{
 		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
@@ -399,9 +399,9 @@ function  EW_checkMyForm(EW_this)
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if (reportID == 2) {%>
+	<%	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 15) || (reportID == 24))  {%>
 	<tr>
-		<td class="ewTableHeader">Nadnota&nbsp;</td>
+		<td class="ewTableHeader">Nadenota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_nadenoteList);%>&nbsp;</td>
 	</tr>
 	<%}%>

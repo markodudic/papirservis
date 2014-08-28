@@ -57,6 +57,7 @@ Object x_sif_kupca = null;
 Object x_koda = null;
 Object x_ewc = null;
 Object x_reg_st = null;
+Object x_opomba = null;
 Object x_kol_n = null;
 Object x_kol_p = null;
 Object x_st_bal = null;
@@ -120,10 +121,15 @@ try{
 			}else{
 				x_reg_st = "";
 			}
-	x_kol_n = String.valueOf(rs.getLong("kol_n"));
-	x_kol_p = String.valueOf(rs.getLong("kol_p"));
-	x_st_bal = String.valueOf(rs.getLong("st_bal"));
-	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+			x_kol_n = String.valueOf(rs.getLong("kol_n"));
+			x_kol_p = String.valueOf(rs.getLong("kol_p"));
+			x_st_bal = String.valueOf(rs.getLong("st_bal"));
+			x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+			if (rs.getString("opomba") != null){
+				x_opomba = rs.getString("opomba");
+			}else{
+				x_opomba = "";
+			}
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -175,6 +181,11 @@ try{
 		}
 		if (request.getParameter("x_sif_enote") != null){
 			x_sif_enote = request.getParameter("x_sif_enote");
+		}
+		if (request.getParameter("x_opomba") != null){
+			x_opomba = (String) request.getParameter("x_opomba");
+		}else{
+			x_opomba = "";
 		}
 
 		// Open record
@@ -299,6 +310,16 @@ try{
 			rs.updateInt("sif_enote",Integer.parseInt(tmpfld));
 		}
 
+		tmpfld = ((String) x_opomba);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("opomba");
+		}else{
+			rs.updateString("opomba", tmpfld);
+		}
+		
 		// Field uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 
@@ -565,6 +586,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Opomba&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="80" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>

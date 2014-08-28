@@ -196,5 +196,12 @@
       <servlet-name>XLSCreateServlet</servlet-name>
       <url-pattern>/XLSCreateServlet</url-pattern>
     </servlet-mapping>    
-	
+	<servlet>
+		<servlet-name>XLSCreateProdajaServlet</servlet-name>
+		<servlet-class>si.papirservis.XLSCreateProdajaServlet</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>XLSCreateProdajaServlet</servlet-name>
+      <url-pattern>/XLSCreateProdajaServlet</url-pattern>
+    </servlet-mapping>    	
 </web-app>

@@ -38,7 +38,7 @@ function disableSome(EW_this){
 <%@ include file="jspmkrfn.jsp" %>
 <%
     String report = request.getParameter("report");
-	String reportID = request.getParameter("reportID");
+	int reportID = Integer.parseInt(request.getParameter("reportID"));
 
     Map parameters = new HashMap();
     
@@ -232,17 +232,16 @@ function disableSome(EW_this){
 		parameters.put("do_datum_str", do_datum);
 	}
 
-	
-	if (Integer.parseInt(reportID) == 4)
+	if (reportID == 4)
 	{
 		parameters.put("brez_cen", "0");
 	}
-	else if (Integer.parseInt(reportID) == 15)
+	else if (reportID == 15)
 	{
 		parameters.put("brez_cen", "1");
 	}
 	
-	if (Integer.parseInt(reportID) == 20)
+	if (reportID == 20)
 	{
 	    String obdelana = request.getParameter("obdelana");
 	    parameters.put("obdelana", obdelana);
@@ -253,7 +252,7 @@ function disableSome(EW_this){
 		 }
 	}
 	
-	if (Integer.parseInt(reportID) == 22)
+	if (reportID == 22)
 	{
 	    String razred = request.getParameter("razred");
 	    parameters.put("razred", razred);
@@ -267,13 +266,13 @@ function disableSome(EW_this){
 			 
 	}
 
-	if (Integer.parseInt(reportID) == 24)
+	if (reportID == 24)
 	{
 	    String brezKoda = request.getParameter("brezKoda");
 	    parameters.put("brezKoda", brezKoda);
 	}
 
-	if (Integer.parseInt(reportID) == 2)
+	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 15) || (reportID == 24)) 
 	{
 	    String nadenota = request.getParameter("x_sif_nadenote");
 		 if ((nadenota != null) && (nadenota != "")) {
@@ -290,7 +289,7 @@ function disableSome(EW_this){
 		parameters.put("stevBianco", new Integer(x_stev_bianco));
 
 	int biancoSifra = 0;
-	if (Integer.parseInt(reportID) == 1)
+	if (reportID == 1)
 	{
 		String sqlwrk_bianco = "SELECT st_dob FROM dob_bianco where id = '" + session.getAttribute("letoTabela") + "'";
 		Statement stmtwrk_bianco = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -316,7 +315,7 @@ function disableSome(EW_this){
 
 
 	/*int evListSifra = 0;
-	if (Integer.parseInt(reportID) == 13)
+	if (reportID == 13)
 	{
 		String sqlwrk_evList = "SELECT st_lista FROM evid_list";
 		Statement stmtwrk_evList = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -370,20 +369,20 @@ function disableSome(EW_this){
 	parameters.put("dobLeto", session.getAttribute("letoTabela"));
 	parameters.put("prodajaLeto", session.getAttribute("letoTabelaProdaja"));
 	
-	/*if (Integer.parseInt(reportID) == 14)
+	/*if (reportID == 14)
 	{
 		String sort = request.getParameter("sort");
 		parameters.put("sort", sort);
 	}*/
 	String type = request.getParameter("type");
 
-	if ((Integer.parseInt(reportID) != 13) || (Integer.parseInt(reportID) == 19))
+	if ((reportID != 13) || (reportID == 19))
 	{
 		String reportDir = getServletContext().getInitParameter("reportDir");
 		parameters.put("SUBREPORT_DIR", reportDir);
 	}
 
-	if (Integer.parseInt(reportID) == 23)
+	if (reportID == 23)
 	{
 		String sort = request.getParameter("sort");
 		parameters.put("sort", sort);
@@ -397,7 +396,7 @@ function disableSome(EW_this){
         	String logo = getServletContext().getInitParameter("logoPdf");
             parameters.put("picture", logo);
         	
-        	if ((Integer.parseInt(reportID) != 13) && (Integer.parseInt(reportID) != 19))
+        	if ((reportID != 13) && (reportID != 19))
         	{
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
