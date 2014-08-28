@@ -95,7 +95,6 @@ function strankeExport() {
 }
 
 function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina, uporabnik, xml_create) {
-	alert(keys.value);
 	keyChecked = "";
 	if (keys.length == undefined) {
 		keyChecked = "'" + keys.value + "'";
@@ -112,8 +111,7 @@ function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina, upo
 			}
 		}
 	}
-	alert(keyChecked);
-
+	
 	document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
 	document.getElementById('arsopaketinew').submit();
 	
@@ -161,4 +159,10 @@ function xls_create(sql) {
 	document.getElementById('dobForm').action = '/papirservis/XLSCreateServlet?sql='+sql;
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'doblist.jsp';
+}
+
+function xls_create_prodaja(sql) {
+	document.getElementById('dobForm').action = '/papirservis/XLSCreateProdajaServlet?sql='+sql;
+	document.getElementById('dobForm').submit();
+	document.getElementById('dobForm').action = 'prodajalist.jsp';
 }

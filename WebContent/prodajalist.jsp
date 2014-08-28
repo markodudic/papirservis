@@ -61,6 +61,7 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + "`ewc` LIKE '%" + kw + "%' OR ";
 			//b_search = b_search + "`reg_st` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`st_dob` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`dob`.`opomba` LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
 		}
@@ -70,6 +71,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		b_search = b_search + "`ewc` LIKE '%" + pSearch + "%' OR ";
 		//b_search = b_search + "`reg_st` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`st_dob` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "`dob`.`opomba` LIKE '%" + pSearch + "%' OR ";
 	}
 }
 if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) {b_search = b_search.substring(0, b_search.length()-4);}
@@ -162,8 +164,15 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT prodaja.*, u.ime_in_priimek FROM " + session.getAttribute("letoTabelaProdaja") + " prodaja "+
-				"	left join uporabniki u on prodaja.uporabnik = u.sif_upor "; 
+String strsql = "SELECT prodaja.*, u.ime_in_priimek, k.naziv, e.naziv naziv_enote, mat.material, oko.material okoljemat " +
+				" FROM " + session.getAttribute("letoTabelaProdaja") + " prodaja "+
+				"	left join uporabniki u on prodaja.uporabnik = u.sif_upor " +
+				"	left join kupci k on prodaja.sif_kupca = k.sif_kupca " +
+				"	left join enote e on prodaja.sif_enote = e.sif_enote "+
+				"	left join (select materiali.material, materiali.koda " +
+				"			from materiali, (select koda, max(zacetek) as zacetek from materiali group by materiali.koda) s " +
+				"			where materiali.koda = s.koda and materiali.zacetek = s.zacetek) mat on prodaja.koda = mat.koda " +
+				"	left join okolje oko on prodaja.ewc = oko.koda ";
 
 whereClause = "";
 if (DefaultFilter.length() > 0) {
@@ -221,18 +230,26 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		session.setAttribute("prodaja_REC", new Integer(startRec));
 	}
 }
+
+String sqlParam = strsql.toString();
+sqlParam = sqlParam.replace("'", "XX");
+sqlParam = sqlParam.replace("%", "YY");
 %>
 <%@ include file="header.jsp" %>
+<script language="JavaScript" src="papirservis.js"></script>
+
 <p><span class="jspmaker">Pregled: prodaja</span></p>
-<form action="prodajalist.jsp">
+<form id="dobForm" action="prodajalist.jsp" accept-charset="UTF-8"  method="post">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
-		&nbsp;&nbsp;<a href="prodajalist.jsp?cmd=reset">Prikaži vse</a>
-		</span></td>
+					&nbsp;&nbsp;<a href="prodajalist.jsp?cmd=reset">Prikaži vse</a>
+			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_prodaja('<%=sqlParam%>')";>
+			</span>
+		</td>
 	</tr>
 </table>
 </form>
@@ -325,6 +342,11 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <a href="prodajalist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","utf-8") %>">Enota&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("prodaja_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("prodaja_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "</b>" : ""%>
 		</td>
+		<td id="td1">
+<%=(OrderBy != null && OrderBy.equals("opomba")) ? "<b>" : ""%>
+<a href="prodajalist.jsp?order=<%= java.net.URLEncoder.encode("opomba","UTF-8") %>">Opomba&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("opomba")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("prodaja_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("prodaja_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("opomba")) ? "</b>" : ""%>
+		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
 <a href="prodajalist.jsp?order=<%= java.net.URLEncoder.encode("zacetek","UTF-8") %>">Začetek&nbsp;<% if (OrderBy != null && OrderBy.equals("zacetek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("prodaja_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("prodaja_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -383,6 +405,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_kol_p = "";
 	String x_st_bal = "";
 	String x_sif_enote = "";
+	String x_opomba = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
 
@@ -446,6 +469,13 @@ while (rs.next() && recCount < stopRec) {
 	// sif_enote
 	x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
 
+	// opomba
+	if (rs.getString("opomba") != null){
+		x_opomba = rs.getString("opomba");
+	}else{
+		x_opomba = "";
+	}
+	
 	// zacetek
 	if (rs.getTimestamp("zacetek") != null){
 		x_zacetek = rs.getTimestamp("zacetek");
@@ -581,6 +611,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 }
 %>
 &nbsp;</td>
+		<td><% out.print(x_opomba); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td><%out.print(rs.getString("u.ime_in_priimek"));%>&nbsp;</td>
 	</tr>

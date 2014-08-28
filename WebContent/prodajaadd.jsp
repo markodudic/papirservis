@@ -55,6 +55,7 @@ Object x_sif_kupca = null;
 Object x_koda = null;
 Object x_ewc = null;
 Object x_reg_st = null;
+Object x_opomba = null;
 Object x_kol_n = null;
 Object x_kol_p = null;
 Object x_st_bal = null;
@@ -156,6 +157,11 @@ try{
 	}else{
 		x_reg_st = "";
 	}
+	if (rs.getString("opomba") != null){
+		x_opomba = rs.getString("opomba");
+	}else{
+		x_opomba = "";
+	}
 	x_kol_n = String.valueOf(rs.getLong("kol_n"));
 	x_kol_p = String.valueOf(rs.getLong("kol_p"));
 	x_st_bal = String.valueOf(rs.getLong("st_bal"));
@@ -193,6 +199,11 @@ try{
 			x_reg_st = (String) request.getParameter("x_reg_st");
 		}else{
 			x_reg_st = "";
+		}
+		if (request.getParameter("x_opomba") != null){
+			x_opomba = (String) request.getParameter("x_opomba");
+		}else{
+			x_opomba = "";
 		}
 		if (request.getParameter("x_kol_n") != null){
 			x_kol_n = (String) request.getParameter("x_kol_n");
@@ -290,6 +301,16 @@ try{
 			rs.updateNull("reg_st");
 		}else{
 			rs.updateString("reg_st", tmpfld);
+		}
+
+		tmpfld = ((String) x_opomba);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("opomba");
+		}else{
+			rs.updateString("opomba", tmpfld);
 		}
 
 		// Field kol_n
@@ -596,6 +617,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Opomba&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="80" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
 	</tr>
 </table>
 <p>
