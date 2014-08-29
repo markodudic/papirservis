@@ -44,6 +44,9 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`ewc` AS dob_koda, 
 SUM(dob.`kolicina`) AS dob_kolicina, 
@@ -69,9 +72,11 @@ LEFT JOIN
 	WHERE cenastr.material_koda = zadnji.material_koda and 
 		cenastr.zacetek = zadnji.datum )  cenastr 
 ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
-     kupci 
+     kupci, enote
 WHERE dob.`ewc` = okolje.`koda` and
 	dob.sif_kupca = kupci.sif_kupca and
+       dob.sif_enote = enote.sif_enote and
+	((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
 	((dob.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
 	((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
 GROUP BY dob.`ewc`, okolje.`material`

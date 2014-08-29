@@ -59,6 +59,9 @@
 	<parameter name="brezKoda" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      kupci.`naslov` AS kupci_naslov,
@@ -70,6 +73,7 @@
 FROM
      kupci, enote, uporabniki, skup
 WHERE 
+     ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.skupina = skup.skupina and
@@ -356,7 +360,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="90"
+						y="79"
 						width="61"
 						height="17"
 						forecolor="#000000"
@@ -384,7 +388,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="70"
-						y="90"
+						y="79"
 						width="60"
 						height="17"
 						key="textField-1"/>
@@ -397,7 +401,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="150"
-						y="90"
+						y="79"
 						width="70"
 						height="17"
 						key="textField-2"/>
@@ -410,7 +414,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="130"
-						y="90"
+						y="79"
 						width="20"
 						height="17"
 						forecolor="#000000"
@@ -424,8 +428,8 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="240"
-						y="90"
+						x="0"
+						y="102"
 						width="40"
 						height="17"
 						forecolor="#000000"
@@ -439,9 +443,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="280"
-						y="90"
-						width="90"
+						x="40"
+						y="102"
+						width="239"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -454,8 +458,8 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						x="390"
-						y="90"
+						x="0"
+						y="126"
 						width="50"
 						height="17"
 						forecolor="#000000"
@@ -469,9 +473,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="440"
-						y="90"
-						width="90"
+						x="50"
+						y="126"
+						width="430"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -485,7 +489,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="110"
+						y="148"
 						width="534"
 						height="0"
 						key="line-1"/>
@@ -494,7 +498,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="100"
-						y="120"
+						y="158"
 						width="212"
 						height="17"
 						forecolor="#000000"
@@ -509,7 +513,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="120"
+						y="158"
 						width="80"
 						height="17"
 						forecolor="#000000"
@@ -524,7 +528,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="100"
-						y="140"
+						y="178"
 						width="212"
 						height="17"
 						forecolor="#000000"
@@ -539,7 +543,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="100"
-						y="180"
+						y="218"
 						width="52"
 						height="17"
 						forecolor="#000000"
@@ -554,7 +558,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
-						y="180"
+						y="218"
 						width="154"
 						height="17"
 						forecolor="#000000"
@@ -569,7 +573,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="83"
-						y="120"
+						y="158"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -584,7 +588,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="83"
-						y="140"
+						y="178"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -599,7 +603,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="83"
-						y="160"
+						y="198"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -614,7 +618,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="83"
-						y="180"
+						y="218"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -629,7 +633,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="220"
+						y="258"
 						width="141"
 						height="17"
 						forecolor="#000000"
@@ -644,7 +648,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="100"
-						y="160"
+						y="198"
 						width="154"
 						height="17"
 						forecolor="#000000"
@@ -659,7 +663,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<staticText>
 					<reportElement
 						x="360"
-						y="120"
+						y="158"
 						width="40"
 						height="17"
 						forecolor="#000000"
@@ -674,7 +678,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="400"
-						y="120"
+						y="158"
 						width="80"
 						height="17"
 						forecolor="#000000"
@@ -690,7 +694,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="245"
+						y="283"
 						width="530"
 						height="30"
 						key="subreport-9"
@@ -722,7 +726,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="289"
+						y="327"
 						width="530"
 						height="30"
 						key="subreport-17"
@@ -751,7 +755,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="336"
+						y="374"
 						width="530"
 						height="29"
 						key="subreport-20"
