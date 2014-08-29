@@ -30,10 +30,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-12-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2013-6-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-12-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2013-6-3"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["15.10.2007"]]></defaultValueExpression>
@@ -48,13 +48,16 @@
 		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("99")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2013"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT 
 sum(dob.`kolicina`) AS dob_kolicina, 
@@ -78,11 +81,15 @@ LEFT JOIN
 			WHERE cenastr.veljavnost <= CAST($P{do_datum} AS DATE)
 			group by sif_kupca, material_koda) zadnji
 	WHERE cenastr.id = zadnji.id)  cenastr  ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
-      kupci
+      kupci, enote
 WHERE dob.sif_kupca = kupci.sif_kupca and
+       dob.sif_enote = enote.sif_enote and
+	((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
 	((dob.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
 	((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))]]></queryString>
 
+	<field name="dob_kolicina" class="java.math.BigDecimal"/>
+	<field name="dob_vrednost" class="java.lang.Double"/>
 	<field name="dob_odvozi" class="java.lang.Double"/>
 	<field name="dob_zaupno" class="java.lang.Double"/>
 	<field name="dob_smeti" class="java.lang.Double"/>
@@ -167,6 +174,9 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="nadenota">
+						<subreportParameterExpression><![CDATA[$P{nadenota}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "materiali_subreport0.jasper"]]></subreportExpression>
 				</subreport>
@@ -226,8 +236,8 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 				</staticText>
 				<staticText>
 					<reportElement
-						x="340"
-						y="110"
+						x="331"
+						y="109"
 						width="40"
 						height="17"
 						forecolor="#000000"
@@ -242,7 +252,7 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="393"
-						y="110"
+						y="109"
 						width="137"
 						height="17"
 						forecolor="#000000"
@@ -256,7 +266,7 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 				</textField>
 				<staticText>
 					<reportElement
-						x="340"
+						x="331"
 						y="130"
 						width="50"
 						height="17"
@@ -635,9 +645,42 @@ WHERE dob.sif_kupca = kupci.sif_kupca and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="nadenota">
+						<subreportParameterExpression><![CDATA[$P{nadenota}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "materiali_subreport1.jasper"]]></subreportExpression>
 				</subreport>
+				<staticText>
+					<reportElement
+						x="330"
+						y="89"
+						width="62"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-21"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Nadenota:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="392"
+						y="89"
+						width="137"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{nadenota}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>

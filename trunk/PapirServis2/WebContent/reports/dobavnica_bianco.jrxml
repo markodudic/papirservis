@@ -306,7 +306,7 @@
 					<textElement>
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Papir servisu d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov.]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Salomonu d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement

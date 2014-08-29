@@ -59,6 +59,9 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      kupci.`naslov` AS kupci_naslov,
@@ -118,7 +121,8 @@ where IFNULL(a.acena, 0) + IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) > 0
 ) as imajoceno
 WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and 
      kupci.skupina = skup.skupina and
-     ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+	((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 	kupci.sif_enote = enote.sif_enote and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.potnik = uporabniki.sif_upor and
