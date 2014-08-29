@@ -68,7 +68,7 @@ function handleFileSelect(evt) {
     	var csv = e.target.result;
     	//alert(csv);  
 
-    	var result = syncAjax('/papirservis/StrankeServlet', null, true, ('type=import&csv='+encodeURIComponent(csv)));
+    	var result = syncAjax('/kovine/StrankeServlet', null, true, ('type=import&csv='+encodeURIComponent(csv)));
     	if(result = true) {
     		alert("Podatki uspešno shranjeni.");
     		document.getElementById('strankelist').submit();
@@ -87,10 +87,10 @@ function strankeExport() {
 	var tipizvoza="vsi";
 	if (novi) tipizvoza="novi";
 	
-	document.getElementById('strankelist').action = '/papirservis/StrankeServlet?type=export&tipizvoza='+tipizvoza;
+	document.getElementById('strankelist').action = '/kovine/StrankeServlet?type=export&tipizvoza='+tipizvoza;
 	document.getElementById('strankelist').submit();
 	
-//	var result = syncAjax('/papirservis/StrankeServlet', 'text/csv', true, ('type=export&tipizvoza='+tipizvoza));
+//	var result = syncAjax('/kovine/StrankeServlet', 'text/csv', true, ('type=export&tipizvoza='+tipizvoza));
 //	alert(result);
 }
 
@@ -112,17 +112,17 @@ function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina, upo
 		}
 	}
 	
-	document.getElementById('arsopaketinew').action = '/papirservis/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
+	document.getElementById('arsopaketinew').action = '/kovine/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
 	document.getElementById('arsopaketinew').submit();
 	
 	
-	/*var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
+	/*var result = syncAjax('/kovine/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
 
 	if(result == "false") 
 		alert("Prišlo je do napake pri pripravi podatkov.");
 	else {
 		alert("Datoteka "+result+" je uspešno pripravljena.");
-		document.getElementById('arsopaketinew').action = '/papirservis/paketi/'+result;
+		document.getElementById('arsopaketinew').action = '/kovine/paketi/'+result;
 		document.getElementById('arsopaketinew').submit();
 	}*/
 	
@@ -145,7 +145,7 @@ function izberiVse2(tip) {
 }
 
 function zbrisiPaket(key) {
-	var result = syncAjax('/papirservis/ArsoPrepareXMLServlet', null, true, ('key='+key));
+	var result = syncAjax('/kovine/ArsoPrepareXMLServlet', null, true, ('key='+key));
 
 	if(result == "false") {
 		alert("Prišlo je do napake pri brisanju paketa.");
@@ -156,13 +156,13 @@ function zbrisiPaket(key) {
 }
 
 function xls_create(sql) {
-	document.getElementById('dobForm').action = '/papirservis/XLSCreateServlet?sql='+sql;
+	document.getElementById('dobForm').action = '/kovine/XLSCreateServlet?sql='+sql;
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'doblist.jsp';
 }
 
 function xls_create_prodaja(sql) {
-	document.getElementById('dobForm').action = '/papirservis/XLSCreateProdajaServlet?sql='+sql;
+	document.getElementById('dobForm').action = '/kovine/XLSCreateProdajaServlet?sql='+sql;
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'prodajalist.jsp';
 }
