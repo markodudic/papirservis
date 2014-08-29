@@ -57,21 +57,21 @@ if (pSearch != null && pSearch.length() > 0) {
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
 			b_search = b_search + "prodaja.sif_kupca LIKE '%" + kw + "%' OR ";
-			b_search = b_search + "`koda` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "prodaja.koda LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`ewc` LIKE '%" + kw + "%' OR ";
 			//b_search = b_search + "`reg_st` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`st_dob` LIKE '%" + kw + "%' OR ";
-			b_search = b_search + "`dob`.`opomba` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "prodaja.opomba LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
 		b_search = b_search + "prodaja.sif_kupca LIKE '%" + pSearch + "%' OR ";
-		b_search = b_search + "`koda` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "prodaja.koda LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`ewc` LIKE '%" + pSearch + "%' OR ";
 		//b_search = b_search + "`reg_st` LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`st_dob` LIKE '%" + pSearch + "%' OR ";
-		b_search = b_search + "`dob`.`opomba` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "prodaja.opomba LIKE '%" + pSearch + "%' OR ";
 	}
 }
 if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) {b_search = b_search.substring(0, b_search.length()-4);}
