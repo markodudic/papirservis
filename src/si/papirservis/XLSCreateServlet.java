@@ -31,8 +31,8 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static HSSFSheet s;
 	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra stranke", "Naziv stranke",
 										"Šifra kupca", "Naziv kupca", "Matična", "Skupina", "Enota", "Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion",
-										"Količina", "Cena", "Stroški", "Dod. stroški", "KM strošek", "Ure strošek", "Skupaj strošek"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D", "D"};
+										"Količina", "Cena", "Stroški", "Dod. stroški", "KM strošek", "Ure strošek", "Skupaj strošek", "Opomba"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D", "D", "S"};
 	 
 	/*
 	 * (non-Java-doc)
@@ -116,7 +116,7 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), 
 	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("stroski"), rs.getString("dod_stroski"), 
 	    							  String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")),
-	    							  String.valueOf(rs.getDouble("stroski")+rs.getDouble("dod_stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")))};
+	    							  String.valueOf(rs.getDouble("stroski")+rs.getDouble("dod_stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), rs.getString("opomba")};
 	    		createRow(dobavnica);
 	    	}
 	    	

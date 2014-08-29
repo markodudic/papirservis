@@ -29,8 +29,8 @@ public class XLSCreateProdajaServlet extends InitServlet implements Servlet {
 	private static int rownum = 0;
 	private static HSSFWorkbook wb;
 	private static HSSFSheet s;
-	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra kupca", "Naziv kupca", "Enota", "Koda", "Material", "EWC Koda", "Material", "Regist. st.", "kol_n", "kol_p", "st_bal"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "N", "N"};
+	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra kupca", "Naziv kupca", "Enota", "Koda", "Material", "EWC Koda", "Material", "Regist. st.", "kol_n", "kol_p", "st_bal", "Opomba"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "N", "N", "S"};
 	 
 	/*
 	 * (non-Java-doc)
@@ -111,7 +111,7 @@ public class XLSCreateProdajaServlet extends InitServlet implements Servlet {
 	    	while (rs.next()) {
 	    		String[] dobavnica = {rs.getString("st_dob"), rs.getString("pozicija"), to.format(from.parse(rs.getString("datum"))),  rs.getString("sif_kupca"), rs.getString("naziv"), 
 	    							  rs.getString("naziv_enote"), rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("reg_st"), 
-	    							  rs.getString("kol_n"), rs.getString("kol_p"), rs.getString("st_bal")};
+	    							  rs.getString("kol_n"), rs.getString("kol_p"), rs.getString("st_bal"), rs.getString("opomba")};
 	    		createRow(dobavnica);
 	    	}
 	    	
