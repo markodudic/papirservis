@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="prodajaLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["prodaja2013"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["prodaja2014"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      prodaja.`st_dob` AS prodaja_st_dob,
@@ -42,6 +42,7 @@
      prodaja.`reg_st` AS prodaja_reg_st,
      prodaja.`koda` AS prodaja_koda,
      prodaja.`sif_enote` AS prodaja_sif_enote,
+     prodaja.`opomba` AS prodaja_opomba,
      kupci.`naziv` AS kupci_naziv,
      kupci.`naslov` AS kupci_naslov,
      kupci.`posta` AS kupci_posta,
@@ -64,6 +65,7 @@ GROUP BY prodaja.st_dob]]></queryString>
 	<field name="prodaja_reg_st" class="java.lang.String"/>
 	<field name="prodaja_koda" class="java.lang.String"/>
 	<field name="prodaja_sif_enote" class="java.lang.Integer"/>
+	<field name="prodaja_opomba" class="java.lang.String"/>
 	<field name="kupci_naziv" class="java.lang.String"/>
 	<field name="kupci_naslov" class="java.lang.String"/>
 	<field name="kupci_posta" class="java.lang.String"/>
@@ -463,7 +465,7 @@ GROUP BY prodaja.st_dob]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="240"
+						y="256"
 						width="535"
 						height="90"
 						key="subreport-2"/>
@@ -476,6 +478,51 @@ GROUP BY prodaja.st_dob]]></queryString>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "dobavnica_prodaja_subreport0.jasper"]]></subreportExpression>
 				</subreport>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="99"
+						y="230"
+						width="431"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{prodaja_opomba}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="230"
+						width="80"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-17"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[OPOMBA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="82"
+						y="230"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-18"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>
