@@ -272,7 +272,7 @@ function disableSome(EW_this){
 	    parameters.put("brezKoda", brezKoda);
 	}
 
-	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 15) || (reportID == 24)) 
+	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24))
 	{
 	    String nadenota = request.getParameter("x_sif_nadenote");
 		 if ((nadenota != null) && (nadenota != "")) {

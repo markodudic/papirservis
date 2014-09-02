@@ -62,6 +62,9 @@
 	<parameter name="blokada_naziv" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Ne"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT distinct kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      concat(kupci.`naslov`, ', ', kupci.`posta`, ' ',  kupci.`kraj`, ' ') AS kupci_naslov,
@@ -70,7 +73,7 @@
      opomba3,
      opomba4,
      opomba5
-FROM kupci, 	
+FROM kupci left join enote on (kupci.sif_enote = enote.sif_enote), 	
 	(SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
  	group by sif_str ) zadnji
@@ -81,7 +84,8 @@ FROM kupci,
  	group by sif_os) zadnji
 	WHERE osnovna.sif_os = zadnji.sif_os and
 	      osnovna.zacetek = zadnji.datum) osnovna
-WHERE stranke.sif_kupca = kupci.sif_kupca and
+WHERE ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+      stranke.sif_kupca = kupci.sif_kupca and
       stranke.sif_os = osnovna.sif_os and
  	((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      	((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
