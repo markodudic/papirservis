@@ -42,6 +42,8 @@ String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 %>
 <%
+String od_datum = request.getParameter("od_datum");
+String do_datum = request.getParameter("do_datum");
 
 // Get search criteria for basic search
 String pSearch = request.getParameter("psearch");
@@ -56,6 +58,8 @@ if (pSearch != null && pSearch.length() > 0) {
 		for (int i = 0; i < arpSearch.length; i++){
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
+			b_search = b_search + "k.naziv LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "prodaja.st_dob LIKE '" + kw + "' OR ";
 			b_search = b_search + "prodaja.sif_kupca LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "prodaja.koda LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`ewc` LIKE '%" + kw + "%' OR ";
@@ -66,6 +70,8 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
+		b_search = b_search + "k.naziv LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "prodaja.st_dob LIKE '" + pSearch + "' OR ";
 		b_search = b_search + "prodaja.sif_kupca LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "prodaja.koda LIKE '%" + pSearch + "%' OR ";
 		b_search = b_search + "`ewc` LIKE '%" + pSearch + "%' OR ";
@@ -78,6 +84,22 @@ if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.len
 if (b_search.length() > 5 && b_search.substring(b_search.length()-5,b_search.length()).equals(" AND ")) {b_search = b_search.substring(0, b_search.length()-5);}
 %>
 <%
+if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
+	if (od_datum!=null && !od_datum.equals("")) {
+//		countQuery.append(" AND dob.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')");
+		if (b_search.length()>0)
+			b_search = "(" + b_search + ")" + " AND prodaja.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')";
+		else
+			b_search += " prodaja.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y')";
+	}
+	if (do_datum!=null && !do_datum.equals("")) {
+//		countQuery.append(" AND dob.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')");
+		if (b_search.length()>0)
+			b_search = "(" + b_search + ")" + " AND prodaja.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')";
+		else
+			b_search += " prodaja.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y')";
+	}
+}
 
 // Build search criteria
 if (a_search != null && a_search.length() > 0) {
@@ -184,12 +206,21 @@ if (dbwhere.length() > 0) {
 if ((ewCurSec & ewAllowList) != ewAllowList) {
 	whereClause = whereClause + "(0=1) AND ";
 }
+if (od_datum!=null && do_datum!=null && !od_datum.equals(do_datum)) {
+	if (od_datum!=null && !od_datum.equals("")) {
+		whereClause = whereClause + "prodaja.datum >= str_to_date('" + od_datum + "', '%d.%m.%Y') AND ";
+	}
+	if (do_datum!=null && !do_datum.equals("")) {
+		whereClause = whereClause + " prodaja.datum <= str_to_date('" + do_datum + "', '%d.%m.%Y') AND ";
+	}
+}
 if (whereClause.length() > 5 && whereClause.substring(whereClause.length()-5, whereClause.length()).equals(" AND ")) {
 	whereClause = whereClause.substring(0, whereClause.length()-5);
 }
 if (whereClause.length() > 0) {
 	strsql = strsql + " WHERE " + whereClause;
 }
+
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("prodaja_OT");
 }
@@ -231,11 +262,26 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 	}
 }
 
+Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
+String y 	= String.valueOf(dat.get(Calendar.YEAR));
+String m 	= String.valueOf(dat.get(Calendar.MONTH) + 1);
+String d  = String.valueOf(dat.get(Calendar.DAY_OF_MONTH));
+if(d.length() == 1) d = "0" + d;
+if(m.length() == 1) m = "0" + m;
+
+String s = d;
+s = s + "." + m;
+s = s + "." + y;
+
+if (od_datum == null) od_datum = s;
+if (do_datum == null) do_datum = s;
+
 String sqlParam = strsql.toString();
 sqlParam = sqlParam.replace("'", "XX");
 sqlParam = sqlParam.replace("%", "YY");
 %>
 <%@ include file="header.jsp" %>
+<script language="JavaScript" src="popcalendar.js"></script>
 <script language="JavaScript" src="papirservis.js"></script>
 
 <p><span class="jspmaker">Pregled: prodaja</span></p>
@@ -250,6 +296,15 @@ sqlParam = sqlParam.replace("%", "YY");
 			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_prodaja('<%=sqlParam%>')";>
 			</span>
 		</td>
+	</tr>
+	<tr>
+		<td><span class="jspmaker">Datum</span></td>
+		<td><span class="jspmaker">
+			<input type="text" name="od_datum" value="<%= od_datum %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
+			<input type="text" name="do_datum" value="<%= do_datum %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
+		</span></td>
 	</tr>
 </table>
 </form>
