@@ -1456,7 +1456,6 @@ function updateSubfileds(EW_this){
 
 
 function updateDropDowns(EW_this){
-alert("1");
 	document.dobedit.x_sif_kupca_ll.selectedIndex = 1 + kupac[sif_kupac[document.dobedit.x_sif_str.value]];
 	document.dobedit.x_sif_kupca.value = sif_kupac[document.dobedit.x_sif_str.value];
 	document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
@@ -1464,12 +1463,6 @@ alert("1");
 	//document.dobedit.x_enote_ll.value = sif_enote[document.dobedit.x_sif_str.value];
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
-alert(document.dobedit.x_sif_str.value+":"+
-		arso_prjm_status[document.dobedit.x_sif_str.value]+":"+
-		arso_aktivnost_prjm[document.dobedit.x_sif_str.value]+":"+
-		arso_odp_embalaza_shema[document.dobedit.x_sif_str.value]+":"+
-		arso_odp_dej_nastanka[document.dobedit.x_sif_str.value]
-		);
 	document.dobedit.x_arso_prjm_status.value = arso_prjm_status[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
