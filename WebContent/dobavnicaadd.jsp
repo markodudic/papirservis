@@ -143,28 +143,27 @@ try{
 
 	}
 	
+	
+	
+	
 	if (!a.equals("A")) {
 		try{
-			
-
-		
-
-		Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				String strsql = "SELECT max(st_dob) cnt FROM `dob_bianco` where id = '" + session.getAttribute("letoTabela") + "'";
-				rs = stmt1.executeQuery(strsql);
-				if (!rs.next()){
-					rs.close();
-					rs = null;
-					stmt1.close();
-					stmt1 = null;
-					//conn.close();
-					conn = null;
-					out.clear();
-					response.sendRedirect("doblist.jsp");
-					response.flushBuffer();
-					return;
-				}
-				rs.first();
+			Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String strsql = "SELECT max(st_dob) cnt FROM `dob_bianco` where id = '" + session.getAttribute("letoTabela") + "'";
+			rs = stmt1.executeQuery(strsql);
+			if (!rs.next()){
+				rs.close();
+				rs = null;
+				stmt1.close();
+				stmt1 = null;
+				//conn.close();
+				conn = null;
+				out.clear();
+				response.sendRedirect("doblist.jsp");
+				response.flushBuffer();
+				return;
+			}
+			rs.first();
 		
 			// Get the field contents
 			x_st_dob = String.valueOf(rs.getLong("cnt"));
@@ -260,8 +259,8 @@ try{
 		x_cena_ura = String.valueOf(rs.getDouble("cena_ura"));
 		x_c_km = String.valueOf(rs.getDouble("c_km"));
 		x_c_ura = String.valueOf(rs.getDouble("c_ura"));
-
 		x_skupina = String.valueOf(rs.getLong("skupina"));
+		
 		if (rs.getString("skupina_text") != null){
 			x_skupina_text = rs.getString("skupina_text");
 		}else{
@@ -1155,7 +1154,7 @@ return true;
 <p>
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
-<input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
+<input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
 <input type="hidden" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">
 <input type="hidden" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">
 <input type="hidden" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">
