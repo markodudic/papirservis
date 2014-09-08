@@ -71,7 +71,7 @@ where ((prodaja.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
       prodaja.datum >= CAST($P{od_datum} AS DATE) AND 
      prodaja.datum <= CAST($P{do_datum} AS DATE) and
      prodaja.sif_kupca = kupci.sif_kupca and
-     kupci.sif_enote = enote.sif_enote and
+     prodaja.sif_enote = enote.sif_enote and
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      kupci.skupina = skup.skupina and
      ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1))
