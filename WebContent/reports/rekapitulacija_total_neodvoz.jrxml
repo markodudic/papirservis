@@ -74,14 +74,24 @@
 	<queryString><![CDATA[SELECT distinct kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      concat(kupci.`naslov`, ', ', kupci.`posta`, ' ',  kupci.`kraj`, ' ') AS kupci_naslov
-FROM kupci left join enote on (kupci.sif_enote = enote.sif_enote),
+FROM kupci 
+	left join (SELECT dob.*
+	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			where datum >= CAST($P{od_datum} AS DATE) 
+				AND datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+	WHERE dob.st_dob = zadnji.st_dob and
+	      dob.pozicija = zadnji.pozicija and
+	      dob.zacetek = zadnji.datum ) dob on (kupci.sif_kupca = dob.sif_kupca) 
+	left join enote on (dob.sif_enote = enote.sif_enote),
 	(SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
  	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.zacetek = zadnji.datum) stranke
 WHERE ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
- 	((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+ 	((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      	((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      	((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1)) and
      	kupci.sif_kupca = stranke.sif_kupca and
