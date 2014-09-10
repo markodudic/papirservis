@@ -106,12 +106,12 @@ ORDER BY kupci.`naziv`]]></queryString>
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="300"  isSplitAllowed="true" >
+			<band height="350"  isSplitAllowed="true" >
 				<elementGroup><!--  Start: 1 !-->
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="117"
+						y="163"
 						width="530"
 						height="40"
 						key="subreport-13"
@@ -208,8 +208,8 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="240"
-						y="83"
+						x="0"
+						y="105"
 						width="40"
 						height="17"
 						forecolor="#000000"
@@ -223,9 +223,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="280"
-						y="83"
-						width="90"
+						x="40"
+						y="105"
+						width="343"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -238,8 +238,8 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						x="390"
-						y="83"
+						x="0"
+						y="128"
 						width="50"
 						height="17"
 						forecolor="#000000"
@@ -253,9 +253,9 @@ ORDER BY kupci.`naziv`]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="440"
-						y="83"
-						width="90"
+						x="50"
+						y="128"
+						width="350"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -269,7 +269,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="103"
+						y="149"
 						width="534"
 						height="0"
 						key="line-2"/>
@@ -278,7 +278,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="174"
+						y="220"
 						width="530"
 						height="40"
 						key="subreport-16"
@@ -304,7 +304,7 @@ ORDER BY kupci.`naziv`]]></queryString>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="230"
+						y="276"
 						width="530"
 						height="40"
 						key="subreport-18"
