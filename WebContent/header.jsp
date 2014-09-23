@@ -32,7 +32,7 @@ int ewCurAdmin  = ((Integer) session.getAttribute("papirservis1_status_UserLevel
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<!-- left column -->
-	<td width="80" height="100%" valign="top">
+	<td width="10%" height="100%" valign="top">
 		<table width="100%" border="1" cellspacing="0" cellpadding="0">
 			<tr class="ewTableHeader2"><td nowrap align="center"><span class="jspmaker2"><%= session.getAttribute("leto") %></span></td></tr>
 <%
@@ -137,4 +137,4 @@ if ((ewCurAdmin & ewAdmin) == ewAdmin) {
 	</td>
 	<td>&nbsp;</td>
 	<!-- right column -->
-	<td width="80%" valign="top">
+	<td valign="top">

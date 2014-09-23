@@ -665,9 +665,16 @@ try{
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
 			strsql += tmpfld + ")";
 			
-			out.println(strsql);
+			//out.println(strsql);
 			
 			Statement stmt1 = conn.createStatement();
+			stmt1.executeUpdate(strsql);
+			//stmt1.close();
+			//stmt1 = null;
+			
+			strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
+			//System.out.println(strsql);
+
 			stmt1.executeUpdate(strsql);
 			stmt1.close();
 			stmt1 = null;
@@ -853,7 +860,6 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
-System.out.println(sqlwrk_x_sif_str);
 Statement stmtwrk_x_sif_str = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 	int rowcntwrk_x_sif_str = 0;
@@ -1150,7 +1156,7 @@ return true;
 
 // end JavaScript -->
 </script>
-<form onSubmit="updateDropDowns(this); return EW_checkMyForm(this);"  name="dobavnicaadd" action="dobavnicaadd.jsp" method="post">
+<form onSubmit="return EW_checkMyForm(this);"  name="dobavnicaadd" action="dobavnicaadd.jsp" method="post">
 <p>
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">

@@ -26,7 +26,9 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 			rs = stmt.executeQuery("SELECT * FROM `uporabniki` WHERE aktiven=1 and `uporabnisko_ime` = '" + userid.replaceAll("'",escapeString) + "'");
 			if (rs.next()) {
 				if (rs.getString("geslo").toUpperCase().equals(passwd.toUpperCase())) {
+					session.setAttribute("papirservis1_status_Name", rs.getString("ime_in_priimek"));
 					session.setAttribute("papirservis1_status_User", rs.getString("uporabnisko_ime"));
+					session.setAttribute("papirservis1_status_Mail", rs.getString("email"));
 				 	session.setAttribute("papirservis1_status_UserID", rs.getString("sif_upor"));
 				 	session.setAttribute("papirservis1_status_UserLevel", new Integer(rs.getInt("tip")));
 				 	session.setAttribute("papirservis1_status_Reports", rs.getString("porocila"));

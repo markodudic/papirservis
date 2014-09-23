@@ -626,6 +626,7 @@ stmtCount = null;
 rs.beforeFirst();
 %>
 <%@ include file="header.jsp" %>
+<script language="JavaScript" src="papirservis.js"></script>
 <script language="JavaScript">
 function disableSome(EW_this){
 }
@@ -719,7 +720,7 @@ if (totalRecs > 0) {
 	<tr></tr>
 </table>
 <% } %>
-<form method="post">
+<form method="post"  id="dobavnicalistform">
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -734,6 +735,7 @@ if (totalRecs > 0) {
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
 <td>&nbsp;</td>
 <% } %>
+		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "<b>" : ""%>
@@ -999,7 +1001,7 @@ if (key != null && key.length() > 0) {
 	out.print("dobavnicaview.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Pregled</a></span></td>
+} %>"><img width="16" height="16" border="0" alt="Pregled" title="Pregled" src="images/browse.gif"></a></span></td>
 <% } %>
 
 <% if ((ewCurSec & ewAllowEdit) == ewAllowEdit ) { %>
@@ -1008,7 +1010,7 @@ if (key != null && key.length() > 0) {
 	out.print("dobavnicaedit.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Spremeni</a></span></td>
+} %>"><img width="16" height="16" border="0" alt="Spremeni" title="Spremeni" src="images/edit.gif"></a></span></td>
 <% } %>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
 <td><span class="jspmaker"><a href="<% key =  rs.getString("id"); 
@@ -1016,12 +1018,13 @@ if (key != null && key.length() > 0) {
 	out.print("dobavnicaadd.jsp?key=" + java.net.URLEncoder.encode(x_st_dob,"UTF-8"));
 }else{
 	out.print("javascript:alert('Invalid Record! Key is null');");
-} %>">Kopiraj</a></span></td>
+} %>"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/copy.gif"></a></span></td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=x_st_dob %>" class="jspmaker">Briši</span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=x_st_dob %>" class="jspmaker"><img width="16" height="16" border="0" alt="Zbriši" title="Zbriši" src="images/delete.gif"></span></td>
 <% } %>
-<td><span class="jspmaker"><a href="printDelovniNalog.jsp?type=1&reportID=0&report=<%="/"%>reports<%="/"%>dobavnica&x_sif_dob=<%=x_st_dob%>">Tiskaj</a></span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=x_st_dob %>" class="jspmaker"><img width="16" height="16" border="0" alt="Mail" title="Mail" src="images/mail.gif"></span></td>
+<td><span class="jspmaker"><a href="printDelovniNalog.jsp?type=1&reportID=0&report=<%="/"%>reports<%="/"%>dobavnica&x_sif_dob=<%=x_st_dob%>"><img width="20" height="20" border="0" alt="Tiskaj" title="Tiskaj" src="images/print.gif"></a></span></td>
 		<td><% out.print(x_st_dob); %>&nbsp;</td>
 		<!--td><% out.print(x_pozicija); %>&nbsp;</td-->
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
@@ -1077,6 +1080,12 @@ if (x_koda!=null && ((String)x_koda).length() > 0) {
 <% if (recActual > 0) { %>
 <p><input type="button" name="btndelete" value="Izbriši izbrane" onClick="this.form.action='dobavnicadelete.jsp';this.form.submit();"></p>
 <% } %>
+<% } %>
+<% if (recActual > 0) { %>
+<p>
+Prejemnik:<input type="text" name="receiver"><br>
+Obvestilo:<input type="text" name="msg" size="150" maxlength="255"><br>
+<input type="button" name="btnmail" value="Pošlji izbrane" onClick='mail(this.form.key, this.form.receiver.value, this.form.msg.value, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_Name")); %>", "<%out.print(session.getAttribute("papirservis1_status_Mail")); %>")'></p>
 <% } %>
 </form>
 <%
