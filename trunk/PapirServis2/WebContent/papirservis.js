@@ -166,3 +166,27 @@ function xls_create_prodaja(sql) {
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'prodajalist.jsp';
 }
+
+function mail(keys, receiver, msg, tabela, user, sender) {
+	keyChecked = "";
+	if (keys.length == undefined) {
+		keyChecked = "" + keys.value;
+	}
+	else {
+		for (var i = 0; i < keys.length; i++){
+			var key = keys.item(i);
+			if (key.checked) {
+				if (keyChecked != "") {
+					keyChecked += "," + key.value;
+				} else {
+					keyChecked += key.value;
+				}
+			}
+		}
+	}
+	alert(receiver+":"+msg+":"+user+":"+sender+":"+keyChecked);
+	document.getElementById('dobavnicalistform').action = '/papirservis/MailServlet?tabela='+tabela+'&key='+keyChecked+'&receiver='+receiver+'&msg='+msg+'&user='+user+'&sender='+sender;
+	document.getElementById('dobavnicalistform').submit();
+	//document.getElementById('dobavnicalistform').action = 'dobavnicalist.jsp';
+	
+}

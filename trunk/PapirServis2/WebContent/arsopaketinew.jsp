@@ -54,7 +54,7 @@ if (arRecKey != null && arRecKey.length > 0 ) {
 		sqlKey +=  reckey.split("-")[1] + ",";
 	}
 	sqlKey = sqlKey.substring(0,sqlKey.length()-1) + ")";
-	System.out.println(sqlKey);
+	//System.out.println(sqlKey);
 	
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	ResultSet rs = null;

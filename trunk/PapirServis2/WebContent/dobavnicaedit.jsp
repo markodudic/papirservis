@@ -710,6 +710,11 @@ try{
 			rs = null;
 		}
 		
+		String strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
+		//System.out.println(strsql);
+
+		stmt.executeUpdate(strsql);
+		
 		stmt.close();
 		stmt = null;
 		conn.close();
@@ -1073,14 +1078,6 @@ function disableSome(EW_this){
 
 
 function  EW_checkMyForm(EW_this) {
-if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
-            if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
-                return false; 
-        }
-if (EW_this.x_st_dob && !EW_checkinteger(EW_this.x_st_dob.value)) {
-        if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
-            return false; 
-        }
 if (EW_this.x_pozicija && !EW_hasValue(EW_this.x_pozicija, "TEXT" )) {
             if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
                 return false; 

@@ -2245,7 +2245,7 @@ if (key != null && key.length() > 0) {
 <% } %>
 
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete && (x_arso_status.equals("0") || arsoPopravljanje==1) ) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Kopiraj" title="Kopiraj" src="images/delete.gif"></span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"><img width="16" height="16" border="0" alt="Zbriši" title="Zbriši" src="images/delete.gif"></span></td>
 <% } else {%>
 <td>&nbsp;</td>
 <% } %>
