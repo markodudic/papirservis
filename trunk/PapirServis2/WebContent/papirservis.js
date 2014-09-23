@@ -184,8 +184,7 @@ function mail(keys, receiver, msg, tabela, user, sender) {
 			}
 		}
 	}
-	alert(receiver+":"+msg+":"+user+":"+sender+":"+keyChecked);
-	document.getElementById('dobavnicalistform').action = '/papirservis/MailServlet?tabela='+tabela+'&key='+keyChecked+'&receiver='+receiver+'&msg='+msg+'&user='+user+'&sender='+sender;
+	document.getElementById('dobavnicalistform').action = '/kovine/MailServlet?tabela='+tabela+'&key='+keyChecked+'&receiver='+receiver+'&msg='+msg+'&user='+user+'&sender='+sender;
 	document.getElementById('dobavnicalistform').submit();
 	//document.getElementById('dobavnicalistform').action = 'dobavnicalist.jsp';
 	
