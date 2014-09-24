@@ -42,6 +42,27 @@ String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 %>
 <%
+//Multiple change arso state records
+String [] arRecKey = request.getParameterValues("key");
+if (arRecKey != null && arRecKey.length > 0 ) {
+	String sqlKey = "(";
+	for (int i = 0; i < arRecKey.length; i++){
+		String reckey = arRecKey[i].trim();
+		reckey = reckey.replaceAll("'",escapeString);
+	
+		// Build the SQL
+		sqlKey +=  reckey.split("-")[1] + ",";
+	}
+	sqlKey = sqlKey.substring(0,sqlKey.length()-1) + ")";
+	//System.out.println(sqlKey);
+	
+	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	ResultSet rs = null;
+	String strsql = "UPDATE " + session.getAttribute("letoTabela") + " SET arso_status = 2 WHERE st_dob IN " + sqlKey;
+	stmt.executeUpdate(strsql);
+	stmt.close();
+	stmt = null;
+}
 
 // Get search criteria for basic search
 String od_datum = request.getParameter("od_datum");
@@ -655,6 +676,7 @@ while (rs.next() && recCount < stopRec) {
 </table>
 <% if (recActual > 0) { %>
 <p><input type="button" name="btndelete" value="Potrdi izbrane" onClick='arsoPrepareXML(this.form.key, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_UserID")); %>", "<%out.print(EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)); %>", "<%out.print(EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)); %>", "<%out.print(skupina); %>", "<%out.print(session.getAttribute("papirservis1_status_User")); %>", false ) '></p>
+<p><input type="button" name="btnconfirm" value="Arso status potrdi" onClick='this.form.submit();'></p>
 <% } %>
 </form>
 <%
