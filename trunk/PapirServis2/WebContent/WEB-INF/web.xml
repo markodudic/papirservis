@@ -293,7 +293,7 @@
 		</init-param>		
 		<init-param>
 		  	<param-name>use_ssl</param-name>
-			<param-value>fqlse</param-value>
+			<param-value>false</param-value>
 		</init-param>			
 	</servlet>
     <servlet-mapping>
