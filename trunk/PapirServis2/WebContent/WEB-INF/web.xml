@@ -265,11 +265,11 @@
 		</init-param>
 		<init-param>
 		  	<param-name>user</param-name>
-			<param-value>odvozi@papir-servis.si</param-value>
+			<param-value>web.logistika@papir-servis.si</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>pass</param-name>
-			<param-value>apollo11</param-value>
+			<param-value>BaTmAn</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>mail_smtp_auth</param-name>
