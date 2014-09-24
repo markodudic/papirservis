@@ -355,8 +355,8 @@ function disableSome(EW_this){
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <td nowrap>
-<img src="images/checkall.gif" alt="Vsi" width="20" height="20" border="0" onClick='izberiVse2(true);'>
-<img src="images/uncheckall.gif" alt="Noben" width="20" height="20" border="0" onClick='izberiVse2(false);'>
+<img src="images/checkall.gif" alt="Vsi" width="20" height="20" border="0" onClick='izberiVse2(true, "arsopaketirocnonew");'>
+<img src="images/uncheckall.gif" alt="Noben" width="20" height="20" border="0" onClick='izberiVse2(false, "arsopaketirocnonew");'>
 </td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_dob")) ? "<b>" : ""%>
