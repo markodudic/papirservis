@@ -277,11 +277,11 @@
 		</init-param>
 		<init-param>
 		  	<param-name>mail_smtp_port</param-name>
-			<param-value>325</param-value>
+			<param-value>25</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>mail_smtp_socketFactory_port</param-name>
-			<param-value>325</param-value>
+			<param-value>25</param-value>
 		</init-param>		
 		<init-param>
 		  	<param-name>mail_smtp_starttls_enable</param-name>
