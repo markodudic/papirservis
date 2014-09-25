@@ -213,7 +213,7 @@
 		  	<param-name>report</param-name>
 			<param-value>dobavnica.jasper</param-value>
 		</init-param>
-		<!-- init-param>
+		<init-param>
 		  	<param-name>smtpServer</param-name>
 			<param-value>smtp.gmail.com</param-value>
 		</init-param>
@@ -227,7 +227,7 @@
 		</init-param>
 		<init-param>
 		  	<param-name>pass</param-name>
-			<param-value></param-value>
+			<param-value>trzaska297A</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>mail_smtp_auth</param-name>
@@ -252,10 +252,10 @@
 		<init-param>
 		  	<param-name>use_ssl</param-name>
 			<param-value>true</param-value>
-		</init-param-->
+		</init-param>
 		
 
-		<init-param>
+		<!-- init-param>
 		  	<param-name>smtpServer</param-name>
 			<param-value>xenon.salomon.si</param-value>
 		</init-param>
@@ -294,7 +294,7 @@
 		<init-param>
 		  	<param-name>use_ssl</param-name>
 			<param-value>false</param-value>
-		</init-param>			
+		</init-param-->			
 	</servlet>
     <servlet-mapping>
       <servlet-name>MailServlet</servlet-name>
