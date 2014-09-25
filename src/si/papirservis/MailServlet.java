@@ -160,7 +160,9 @@ public class MailServlet extends InitServlet implements Servlet {
             
           //Session session = Session.getDefaultInstance(props, null);
           Message msg = new MimeMessage(session);
-          msg.setFrom(new InternetAddress(sender));
+          if (sender!=null) {
+        	  msg.setFrom(new InternetAddress(sender));
+          }
           if (to.indexOf(',') > 0) 
                 msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
           else
