@@ -74,8 +74,8 @@ function  EW_checkMyForm(EW_this)
 						 "		      stranke.zacetek = zadnji.datum) st, "+
 						 "		(select sif_kupca, skupina, sif_enote, arso_prenos, arso_aktivnost_pslj " +
 						 "		from kupci " +
-						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
-						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci, " +
+						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1))) kupci, " +
+//						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci, " +
 						 "		enote, skup  " +
 						 "WHERE st.sif_kupca = kupci.sif_kupca and (" + day + " = " + type + " or " + day + " = 3) " +
 						 "		 and kupci.sif_enote = enote.sif_enote and kupci.skupina = skup.skupina";
@@ -199,10 +199,10 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td><span class="jspmaker">Izberite parametre za pripravo delovnih nalogov</span></td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Datum:&nbsp;</td>
 		<td class="ewTableAltRow">
