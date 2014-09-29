@@ -111,11 +111,17 @@ public class MailServlet extends InitServlet implements Servlet {
 				destFiles[i] = createPdf(keys[i], tabela);
 				
 			}
-			sendMail(receiver, msg, sender, destFiles);
+
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			PrintWriter out = response.getWriter();
-			out.write("Mail uspešno poslan");
+			
+			if (sendMail(receiver, msg, sender, destFiles)) {
+				out.write("Mail uspešno poslan");
+			}
+			else {
+				out.write("Mail ni poslan. Poskusite ponovno ali kontaktirajte administratorja");
+			}
 			
 			//pobrisem file
 			for (int i=0; i<destFiles.length; i++) {
@@ -134,7 +140,7 @@ public class MailServlet extends InitServlet implements Servlet {
 	}	
 
 	
-	private static void sendMail(String to, String body, String sender, String[] destFiles)
+	private static boolean sendMail(String to, String body, String sender, String[] destFiles)
     {
         try
         {
@@ -198,10 +204,12 @@ public class MailServlet extends InitServlet implements Servlet {
 
           Transport.send(msg);
           System.out.println("Message sent OK.");
+          return true;
         }
         catch (Exception ex)
         {
           ex.printStackTrace();
+          return false;
         }
     }
 	

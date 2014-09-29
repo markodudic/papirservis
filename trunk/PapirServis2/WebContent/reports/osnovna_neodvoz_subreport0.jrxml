@@ -58,7 +58,7 @@ from
 	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.zacetek = zadnji.datum) stranke
 LEFT JOIN
-	(SELECT sif_str, max(zacetek) datum FROM dob2009 dob
+	(SELECT sif_str, max(zacetek) datum FROM $P!{dobLeto} dob
  	where datum < CAST($P{od_datum} AS DATE)
 	group by sif_str) zadnji
 ON
