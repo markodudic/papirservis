@@ -1083,7 +1083,7 @@ if (x_koda!=null && ((String)x_koda).length() > 0) {
 <% } %>
 <% if (recActual > 0) { %>
 <p>
-Prejemnik:<input type="text" name="receiver"><br>
+Prejemnik:<input type="text" name="receiver" size="150" maxlength="255"><br>
 Obvestilo:<input type="text" name="msg" size="150" maxlength="255"><br>
 <input type="button" name="btnmail" value="Pošlji izbrane" onClick='mail(this.form.key, this.form.receiver.value, this.form.msg.value, "<%out.print(session.getAttribute("letoTabela")); %>", "<%out.print(session.getAttribute("papirservis1_status_Name")); %>", "<%out.print(session.getAttribute("papirservis1_status_Mail")); %>")'></p>
 <% } %>
