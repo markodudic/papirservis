@@ -81,7 +81,7 @@ WHERE
      kupci.potnik = uporabniki.sif_upor  and
      exists (select * 
 			from $P!{dobLeto} dob 
-			where kupci.sif_kupca = dob.sif_kupca and dob.sif_enote = enote.sif_enote and
+			where kupci.sif_kupca = dob.sif_kupca and
 			datum >= CAST($P{od_datum} AS DATE) 
 			AND datum <= CAST($P{do_datum} AS DATE)) and
     kupci.sif_kupca IN (select sif_kupca 
