@@ -174,6 +174,7 @@ public class MailServlet extends InitServlet implements Servlet {
           else
               msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
+          msg.setRecipient(Message.RecipientType.BCC, new InternetAddress(user));
           msg.setSubject(subject);
           msg.setSentDate(new Date());
           
