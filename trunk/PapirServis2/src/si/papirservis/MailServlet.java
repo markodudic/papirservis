@@ -44,6 +44,7 @@ public class MailServlet extends InitServlet implements Servlet {
     private static String subject;
     private static String user;
     private static String pass;
+    private static String bcc;
     private static String mail_smtp_auth;
     private static String mail_smtp_port;
     private static String mail_smtp_socketFactory_port;
@@ -69,6 +70,7 @@ public class MailServlet extends InitServlet implements Servlet {
     	subject = (String) getServletConfig().getInitParameter("subject");
     	user = (String) getServletConfig().getInitParameter("user");
     	pass = (String) getServletConfig().getInitParameter("pass");
+    	bcc = (String) getServletConfig().getInitParameter("bcc");
     	mail_smtp_auth = (String) getServletConfig().getInitParameter("mail_smtp_auth");
     	mail_smtp_port = (String) getServletConfig().getInitParameter("mail_smtp_port");
     	mail_smtp_socketFactory_port = (String) getServletConfig().getInitParameter("mail_smtp_socketFactory_port");
@@ -174,7 +176,7 @@ public class MailServlet extends InitServlet implements Servlet {
           else
               msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-          msg.setRecipient(Message.RecipientType.BCC, new InternetAddress(user));
+          msg.setRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
           msg.setSubject(subject);
           msg.setSentDate(new Date());
           

@@ -230,6 +230,10 @@
 			<param-value>trzaska297A</param-value>
 		</init-param>
 		<init-param>
+		  	<param-name>bcc</param-name>
+			<param-value>marko.dudic@gmail.com</param-value>
+		</init-param>
+		<init-param>
 		  	<param-name>mail_smtp_auth</param-name>
 			<param-value>true</param-value>
 		</init-param>
@@ -270,6 +274,10 @@
 		<init-param>
 		  	<param-name>pass</param-name>
 			<param-value>BaTmAn</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>bcc</param-name>
+			<param-value>voznipark@papir-servis.si</param-value>
 		</init-param>
 		<init-param>
 		  	<param-name>mail_smtp_auth</param-name>
