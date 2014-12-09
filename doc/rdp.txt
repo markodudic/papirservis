@@ -1,7 +1,7 @@
---star strežnik
+--star streï¿½nik
 195.95.158.147:33898
 sledenje/sled3321
 
---nov strežnik
+--nov streï¿½nik
 195.95.158.147:33897
 sledenje/Sl3d3nj3
