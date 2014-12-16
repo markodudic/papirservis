@@ -43,6 +43,8 @@
      dob.`sif_sof` AS sofer_sif_sof,
      dob.`kamion` AS kamion_kamion,
      dob.`sif_kam` AS kamion_sif_kam,
+     kamion.registrska as kamion_registrska,
+     kamion.arso_prvz_st as arso_prvz_st,
      dob.`stev_km` AS stev_km,
      dob.`stev_ur` AS stev_ur,
      dob.`stev_km_norm` AS stev_km_norm,
@@ -61,7 +63,9 @@
      stranke.`opomba` AS stranke_opomba,
      uporabniki.ime_in_priimek as potnik,
      skup.tekst as skupina,
-     kupci.arso_prenos
+     kupci.arso_prenos,
+     kupci.arso_pslj_st,
+     stranke.arso_odp_loc_id
 FROM
      (select *, max(dob.zacetek) from $P!{dobLeto} dob where  dob.st_dob =  $P{st_dob} group by st_dob) dob,
       (SELECT stranke.*
@@ -75,9 +79,14 @@ FROM
      (SELECT osnovna.* 
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os ) zadnji
 	WHERE osnovna.sif_os = zadnji.sif_os and 
-	     osnovna.zacetek = zadnji.datum) osnovna
+	     osnovna.zacetek = zadnji.datum) osnovna,
+     (SELECT kamion.* 
+	FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam ) zadnji
+	WHERE kamion.sif_kam = zadnji.sif_kam and 
+	     kamion.zacetek = zadnji.datum) kamion
 WHERE 
      dob.`sif_str` = stranke.`sif_str` and
+     dob.`sif_kam` = kamion.`sif_kam` and
      stranke.`sif_kupca` = kupci.`sif_kupca` and
      kupci.skupina = skup.skupina and
      kupci.potnik = uporabniki.sif_upor and
@@ -90,6 +99,8 @@ WHERE
 	<field name="sofer_sif_sof" class="java.lang.String"/>
 	<field name="kamion_kamion" class="java.lang.String"/>
 	<field name="kamion_sif_kam" class="java.lang.String"/>
+	<field name="kamion_registrska" class="java.lang.String"/>
+	<field name="arso_prvz_st" class="java.lang.Integer"/>
 	<field name="stev_km" class="java.lang.Integer"/>
 	<field name="stev_ur" class="java.lang.Double"/>
 	<field name="stev_km_norm" class="java.lang.Integer"/>
@@ -109,6 +120,8 @@ WHERE
 	<field name="potnik" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>
 	<field name="arso_prenos" class="java.lang.Boolean"/>
+	<field name="arso_pslj_st" class="java.lang.Integer"/>
+	<field name="arso_odp_loc_id" class="java.lang.Integer"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -145,7 +158,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="313"
+						y="361"
 						width="391"
 						height="0"
 						key="line-11"
@@ -219,7 +232,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
-						y="92"
+						y="130"
 						width="84"
 						height="17"
 						forecolor="#000000"
@@ -235,7 +248,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="92"
+						y="130"
 						width="141"
 						height="17"
 						forecolor="#000000"
@@ -251,14 +264,14 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="184"
-						y="250"
+						y="273"
 						width="341"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField"
 						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
@@ -267,7 +280,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="250"
+						y="273"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -278,19 +291,19 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[ŠT. ŠOFERJA ]]></text>
+				<text><![CDATA[VOZNIK]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="134"
-						y="250"
+						y="273"
 						width="42"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField"
 						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
@@ -299,7 +312,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="274"
+						y="297"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -310,12 +323,12 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[ŠT. KAMIONA]]></text>
+				<text><![CDATA[PREVOZNIK]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="321"
+						y="369"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -331,7 +344,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="345"
+						y="393"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -347,9 +360,9 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="394"
+						y="437"
 						width="123"
-						height="32"
+						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText"
@@ -358,12 +371,12 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[OSTALI STROŠKI cestnina, parkiranje]]></text>
+				<text><![CDATA[OSTALI STROŠKI]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
-						y="116"
+						y="149"
 						width="367"
 						height="17"
 						forecolor="#000000"
@@ -379,7 +392,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
-						y="140"
+						y="168"
 						width="367"
 						height="17"
 						forecolor="#000000"
@@ -395,7 +408,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="367"
+						y="415"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -406,12 +419,12 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[ČAS (ura): ]]></text>
+				<text><![CDATA[PORABLJEN ČAS]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="158"
-						y="162"
+						y="187"
 						width="52"
 						height="17"
 						forecolor="#000000"
@@ -427,7 +440,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="433"
+						y="458"
 						width="123"
 						height="17"
 						forecolor="#000000"
@@ -443,7 +456,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="216"
-						y="162"
+						y="187"
 						width="309"
 						height="17"
 						forecolor="#000000"
@@ -459,7 +472,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="235"
+						y="267"
 						width="534"
 						height="0"
 						key="line-1"
@@ -469,7 +482,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="485"
+						y="510"
 						width="534"
 						height="0"
 						key="line-2"
@@ -505,7 +518,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="179"
+						y="211"
 						width="534"
 						height="0"
 						key="line-4"
@@ -515,7 +528,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="134"
-						y="433"
+						y="458"
 						width="391"
 						height="42"
 						forecolor="#000000"
@@ -523,7 +536,7 @@ WHERE
 						key="textField-2"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement>
+					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
@@ -531,7 +544,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="426"
+						y="454"
 						width="391"
 						height="0"
 						key="line-5"
@@ -541,9 +554,9 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="577"
+						y="572"
 						width="534"
-						height="54"
+						height="66"
 						key="staticText-4"
 						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
@@ -551,7 +564,8 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Papir servisu d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov.]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Salomon d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. 
+Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000 .]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -572,7 +586,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="141"
-						y="92"
+						y="130"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -620,7 +634,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="141"
-						y="116"
+						y="149"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -636,7 +650,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="141"
-						y="140"
+						y="168"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -652,7 +666,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="141"
-						y="162"
+						y="187"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -668,7 +682,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="250"
+						y="273"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -684,7 +698,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="274"
+						y="297"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -700,7 +714,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="321"
+						y="369"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -716,7 +730,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="345"
+						y="393"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -732,7 +746,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="367"
+						y="415"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -748,7 +762,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="409"
+						y="437"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -764,7 +778,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="123"
-						y="433"
+						y="458"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -780,7 +794,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="338"
+						y="386"
 						width="391"
 						height="0"
 						key="line-8"
@@ -790,8 +804,8 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="359"
-						width="280"
+						y="409"
+						width="390"
 						height="0"
 						key="line-9"
 						positionType="Float"/>
@@ -800,8 +814,8 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="384"
-						width="280"
+						y="431"
+						width="389"
 						height="0"
 						key="line-10"
 						positionType="Float"/>
@@ -906,7 +920,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="20"
-						y="186"
+						y="218"
 						width="150"
 						height="17"
 						forecolor="#000000"
@@ -922,7 +936,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="170"
-						y="186"
+						y="218"
 						width="150"
 						height="17"
 						forecolor="#000000"
@@ -938,7 +952,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="320"
-						y="186"
+						y="218"
 						width="14"
 						height="17"
 						forecolor="#000000"
@@ -954,7 +968,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="340"
-						y="186"
+						y="218"
 						width="130"
 						height="17"
 						forecolor="#000000"
@@ -970,23 +984,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="516"
-						width="530"
-						height="42"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-7"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="496"
+						y="515"
 						width="530"
 						height="17"
 						forecolor="#000000"
@@ -999,75 +997,11 @@ WHERE
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="484"
-						y="345"
-						width="42"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-9"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stev_km_norm}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="420"
-						y="345"
-						width="64"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-28"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[KM NORM:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="420"
-						y="367"
-						width="64"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-29"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[UR NORM:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="484"
-						y="367"
-						width="42"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-10"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{stev_ur_norm}]]></textFieldExpression>
-				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="296"
+						y="344"
 						width="525"
 						height="25"
 						forecolor="#FFFFFF"
@@ -1086,7 +1020,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="296"
+						y="344"
 						width="124"
 						height="17"
 						forecolor="#000000"
@@ -1102,7 +1036,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="124"
-						y="296"
+						y="344"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -1118,14 +1052,14 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="134"
-						y="274"
+						y="297"
 						width="42"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-11"
 						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
@@ -1135,14 +1069,14 @@ WHERE
 					<reportElement
 						mode="Transparent"
 						x="184"
-						y="274"
-						width="341"
+						y="297"
+						width="233"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-12"
 						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" isUnderline="false" pdfEncoding ="Cp1250"/>
 					</textElement>
@@ -1151,7 +1085,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="291"
+						y="314"
 						width="391"
 						height="0"
 						key="line-12"
@@ -1161,18 +1095,34 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="134"
-						y="267"
+						y="290"
 						width="391"
 						height="0"
 						key="line-13"
 						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="452"
+						y="297"
+						width="73"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-13"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_prvz_st}]]></textFieldExpression>
+				</textField>
 				<staticText>
 					<reportElement
-						x="301"
+						x="0"
 						y="92"
-						width="11"
+						width="141"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1182,13 +1132,13 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[ : ]]></text>
+				<text><![CDATA[ARSO ŠT. STRANKE]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="241"
+						x="141"
 						y="92"
-						width="60"
+						width="11"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1198,24 +1148,130 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[STATUS]]></text>
+				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="321"
+						x="158"
 						y="92"
-						width="203"
+						width="142"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-13"
+						key="textField-14"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{arso_prenos}.booleanValue() ? "D" : "N"]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_pslj_st}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="111"
+						width="141"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-38"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ARSO ŠT. LOKACIJE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="141"
+						y="111"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-39"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="158"
+						y="111"
+						width="142"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-15"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_odp_loc_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="321"
+						width="123"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-40"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[REGISTRSKA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="123"
+						y="321"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-41"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="134"
+						y="321"
+						width="177"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-16"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kamion_registrska}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="134"
+						y="338"
+						width="391"
+						height="0"
+						key="line-14"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</detail>
 		<columnFooter>
