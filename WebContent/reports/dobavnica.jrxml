@@ -158,7 +158,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="385"
+						y="363"
 						width="391"
 						height="0"
 						key="line-11"
@@ -328,7 +328,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="385"
+						y="363"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -344,7 +344,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="409"
+						y="387"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -360,7 +360,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="453"
+						y="431"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -408,7 +408,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="431"
+						y="409"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -440,7 +440,7 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="474"
+						y="452"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -482,7 +482,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="521"
+						y="499"
 						width="534"
 						height="0"
 						key="line-2"
@@ -528,7 +528,7 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="141"
-						y="474"
+						y="452"
 						width="391"
 						height="42"
 						forecolor="#000000"
@@ -544,7 +544,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="470"
+						y="448"
 						width="391"
 						height="0"
 						key="line-5"
@@ -714,7 +714,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="385"
+						y="363"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -730,7 +730,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="409"
+						y="387"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -746,7 +746,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="431"
+						y="409"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -762,7 +762,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="453"
+						y="431"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -778,7 +778,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="474"
+						y="452"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -794,7 +794,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="402"
+						y="380"
 						width="391"
 						height="0"
 						key="line-8"
@@ -804,7 +804,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="426"
+						y="404"
 						width="390"
 						height="0"
 						key="line-9"
@@ -814,7 +814,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="448"
+						y="426"
 						width="389"
 						height="0"
 						key="line-10"
@@ -984,9 +984,9 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="522"
+						y="500"
 						width="530"
-						height="42"
+						height="58"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-8"
@@ -1001,7 +1001,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="360"
+						y="338"
 						width="525"
 						height="25"
 						forecolor="#FFFFFF"
@@ -1020,7 +1020,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="0"
-						y="360"
+						y="338"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -1036,7 +1036,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="360"
+						y="338"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -1201,7 +1201,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="0"
-						y="339"
+						y="317"
 						width="135"
 						height="17"
 						forecolor="#000000"
@@ -1217,7 +1217,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<staticText>
 					<reportElement
 						x="130"
-						y="339"
+						y="317"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -1233,49 +1233,17 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="356"
+						y="334"
 						width="391"
 						height="0"
 						key="line-14"
 						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-				<staticText>
-					<reportElement
-						x="0"
-						y="318"
-						width="135"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-42"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[REGISTRSKA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="130"
-						y="318"
-						width="11"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-43"
-						positionType="Float"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ : ]]></text>
-				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="141"
-						y="339"
+						y="317"
 						width="390"
 						height="17"
 						forecolor="#000000"
@@ -1288,16 +1256,6 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_prvz_st}]]></textFieldExpression>
 				</textField>
-				<line direction="TopDown">
-					<reportElement
-						x="140"
-						y="335"
-						width="391"
-						height="0"
-						key="line-15"
-						positionType="Float"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
 			</band>
 		</detail>
 		<columnFooter>
