@@ -756,7 +756,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="359"
+						y="351"
 						width="391"
 						height="0"
 						key="line-6"
@@ -1106,7 +1106,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 						mode="Transparent"
 						x="0"
 						y="334"
-						width="525"
+						width="534"
 						height="25"
 						forecolor="#FFFFFF"
 						backcolor="#FFFFFF"
