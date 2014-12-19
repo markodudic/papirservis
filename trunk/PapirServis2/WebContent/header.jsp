@@ -21,6 +21,7 @@ final int ewDriveOut = 2;
 final int ewSell = 4;
 final int ewProcess = 8;
 final int ewCalculations = 16;
+final int ewRecikel = 32;
 
 final int ewAdmin = 16;
 
@@ -114,6 +115,16 @@ if ((meni & ewProcess) == ewProcess){
 <%}%>
 
 <%
+if ((meni & ewRecikel) == ewRecikel){
+%>
+			<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">EMBALA&#381NINA</span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrlist.jsp?cmd=top">Zavezanci</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrlist.jsp?cmd=top">Embala&#382e</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrlist.jsp?cmd=top">Embala&#382nina</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
+<%}%>
+
+<%
 if ((meni & ewCalculations) == ewCalculations){
 %>
 			<% if (Integer.parseInt(reports) == 1) { %>	
@@ -125,6 +136,9 @@ if ((meni & ewCalculations) == ewCalculations){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport">&nbsp;</span></td></tr>
 			<% } %>
 <%}%>
+
+
+
 
 <%
 if ((ewCurAdmin & ewAdmin) == ewAdmin) {

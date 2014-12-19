@@ -1,0 +1,28 @@
+//po importu zavezancev iz csv datoteke
+impoert kot latin2
+-----------------------
+update recikel_zavezanci2015 set naziv = replace(naziv, '?', 'Č');
+update recikel_zavezanci2015 set naslov = replace(naslov, '?', 'č');
+update recikel_zavezanci2015 set kraj = replace(kraj, '?', 'č');
+update recikel_zavezanci2015 set kontaktna_oseba = replace(kontaktna_oseba, '?', 'č');
+update recikel_zavezanci2015 set opombe_kontaktna = replace(opombe_kontaktna, '?', 'č');
+update recikel_zavezanci2015 set odgovorna_oseba = replace(odgovorna_oseba, '?', 'č');
+update recikel_zavezanci2015 set opombe_odgovorna = replace(opombe_odgovorna, '?', 'č');
+
+datume importamo kot varchar in jih pol zamenjamo
+----------------------------------------------------
+update  recikel_zavezanci2015
+set datum_pricetka_pogodbe = 
+CONCAT(substr(datum_pricetka_pogodbe, instr(datum_pricetka_pogodbe, '.20')+1), '.',
+substr(datum_pricetka_pogodbe, instr(datum_pricetka_pogodbe, '.')+1, instr(substr(datum_pricetka_pogodbe, instr(datum_pricetka_pogodbe, '.')+1),'.')-1 ), '.',
+substr(datum_pricetka_pogodbe, 1, instr(datum_pricetka_pogodbe, '.')-1));
+
+update  recikel_zavezanci2015
+set datum_sklenitve_pogodbe = 
+CONCAT(substr(datum_sklenitve_pogodbe, instr(datum_sklenitve_pogodbe, '.20')+1), '.',
+substr(datum_sklenitve_pogodbe, instr(datum_sklenitve_pogodbe, '.')+1, instr(substr(datum_sklenitve_pogodbe, instr(datum_sklenitve_pogodbe, '.')+1),'.')-1 ), '.',
+substr(datum_sklenitve_pogodbe, 1, instr(datum_sklenitve_pogodbe, '.')-1));
+
+ALTER TABLE `recikel_zavezanci2015`
+	CHANGE COLUMN `datum_pricetka_pogodbe` `datum_pricetka_pogodbe` DATE NULL DEFAULT NULL AFTER `interval_pavsala`,
+	CHANGE COLUMN `datum_sklenitve_pogodbe` `datum_sklenitve_pogodbe` DATE NULL DEFAULT NULL AFTER `datum_pricetka_pogodbe`;
