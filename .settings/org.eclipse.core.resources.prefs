@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/web.xml=UTF-8
+encoding//WebContent/header.jsp=UTF-8
 encoding//src/com/sledenje/ws/AuToken.java=UTF-8
 encoding//src/com/sledenje/ws/Company.java=UTF-8
 encoding//src/com/sledenje/ws/DailyAllowance.java=UTF-8
