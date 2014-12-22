@@ -70,7 +70,9 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 				 	session.setAttribute("cenastr_kupac",  "naziv");
 					session.setAttribute("osnovna_show",  "osnovna");
 
-					session.setAttribute("material_okolje_prikaz_material","koda");
+				 	session.setAttribute("recikelembalaze_koda",  "material");
+
+				 	session.setAttribute("material_okolje_prikaz_material","koda");
 					session.setAttribute("material_okolje_prikaz_okolje","koda");
 
 					session.setAttribute("vse",  rs.getString("vse"));
