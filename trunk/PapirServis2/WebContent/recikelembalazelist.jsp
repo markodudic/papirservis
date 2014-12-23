@@ -297,6 +297,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("naziv")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("porocilo")) ? "<b>" : ""%>
+<a href="recikelembalazelist.jsp?order=<%= java.net.URLEncoder.encode("naziv","utf-8") %>">Poročilo&nbsp;<% if (OrderBy != null && OrderBy.equals("porocilo")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaze_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaze_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("porocilo")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("ewc_koda")) ? "<b>" : ""%>
 <a href="recikelembalazelist.jsp?order=<%= java.net.URLEncoder.encode("ewc_koda","utf-8") %>">Koda&nbsp;<% if (OrderBy != null && OrderBy.equals("ewc_koda")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaze_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaze_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("ewc_koda")) ? "</b>" : ""%>
@@ -355,6 +360,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_id = "";
 	String x_tar_st = "";
 	String x_naziv = "";
+	String x_porocilo = "";
 	String x_koda = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
@@ -377,6 +383,12 @@ while (rs.next() && recCount < stopRec) {
 		x_naziv = rs.getString("naziv");
 	}else{
 		x_naziv = "";
+	}
+
+	if (rs.getString("porocilo") != null){
+		x_porocilo = rs.getString("porocilo");
+	}else{
+		x_porocilo = "";
 	}
 
 	// material_koda
@@ -438,6 +450,7 @@ if (key != null && key.length() > 0) {
 <% } %>
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td><% out.print(x_naziv); %>&nbsp;</td>
+		<td><% out.print(x_porocilo); %>&nbsp;</td>
 		<td><% out.print(x_koda); %>&nbsp;</td>
 		<td><% out.print(x_material); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>

@@ -56,6 +56,7 @@ if (a == null || a.length() == 0) {
 String x_tar_st = "";
 String x_naziv = "";
 String x_koda = "";
+String x_porocilo = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
 String x_material = "";
@@ -95,6 +96,11 @@ try{
 		}else{
 			x_naziv = "";
 		}
+		if (rs.getString("porocilo") != null){
+			x_porocilo = rs.getString("porocilo");
+		}else{
+			x_porocilo = "";
+		}
 		if (rs.getString("ewc_koda") != null){
 			x_koda = rs.getString("ewc_koda");
 		}else{
@@ -121,6 +127,11 @@ try{
 			x_naziv = (String) request.getParameter("x_naziv");
 		}else{
 			x_naziv = "";
+		}
+		if (request.getParameter("x_porocilo") != null){
+			x_porocilo = (String) request.getParameter("x_porocilo");
+		}else{
+			x_porocilo = "";
 		}
 		if (request.getParameter("x_zacetek") != null){
 			x_zacetek = (String) request.getParameter("x_zacetek");
@@ -178,7 +189,14 @@ try{
 			rs.updateString("naziv",tmpfld);
 		}
 
-
+		tmpfld = ((String) x_porocilo).trim();
+		if (tmpfld == null) {
+			rs.updateNull("porocilo");
+		} else {
+			rs.updateString("porocilo",tmpfld);
+		}
+		
+		
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 		
@@ -255,6 +273,35 @@ x_kodaList.append("</select>");
 		<td class="ewTableHeader">Naziv&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_naziv" size="30" value="<%= HTMLEncode((String)x_naziv) %>">&nbsp;</td>
 	</tr>
+	<tr>
+		<td class="ewTableHeader">Poročilo&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="x_porocilo">
+			<%
+				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'recikel_embalaze" + session.getAttribute("leto") + "' AND COLUMN_NAME = 'porocilo'";
+				Statement stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
+					if (rswrk_x_arso_status.next()) {
+						String x_arso_listEnum = HTMLEncode(rswrk_x_arso_status.getString("COLUMN_TYPE"));
+						x_arso_listEnum = x_arso_listEnum.substring(5, x_arso_listEnum.length()-1);
+						String[] x_arso_list = x_arso_listEnum.split(",");
+						for (int i=0; i<x_arso_list.length; i++) {
+							String x_arso_listOption = "<option value=\"" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "\"";
+							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_porocilo)) {
+								x_arso_listOption += " selected";
+							}
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							out.println(x_arso_listOption);			
+						}
+					}
+				rswrk_x_arso_status.close();
+				rswrk_x_arso_status = null;
+				stmtwrk_x_arso_status.close();
+				stmtwrk_x_arso_status = null;
+			%>
+			</select>
+		</td>	
+	</tr>	
 	<tr>
 		<td class="ewTableHeader">Material koda&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_kodaList);%><span class="jspmaker"><a href="<%out.print("recikelembalazeadd.jsp?prikaz_koda=koda");%>">koda</a>&nbsp;<a href="<%out.print("recikelembalazeadd.jsp?prikaz_koda=material");%>">material</a>&nbsp;</td>

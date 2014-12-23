@@ -642,6 +642,14 @@ try{
 		
 		try{
 			rs.insertRow();
+			
+			//za vsakega novega zavezanca dodam vse embalaže
+			strsql = "insert into recikel_embalaznina" + session.getAttribute("leto") + " (id_embalaza, id_zavezanca) " +
+			"select recikel_embalaze" + session.getAttribute("leto") + ".id, recikel_zavezanci" + session.getAttribute("leto") + ".id   " +
+			"from recikel_embalaze" + session.getAttribute("leto") + ", recikel_zavezanci" + session.getAttribute("leto") + " " +
+			"where recikel_zavezanci" + session.getAttribute("leto") + ".st_pogodbe = '"+x_st_pogodbe+"'";
+			
+			stmt.executeUpdate(strsql);
 		}
 		catch(java.sql.SQLException e){
 			System.out.println(e.getMessage());
