@@ -178,7 +178,7 @@ if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
 }
 if (dbwhere.length() > 0) {
-	whereClause = whereClause + " AND (" + dbwhere + ") AND ";
+	whereClause = whereClause + " (" + dbwhere + ") AND ";
 }
 if ((ewCurSec & ewAllowList) != ewAllowList) {
 	whereClause = whereClause + "(0=1) AND ";
