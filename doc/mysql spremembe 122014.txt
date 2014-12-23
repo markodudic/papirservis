@@ -37,4 +37,10 @@ set NEW.kraj = (select kraj from poste where posta = NEW.posta);
 END;
 $$
 /* Delimiter changed to ; */
+
+za vsakega zavezanca dodam vse embalaze
+------------------------------------------
+insert into recikel_embalaznina2015 (id_embalaza, id_zavezanca)
+select recikel_embalaze2015.id, recikel_zavezanci2015.id  from recikel_embalaze2015, recikel_zavezanci2015
+
 	

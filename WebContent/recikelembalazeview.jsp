@@ -51,6 +51,7 @@ if (a == null || a.length() == 0) {
 }
 String x_tar_st = "";
 String x_naziv = "";
+String x_porocilo = "";
 String x_koda = "";
 Object x_zacetek = null;
 String x_uporabnik = "";
@@ -85,6 +86,12 @@ try{
 			x_naziv = "";
 		}
 		
+		if (rs.getString("porocilo") != null){
+			x_porocilo = rs.getString("porocilo");
+		}else{
+			x_porocilo = "";
+		}
+
 		// material_koda
 		if (rs.getString("material") != null){
 			x_material = rs.getString("material");
@@ -131,6 +138,10 @@ function disableSome(EW_this){
 	<tr>
 		<td class="ewTableHeader">Naziv&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_naziv); %>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Poročilo&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print(x_porocilo); %>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">EWC&nbsp;</td>
