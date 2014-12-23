@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="recikelembalazelist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="recikelzavezancilist.jsp"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -30,7 +30,7 @@ ew_SecTable[3] = 8;
 int ewCurSec = 0; // initialise
 ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).intValue();
 if ((ewCurSec & ewAllowDelete) != ewAllowDelete) {
-	response.sendRedirect("recikelembalazelist.jsp"); 
+	response.sendRedirect("recikelzavezancilist.jsp"); 
 	response.flushBuffer(); 
 	return;
 }
@@ -46,7 +46,7 @@ String key = "";
 String [] arRecKey = request.getParameterValues("key");
 String sqlKey = "";
 if (arRecKey == null || arRecKey.length == 0 ) {
-	response.sendRedirect("recikelembalazelist.jsp");
+	response.sendRedirect("recikelzavezancilist.jsp");
 	response.flushBuffer();
 	return;
 }
@@ -73,21 +73,21 @@ try{
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	ResultSet rs = null;
 	if (a.equals("I")){ // Display
-		String strsql = "select * from recikel_embalaze" + session.getAttribute("leto") + " left join okolje on ewc_koda = koda  left join uporabniki on uporabnik = sif_upor WHERE " + sqlKey;
+		String strsql = "select * from recikel_zavezanci" + session.getAttribute("leto") + " left join uporabniki on uporabnik = sif_upor WHERE " + sqlKey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
-			response.sendRedirect("recikelembalazelist.jsp");
+			response.sendRedirect("recikelzavezancilist.jsp");
 		}else{
 			rs.beforeFirst();
 		}
 	}else if (a.equals("D")){ // Delete
-		String strsql = "DELETE FROM recikel_embalaze" + session.getAttribute("leto") + " WHERE " + sqlKey;
+		String strsql = "DELETE FROM recikel_zavezanci" + session.getAttribute("leto") + " WHERE " + sqlKey;
 		stmt.executeUpdate(strsql);
 		stmt.close();
 		stmt = null;
 		conn.close();
 		conn = null;
-		response.sendRedirect("recikelembalazelist.jsp");
+		response.sendRedirect("recikelzavezancilist.jsp");
 		response.flushBuffer();
 		return;
 	}
@@ -98,18 +98,19 @@ function disableSome(EW_this){
 }
 </script>
 
-<p><span class="jspmaker">Izbriši iz tabele: recikel embalaže<br><br><a href="recikelembalazelist.jsp">Nazaj na pregled</a></span></p>
-<form action="recikelembalazedelete.jsp" method="post">
+<p><span class="jspmaker">Izbriši iz tabele: recikel zavezanci<br><br><a href="recikelzavezancilist.jsp">Nazaj na pregled</a></span></p>
+<form action="recikelzavezancidelete.jsp" method="post">
 <p>
 <input type="hidden" name="a" value="D">
 <table class="ewTable">
 	<tr class="ewTableHeader">
-		<td>Tar št.&nbsp;</td>
+		<td>Št. pogodbe&nbsp;</td>
 		<td>Naziv&nbsp;</td>
-		<td>Koda&nbsp;</td>
-		<td>Material&nbsp;</td>
+		<td>Naslov&nbsp;</td>
+		<td>Kraj&nbsp;</td>
+		
 		<td>Začetek&nbsp;</td>
-		<td>Uporabnik&nbsp;</td>		
+		<td>Uporabnik&nbsp;</td>
 	</tr>
 <%
 int recCount = 0;
@@ -124,18 +125,18 @@ while (rs.next()){
 %>
 <%
 	String x_id = "";
-	String x_tar_st = "";
+	String x_st_pogodbe = "";
 	String x_naziv = "";
-	String x_koda = "";
+	String x_naslov = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
-	String x_material = "";
+	String x_kraj = "";
 	
 	
-	if (rs.getString("tar_st") != null){
-		x_tar_st = rs.getString("tar_st");
+	if (rs.getString("st_pogodbe") != null){
+		x_st_pogodbe = rs.getString("st_pogodbe");
 	}else{
-		x_tar_st = "";
+		x_st_pogodbe = "";
 	}
 	
 	// sif_kupca
@@ -145,18 +146,18 @@ while (rs.next()){
 		x_naziv = "";
 	}
 	
-	// material_koda
-	if (rs.getString("material") != null){
-		x_material = rs.getString("material");
+	// kraj_naslov
+	if (rs.getString("kraj") != null){
+		x_kraj = rs.getString("kraj");
 	}else{
-		x_material = "";
+		x_kraj = "";
 	}
 	
 	// skupina
-	if (rs.getString("koda") != null){
-		x_koda = rs.getString("koda");
+	if (rs.getString("naslov") != null){
+		x_naslov = rs.getString("naslov");
 	}else{
-		x_koda = "";
+		x_naslov = "";
 	}
 	
 	// zacetek
@@ -176,10 +177,10 @@ while (rs.next()){
 	<tr class="<%= rowclass %>">
 	<% key =  arRecKey[recCount-1]; %>
 	<input type="hidden" name="key" value="<%= HTMLEncode(key) %>">
-		<td class="<%= rowclass %>"><% out.print(x_tar_st); %>&nbsp;</td>
+		<td class="<%= rowclass %>"><% out.print(x_st_pogodbe); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(x_naziv); %>&nbsp;</td>
-		<td class="<%= rowclass %>"><% out.print(x_koda); %>&nbsp;</td>
-		<td class="<%= rowclass %>"><% out.print(x_material); %>&nbsp;</td>
+		<td class="<%= rowclass %>"><% out.print(x_naslov); %>&nbsp;</td>
+		<td class="<%= rowclass %>"><% out.print(x_kraj); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td class="<%= rowclass %>"><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
   </tr>

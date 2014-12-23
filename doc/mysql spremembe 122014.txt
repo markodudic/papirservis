@@ -26,3 +26,15 @@ substr(datum_sklenitve_pogodbe, 1, instr(datum_sklenitve_pogodbe, '.')-1));
 ALTER TABLE `recikel_zavezanci2015`
 	CHANGE COLUMN `datum_pricetka_pogodbe` `datum_pricetka_pogodbe` DATE NULL DEFAULT NULL AFTER `interval_pavsala`,
 	CHANGE COLUMN `datum_sklenitve_pogodbe` `datum_sklenitve_pogodbe` DATE NULL DEFAULT NULL AFTER `datum_pricetka_pogodbe`;
+	
+/* Delimiter changed to $$ */	
+CREATE DEFINER=`root`@`%` TRIGGER `recikel_zavezanci2015_insert` BEFORE INSERT ON `recikel_zavezanci2015` FOR EACH ROW BEGIN
+set NEW.kraj = (select kraj from poste where posta = NEW.posta);
+END;
+
+CREATE DEFINER=`root`@`%` TRIGGER `recikel_zavezanci2015_update` BEFORE UPDATE ON `recikel_zavezanci2015` FOR EACH ROW BEGIN
+set NEW.kraj = (select kraj from poste where posta = NEW.posta);
+END;
+$$
+/* Delimiter changed to ; */
+	
