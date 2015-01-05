@@ -72,7 +72,8 @@ function  EW_checkMyForm(EW_this)
 							"/reports/rekapitulacija_prodaja_skupaj",
 							"/reports/kupci_izpis",
 							"/reports/dobavnice_km_ure",
-							"/reports/sistem_embalaza_nova"
+							"/reports/sistem_embalaza_nova",
+							"/reports/embalaznina_racun"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -97,8 +98,6 @@ function  EW_checkMyForm(EW_this)
 	//preberem vse kupce iz baze
 	StringBuffer x_sif_kupcaList = null;
 	
-	String cbo_x_sif_kupca_js = "";
-
 	if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15))
 	{
 		x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
@@ -126,6 +125,35 @@ function  EW_checkMyForm(EW_this)
 		stmtwrk_x_sif_kupca.close();
 		stmtwrk_x_sif_kupca = null;
 		x_sif_kupcaList.append("</select>");
+	}
+
+	StringBuffer x_sif_zavezanciList = null;
+	
+	if ((reportID == 25))
+	{
+		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\"><option value=\"\">Izberi</option>");
+		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv " +
+									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
+									"ORDER BY naziv ASC";
+		
+		Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
+		
+		int rowcntwrk_x_sif_kupca = 0;
+		while (rswrk_x_sif_kupca.next()) {
+			String tmpSifra = rswrk_x_sif_kupca.getString("st_pogodbe");
+			x_sif_zavezanciList.append("<option value=\"").append(tmpSifra).append("\"");
+			String tmpValue_x_sif_kupca = "";
+			String tmpNaziv = rswrk_x_sif_kupca.getString("naziv");
+			if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
+			x_sif_zavezanciList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
+			rowcntwrk_x_sif_kupca++;
+		}
+		rswrk_x_sif_kupca.close();
+		rswrk_x_sif_kupca = null;
+		stmtwrk_x_sif_kupca.close();
+		stmtwrk_x_sif_kupca = null;
+		x_sif_zavezanciList.append("</select>");
 	}
 
 	
@@ -399,6 +427,12 @@ function  EW_checkMyForm(EW_this)
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
 	</tr>
 	<%}%>
+	<%if ((reportID == 25)) {%>
+	<tr>
+		<td class="ewTableHeader">&#352;ifra zavezanca&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_zavezanciList);%>&nbsp;</td>
+	</tr>
+	<%}%>
 	<%	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24))  {%>
 	<tr>
 		<td class="ewTableHeader">Nadenota&nbsp;</td>
@@ -466,6 +500,50 @@ function  EW_checkMyForm(EW_this)
 		</td>
 	</tr>
 	<%}%>
+
+	<%if ((reportID == 25)) {%>
+	<tr>
+		<td class="ewTableHeader">Datum opravljene storitve:&nbsp;</td>
+		<td class="ewTableAltRow">
+			<input type="text" name="opravljena_storitva" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum opravljene storitve" onClick="popUpCalendar(this, this.form.opravljena_storitva,'dd.mm.yyyy');return false;">&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Datum računa:&nbsp;</td>
+		<td class="ewTableAltRow">
+			<input type="text" name="datum_racuna" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum računa" onClick="popUpCalendar(this, this.form.datum_racuna,'dd.mm.yyyy');return false;">&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Stroškovno mesto:&nbsp;</td>
+		<td class="ewTableAltRow">
+			<input type="text" name="stroskovno_mesto" value="1001">&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Način obračuna:&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="nacin_obracuna" style="width:100px">
+				<option value="MP">MP</option>
+				<option value="MD">MD</option>
+				<option value="QP">QP</option>
+				<option value="QD">QD</option>
+				<option value="LP">LP</option>
+				<option value="LD">LD</option>
+			</select>&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Tip računa:&nbsp;</td>
+		<td class="ewTableAltRow">
+    		<INPUT type="radio" name="racun" value="0" checked>Obračun
+    		<INPUT type="radio" name="racun" value="1">Poračun
+		</td>
+	</tr>
+	<%}%>
+
 	<%if ((reportID == 14) || (reportID == 18)) {%>
 	<!-- tr>
 		<td class="ewTableHeader">Sortiranje:&nbsp;</td>

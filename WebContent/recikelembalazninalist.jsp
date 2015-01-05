@@ -64,14 +64,14 @@ if (pSearch != null && pSearch.length() > 0) {
 		for (int i = 0; i < arpSearch.length; i++){
 			String kw = arpSearch[i].trim();
 			b_search = b_search + "(";
-			b_search = b_search + "`st_pogodbe` LIKE '%" + kw + "%' OR ";
-			b_search = b_search + "`naziv` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "st_pogodbe LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "c.naziv LIKE '%" + kw + "%' OR ";
 			if (b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) { b_search = b_search.substring(0,b_search.length()-4);}
 			b_search = b_search + ") " + pSearchType + " ";
 		}
 	}else{
-		b_search = b_search + "`st_pogodbe` LIKE '%" + pSearch + "%' OR ";
-		b_search = b_search + "`naziv` LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "st_pogodbe LIKE '%" + pSearch + "%' OR ";
+		b_search = b_search + "c.naziv LIKE '%" + pSearch + "%' OR ";
 	}
 }
 if (b_search.length() > 4 && b_search.substring(b_search.length()-4,b_search.length()).equals(" OR ")) {b_search = b_search.substring(0, b_search.length()-4);}

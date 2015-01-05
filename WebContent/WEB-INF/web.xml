@@ -56,6 +56,10 @@
     <param-value>c://projects//monolit//papirservis//WebContent//images//kovine.jpg</param-value>
   </context-param>
   <context-param>
+    <param-name>logoRecikelPdf</param-name>
+    <param-value>c://projects//monolit//papirservis//WebContent//images//recikel.jpg</param-value>
+  </context-param>
+  <context-param>
 	 <param-name>SledenjeServerURL</param-name>
 	 <param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
   </context-param>
