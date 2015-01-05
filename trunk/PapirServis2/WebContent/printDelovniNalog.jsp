@@ -60,6 +60,17 @@ function disableSome(EW_this){
 		x_sif_kupca = "-1"; 
 	}
 
+    String sif_zavezanca = request.getParameter("x_sif_zavezanca");
+    if ((sif_zavezanca != null) && (sif_zavezanca != ""))
+    {
+   		parameters.put("sif_zavezanca", sif_zavezanca);
+    }
+	else
+	{
+		parameters.put("sif_zavezanca", "-1");
+		sif_zavezanca = "-1"; 
+	}
+    
     String x_sif_enote = request.getParameter("x_sif_enote");
 	if ((x_sif_enote != null) && (x_sif_enote != ""))
 	{
@@ -282,6 +293,38 @@ function disableSome(EW_this){
 		 }
 	}
 
+
+	if (reportID == 25)
+	{
+	    String opravljena_storitva = request.getParameter("opravljena_storitva");
+		if (opravljena_storitva != null)
+		{
+			parameters.put("opravljena_storitva", (EW_UnFormatDateTime((String)opravljena_storitva,"EURODATE", locale)).toString());	
+			parameters.put("opravljena_storitva_str", opravljena_storitva);	
+		}
+	    String datum_racuna = request.getParameter("datum_racuna");
+		if (datum_racuna != null)
+		{
+			parameters.put("datum_racuna", (EW_UnFormatDateTime((String)datum_racuna,"EURODATE", locale)).toString());	
+			parameters.put("datum_racuna_str", datum_racuna);	
+		}
+		
+	    String stroskovno_mesto = request.getParameter("stroskovno_mesto");
+	    parameters.put("stroskovno_mesto", stroskovno_mesto);
+		
+	    String nacin_obracuna = request.getParameter("nacin_obracuna");
+	    parameters.put("nacin_obracuna", nacin_obracuna);
+
+	    String racun = request.getParameter("racun");
+	    parameters.put("racun", racun);
+		 if (racun.equals("1")) {
+			 parameters.put("naziv_racun", "Obračun");
+		 } else {
+			 parameters.put("naziv_racun", "Poračun");
+		 }
+		
+	}
+
 	
 	//če je bianco dobavnica preberem naslednjo stevilko in stevilo bianco dobavnic ter obstojeco sifro povecam za stevilo
     String x_stev_bianco = request.getParameter("x_stev_bianco");
@@ -393,9 +436,13 @@ function disableSome(EW_this){
     	
 		if (Integer.parseInt(type) == 1) //PDF
         {
-        	String logo = getServletContext().getInitParameter("logoPdf");
-            parameters.put("picture", logo);
-        	
+        	if (reportID != 25) {
+        		parameters.put("picture", getServletContext().getInitParameter("logoPdf"));
+        	}
+        	else {
+        		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
+        	}
+                  	
         	if ((reportID != 13) && (reportID != 19))
         	{
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
@@ -428,8 +475,12 @@ function disableSome(EW_this){
         }
         else if (Integer.parseInt(type) == 2) //HTML
         {
-        	String logo = getServletContext().getInitParameter("logo");
-            parameters.put("picture", logo);
+        	if (reportID != 25) {
+        		parameters.put("picture", getServletContext().getInitParameter("logoPdf"));
+        	}
+        	else {
+        		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
+        	}
  
 			JRHtmlExporter exporter = new JRHtmlExporter();
 	
