@@ -390,17 +390,11 @@ WHERE
 					<subreportParameter  name="leto">
 						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="SUBREPORT_DIR">
-						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
 						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="racun">
-						<subreportParameterExpression><![CDATA[$P{racun}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
@@ -427,17 +421,11 @@ WHERE
 					<subreportParameter  name="leto">
 						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="SUBREPORT_DIR">
-						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
 						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="racun">
-						<subreportParameterExpression><![CDATA[$P{racun}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -464,17 +452,11 @@ WHERE
 					<subreportParameter  name="leto">
 						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="SUBREPORT_DIR">
-						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
 						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="racun">
-						<subreportParameterExpression><![CDATA[$P{racun}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>

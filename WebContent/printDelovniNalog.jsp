@@ -409,6 +409,7 @@ function disableSome(EW_this){
 	}
 	parameters.put("evListSifra", new Integer(evListSifra));*/
 	
+	parameters.put("leto", session.getAttribute("leto"));
 	parameters.put("dobLeto", session.getAttribute("letoTabela"));
 	parameters.put("prodajaLeto", session.getAttribute("letoTabelaProdaja"));
 	
