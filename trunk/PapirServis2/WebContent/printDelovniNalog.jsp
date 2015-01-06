@@ -444,11 +444,11 @@ function disableSome(EW_this){
         		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
         	}
                   	
-        	if ((reportID != 13) && (reportID != 19))
-        	{
+        	if ((reportID != 13) && (reportID != 19) && (reportID != 25))
+        	{   		
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
-				JasperRunManager.runReportToPdfStream(reportStream, response.getOutputStream(), parameters, conn );
+				JasperRunManager.runReportToPdfStream(reportStream, response.getOutputStream(), parameters, conn );				
         	}
         	else
         	{   	
@@ -544,4 +544,5 @@ function disableSome(EW_this){
 %>
 
 </body>
+
 </html>

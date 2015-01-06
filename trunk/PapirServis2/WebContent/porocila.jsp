@@ -73,7 +73,7 @@ function  EW_checkMyForm(EW_this)
 							"/reports/kupci_izpis",
 							"/reports/dobavnice_km_ure",
 							"/reports/sistem_embalaza_nova",
-							"/reports/embalaznina_racun"
+							"/reports/embalaznina_racuni"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
