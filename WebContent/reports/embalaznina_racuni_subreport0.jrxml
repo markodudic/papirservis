@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="embalaznina_racun_subreport0"
+		 name="embalaznina_racuni_subreport0"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
@@ -29,7 +29,7 @@
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2007-12-01"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="leto" isForPrompting="false" class="java.lang.Integer">
+	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer(2015)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
@@ -81,8 +81,8 @@ from
 	0 NKOE34_CENA,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
-from recikel_embalaznina$P{leto} as a,
-	  recikel_embalaze$P{leto} as b
+from recikel_embalaznina$P!{aleto} as a,
+	  recikel_embalaze$P!{aleto} as b
 where a.id_zavezanca = $P{sif_zavezanca} and
 		a. id_embalaza = b.id and
 		b.porocilo = 'KOE25'
@@ -110,8 +110,8 @@ select b.tar_st, b.naziv,
 	0 NKOE34_CENA,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
-from recikel_embalaznina$P{leto} as a,
-	  recikel_embalaze$P{leto} as b
+from recikel_embalaznina$P!{aleto} as a,
+	  recikel_embalaze$P!{aleto} as b
 where a.id_zavezanca = $P{sif_zavezanca} and
 		a. id_embalaza = b.id and
 		b.porocilo = 'NKOE25'
@@ -139,8 +139,8 @@ select b.tar_st, b.naziv,
 	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) NKOE34_DEJ
-from recikel_embalaznina$P{leto} as a,
-	  recikel_embalaze$P{leto} as b
+from recikel_embalaznina$P!{aleto} as a,
+	  recikel_embalaze$P!{aleto} as b
 where a.id_zavezanca = $P{sif_zavezanca} and
 		a. id_embalaza = b.id and
 		b.porocilo = 'NKOE34'		
@@ -425,7 +425,7 @@ group by BBB.tar_st, BBB.naziv
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="14"  isSplitAllowed="true" >
+			<band height="13"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
@@ -494,7 +494,7 @@ group by BBB.tar_st, BBB.naziv
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="13"
+						y="12"
 						width="535"
 						height="0"
 						key="line-1"/>
@@ -602,7 +602,7 @@ group by BBB.tar_st, BBB.naziv
 						key="element-101"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[SKUPAJ]]></text>
 				</staticText>
@@ -714,7 +714,7 @@ group by BBB.tar_st, BBB.naziv
 						key="element-102"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ZNESEK]]></text>
 				</staticText>

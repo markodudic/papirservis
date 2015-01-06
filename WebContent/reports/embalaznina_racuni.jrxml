@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="embalaznina_racun"
+		 name="embalaznina_racuni"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
@@ -32,7 +32,7 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="leto" isForPrompting="false" class="java.lang.Integer">
+	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer(2015)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
@@ -74,7 +74,7 @@
 	<queryString><![CDATA[SELECT *,
 DATE_FORMAT(ADDDATE(CAST($P{datum_racuna} AS DATE), valuta), '%d.%m.%Y') as zapadlost
 FROM
-     recikel_zavezanci$P{leto}
+     recikel_zavezanci$P!{aleto}
 WHERE 
      st_pogodbe = $P{sif_zavezanca}]]></queryString>
 
@@ -377,9 +377,10 @@ WHERE
 						x="0"
 						y="122"
 						width="535"
-						height="48"
-						key="subreport-2">
-							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}=="MP" || $P{nacin_obracuna}=="QP" || $P{nacin_obracuna}=="LP" || $P{racun}=="1")]]></printWhenExpression>
+						height="12"
+						key="subreport-2"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("MP") || $P{nacin_obracuna}.equals("QP") || $P{nacin_obracuna}.equals("LP") || $P{racun}.equals("1"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
@@ -387,8 +388,8 @@ WHERE
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="leto">
-						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
@@ -400,17 +401,18 @@ WHERE
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racun_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="174"
+						y="139"
 						width="535"
-						height="48"
+						height="12"
 						key="subreport-3"
-						positionType="Float">
-							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}=="MD" || $P{nacin_obracuna}=="QD" || $P{nacin_obracuna}=="LD" || $P{racun}=="1")]]></printWhenExpression>
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("MD") || $P{nacin_obracuna}.equals("QD") || $P{nacin_obracuna}.equals("LD") || $P{racun}.equals("1"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
@@ -418,8 +420,8 @@ WHERE
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="leto">
-						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
@@ -431,17 +433,18 @@ WHERE
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racun_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="226"
+						y="158"
 						width="535"
-						height="48"
+						height="17"
 						key="subreport-4"
-						positionType="Float">
-							<printWhenExpression><![CDATA[new Boolean($P{racun}=="1")]]></printWhenExpression>
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{racun}.equals("1"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
@@ -449,8 +452,8 @@ WHERE
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="leto">
-						<subreportParameterExpression><![CDATA[$P{leto}]]></subreportParameterExpression>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="nacin_obracuna">
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
@@ -462,7 +465,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racun_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>
