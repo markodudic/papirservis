@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="embalaznina_racun_subreport0"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="802"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2007-12-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="leto" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer(2015)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["QP"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2/2013"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="racun" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tip" isForPrompting="false" class="java.lang.Integer"/>
+	<queryString><![CDATA[select AAA.tar_st, AAA.naziv, 
+	if ($P{tip}=0, AAA.KOE25_PAV, if ($P{tip}=1, AAA.KOE25_DEJ, AAA.KOE25_PAV-AAA.KOE25_DEJ)) AS KOE25_KOL,
+	AAA.KOE25_CENA AS KOE25_CENA,
+	if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, if ($P{tip}=1, AAA.KOE25_DEJ*AAA.KOE25_CENA, (AAA.KOE25_PAV-AAA.KOE25_DEJ)*AAA.KOE25_CENA)) AS KOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE25_PAV, if ($P{tip}=1, AAA.NKOE25_DEJ, AAA.NKOE25_PAV-AAA.NKOE25_DEJ)) AS NKOE25_KOL,
+	AAA.NKOE25_CENA AS NKOE25_CENA,
+	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, if ($P{tip}=1, AAA.NKOE25_DEJ*AAA.NKOE25_CENA, (AAA.NKOE25_PAV-AAA.NKOE25_DEJ)*AAA.NKOE25_CENA)) AS NKOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE34_PAV, if ($P{tip}=1, AAA.NKOE34_DEJ, AAA.NKOE34_PAV-AAA.NKOE34_DEJ)) AS NKOE34_KOL,
+	AAA.NKOE34_CENA AS NKOE34_CENA,
+	if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, if ($P{tip}=1, AAA.NKOE34_DEJ*AAA.NKOE34_CENA, (AAA.NKOE34_PAV-AAA.NKOE34_DEJ)*AAA.NKOE34_CENA)) AS NKOE34_ZNESEK
+from (
+select BBB.tar_st, BBB.naziv, 
+	SUM(BBB.KOE25_CENA) KOE25_CENA, SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ,
+	SUM(BBB.NKOE25_CENA) NKOE25_CENA, SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ,
+	SUM(BBB.NKOE34_CENA) NKOE34_CENA, SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ
+from
+(select b.tar_st, b.naziv, 
+	a.cena KOE25_CENA, 
+	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
+		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
+		a.letna_napoved)) as KOE25_PAV,
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) as KOE25_DEJ,
+	0 NKOE25_CENA,
+	0 NKOE25_PAV,
+	0 NKOE25_DEJ, 
+	0 NKOE34_CENA,
+	0 NKOE34_PAV,
+	0 NKOE34_DEJ
+from recikel_embalaznina$P{leto} as a,
+	  recikel_embalaze$P{leto} as b
+where a.id_zavezanca = $P{sif_zavezanca} and
+		a. id_embalaza = b.id and
+		b.porocilo = 'KOE25'
+UNION ALL
+select b.tar_st, b.naziv, 
+	0 KOE25_CENA,
+	0 KOE25_PAV,
+	0 KOE25_DEJ, 
+	a.cena NKOE25_CENA, 
+	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
+		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
+		a.letna_napoved)) NKOE25_PAV,
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) NKOE25_DEJ,
+	0 NKOE34_CENA,
+	0 NKOE34_PAV,
+	0 NKOE34_DEJ
+from recikel_embalaznina$P{leto} as a,
+	  recikel_embalaze$P{leto} as b
+where a.id_zavezanca = $P{sif_zavezanca} and
+		a. id_embalaza = b.id and
+		b.porocilo = 'NKOE25'
+UNION ALL
+select b.tar_st, b.naziv, 
+	0 KOE25_CENA,
+	0 KOE25_PAV,
+	0 KOE25_DEJ, 
+	0 NKOE25_CENA,
+	0 NKOE25_PAV,
+	0 NKOE25_DEJ, 
+	a.cena NKOE34_CENA, 
+	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
+		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
+		a.letna_napoved)) NKOE34_PAV,
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) NKOE34_DEJ
+from recikel_embalaznina$P{leto} as a,
+	  recikel_embalaze$P{leto} as b
+where a.id_zavezanca = $P{sif_zavezanca} and
+		a. id_embalaza = b.id and
+		b.porocilo = 'NKOE34'		
+order by 1) as BBB
+group by BBB.tar_st, BBB.naziv
+)	as AAA]]></queryString>
+
+	<field name="tar_st" class="java.lang.String"/>
+	<field name="naziv" class="java.lang.String"/>
+	<field name="KOE25_KOL" class="java.lang.Double"/>
+	<field name="KOE25_CENA" class="java.lang.Double"/>
+	<field name="KOE25_ZNESEK" class="java.lang.Double"/>
+	<field name="NKOE25_KOL" class="java.lang.Double"/>
+	<field name="NKOE25_CENA" class="java.lang.Double"/>
+	<field name="NKOE25_ZNESEK" class="java.lang.Double"/>
+	<field name="NKOE34_KOL" class="java.lang.Double"/>
+	<field name="NKOE34_CENA" class="java.lang.Double"/>
+	<field name="NKOE34_ZNESEK" class="java.lang.Double"/>
+
+	<variable name="KOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{KOE25_ZNESEK}]]></variableExpression>
+	</variable>
+	<variable name="NKOE25_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{NKOE25_KOL}]]></variableExpression>
+	</variable>
+	<variable name="NKOE34_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{NKOE34_KOL}]]></variableExpression>
+	</variable>
+	<variable name="KOE25_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{KOE25_KOL}]]></variableExpression>
+	</variable>
+	<variable name="NKOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{NKOE25_ZNESEK}]]></variableExpression>
+	</variable>
+	<variable name="NKOE34_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{NKOE34_ZNESEK}]]></variableExpression>
+	</variable>
+	<variable name="ZNESEK" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Double(  
+($V{KOE25_ZNESEK_SUM}.doubleValue()) +
+($V{NKOE25_ZNESEK_SUM}.doubleValue()) +
+($V{NKOE34_ZNESEK_SUM}.doubleValue()) )]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="33"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="89"
+						height="33"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[EMBALAŽA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="89"
+						y="0"
+						width="50"
+						height="33"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ŠIFRA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="139"
+						y="0"
+						width="132"
+						height="13"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOE 25]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="271"
+						y="0"
+						width="132"
+						height="13"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE25]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="403"
+						y="0"
+						width="132"
+						height="13"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE 34]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="139"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-91"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Količina v tonah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="183"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-92"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Tarifa v EUR/t]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="227"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-93"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Znesek v EUR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="359"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-94"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Znesek v EUR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="315"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-95"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Tarifa v EUR/t]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="271"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-96"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Količina v tonah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="491"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-97"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Znesek v EUR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="447"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-98"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Tarifa v EUR/t]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="403"
+						y="13"
+						width="44"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-99"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Količina v tonah]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="14"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="89"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd.MM.yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="89"
+						y="0"
+						width="50"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tar_st}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="139"
+						y="0"
+						width="44"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{KOE25_KOL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="183"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{KOE25_CENA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="227"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{KOE25_ZNESEK}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="13"
+						width="535"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="271"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE25_KOL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="315"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE25_CENA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="359"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE25_ZNESEK}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="403"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE34_KOL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="447"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE34_CENA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{NKOE34_ZNESEK}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="24"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="89"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="element-101"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SKUPAJ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="139"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{KOE25_KOL_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="271"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{NKOE25_KOL_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="403"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{NKOE34_KOL_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="227"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{KOE25_ZNESEK_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="359"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{NKOE25_ZNESEK_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="0"
+						width="44"
+						height="12"
+						key="textField-14"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{NKOE34_ZNESEK_SUM}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="11"
+						width="535"
+						height="0"
+						key="line-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="12"
+						width="491"
+						height="12"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-102"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ZNESEK]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="491"
+						y="12"
+						width="44"
+						height="12"
+						backcolor="#CCCCCC"
+						key="textField-15"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{ZNESEK}]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>
