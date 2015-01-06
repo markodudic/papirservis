@@ -357,13 +357,11 @@ try{
 		
 		// Field naslov
 		tmpfld = ((String) x_letna_napoved);
-		if (tmpfld == null || tmpfld.trim().length() == 0) {
-			tmpfld = null;
-		}
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
 		if (tmpfld == null) {
 			rs.updateNull("letna_napoved");
 		}else{
-			rs.updateString("letna_napoved", tmpfld);
+			rs.updateDouble("letna_napoved", Double.parseDouble(tmpfld));
 		}
 
 		// Field cena
@@ -372,7 +370,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("cena");
 		} else {
-			rs.updateInt("cena",Integer.parseInt(tmpfld));
+			rs.updateDouble("cena",Double.parseDouble(tmpfld));
 		}
 
 		tmpfld = ((String) x_kol_jan).trim();
@@ -380,7 +378,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_jan");
 		} else {
-			rs.updateInt("kol_jan",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_jan",Double.parseDouble(tmpfld));
 		}
 
 		tmpfld = ((String) x_kol_feb).trim();
@@ -388,7 +386,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_feb");
 		} else {
-			rs.updateInt("kol_feb",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_feb",Double.parseDouble(tmpfld));
 		}		
 		
 		tmpfld = ((String) x_kol_mar).trim();
@@ -396,14 +394,14 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_mar");
 		} else {
-			rs.updateInt("kol_mar",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_mar",Double.parseDouble(tmpfld));
 		}
 		tmpfld = ((String) x_kol_apr).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
 		if (tmpfld == null) {
 			rs.updateNull("kol_apr");
 		} else {
-			rs.updateInt("kol_apr",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_apr",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_maj).trim();
@@ -411,7 +409,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_maj");
 		} else {
-			rs.updateInt("kol_maj",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_maj",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_jun).trim();
@@ -419,7 +417,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_jun");
 		} else {
-			rs.updateInt("kol_jun",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_jun",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_jul).trim();
@@ -427,7 +425,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_jul");
 		} else {
-			rs.updateInt("kol_jul",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_jul",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_avg).trim();
@@ -435,7 +433,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_avg");
 		} else {
-			rs.updateInt("kol_avg",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_avg",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_sep).trim();
@@ -443,7 +441,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_sep");
 		} else {
-			rs.updateInt("kol_sep",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_sep",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_okt).trim();
@@ -451,7 +449,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_okt");
 		} else {
-			rs.updateInt("kol_okt",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_okt", Double.parseDouble(tmpfld));
 		}
 
 		tmpfld = ((String) x_kol_nov).trim();
@@ -459,7 +457,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_nov");
 		} else {
-			rs.updateInt("kol_nov",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_nov",Double.parseDouble(tmpfld));
 		}
 		
 		tmpfld = ((String) x_kol_dec).trim();
@@ -467,7 +465,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("kol_dec");
 		} else {
-			rs.updateInt("kol_dec",Integer.parseInt(tmpfld));
+			rs.updateDouble("kol_dec",Double.parseDouble(tmpfld));
 		}
 					
 		//Uporabnik
