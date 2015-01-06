@@ -113,12 +113,27 @@ try{
 			x_id_embalaza = "";
 		}	
 
+		x_letna_napoved = String.valueOf(rs.getDouble("letna_napoved"));
+		x_cena = String.valueOf(rs.getDouble("cena"));
+		x_kol_jan = String.valueOf(rs.getDouble("kol_jan"));
+		x_kol_feb = String.valueOf(rs.getDouble("kol_feb"));
+		x_kol_mar = String.valueOf(rs.getDouble("kol_mar"));
+		x_kol_apr = String.valueOf(rs.getDouble("kol_apr"));
+		x_kol_maj = String.valueOf(rs.getDouble("kol_maj"));
+		x_kol_jun = String.valueOf(rs.getDouble("kol_jun"));
+		x_kol_jul = String.valueOf(rs.getDouble("kol_jul"));
+		x_kol_avg = String.valueOf(rs.getDouble("kol_avg"));
+		x_kol_sep = String.valueOf(rs.getDouble("kol_sep"));
+		x_kol_okt = String.valueOf(rs.getDouble("kol_okt"));
+		x_kol_nov = String.valueOf(rs.getDouble("kol_nov"));
+		x_kol_dec = String.valueOf(rs.getDouble("kol_dec"));
+		
 		// Get the field contents
-		if (rs.getString("letna_napoved") != null){
+		/*if (rs.getString("letna_napoved") != null){
 			x_letna_napoved = rs.getString("letna_napoved");
 		}else{
 			x_letna_napoved = "";
-		}	
+		}
 		
 		if (rs.getString("cena") != null){
 			x_cena = rs.getString("cena");
@@ -196,7 +211,7 @@ try{
 			x_kol_dec = rs.getString("kol_dec");
 		}else{
 			x_kol_dec = "";
-		}		
+		}		*/
 
 		if (rs.getTimestamp("zacetek") != null){
 			x_zacetek = rs.getTimestamp("zacetek");
