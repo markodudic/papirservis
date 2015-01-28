@@ -669,15 +669,15 @@ try{
 			
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
-			//stmt1.close();
-			//stmt1 = null;
-			
-			strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
-			//System.out.println(strsql);
-
-			stmt1.executeUpdate(strsql);
 			stmt1.close();
 			stmt1 = null;
+			
+			//strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
+			//System.out.println(strsql);
+
+			//stmt1.executeUpdate(strsql);
+			//stmt1.close();
+			//stmt1 = null;
 		}
 
 		out.clear();

@@ -1074,9 +1074,9 @@ try{
 		rs.close();
 		rs = null;
 		
-		strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
-		System.out.println(strsql);
-		stmt.executeUpdate(strsql);
+		//strsql = "update kupci set sif_enote = " +  ((String) x_sif_enote).trim() + " where sif_kupca = " + ((String) x_sif_kupca).trim();
+		//System.out.println(strsql);
+		//stmt.executeUpdate(strsql);
 
 		stmt.close();
 		stmt = null;
