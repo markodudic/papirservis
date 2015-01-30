@@ -120,7 +120,7 @@ if ((meni & ewRecikel) == ewRecikel){
 			<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">EMBALA&#381NINA</span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelzavezancilist.jsp?cmd=top">Zavezanci</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazelist.jsp?cmd=top">Embala&#382e</a></span></td></tr>
-			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazninalist.jsp?cmd=top">Embala&#382nina</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazninalist.jsp?cmd=top">Poro&#269;anje</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=25">Ra&#269;un</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>

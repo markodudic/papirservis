@@ -43,4 +43,8 @@ za vsakega zavezanca dodam vse embalaze
 insert into recikel_embalaznina2015 (id_embalaza, id_zavezanca)
 select recikel_embalaze2015.id, recikel_zavezanci2015.id  from recikel_embalaze2015, recikel_zavezanci2015
 
+//dodam vodilne nule zaradi sortiranja
+update recikel_zavezanci2015
+set st_pogodbe = concat('0', st_pogodbe)
+where length(st_pogodbe) < 9;
 	

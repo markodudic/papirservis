@@ -828,10 +828,6 @@ out.println(x_postaList);
 		<td class="ewTableAltRow"><input type="text" name="x_datum_sklenitve_pogodbe" value="<%= EW_FormatDateTime(x_datum_sklenitve_pogodbe,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum_sklenitve_pogodbe,'dd.mm.yyyy');return false;">&nbsp;</td>	
 	</tr>	
 	<tr>
-		<td class="ewTableHeader">Valuta&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_valuta" size="30" value="<%= HTMLEncode((String)x_valuta) %>">&nbsp;</td>
-	</tr>	
-	<tr>
 		<td class="ewTableHeader">Kontaktna oseba&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kontaktna_oseba" size="30" value="<%= HTMLEncode((String)x_kontaktna_oseba) %>">&nbsp;</td>
 	</tr>	
@@ -862,6 +858,10 @@ out.println(x_postaList);
 	<tr>
 		<td class="ewTableHeader">Opombe odgovorna&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opombe_odgovorna" size="30" value="<%= HTMLEncode((String)x_opombe_odgovorna) %>">&nbsp;</td>
+	</tr>	
+	<tr>
+		<td class="ewTableHeader">Valuta&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_valuta" size="30" value="<%= HTMLEncode((String)x_valuta) %>">&nbsp;</td>
 	</tr>	
 
 </table>
