@@ -36,6 +36,43 @@ function  EW_checkMyForm(EW_this)
 	                return false; 
 	}
 }
+
+function updateKoda(EW_this){
+	document.porocila.nacin_obracuna_list.value = zavezanci_interval[document.porocila.x_sif_zavezanca.selectedIndex - 1];
+	document.porocila.nacin_obracuna.value = zavezanci_interval[document.porocila.x_sif_zavezanca.selectedIndex - 1];
+	if (document.porocila.x_sif_zavezanca.selectedIndex > 0) {
+		document.porocila.nacin_obracuna_list.disabled=true;
+	}
+	else {
+		document.porocila.nacin_obracuna_list.disabled=false;		
+	}
+	updateRacun();
+}
+
+function updateNacin(EW_this){
+	document.porocila.nacin_obracuna.value = document.porocila.nacin_obracuna_list.value;
+	updateRacun();
+}	
+
+function updateRacun(){
+	if ((document.porocila.nacin_obracuna.value == "MD") || (document.porocila.nacin_obracuna.value == "QD") || (document.porocila.nacin_obracuna.value == "LD")) {
+		document.porocila.pavsal.style.visibility = 'hidden';
+		document.porocila.obracun.style.visibility = 'visible';
+		document.porocila.obracun.checked = true;
+		document.porocila.poracun.style.visibility = 'hidden';
+		document.getElementById("lPavsal").style.display = 'none';
+		document.getElementById("lObracun").style.display = 'inline';
+		document.getElementById("lPoracun").style.display = 'none';
+	}
+	else {
+		document.porocila.pavsal.style.visibility = 'visible';
+		document.porocila.pavsal.checked = true;
+		document.porocila.obracun.style.visibility = 'hidden';
+		document.porocila.poracun.style.visibility = 'visible';		
+		document.getElementById("lPavsal").style.display = 'inline';
+		document.getElementById("lObracun").style.display = 'none';
+		document.getElementById("lPoracun").style.display = 'inline';
+	}}	
 </script>
 
 <%@ include file="db.jsp" %>
@@ -79,6 +116,7 @@ function  EW_checkMyForm(EW_this)
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
 	String report = reportsList[reportID];
 	
+	StringBuffer zavezanci_interval = new StringBuffer();
 	
 	Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
 	String y 	= String.valueOf(dat.get(Calendar.YEAR));
@@ -131,8 +169,8 @@ function  EW_checkMyForm(EW_this)
 	
 	if ((reportID == 25))
 	{
-		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\"><option value=\"\">Izberi</option>");
-		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv " +
+		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" onchange = \"updateKoda(this);\"><option value=\"\">Izberi</option>");
+		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv, interval_pavsala " +
 									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
 									"ORDER BY naziv ASC";
 		
@@ -147,6 +185,9 @@ function  EW_checkMyForm(EW_this)
 			String tmpNaziv = rswrk_x_sif_kupca.getString("naziv");
 			if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 			x_sif_zavezanciList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
+			
+			zavezanci_interval.append("zavezanci_interval[").append(rowcntwrk_x_sif_kupca).append("]='").append(String.valueOf(rswrk_x_sif_kupca.getString("interval_pavsala"))).append("';");
+
 			rowcntwrk_x_sif_kupca++;
 		}
 		rswrk_x_sif_kupca.close();
@@ -396,14 +437,17 @@ function  EW_checkMyForm(EW_this)
 	
 %>
 
-
-
+<script language="JavaScript">
+	var zavezanci_interval = new Array();
+	<%=zavezanci_interval%>
+</script>
 
 <p><span class="jspmaker">Poro&#269;ila: izbor parametrov</span></p>
 <form onSubmit="return EW_checkMyForm(this);" action="printDelovniNalog.jsp" name="porocila" method="post">
 
 <input type="hidden" name="report" value=<%=report%>>
 <input type="hidden" name="reportID" value=<%=reportID%>>
+<input type="hidden" name="nacin_obracuna" value="MP">
 
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
@@ -525,7 +569,7 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">Način obračuna:&nbsp;</td>
 		<td class="ewTableAltRow">
-			<select name="nacin_obracuna" style="width:100px">
+			<select name="nacin_obracuna_list" onchange="updateNacin(this);" style="width:100px">
 				<option value="MP">MP</option>
 				<option value="MD">MD</option>
 				<option value="QP">QP</option>
@@ -538,8 +582,9 @@ function  EW_checkMyForm(EW_this)
 	<tr>
 		<td class="ewTableHeader">Tip računa:&nbsp;</td>
 		<td class="ewTableAltRow">
-    		<INPUT type="radio" name="racun" value="0" checked>Obračun
-    		<INPUT type="radio" name="racun" value="1">Poračun
+    		<INPUT type="radio" name="racun" id="pavsal" value="2" checked><label id="lPavsal">Pavšal</label>
+    		<INPUT type="radio" name="racun" id="obracun" value="0"><label id="lObracun">Obračun</label>
+    		<INPUT type="radio" name="racun" id="poracun" value="1"><label id="lPoracun">Poračun</label>
 		</td>
 	</tr>
 	<%}%>
@@ -619,5 +664,9 @@ function  EW_checkMyForm(EW_this)
 	
 </table>
 </form>
+
+<script language="JavaScript" >
+	updateRacun()
+</script>
 
 <%@ include file="footer.jsp" %>

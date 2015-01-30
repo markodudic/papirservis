@@ -373,11 +373,6 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("datum_sklenitve_pogodbe")) ? "</b>" : ""%>
 		</td>
 	    <td>
-<%=(OrderBy != null && OrderBy.equals("valuta")) ? "<b>" : ""%>
-<a href="recikelzavezancilist.jsp?order=<%= java.net.URLEncoder.encode("valuta","utf-8") %>">Valuta&nbsp;<% if (OrderBy != null && OrderBy.equals("valuta")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelzavezanci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelzavezanci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("valuta")) ? "</b>" : ""%>
-		</td>
-	    <td>
 <%=(OrderBy != null && OrderBy.equals("kontaktna_oseba")) ? "<b>" : ""%>
 <a href="recikelzavezancilist.jsp?order=<%= java.net.URLEncoder.encode("kontaktna_oseba","utf-8") %>">Kontaktna oseba&nbsp;<% if (OrderBy != null && OrderBy.equals("kontaktna_oseba")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelzavezanci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelzavezanci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("kontaktna_oseba")) ? "</b>" : ""%>
@@ -416,6 +411,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("opombe_odgovorna")) ? "<b>" : ""%>
 <a href="recikelzavezancilist.jsp?order=<%= java.net.URLEncoder.encode("opombe_odgovorna","utf-8") %>">Opombe odgovorna&nbsp;<% if (OrderBy != null && OrderBy.equals("opombe_odgovorna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelzavezanci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelzavezanci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opombe_odgovorna")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("valuta")) ? "<b>" : ""%>
+<a href="recikelzavezancilist.jsp?order=<%= java.net.URLEncoder.encode("valuta","utf-8") %>">Valuta&nbsp;<% if (OrderBy != null && OrderBy.equals("valuta")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelzavezanci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelzavezanci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("valuta")) ? "</b>" : ""%>
 		</td>
 		<td nowrap>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
@@ -722,7 +722,6 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_interval_pavsala); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum_pricetka_pogodbe,7,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum_sklenitve_pogodbe,7,locale)); %>&nbsp;</td>
-		<td><% out.print(x_valuta); %>&nbsp;</td>
 		<td><% out.print(x_kontaktna_oseba); %>&nbsp;</td>
 		<td><% out.print(x_telefon_kontaktna); %>&nbsp;</td>
 		<td><% out.print(x_mail_kontaktna); %>&nbsp;</td>
@@ -731,6 +730,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_telefon_odgovorna); %>&nbsp;</td>
 		<td><% out.print(x_mail_odgovorna); %>&nbsp;</td>
 		<td><% out.print(x_opombe_odgovorna); %>&nbsp;</td>
+		<td><% out.print(x_valuta); %>&nbsp;</td>
 	
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
