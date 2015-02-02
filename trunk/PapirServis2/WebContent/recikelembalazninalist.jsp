@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" isErrorPage="true"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*,java.net.*" isErrorPage="true"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -49,6 +49,36 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 
 String id_zavezanca = request.getParameter("id_zavezanca");
 %>
+
+
+<%
+String a = request.getParameter("Submit");
+if (a != null && a.equals("Potrdi")) {
+	String queryString=URLDecoder.decode(request.getQueryString());
+	//out.println(queryString);
+	String[] pArray= queryString.split("&");
+	String value="";                  
+	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	for (int i=3 ;i<pArray.length;i++) {
+	  	//out.println(pArray[i]);
+	  	String[] pKeys = pArray[i].split(":");
+	  	String[] pValues = pKeys[2].split("=");
+	  	//out.println("*"+pKeys[0]+":"+pKeys[1]+":"+pValues[0]);
+	  	String pValue = null;
+	  	if (pValues.length > 1) {
+	  		pValue = pValues[1];
+	  		
+			String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
+							" set " + pValues[0] + " = " + pValues[1] +
+							" WHERE id_zavezanca = " + pKeys[0] + " AND id_embalaza = " + pKeys[1];
+		  	stmt.executeUpdate(sqlquery);
+	  	}
+	}
+  	stmt.close();
+	stmt = null;
+}
+%>
+
 <%
 
 // Get search criteria for basic search
@@ -173,7 +203,7 @@ ResultSet rs = null;
 String subQuery ="";
 
 // Build SQL
-String strsql = "select a.*, b.*, c.tar_st, c.naziv naziv2, c.porocilo, uporabniki.uporabnisko_ime " +
+String strsql = "select a.*, b.*, c.id id_embalaza, c.tar_st, c.naziv naziv2, c.porocilo, uporabniki.uporabnisko_ime " +
 				"from recikel_embalaznina" + session.getAttribute("leto") + " as a " +
 				"left join recikel_zavezanci" + session.getAttribute("leto") + " as b on id_zavezanca = b.id " +
 				"left join recikel_embalaze" + session.getAttribute("leto") + " as c on id_embalaza = c.id " +
@@ -280,7 +310,7 @@ function disableSome(EW_this){
 		<td class="jspmaker">Zavezanec&nbsp;</td>
 		<td class="jspmaker"><%
 String cbo_x_posta_js = "";
-String x_postaList = "<select name=\"id_zavezanca\"><option value=\"\">Izberi</option>";
+String x_postaList = "<select name=\"id_zavezanca\" onchange = \"this.form.submit();\"><option value=\"\">Izberi</option>";
 String sqlwrk_x_posta = "SELECT id, st_pogodbe, naziv FROM recikel_zavezanci" + session.getAttribute("leto") + " ORDER BY naziv ASC";
 Statement stmtwrk_x_posta = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_posta = stmtwrk_x_posta.executeQuery(sqlwrk_x_posta);
@@ -307,14 +337,16 @@ out.println(x_postaList);
 	</tr>	
 		
 </table>
-</form>
 <table>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd) { %>
 	<tr></tr>
-	<tr><td><a href="recikelembalazninaadd.jsp">Dodaj nov zapis</a></td></tr>
+	<tr><td>
+		<a href="recikelembalazninaadd.jsp">Dodaj nov zapis</a>
+		<input type="Submit" name="Submit" value="Potrdi">
+	</td></tr>
 <% } %>
 </table>
-<form method="post">
+
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -547,6 +579,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_opombe_kontaktna = "";
 	
 	String x_tar_st = "";
+	String x_id_embalaza = "";
 	String x_naziv2 = "";
 	String x_porocilo = "";
 	
@@ -719,6 +752,12 @@ while (rs.next() && recCount < stopRec) {
 		x_tar_st = "";
 	}	
 	
+	if (rs.getString("id_embalaza") != null){
+		x_id_embalaza = rs.getString("id_embalaza");
+	}else{
+		x_id_embalaza = "";
+	}	
+	
 	if (rs.getString("naziv2") != null){
 		x_naziv2 = rs.getString("naziv2");
 	}else{
@@ -789,7 +828,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_telefon_kontaktna); %>&nbsp;</td>
 		<td><% out.print(x_mail_kontaktna); %>&nbsp;</td>
 		<td><% out.print(x_opombe_kontaktna); %>&nbsp;</td>
-<% } %>
+
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td><% out.print(x_naziv2); %>&nbsp;</td>
 		<td><% out.print(x_porocilo); %>&nbsp;</td>
@@ -808,7 +847,26 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_kol_okt); %>&nbsp;</td>
 		<td><% out.print(x_kol_nov); %>&nbsp;</td>
 		<td><% out.print(x_kol_dec); %>&nbsp;</td>
-
+<% } else { %>
+		<td><% out.print(x_tar_st); %>&nbsp;</td>
+		<td><% out.print(x_naziv2); %>&nbsp;</td>
+		<td><% out.print(x_porocilo); %>&nbsp;</td>
+	
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:letna_napoved" size="2" value="<% out.print(x_letna_napoved); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:cena" size="2" value="<% out.print(x_cena); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jan" size="2" value="<% out.print(x_kol_jan); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_feb" size="2" value="<% out.print(x_kol_feb); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_mar" size="2" value="<% out.print(x_kol_mar); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_apr" size="2" value="<% out.print(x_kol_apr); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_maj" size="2" value="<% out.print(x_kol_maj); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jun" size="2" value="<% out.print(x_kol_jun); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jul" size="2" value="<% out.print(x_kol_jul); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_avg" size="2" value="<% out.print(x_kol_avg); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_sep" size="2" value="<% out.print(x_kol_sep); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_okt" size="2" value="<% out.print(x_kol_okt); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_nov" size="2" value="<% out.print(x_kol_nov); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_dec" size="2" value="<% out.print(x_kol_dec); %>"></td>
+<% } %>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
 &nbsp;</td>
