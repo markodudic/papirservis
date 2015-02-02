@@ -49,7 +49,7 @@ function updateKoda(EW_this){
 	updateRacun();
 }
 
-function updateNacin(EW_this){
+function updateNacin(){
 	document.porocila.nacin_obracuna.value = document.porocila.nacin_obracuna_list.value;
 	updateRacun();
 }	
@@ -169,7 +169,7 @@ function updateRacun(){
 	
 	if ((reportID == 25))
 	{
-		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" onchange = \"updateKoda(this);\"><option value=\"\">Izberi</option>");
+		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" onchange = \"updateKoda(this);\"><option value=\"-1\">Izberi</option>");
 		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv, interval_pavsala " +
 									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
 									"ORDER BY naziv ASC";
@@ -569,7 +569,7 @@ function updateRacun(){
 	<tr>
 		<td class="ewTableHeader">Način obračuna:&nbsp;</td>
 		<td class="ewTableAltRow">
-			<select name="nacin_obracuna_list" onchange="updateNacin(this);" style="width:100px">
+			<select name="nacin_obracuna_list" onchange="updateNacin();" style="width:100px">
 				<option value="MP">MP</option>
 				<option value="MD">MD</option>
 				<option value="QP">QP</option>
@@ -666,7 +666,7 @@ function updateRacun(){
 </form>
 
 <script language="JavaScript" >
-	updateRacun()
+	updateNacin()
 </script>
 
 <%@ include file="footer.jsp" %>

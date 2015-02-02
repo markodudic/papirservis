@@ -68,7 +68,6 @@ function disableSome(EW_this){
 	else
 	{
 		parameters.put("sif_zavezanca", "-1");
-		sif_zavezanca = "-1"; 
 	}
     
     String x_sif_enote = request.getParameter("x_sif_enote");
@@ -317,10 +316,12 @@ function disableSome(EW_this){
 
 	    String racun = request.getParameter("racun");
 	    parameters.put("racun", racun);
-		 if (racun.equals("1")) {
-			 parameters.put("naziv_racun", "Obračun");
+		 if (racun.equals("0")) {
+			 parameters.put("naziv_racun", "obračun");
+		 } else if (racun.equals("1")) {
+			 parameters.put("naziv_racun", "poračun");
 		 } else {
-			 parameters.put("naziv_racun", "Poračun");
+			 parameters.put("naziv_racun", "pavšal");
 		 }
 		
 	}

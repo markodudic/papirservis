@@ -63,20 +63,21 @@
 		<defaultValueExpression ><![CDATA["MP"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="racun" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_racun" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Obračun"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["pavšal"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2/2013"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT *,
 DATE_FORMAT(ADDDATE(CAST($P{datum_racuna} AS DATE), valuta), '%d.%m.%Y') as zapadlost
 FROM
      recikel_zavezanci$P!{aleto}
 WHERE 
-     st_pogodbe = $P{sif_zavezanca}]]></queryString>
+     (st_pogodbe = $P{sif_zavezanca}) or 
+    (($P{sif_zavezanca} = -1) and (interval_pavsala = $P{nacin_obracuna})) ]]></queryString>
 
 	<field name="id" class="java.lang.Integer"/>
 	<field name="st_pogodbe" class="java.lang.String"/>
@@ -306,7 +307,7 @@ WHERE
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Specifikacija storitve: obračun ("+$P{od_datum_str}+" - "+$P{do_datum_str}+") prenosa obeznosti ravnanja z embalažo in odpadno embalažo ("+$P{nacin_obracuna}+")"]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Specifikacija storitve: "+$P{naziv_racun}+" ("+$P{od_datum_str}+" - "+$P{do_datum_str}+") prenosa obeznosti ravnanja z embalažo in odpadno embalažo ("+$P{nacin_obracuna}+")"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -375,7 +376,7 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="122"
+						y="119"
 						width="535"
 						height="12"
 						key="subreport-2"
@@ -395,7 +396,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
@@ -406,7 +407,7 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="139"
+						y="136"
 						width="535"
 						height="12"
 						key="subreport-3"
@@ -427,7 +428,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -438,7 +439,7 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="158"
+						y="152"
 						width="535"
 						height="17"
 						key="subreport-4"
@@ -459,7 +460,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$P{sif_zavezanca}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
@@ -467,6 +468,20 @@ WHERE
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="177"
+						width="528"
+						height="13"
+						key="textField-9"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Zneski so brez DDV-ja"]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
