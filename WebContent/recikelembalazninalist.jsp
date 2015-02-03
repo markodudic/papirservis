@@ -48,14 +48,36 @@ String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 
 String id_zavezanca = request.getParameter("id_zavezanca");
+if (id_zavezanca!=null && id_zavezanca.equals("null")) id_zavezanca=null;
 %>
-
-
 <%
+
 String a = request.getParameter("Submit");
 if (a != null && a.equals("Potrdi")) {
+	Enumeration<String> parameterNames = request.getParameterNames();
+	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+    while (parameterNames.hasMoreElements()) {
+        String paramName = parameterNames.nextElement();
+        if (paramName.equals("start") || paramName.equals("psearch") || paramName.equals("id_zavezanca") || paramName.equals("Submit")) continue;
+        String[] pKeys = paramName.split(":");
+	  	String[] paramValues = request.getParameterValues(paramName);
+        for (int i = 0; i < paramValues.length; i++) {
+            String paramValue = paramValues[i];
+            if (paramValue.equals("")) paramValue=null;
+            if (paramValue!=null && !paramValue.matches("-?\\d+(\\.\\d+)?")) {
+            	out.println("Neveljavna vrednost za: "+ paramValue+"<br>");
+            	continue;
+            }
+			String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
+					" set " + pKeys[2] + " = " + paramValue +
+					" WHERE id_zavezanca = " + pKeys[0] + " AND id_embalaza = " + pKeys[1];
+			stmt.executeUpdate(sqlquery);
+        }
+    }
+
+	/*tole je za get http
 	String queryString=URLDecoder.decode(request.getQueryString());
-	//out.println(queryString);
+	//out.println();
 	String[] pArray= queryString.split("&");
 	String value="";                  
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -63,7 +85,7 @@ if (a != null && a.equals("Potrdi")) {
 	  	//out.println(pArray[i]);
 	  	String[] pKeys = pArray[i].split(":");
 	  	String[] pValues = pKeys[2].split("=");
-	  	//out.println("*"+pKeys[0]+":"+pKeys[1]+":"+pValues[0]);
+	  	//out.println("*"+pKeys[0]+":"+pKeys[1]+":"+pValues[0]+":"+pValues.length);
 	  	String pValue = null;
 	  	if (pValues.length > 1) {
 	  		pValue = pValues[1];
@@ -71,9 +93,16 @@ if (a != null && a.equals("Potrdi")) {
 			String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
 							" set " + pValues[0] + " = " + pValues[1] +
 							" WHERE id_zavezanca = " + pKeys[0] + " AND id_embalaza = " + pKeys[1];
+			out.println("//"+sqlquery);
 		  	stmt.executeUpdate(sqlquery);
+	  	} else {
+	  		String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
+					" set " + pValues[0] + " = null " +
+					" WHERE id_zavezanca = " + pKeys[0] + " AND id_embalaza = " + pKeys[1];
+			//out.println("\\"+sqlquery);
+  			stmt.executeUpdate(sqlquery);
 	  	}
-	}
+	}*/
   	stmt.close();
 	stmt = null;
 }
@@ -295,11 +324,12 @@ function disableSome(EW_this){
 </script>
 
 <p><span class="jspmaker">Tabela: recikel embalaznina</span></p>
-<form action="recikelembalazninalist.jsp">
+<form action="recikelembalazninalist.jsp" method="post">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
+			<input type="hidden" name="start" value="1">
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="recikelembalazninalist.jsp?cmd=reset">Prikaži vse</a>
@@ -914,13 +944,13 @@ if (totalRecs > 0) {
 	<% if (startRec==1) { %>
 	<td><img src="images/firstdisab.gif" alt="First" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="recikelembalazninalist.jsp?start=1"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
+	<td><a href="recikelembalazninalist.jsp?start=1&id_zavezanca=<%=id_zavezanca%>"><img src="images/first.gif" alt="First" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--previous page button-->
 	<% if (PrevStart == startRec) { %>
 	<td><img src="images/prevdisab.gif" alt="Previous" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="recikelembalazninalist.jsp?start=<%=PrevStart%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
+	<td><a href="recikelembalazninalist.jsp?start=<%=PrevStart%>&id_zavezanca=<%=id_zavezanca%>"><img src="images/prev.gif" alt="Previous" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--current page number-->
 	<td><input type="text" name="pageno" value="<%=(startRec-1)/displayRecs+1%>" size="4"></td>
@@ -928,13 +958,13 @@ if (totalRecs > 0) {
 	<% if (NextStart == startRec) { %>
 	<td><img src="images/nextdisab.gif" alt="Next" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="recikelembalazninalist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
+	<td><a href="recikelembalazninalist.jsp?start=<%=NextStart%>&id_zavezanca=<%=id_zavezanca%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--last page button-->
 	<% if (LastStart == startRec) { %>
 	<td><img src="images/lastdisab.gif" alt="Last" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="recikelembalazninalist.jsp?start=<%=LastStart%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
+	<td><a href="recikelembalazninalist.jsp?start=<%=LastStart%>&id_zavezanca=<%=id_zavezanca%>"><img src="images/last.gif" alt="Last" width="20" height="15" border="0"></a></td>
 	<% } %>
 	<td><span class="jspmaker">&nbsp;od <%=(totalRecs-1)/displayRecs+1%></span></td>
 	</tr></table>
