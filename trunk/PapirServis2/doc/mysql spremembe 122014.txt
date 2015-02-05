@@ -83,4 +83,34 @@ CREATE TABLE IF NOT EXISTS `recikel_embalaznina2015` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
-	
+//vnos letne napovedi in cen
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 1, 1l, 1c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 2, 2l, 2c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 12, 3l, 3c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 13, 4l, 4c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 23, 5l, 5c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 3, 6l, 6c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 4, 7l, 7c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 5, 8l, 8c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 14, 9l, 9c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 15, 10l, 10c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 16, 11l, 11c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 24, 12l, 12c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 6, 13l, 13c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 17, 14l, 14c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 25, 15l, 15c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 7, 16l, 16c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 18, 17l, 17c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 26, 18l, 18c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 8, 19l, 19c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 19, 20l, 20c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 27, 21l, 21c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 9, 22l, 22c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 20, 23l, 23c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 28, 24l, 24c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 10, 25l, 25c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 21, 26l, 26c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 29, 27l, 27c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 11, 28l, 28c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 22, 29l, 29c from recikel_embalaznina;
+insert into recikel_embalaznina2015 (id_zavezanca, id_embalaza, letna_napoved, cena) select id_zavezanca, 30, 30l, 30c from recikel_embalaznina;
