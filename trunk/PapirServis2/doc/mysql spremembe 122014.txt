@@ -38,7 +38,7 @@ END;
 $$
 /* Delimiter changed to ; */
 
-za vsakega zavezanca dodam vse embalaze
+//za vsakega zavezanca dodam vse embalaze
 ------------------------------------------
 insert into recikel_embalaznina2015 (id_embalaza, id_zavezanca)
 select recikel_embalaze2015.id, recikel_zavezanci2015.id  from recikel_embalaze2015, recikel_zavezanci2015
@@ -47,4 +47,40 @@ select recikel_embalaze2015.id, recikel_zavezanci2015.id  from recikel_embalaze2
 update recikel_zavezanci2015
 set st_pogodbe = concat('0', st_pogodbe)
 where length(st_pogodbe) < 9;
+
+//recikel embalaznina
+---------------------------------------------------------
+
+
+-- Dumping structure for tabela papirservis.recikel_embalaznina2015
+CREATE TABLE IF NOT EXISTS `recikel_embalaznina2015` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_zavezanca` int(11) DEFAULT NULL,
+  `id_embalaza` int(11) DEFAULT NULL,
+  `letna_napoved` double DEFAULT NULL,
+  `cena` double DEFAULT NULL,
+  `kol_jan` double DEFAULT NULL,
+  `kol_feb` double DEFAULT NULL,
+  `kol_mar` double DEFAULT NULL,
+  `kol_apr` double DEFAULT NULL,
+  `kol_maj` double DEFAULT NULL,
+  `kol_jun` double DEFAULT NULL,
+  `kol_jul` double DEFAULT NULL,
+  `kol_avg` double DEFAULT NULL,
+  `kol_sep` double DEFAULT NULL,
+  `kol_okt` double DEFAULT NULL,
+  `kol_nov` double DEFAULT NULL,
+  `kol_dec` double DEFAULT NULL,
+  `zacetek` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `uporabnik` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Indeks 5` (`id_zavezanca`,`id_embalaza`),
+  KEY `FK_recikel_embalaze2015_okolje` (`id_embalaza`),
+  KEY `FK_recikel_embalaznina2015_uporabniki` (`uporabnik`),
+  CONSTRAINT `FK_recikel_embalaznina2015_recikel_embalaze2015` FOREIGN KEY (`id_embalaza`) REFERENCES `recikel_embalaze2015` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_recikel_embalaznina2015_recikel_zavezanci2015` FOREIGN KEY (`id_zavezanca`) REFERENCES `recikel_zavezanci2015` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_recikel_embalaznina2015_uporabniki` FOREIGN KEY (`uporabnik`) REFERENCES `uporabniki` (`sif_upor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+
 	
