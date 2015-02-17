@@ -1380,6 +1380,10 @@ out.println(x_skupinaList);
 		if (nadenota!=null && nadenota.equals("RECIKEL")) x_nadenotaList += " selected";
 		x_nadenotaList += ">RECIKEL</option>";
 		
+		x_nadenotaList += "<option value=\"GORENJE SUROVINA\"";
+		if (nadenota!=null && nadenota.equals("GORENJE SUROVINA")) x_nadenotaList += " selected";
+		x_nadenotaList += ">GORENJE SUROVINA</option>";
+
 		x_nadenotaList += "<option value=\"OSTALO\"";
 		if (nadenota!=null && nadenota.equals("OSTALO")) x_nadenotaList += " selected";
 		x_nadenotaList += ">OSTALO</option>";
