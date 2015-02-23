@@ -34,7 +34,7 @@ ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).int
 <%@ include file="db.jsp" %>
 <%@ include file="jspmkrfn.jsp" %>
 <%
-int displayRecs = 20;
+int displayRecs = 30;
 int recRange = 10;
 %>
 <%
