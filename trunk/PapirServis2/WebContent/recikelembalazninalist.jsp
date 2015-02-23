@@ -1,6 +1,7 @@
 <%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*,java.net.*" isErrorPage="true"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
+NumberFormat nf_ge = NumberFormat.getInstance(Locale.GERMAN);
 /*response.setLocale(locale);*/%>
 <% session.setMaxInactiveInterval(30*60); %>
 <% 
@@ -62,8 +63,8 @@ if (a != null && a.equals("Potrdi")) {
         String[] pKeys = paramName.split(":");
 	  	String[] paramValues = request.getParameterValues(paramName);
         for (int i = 0; i < paramValues.length; i++) {
-            String paramValue = paramValues[i];
-            if (paramValue.equals("")) paramValue=null;
+            String paramValue = paramValues[i].replace(".", "").replace(",", ".");
+            if (paramValue.equals("")||paramValue.equals("0")) paramValue=null;
             if (paramValue!=null && !paramValue.matches("-?\\d+(\\.\\d+)?")) {
             	out.println("Neveljavna vrednost za: "+ paramValue+"<br>");
             	continue;
@@ -581,20 +582,20 @@ while (rs.next() && recCount < stopRec) {
 <%
 	String x_id = "";
 			
-	String x_letna_napoved = "";
-	String x_cena = "";
-	String x_kol_jan = "";
-	String x_kol_feb = "";
-	String x_kol_mar = "";
-	String x_kol_apr = "";
-	String x_kol_maj = "";
-	String x_kol_jun = "";
-	String x_kol_jul = "";
-	String x_kol_avg = "";
-	String x_kol_sep = "";
-	String x_kol_okt = "";
-	String x_kol_nov = "";
-	String x_kol_dec = "";
+	float x_letna_napoved = 0;
+	float x_cena = 0;
+	float x_kol_jan = 0;
+	float x_kol_feb = 0;
+	float x_kol_mar = 0;
+	float x_kol_apr = 0;
+	float x_kol_maj = 0;
+	float x_kol_jun = 0;
+	float x_kol_jul = 0;
+	float x_kol_avg = 0;
+	float x_kol_sep = 0;
+	float x_kol_okt = 0;
+	float x_kol_nov = 0;
+	float x_kol_dec = 0;
 
 	String x_st_pogodbe = "";
 	String x_naziv = "";
@@ -624,87 +625,87 @@ while (rs.next() && recCount < stopRec) {
 	
 	
 	if (rs.getString("letna_napoved") != null){
-		x_letna_napoved = rs.getString("letna_napoved");
+		x_letna_napoved = rs.getFloat("letna_napoved");
 	}else{
-		x_letna_napoved = "";
+		x_letna_napoved = 0;
 	}	
 	
 	if (rs.getString("cena") != null){
-		x_cena = rs.getString("cena");
+		x_cena = rs.getFloat("cena");
 	}else{
-		x_cena = "";
+		x_cena = 0;
 	}	
 	
 	if (rs.getString("kol_jan") != null){
-		x_kol_jan = rs.getString("kol_jan");
+		x_kol_jan = rs.getFloat("kol_jan");
 	}else{
-		x_kol_jan = "";
+		x_kol_jan = 0;
 	}	
 	
 	if (rs.getString("kol_feb") != null){
-		x_kol_feb = rs.getString("kol_feb");
+		x_kol_feb = rs.getFloat("kol_feb");
 	}else{
-		x_kol_feb = "";
+		x_kol_feb = 0;
 	}	
 	
 	if (rs.getString("kol_mar") != null){
-		x_kol_mar = rs.getString("kol_mar");
+		x_kol_mar = rs.getFloat("kol_mar");
 	}else{
-		x_kol_mar = "";
+		x_kol_mar = 0;
 	}	
 	
 	if (rs.getString("kol_apr") != null){
-		x_kol_apr = rs.getString("kol_apr");
+		x_kol_apr = rs.getFloat("kol_apr");
 	}else{
-		x_kol_apr = "";
+		x_kol_apr = 0;
 	}	
 	
 	if (rs.getString("kol_maj") != null){
-		x_kol_maj = rs.getString("kol_maj");
+		x_kol_maj = rs.getFloat("kol_maj");
 	}else{
-		x_kol_maj = "";
+		x_kol_maj = 0;
 	}		
 	if (rs.getString("kol_jun") != null){
-		x_kol_jun = rs.getString("kol_jun");
+		x_kol_jun = rs.getFloat("kol_jun");
 	}else{
-		x_kol_jun = "";
+		x_kol_jun = 0;
 	}
 
 	if (rs.getString("kol_jul") != null){
-		x_kol_jul = rs.getString("kol_jul");
+		x_kol_jul = rs.getFloat("kol_jul");
 	}else{
-		x_kol_jul = "";
+		x_kol_jul = 0;
 	}
 	
 	if (rs.getString("kol_avg") != null){
-		x_kol_avg = rs.getString("kol_avg");
+		x_kol_avg = rs.getFloat("kol_avg");
 	}else{
-		x_kol_avg = "";
+		x_kol_avg = 0;
 	}
 	
 	if (rs.getString("kol_sep") != null){
-		x_kol_sep = rs.getString("kol_sep");
+		x_kol_sep = rs.getFloat("kol_sep");
 	}else{
-		x_kol_sep = "";
+		x_kol_sep = 0;
 	}
 	
 	if (rs.getString("kol_okt") != null){
-		x_kol_okt = rs.getString("kol_okt");
+		x_kol_okt = rs.getFloat("kol_okt");
 	}else{
-		x_kol_okt = "";
+		x_kol_okt = 0;
 	}	
 
 	
 	if (rs.getString("kol_nov") != null){
-		x_kol_nov = rs.getString("kol_nov");
+		x_kol_nov = rs.getFloat("kol_nov");
 	}else{
-		x_kol_nov = "";
+		x_kol_nov = 0;
 	}	
 	
 	if (rs.getString("kol_dec") != null){
-		x_kol_dec = rs.getString("kol_dec");
+		x_kol_dec = rs.getFloat("kol_dec");
 	}else{
-		x_kol_dec = "";
+		x_kol_dec = 0;
 	}		
 
 	if (rs.getString("st_pogodbe") != null){
@@ -863,39 +864,39 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_naziv2); %>&nbsp;</td>
 		<td><% out.print(x_porocilo); %>&nbsp;</td>
 	
-		<td><% out.print(x_letna_napoved); %>&nbsp;</td>
-		<td><% out.print(x_cena); %>&nbsp;</td>
-		<td><% out.print(x_kol_jan); %>&nbsp;</td>
-		<td><% out.print(x_kol_feb); %>&nbsp;</td>
-		<td><% out.print(x_kol_mar); %>&nbsp;</td>
-		<td><% out.print(x_kol_apr); %>&nbsp;</td>
-		<td><% out.print(x_kol_maj); %>&nbsp;</td>
-		<td><% out.print(x_kol_jun); %>&nbsp;</td>
-		<td><% out.print(x_kol_jul); %>&nbsp;</td>
-		<td><% out.print(x_kol_avg); %>&nbsp;</td>
-		<td><% out.print(x_kol_sep); %>&nbsp;</td>
-		<td><% out.print(x_kol_okt); %>&nbsp;</td>
-		<td><% out.print(x_kol_nov); %>&nbsp;</td>
-		<td><% out.print(x_kol_dec); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_letna_napoved)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_cena)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jan)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_feb)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_mar)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_apr)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_maj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jun)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jul)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_avg)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_sep)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_okt)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_nov)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_dec)); %>&nbsp;</td>
 <% } else { %>
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td><% out.print(x_naziv2); %>&nbsp;</td>
 		<td><% out.print(x_porocilo); %>&nbsp;</td>
 	
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:letna_napoved" size="2" value="<% out.print(x_letna_napoved); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:cena" size="2" value="<% out.print(x_cena); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jan" size="2" value="<% out.print(x_kol_jan); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_feb" size="2" value="<% out.print(x_kol_feb); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_mar" size="2" value="<% out.print(x_kol_mar); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_apr" size="2" value="<% out.print(x_kol_apr); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_maj" size="2" value="<% out.print(x_kol_maj); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jun" size="2" value="<% out.print(x_kol_jun); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jul" size="2" value="<% out.print(x_kol_jul); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_avg" size="2" value="<% out.print(x_kol_avg); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_sep" size="2" value="<% out.print(x_kol_sep); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_okt" size="2" value="<% out.print(x_kol_okt); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_nov" size="2" value="<% out.print(x_kol_nov); %>"></td>
-		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_dec" size="2" value="<% out.print(x_kol_dec); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:letna_napoved" size="3" value="<% out.print(nf_ge.format(x_letna_napoved)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:cena" size="3" value="<% out.print(nf_ge.format(x_cena)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jan" size="3" value="<% out.print(nf_ge.format(x_kol_jan)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_feb" size="3" value="<% out.print(nf_ge.format(x_kol_feb)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_mar" size="3" value="<% out.print(nf_ge.format(x_kol_mar)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_apr" size="3" value="<% out.print(nf_ge.format(x_kol_apr)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_maj" size="3" value="<% out.print(nf_ge.format(x_kol_maj)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jun" size="3" value="<% out.print(nf_ge.format(x_kol_jun)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_jul" size="3" value="<% out.print(nf_ge.format(x_kol_jul)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_avg" size="3" value="<% out.print(nf_ge.format(x_kol_avg)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_sep" size="3" value="<% out.print(nf_ge.format(x_kol_sep)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_okt" size="3" value="<% out.print(nf_ge.format(x_kol_okt)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_nov" size="3" value="<% out.print(nf_ge.format(x_kol_nov)); %>"></td>
+		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:kol_dec" size="3" value="<% out.print(nf_ge.format(x_kol_dec)); %>"></td>
 <% } %>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
