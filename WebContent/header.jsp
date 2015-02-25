@@ -22,6 +22,7 @@ final int ewSell = 4;
 final int ewProcess = 8;
 final int ewCalculations = 16;
 final int ewRecikel = 32;
+final int ewKomunala = 64;
 
 final int ewAdmin = 16;
 
@@ -122,6 +123,15 @@ if ((meni & ewRecikel) == ewRecikel){
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazelist.jsp?cmd=top">Embala&#382e</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazninalist.jsp?cmd=top">Poro&#269;anje</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=25">Ra&#269;un</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
+<%}%>
+
+<%
+if ((meni & ewKomunala) == ewKomunala){
+%>
+			<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">KOMUNALE</span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="komunalelist.jsp?cmd=top">Komunale</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="komunalekolicinelist.jsp?cmd=top">Koli&#269;ine</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>
 
