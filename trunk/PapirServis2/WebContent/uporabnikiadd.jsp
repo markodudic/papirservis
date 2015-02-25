@@ -207,6 +207,11 @@ try{
 
 		int meni = 0;		
 		
+		if (request.getParameter("x_meni7") != null){
+			meni++;
+		}
+		meni<<= 1;
+		
 		if (request.getParameter("x_meni6") != null){
 			meni++;
 		}
@@ -479,6 +484,7 @@ return true;
 			<input type="checkbox" name="x_meni4"  value="<%= x_meni != null && (Integer.parseInt(x_meni.toString()) & 8) > 0 ? "checked" : "" %>">obračuni&nbsp;
 			<input type="checkbox" name="x_meni5"  value="<%= x_meni != null && (Integer.parseInt(x_meni.toString()) & 16) > 0 ? "checked" : "" %>">kalkulacije&nbsp;
 			<input type="checkbox" name="x_meni6"  value="<%= x_meni != null && (Integer.parseInt(x_meni.toString()) & 32) > 0 ? "checked" : "" %>">emala&#382nina&nbsp;
+			<input type="checkbox" name="x_meni7"  value="<%= x_meni != null && (Integer.parseInt(x_meni.toString()) & 64) > 0 ? "checked" : "" %>">komunale&nbsp;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">aktiven&nbsp;</td>
