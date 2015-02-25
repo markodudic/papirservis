@@ -1,0 +1,10 @@
+//KOMUNALE
+CREATE TABLE `komunale` (
+	`sif_kupca` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`sif_kupca`),
+	CONSTRAINT `FK1_komunale_kupci` FOREIGN KEY (`sif_kupca`) REFERENCES `kupci` (`sif_kupca`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT;
+
