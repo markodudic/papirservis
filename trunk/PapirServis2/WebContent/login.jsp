@@ -74,6 +74,7 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 
 				 	session.setAttribute("material_okolje_prikaz_material","koda");
 					session.setAttribute("material_okolje_prikaz_okolje","koda");
+					session.setAttribute("material_okolje_prikaz_zdruzi","koda");
 
 					session.setAttribute("vse",  rs.getString("vse"));
 					session.setAttribute("enote",  rs.getString("enote"));

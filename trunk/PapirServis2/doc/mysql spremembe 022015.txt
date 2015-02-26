@@ -8,3 +8,38 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ROW_FORMAT=COMPACT;
 
+//KOMUNALE KOLICINE
+CREATE TABLE `komunale_kolicine` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`sif_kupca` VARCHAR(255) NOT NULL,
+	`koda` VARCHAR(255) NOT NULL,
+	`zdruzi` VARCHAR(255) NULL DEFAULT NULL,
+	`delez` DOUBLE NULL DEFAULT NULL,
+	`kol_jan` DOUBLE NULL DEFAULT NULL,
+	`kol_feb` DOUBLE NULL DEFAULT NULL,
+	`kol_mar` DOUBLE NULL DEFAULT NULL,
+	`kol_apr` DOUBLE NULL DEFAULT NULL,
+	`kol_maj` DOUBLE NULL DEFAULT NULL,
+	`kol_jun` DOUBLE NULL DEFAULT NULL,
+	`kol_jul` DOUBLE NULL DEFAULT NULL,
+	`kol_avg` DOUBLE NULL DEFAULT NULL,
+	`kol_sep` DOUBLE NULL DEFAULT NULL,
+	`kol_okt` DOUBLE NULL DEFAULT NULL,
+	`kol_nov` DOUBLE NULL DEFAULT NULL,
+	`kol_dec` DOUBLE NULL DEFAULT NULL,
+	`zacetek` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`uporabnik` INT(11) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `unique` (`sif_kupca`, `koda`),
+	INDEX `FK2_kolicine_okolje` (`koda`),
+	INDEX `FK3_kolicine_uporabnik` (`uporabnik`),
+	INDEX `FK4_zdruzi_okolje` (`zdruzi`),
+	CONSTRAINT `FK4_zdruzi_okolje` FOREIGN KEY (`zdruzi`) REFERENCES `okolje` (`koda`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK1_kolicine_komunale` FOREIGN KEY (`sif_kupca`) REFERENCES `komunale` (`sif_kupca`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK2_kolicine_okolje` FOREIGN KEY (`koda`) REFERENCES `okolje` (`koda`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK3_kolicine_uporabnik` FOREIGN KEY (`uporabnik`) REFERENCES `uporabniki` (`sif_upor`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+AUTO_INCREMENT=3;
