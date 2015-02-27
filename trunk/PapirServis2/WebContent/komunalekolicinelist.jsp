@@ -1,5 +1,9 @@
 <%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*,java.net.*" isErrorPage="true"%>
 <%@ page contentType="text/html; charset=utf-8" %>
+
+<script language="JavaScript" src="popcalendar.js"></script>
+<script language="JavaScript" src="papirservis.js"></script>
+
 <% Locale locale = Locale.getDefault();
 NumberFormat nf_ge = NumberFormat.getInstance(Locale.GERMAN);
 /*response.setLocale(locale);*/%>
@@ -48,6 +52,11 @@ String b_search = "";
 String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 
+String datum = request.getParameter("datum");
+int mesec = 0;
+if ((request.getParameter("mesec") == null) || request.getParameter("mesec").equals("izbrani")) {
+	mesec = 1;
+}
 String sif_kupca = request.getParameter("sif_kupca");
 if (sif_kupca!=null && sif_kupca.equals("null")) sif_kupca=null;
 %>
@@ -59,7 +68,7 @@ if (a != null && a.equals("Potrdi")) {
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     while (parameterNames.hasMoreElements()) {
         String paramName = parameterNames.nextElement();
-        if (paramName.equals("start") || paramName.equals("psearch") || paramName.equals("sif_kupca") || paramName.equals("Submit")) continue;
+        if (paramName.equals("start") || paramName.equals("psearch") || paramName.equals("sif_kupca") || paramName.equals("Submit") || paramName.equals("datum") || paramName.equals("mesec")) continue;
         String[] pKeys = paramName.split(":");
 	  	String[] paramValues = request.getParameterValues(paramName);
         for (int i = 0; i < paramValues.length; i++) {
@@ -185,8 +194,6 @@ if (dbwhere != null && dbwhere.length() > 5) {
 String DefaultOrder = "";
 String DefaultOrderType = "";
 
-// No Default Filter
-String DefaultFilter = "";
 
 // Check for an Order parameter
 String OrderBy = request.getParameter("order");
@@ -218,55 +225,123 @@ String searchwhere1 = (String) session.getAttribute("komunalekolicine_searchwher
 
 Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 ResultSet rs = null;
-String subQuery ="";
 
-// Build SQL
-String strsql = "select a.*, b.naziv, c.material, uporabniki.uporabnisko_ime " +
-				"from komunale_kolicine as a " +
-				"left join kupci as b on a.sif_kupca = b.sif_kupca " +
-				"left join okolje as c on a.koda = c.koda " +
-				"left join uporabniki on a.uporabnik = sif_upor ";
-
-whereClause = subQuery ;
-if (DefaultFilter.length() > 0) {
-	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
+if (datum==null || datum.equals("-1") || datum.equals("")) {
+	Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
+	String y 	= String.valueOf(dat.get(Calendar.YEAR));
+	String m 	= String.valueOf(dat.get(Calendar.MONTH) + 1);
+	String d  = String.valueOf(dat.get(Calendar.DAY_OF_MONTH));
+	if(d.length() == 1) d = "0" + d;
+	if(m.length() == 1) m = "0" + m;
+	
+	String s = d;
+	s = s + "." + m;
+	s = s + "." + y;
+	
+	datum = s;
 }
+
+String datum_fm = null;
+if ((datum != null) && (datum != ""))
+{
+	datum_fm = (EW_UnFormatDateTime((String)datum,"EURODATE", locale)).toString();
+}
+
+String caseStr = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
+		" WHEN 1 THEN ((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100) - sum(kolicina) " +
+		" WHEN 2 THEN ((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100) - sum(kolicina) " +
+		" WHEN 3 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100) - sum(kolicina) " +
+		" WHEN 4 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+if("+mesec+"=1,ifnull(dej_apr,kol_apr),kol_apr)) * delez/100) - sum(kolicina) " +
+		" WHEN 5 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+if("+mesec+"=1,ifnull(dej_maj,kol_maj),kol_maj)) * delez/100) - sum(kolicina) " +
+		" WHEN 6 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+if("+mesec+"=1,ifnull(dej_jun,kol_jun),kol_jun)) * delez/100) - sum(kolicina) " +
+		" WHEN 7 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+if("+mesec+"=1,ifnull(dej_jul,kol_jul),kol_jul)) * delez/100) - sum(kolicina) " +
+		" WHEN 8 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+if("+mesec+"=1,ifnull(dej_avg,kol_avg),kol_avg)) * delez/100) - sum(kolicina) " +
+		" WHEN 9 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100) - sum(kolicina) " +
+		" WHEN 10 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100) - sum(kolicina) " +
+		" WHEN 11 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100) - sum(kolicina) " +
+		" WHEN 12 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100) - sum(kolicina) " +
+		" END prevzeto ";
+
+String strsql = "SELECT DISTINCT id, sif_kupca, koda, zdruzi, delez,  " +
+		" kol_jan, kol_feb, kol_mar, kol_apr, kol_maj, kol_jun, kol_jul, kol_avg, kol_sep, kol_okt, kol_nov, kol_dec, " +
+		" dej_jan, dej_feb, dej_mar, dej_apr, dej_maj, dej_jun, dej_jul, dej_avg, dej_sep, dej_okt, dej_nov, dej_dec, " +
+		" zacetek, uporabnisko_ime, naziv, material, zbrano, prevzeto, " +
+		"CASE month(CAST('"+datum_fm+"' AS DATE))  " +
+		" WHEN 1 THEN (kol_feb+prevzeto) " +
+		" WHEN 2 THEN (kol_mar+prevzeto) " +
+		" WHEN 3 THEN (kol_apr+prevzeto) " +
+		" WHEN 4 THEN (kol_maj+prevzeto) " +
+		" WHEN 5 THEN (kol_jun+prevzeto) " +
+		" WHEN 6 THEN (kol_jul+prevzeto) " +
+		" WHEN 7 THEN (kol_avg+prevzeto) " +
+		" WHEN 8 THEN (kol_sep+prevzeto) " +
+		" WHEN 9 THEN (kol_okt+prevzeto) " +
+		" WHEN 10 THEN (kol_nov+prevzeto) " +
+		" WHEN 11 THEN (kol_dec+prevzeto) " +
+		" WHEN 12 THEN (kol_jan+prevzeto) " +
+		" END za_prevzeti " +
+		"from ( " +
+		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
+		" sum(kolicina) zbrano,  " +
+		" caseStr " +
+		"from komunale_kolicine as a "+
+		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
+		" left join okolje as c on a.koda = c.koda "+
+		" left join uporabniki on a.uporabnik = sif_upor " +
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+
 if (dbwhere.length() > 0) {
-	whereClause = whereClause + " (" + dbwhere + ") AND ";
-}
-if ((ewCurSec & ewAllowList) != ewAllowList) {
-	whereClause = whereClause + "(0=1) AND ";
+	whereClause += " (" + dbwhere + ") AND ";
 }
 if (whereClause.length() > 5 && whereClause.substring(whereClause.length()-5, whereClause.length()).equals(" AND ")) {
 	whereClause = whereClause.substring(0, whereClause.length()-5);
 }
 if (whereClause.length() > 0) {
-	strsql = strsql + " WHERE " + whereClause;
-}
-
-if (whereClause.length() > 0) {
-	if (searchwhere1 != null && searchwhere1.length() > 0)
-		strsql = strsql + " AND " + searchwhere1;
-}
-else {
-	if (searchwhere1 != null && searchwhere1.length() > 0)
-		strsql = strsql + " WHERE " + searchwhere1;
+	strsql += " WHERE " + whereClause;
 }
 if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 	if(whereClause.length() > 0)
-		strsql = strsql + " AND a.sif_kupca = " + sif_kupca;
+		strsql += " AND a.sif_kupca = " + sif_kupca;
 	else {
-		strsql = strsql + " WHERE a.sif_kupca = " + sif_kupca;
+		strsql += " WHERE a.sif_kupca = " + sif_kupca;
 	}
 }
 
+strsql += " GROUP BY a.sif_kupca, kkoda";
 
-if (OrderBy != null && OrderBy.length() > 0) {
-	strsql = strsql + " ORDER BY " + OrderBy + " " + (String) session.getAttribute("komunalekolicine_OT");
-} else {
-	strsql = strsql + " ORDER BY a.sif_kupca, a.koda";
+//tole je se zaradi zdruzi
+strsql += " UNION ALL ";
+
+strsql += "select a.*, null kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
+		" sum(kolicina) zbrano,  " +
+		" caseStr " +
+		"from komunale_kolicine as a "+
+		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
+		" left join okolje as c on a.koda = c.koda "+
+		" left join uporabniki on a.uporabnik = sif_upor " +
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) "+
+		" where zdruzi is not null ";
+
+if (whereClause.length() > 0) {
+	strsql += " AND " + whereClause;
+}
+if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
+	strsql += " AND a.sif_kupca = " + sif_kupca;
 }
 
+strsql += " GROUP BY a.sif_kupca, a.koda";
+
+//
+if (OrderBy != null && OrderBy.length() > 0) {
+	strsql += " ORDER BY " + OrderBy + " " + (String) session.getAttribute("komunalekolicine_OT") + ") as a";
+} else {
+	strsql += " ORDER BY sif_kupca, koda) as aa";
+}
+
+String sqlParam1 = URLEncoder.encode(strsql.toString());
+String sqlParam2 = URLEncoder.encode(caseStr.toString());
+
+strsql = strsql.replaceAll("caseStr", caseStr);
 
 //out.println(strsql);
 rs = stmt.executeQuery(strsql);
@@ -305,6 +380,8 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		session.setAttribute("komunalekolicine_REC", new Integer(startRec));
 	}
 }
+
+
 %>
 <%@ include file="header.jsp" %>
 <script language="JavaScript">
@@ -313,7 +390,7 @@ function disableSome(EW_this){
 </script>
 
 <p><span class="jspmaker">Tabela: recikel embalaznina</span></p>
-<form action="komunalekolicinelist.jsp" method="post">
+<form id="komunalaForm" action="komunalekolicinelist.jsp" method="post">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
@@ -322,6 +399,7 @@ function disableSome(EW_this){
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="komunalekolicinelist.jsp?cmd=reset">Prikaži vse</a>
+			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>')";>
 		</span></td>
 	</tr>
 	
@@ -351,18 +429,35 @@ function disableSome(EW_this){
 				stmtwrk_x_komunale = null;
 				x_komunaleList += "</select>";
 				out.println(x_komunaleList);
-%>
-&nbsp;</td>
+			%>
+		</td>
 	</tr>	
-		
+	<tr>
+		<td class="jspmaker">Datum za dejanske količine:&nbsp;</td>
+		<td class="jspmaker">
+			<input type="text" name="datum" value="<%= EW_FormatDateTime(datum,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum,'dd.mm.yyyy');return false;">&nbsp;
+		</td>		
+	</tr>	
+	<tr>
+		<td class="jspmaker">Izbrani mesec:&nbsp;</td>
+		<td class="jspmaker">
+    		<INPUT type="radio" name="mesec" value="izbrani" <%if (mesec==1) out.println("checked");%>>Izbrani
+    		<INPUT type="radio" name="mesec" value="prejsnji" <%if (mesec==0) out.println("checked");%>>Prejšnji
+		</td>
+	</tr>
 </table>
 <table>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd) { %>
 	<tr></tr>
-	<tr><td>
-		<a href="komunalekolicineadd.jsp">Dodaj nov zapis</a>
-		<input type="Submit" name="Submit" value="Potrdi">
-	</td></tr>
+	<tr>
+		<td>
+			<a href="komunalekolicineadd.jsp">Dodaj nov zapis</a>
+			<% if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {%>
+				<input type="Submit" name="Submit" value="Potrdi">
+			<% } %>
+		</td>
+	</tr>
 <% } %>
 </table>
 
@@ -468,6 +563,77 @@ function disableSome(EW_this){
 <a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_dec","utf-8") %>">Kol dec&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "</b>" : ""%>
 		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_jan")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_jan","utf-8") %>">Dej jan&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_jan")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_feb")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_feb","utf-8") %>">Dej feb&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_feb")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_feb")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_mar")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_mar","utf-8") %>">Dej mar&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_mar")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_mar")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_apr")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_apr","utf-8") %>">Dej apr&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_apr")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_apr")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_maj")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_maj","utf-8") %>">Dej maj&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_maj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_maj")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_jun")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_jun","utf-8") %>">Dej jun&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_jun")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_jun")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_jul")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_jul","utf-8") %>">Dej jul&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_jul")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_jul")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_avg")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_avg","utf-8") %>">Dej avg&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_avg")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_avg")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_sep")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_sep","utf-8") %>">Dej sep&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_sep")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_sep")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_okt")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_okt","utf-8") %>">Dej okt&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_okt")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_okt")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_nov")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_nov","utf-8") %>">Dej nov&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_nov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_nov")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "<b>" : ""%>
+<a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_dec","utf-8") %>">Dej dec&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "</b>" : ""%>
+		</td>
+
+		<td>
+<a href="">Zbrano&nbsp;</a>
+		</td>
+		<td>
+<a href="">Prevzeto&nbsp;</a>
+		</td>
+		<td>
+<a href="">Za prevzeti&nbsp;</a>
+		</td>
+		
 		<td nowrap>
 <%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
 <a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("zacetek","utf-8") %>">Začetek&nbsp;<% if (OrderBy != null && OrderBy.equals("zacetek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -530,6 +696,21 @@ while (rs.next() && recCount < stopRec) {
 	float x_kol_okt = 0;
 	float x_kol_nov = 0;
 	float x_kol_dec = 0;
+	float x_dej_jan = 0;
+	float x_dej_feb = 0;
+	float x_dej_mar = 0;
+	float x_dej_apr = 0;
+	float x_dej_maj = 0;
+	float x_dej_jun = 0;
+	float x_dej_jul = 0;
+	float x_dej_avg = 0;
+	float x_dej_sep = 0;
+	float x_dej_okt = 0;
+	float x_dej_nov = 0;
+	float x_dej_dec = 0;
+	float x_zbrano = 0;
+	float x_prevzeto = 0;
+	float x_za_prevzeti = 0;
 
 	String x_sif_kupca = "";
 	String x_naziv = "";
@@ -630,6 +811,96 @@ while (rs.next() && recCount < stopRec) {
 		x_kol_dec = 0;
 	}		
 
+	if (rs.getString("dej_jan") != null){
+		x_dej_jan = rs.getFloat("dej_jan");
+	}else{
+		x_dej_jan = 0;
+	}	
+	
+	if (rs.getString("dej_feb") != null){
+		x_dej_feb = rs.getFloat("dej_feb");
+	}else{
+		x_dej_feb = 0;
+	}	
+	
+	if (rs.getString("dej_mar") != null){
+		x_dej_mar = rs.getFloat("dej_mar");
+	}else{
+		x_dej_mar = 0;
+	}	
+	
+	if (rs.getString("dej_apr") != null){
+		x_dej_apr = rs.getFloat("dej_apr");
+	}else{
+		x_dej_apr = 0;
+	}	
+	
+	if (rs.getString("dej_maj") != null){
+		x_dej_maj = rs.getFloat("dej_maj");
+	}else{
+		x_dej_maj = 0;
+	}		
+	if (rs.getString("dej_jun") != null){
+		x_dej_jun = rs.getFloat("dej_jun");
+	}else{
+		x_dej_jun = 0;
+	}
+
+	if (rs.getString("dej_jul") != null){
+		x_dej_jul = rs.getFloat("dej_jul");
+	}else{
+		x_dej_jul = 0;
+	}
+	
+	if (rs.getString("dej_avg") != null){
+		x_dej_avg = rs.getFloat("dej_avg");
+	}else{
+		x_dej_avg = 0;
+	}
+	
+	if (rs.getString("dej_sep") != null){
+		x_dej_sep = rs.getFloat("dej_sep");
+	}else{
+		x_dej_sep = 0;
+	}
+	
+	if (rs.getString("dej_okt") != null){
+		x_dej_okt = rs.getFloat("dej_okt");
+	}else{
+		x_dej_okt = 0;
+	}	
+
+	
+	if (rs.getString("dej_nov") != null){
+		x_dej_nov = rs.getFloat("dej_nov");
+	}else{
+		x_dej_nov = 0;
+	}	
+	
+	if (rs.getString("dej_dec") != null){
+		x_dej_dec = rs.getFloat("dej_dec");
+	}else{
+		x_dej_dec = 0;
+	}		
+
+	if (rs.getString("zbrano") != null){
+		x_zbrano = rs.getFloat("zbrano");
+	}else{
+		x_zbrano = 0;
+	}		
+
+	if (rs.getString("prevzeto") != null){
+		x_prevzeto = rs.getFloat("prevzeto");
+	}else{
+		x_prevzeto = 0;
+	}		
+
+	if (rs.getString("za_prevzeti") != null){
+		x_za_prevzeti = rs.getFloat("za_prevzeti");
+	}else{
+		x_za_prevzeti = 0;
+	}		
+
 	if (rs.getString("sif_kupca") != null){
 		x_sif_kupca = rs.getString("sif_kupca");
 	}else{
@@ -714,6 +985,18 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(nf_ge.format(x_kol_okt)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_nov)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_dec)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_jan)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_feb)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_mar)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_apr)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_maj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_jun)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_jul)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_avg)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_sep)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_okt)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_nov)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_dec)); %>&nbsp;</td>
 <% } else { %>
 		<td nowrap><% out.print(x_koda); %>&nbsp;</td>
 		<!-- td><% out.print(x_material); %>&nbsp;</td-->
@@ -757,7 +1040,22 @@ if (key != null && key.length() > 0) {
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_okt" size="3" value="<% out.print(nf_ge.format(x_kol_okt)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_nov" size="3" value="<% out.print(nf_ge.format(x_kol_nov)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_dec" size="3" value="<% out.print(nf_ge.format(x_kol_dec)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jan" size="3" value="<% out.print(nf_ge.format(x_dej_jan)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_feb" size="3" value="<% out.print(nf_ge.format(x_dej_feb)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_mar" size="3" value="<% out.print(nf_ge.format(x_dej_mar)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_apr" size="3" value="<% out.print(nf_ge.format(x_dej_apr)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_maj" size="3" value="<% out.print(nf_ge.format(x_dej_maj)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jun" size="3" value="<% out.print(nf_ge.format(x_dej_jun)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jul" size="3" value="<% out.print(nf_ge.format(x_dej_jul)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_avg" size="3" value="<% out.print(nf_ge.format(x_dej_avg)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_sep" size="3" value="<% out.print(nf_ge.format(x_dej_sep)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_okt" size="3" value="<% out.print(nf_ge.format(x_dej_okt)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_nov" size="3" value="<% out.print(nf_ge.format(x_dej_nov)); %>"></td>
+		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_dec" size="3" value="<% out.print(nf_ge.format(x_dej_dec)); %>"></td>
 <% } %>
+		<td><% out.print(nf_ge.format(x_zbrano)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_prevzeto)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_za_prevzeti)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
 &nbsp;</td>

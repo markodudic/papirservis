@@ -75,6 +75,18 @@ String x_kol_sep = "";
 String x_kol_okt = "";
 String x_kol_nov = "";
 String x_kol_dec = "";
+String x_dej_jan = "";
+String x_dej_feb = "";
+String x_dej_mar = "";
+String x_dej_apr = "";
+String x_dej_maj = "";
+String x_dej_jun = "";
+String x_dej_jul = "";
+String x_dej_avg = "";
+String x_dej_sep = "";
+String x_dej_okt = "";
+String x_dej_nov = "";
+String x_dej_dec = "";
 
 Object x_zacetek = null;
 String x_uporabnik = "";
@@ -199,6 +211,78 @@ try{
 				x_kol_dec = "";
 			}		
 
+			if (rs.getString("dej_jan") != null){
+				x_dej_jan = rs.getString("dej_jan");
+			}else{
+				x_dej_jan = "";
+			}	
+			
+			if (rs.getString("dej_feb") != null){
+				x_dej_feb = rs.getString("dej_feb");
+			}else{
+				x_dej_feb = "";
+			}	
+			
+			if (rs.getString("dej_mar") != null){
+				x_dej_mar = rs.getString("dej_mar");
+			}else{
+				x_dej_mar = "";
+			}	
+			
+			if (rs.getString("dej_apr") != null){
+				x_dej_apr = rs.getString("dej_apr");
+			}else{
+				x_dej_apr = "";
+			}	
+			
+			if (rs.getString("dej_maj") != null){
+				x_dej_maj = rs.getString("dej_maj");
+			}else{
+				x_dej_maj = "";
+			}		
+			if (rs.getString("dej_jun") != null){
+				x_dej_jun = rs.getString("dej_jun");
+			}else{
+				x_dej_jun = "";
+			}
+
+			if (rs.getString("dej_jul") != null){
+				x_dej_jul = rs.getString("dej_jul");
+			}else{
+				x_dej_jul = "";
+			}
+			
+			if (rs.getString("dej_avg") != null){
+				x_dej_avg = rs.getString("dej_avg");
+			}else{
+				x_dej_avg = "";
+			}
+			
+			if (rs.getString("dej_sep") != null){
+				x_dej_sep = rs.getString("dej_sep");
+			}else{
+				x_dej_sep = "";
+			}
+			
+			if (rs.getString("dej_okt") != null){
+				x_dej_okt = rs.getString("dej_okt");
+			}else{
+				x_dej_okt = "";
+			}	
+
+			
+			if (rs.getString("dej_nov") != null){
+				x_dej_nov = rs.getString("dej_nov");
+			}else{
+				x_dej_nov = "";
+			}	
+			
+			if (rs.getString("dej_dec") != null){
+				x_dej_dec = rs.getString("dej_dec");
+			}else{
+				x_dej_dec = "";
+			}		
+
 			if (rs.getTimestamp("zacetek") != null){
 				x_zacetek = rs.getTimestamp("zacetek");
 			}else{
@@ -306,6 +390,77 @@ try{
 			x_kol_dec = "";
 		}		
 		
+		if (request.getParameter("x_dej_jan") != null){
+			x_dej_jan = request.getParameter("x_dej_jan");
+		}else{
+			x_dej_jan = "";
+		}	
+		
+		if (request.getParameter("x_dej_feb") != null){
+			x_dej_feb = request.getParameter("x_dej_feb");
+		}else{
+			x_dej_feb = "";
+		}	
+		
+		if (request.getParameter("x_dej_mar") != null){
+			x_dej_mar = request.getParameter("x_dej_mar");
+		}else{
+			x_dej_mar = "";
+		}	
+		
+		if (request.getParameter("x_dej_apr") != null){
+			x_dej_apr = request.getParameter("x_dej_apr");
+		}else{
+			x_dej_apr = "";
+		}	
+		
+		if (request.getParameter("x_dej_maj") != null){
+			x_dej_maj = request.getParameter("x_dej_maj");
+		}else{
+			x_dej_maj = "";
+		}		
+		if (request.getParameter("x_dej_jun") != null){
+			x_dej_jun = request.getParameter("x_dej_jun");
+		}else{
+			x_dej_jun = "";
+		}
+
+		if (request.getParameter("x_dej_jul") != null){
+			x_dej_jul = request.getParameter("x_dej_jul");
+		}else{
+			x_dej_jul = "";
+		}
+		
+		if (request.getParameter("x_dej_avg") != null){
+			x_dej_avg = request.getParameter("x_dej_avg");
+		}else{
+			x_dej_avg = "";
+		}
+		
+		if (request.getParameter("x_dej_sep") != null){
+			x_dej_sep = request.getParameter("x_dej_sep");
+		}else{
+			x_dej_sep = "";
+		}
+		
+		if (request.getParameter("x_dej_okt") != null){
+			x_dej_okt = request.getParameter("x_dej_okt");
+		}else{
+			x_dej_okt = "";
+		}	
+
+		
+		if (request.getParameter("x_dej_nov") != null){
+			x_dej_nov = request.getParameter("x_dej_nov");
+		}else{
+			x_dej_nov = "";
+		}	
+		
+		if (request.getParameter("x_dej_dec") != null){
+			x_dej_dec = request.getParameter("x_dej_dec");
+		}else{
+			x_dej_dec = "";
+		}		
 		
 		if (request.getParameter("x_zacetek") != null){
 			x_zacetek = (String) request.getParameter("x_zacetek");
@@ -470,6 +625,101 @@ try{
 			rs.updateDouble("kol_dec",Double.parseDouble(tmpfld));
 		}
 					
+		tmpfld = ((String) x_dej_jan).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_jan");
+		} else {
+			rs.updateDouble("dej_jan",Double.parseDouble(tmpfld));
+		}
+
+		tmpfld = ((String) x_dej_feb).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_feb");
+		} else {
+			rs.updateDouble("dej_feb",Double.parseDouble(tmpfld));
+		}		
+		
+		tmpfld = ((String) x_dej_mar).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_mar");
+		} else {
+			rs.updateDouble("dej_mar",Double.parseDouble(tmpfld));
+		}
+		tmpfld = ((String) x_dej_apr).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_apr");
+		} else {
+			rs.updateDouble("dej_apr",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_maj).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_maj");
+		} else {
+			rs.updateDouble("dej_maj",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_jun).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_jun");
+		} else {
+			rs.updateDouble("dej_jun",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_jul).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_jul");
+		} else {
+			rs.updateDouble("dej_jul",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_avg).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_avg");
+		} else {
+			rs.updateDouble("dej_avg",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_sep).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_sep");
+		} else {
+			rs.updateDouble("dej_sep",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_okt).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_okt");
+		} else {
+			rs.updateDouble("dej_okt",Double.parseDouble(tmpfld));
+		}
+
+		tmpfld = ((String) x_dej_nov).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_nov");
+		} else {
+			rs.updateDouble("dej_nov",Double.parseDouble(tmpfld));
+		}
+		
+		tmpfld = ((String) x_dej_dec).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("dej_dec");
+		} else {
+			rs.updateDouble("dej_dec",Double.parseDouble(tmpfld));
+		}
+
 		//Uporabnik
 		rs.updateInt("uporabnik",Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")));
 		
@@ -609,52 +859,100 @@ if(request.getParameter("prikaz_naslov")!= null){
 		<td class="ewTableAltRow"><input type="text" name="x_delez" size="30" value="<%= HTMLEncode((String)x_delez) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol jan&nbsp;</td>
+		<td class="ewTableHeader">Napoved jan&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_jan" size="30" value="<%= HTMLEncode((String)x_kol_jan) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol feb&nbsp;</td>
+		<td class="ewTableHeader">Napoved feb&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_feb" size="30" value="<%= HTMLEncode((String)x_kol_feb) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol mar&nbsp;</td>
+		<td class="ewTableHeader">Napoved mar&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_mar" size="30" value="<%= HTMLEncode((String)x_kol_mar) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol apr&nbsp;</td>
+		<td class="ewTableHeader">Napoved apr&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_apr" size="30" value="<%= HTMLEncode((String)x_kol_apr) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol maj&nbsp;</td>
+		<td class="ewTableHeader">Napoved maj&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_maj" size="30" value="<%= HTMLEncode((String)x_kol_maj) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol jun&nbsp;</td>
+		<td class="ewTableHeader">Napoved jun&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_jun" size="30" value="<%= HTMLEncode((String)x_kol_jun) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol jul&nbsp;</td>
+		<td class="ewTableHeader">Napoved jul&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_jul" size="30" value="<%= HTMLEncode((String)x_kol_jul) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol avg&nbsp;</td>
+		<td class="ewTableHeader">Napoved avg&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_avg" size="30" value="<%= HTMLEncode((String)x_kol_avg) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol sep&nbsp;</td>
+		<td class="ewTableHeader">Napoved sep&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_sep" size="30" value="<%= HTMLEncode((String)x_kol_sep) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol okt&nbsp;</td>
+		<td class="ewTableHeader">Napoved okt&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_okt" size="30" value="<%= HTMLEncode((String)x_kol_okt) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol nov&nbsp;</td>
+		<td class="ewTableHeader">Napoved nov&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_nov" size="30" value="<%= HTMLEncode((String)x_kol_nov) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Kol dec&nbsp;</td>
+		<td class="ewTableHeader">Napoved dec&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kol_dec" size="30" value="<%= HTMLEncode((String)x_kol_dec) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko jan&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_jan" size="30" value="<%= HTMLEncode((String)x_dej_jan) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko feb&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_feb" size="30" value="<%= HTMLEncode((String)x_dej_feb) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko mar&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_mar" size="30" value="<%= HTMLEncode((String)x_dej_mar) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko apr&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_apr" size="30" value="<%= HTMLEncode((String)x_dej_apr) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko maj&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_maj" size="30" value="<%= HTMLEncode((String)x_dej_maj) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko jun&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_jun" size="30" value="<%= HTMLEncode((String)x_dej_jun) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko jul&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_jul" size="30" value="<%= HTMLEncode((String)x_dej_jul) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko avg&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_avg" size="30" value="<%= HTMLEncode((String)x_dej_avg) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko sep&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_sep" size="30" value="<%= HTMLEncode((String)x_dej_sep) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko okt&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_okt" size="30" value="<%= HTMLEncode((String)x_dej_okt) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko nov&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_nov" size="30" value="<%= HTMLEncode((String)x_dej_nov) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Dejansko dec&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_dej_dec" size="30" value="<%= HTMLEncode((String)x_dej_dec) %>">&nbsp;</td>
 	</tr>
 
 </table>
