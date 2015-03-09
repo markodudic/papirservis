@@ -73,8 +73,8 @@ String x_posta_posiljanje = "";
 String x_skrbnik = "";
 String x_vrsta_zavezanca = "";
 String x_interval_pavsala = "";
-String x_datum_pricetka_pogodbe = "";
-String x_datum_sklenitve_pogodbe = "";
+Object x_datum_pricetka_pogodbe = "";
+Object x_datum_sklenitve_pogodbe = "";
 String x_valuta = "";
 String x_kontaktna_oseba = "";
 String x_telefon_kontaktna = "";
@@ -197,15 +197,15 @@ try{
 			}	
 			
 			if (rs.getString("datum_pricetka_pogodbe") != null){
-				x_datum_pricetka_pogodbe = rs.getString("datum_pricetka_pogodbe");
+				x_datum_pricetka_pogodbe = rs.getTimestamp("datum_pricetka_pogodbe");
 			}else{
-				x_datum_pricetka_pogodbe = "";
+				x_datum_pricetka_pogodbe = null;
 			}	
 			
 			if (rs.getString("datum_sklenitve_pogodbe") != null){
-				x_datum_sklenitve_pogodbe = rs.getString("datum_sklenitve_pogodbe");
+				x_datum_sklenitve_pogodbe = rs.getTimestamp("datum_sklenitve_pogodbe");
 			}else{
-				x_datum_sklenitve_pogodbe = "";
+				x_datum_sklenitve_pogodbe = null;
 			}	
 			
 			if (rs.getString("valuta") != null){
