@@ -307,7 +307,7 @@ WHERE
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Specifikacija storitve: "+$P{naziv_racun}+" ("+$P{od_datum_str}+" - "+$P{do_datum_str}+") storitve prenosa obveznosti ravnanja z embalažo in odpadno embalažo ("+$P{nacin_obracuna}+")"]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Specifikacija storitve: ("+$P{od_datum_str}+" - "+$P{do_datum_str}+") storitve prenosa obveznosti ravnanja z embalažo in odpadno embalažo ("+$P{nacin_obracuna}+")"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -401,6 +401,9 @@ WHERE
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["PAVŠAL"]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
@@ -433,6 +436,9 @@ WHERE
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["DEJANSKO"]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
 				</subreport>
@@ -464,6 +470,9 @@ WHERE
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["PORAČUN"]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_subreport0.jasper"]]></subreportExpression>
