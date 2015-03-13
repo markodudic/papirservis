@@ -460,7 +460,7 @@ if (totalRecs > 0) {
 	<% if (NextStart == startRec) { %>
 	<td><img src="images/nextdisab.gif" alt="Next" width="20" height="15" border="0"></td>
 	<% }else{ %>
-	<td><a href="komunalelistt.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
+	<td><a href="komunalelist.jsp?start=<%=NextStart%>"><img src="images/next.gif" alt="Next" width="20" height="15" border="0"></a></td>
 	<% } %>
 <!--last page button-->
 	<% if (LastStart == startRec) { %>
