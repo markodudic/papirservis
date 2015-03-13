@@ -42,16 +42,19 @@
 		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="tip" isForPrompting="false" class="java.lang.Integer"/>
+	<parameter name="naziv_racun" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["pavšal"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[select AAA.tar_st, AAA.naziv, 
-	if ($P{tip}=0, AAA.KOE25_PAV, if ($P{tip}=1, AAA.KOE25_DEJ, AAA.KOE25_PAV-AAA.KOE25_DEJ)) AS KOE25_KOL,
+	if ($P{tip}=0, AAA.KOE25_PAV, if ($P{tip}=1, AAA.KOE25_DEJ, AAA.KOE25_DEJ-AAA.KOE25_PAV)) AS KOE25_KOL,
 	AAA.KOE25_CENA AS KOE25_CENA,
-	if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, if ($P{tip}=1, AAA.KOE25_DEJ*AAA.KOE25_CENA, (AAA.KOE25_PAV-AAA.KOE25_DEJ)*AAA.KOE25_CENA)) AS KOE25_ZNESEK,
-	if ($P{tip}=0, AAA.NKOE25_PAV, if ($P{tip}=1, AAA.NKOE25_DEJ, AAA.NKOE25_PAV-AAA.NKOE25_DEJ)) AS NKOE25_KOL,
+	if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, if ($P{tip}=1, AAA.KOE25_DEJ*AAA.KOE25_CENA, (AAA.KOE25_DEJ-AAA.KOE25_PAV)*AAA.KOE25_CENA)) AS KOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE25_PAV, if ($P{tip}=1, AAA.NKOE25_DEJ, AAA.NKOE25_DEJ-AAA.NKOE25_PAV)) AS NKOE25_KOL,
 	AAA.NKOE25_CENA AS NKOE25_CENA,
-	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, if ($P{tip}=1, AAA.NKOE25_DEJ*AAA.NKOE25_CENA, (AAA.NKOE25_PAV-AAA.NKOE25_DEJ)*AAA.NKOE25_CENA)) AS NKOE25_ZNESEK,
-	if ($P{tip}=0, AAA.NKOE34_PAV, if ($P{tip}=1, AAA.NKOE34_DEJ, AAA.NKOE34_PAV-AAA.NKOE34_DEJ)) AS NKOE34_KOL,
+	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, if ($P{tip}=1, AAA.NKOE25_DEJ*AAA.NKOE25_CENA, (AAA.NKOE25_DEJ-AAA.NKOE25_PAV)*AAA.NKOE25_CENA)) AS NKOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE34_PAV, if ($P{tip}=1, AAA.NKOE34_DEJ, AAA.NKOE34_DEJ-AAA.NKOE34_PAV)) AS NKOE34_KOL,
 	AAA.NKOE34_CENA AS NKOE34_CENA,
-	if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, if ($P{tip}=1, AAA.NKOE34_DEJ*AAA.NKOE34_CENA, (AAA.NKOE34_PAV-AAA.NKOE34_DEJ)*AAA.NKOE34_CENA)) AS NKOE34_ZNESEK
+	if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, if ($P{tip}=1, AAA.NKOE34_DEJ*AAA.NKOE34_CENA, (AAA.NKOE34_DEJ-AAA.NKOE34_PAV)*AAA.NKOE34_CENA)) AS NKOE34_ZNESEK
 from (
 select BBB.tar_st, BBB.naziv, 
 	SUM(BBB.KOE25_CENA) KOE25_CENA, SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ,
@@ -198,13 +201,29 @@ group by BBB.tar_st, BBB.naziv
 		</pageHeader>
 		<columnHeader>
 			<band height="33"  isSplitAllowed="true" >
-				<staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="0"
 						y="0"
 						width="89"
-						height="33"
+						height="13"
+						backcolor="#009900"
+						key="textField-17"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_racun}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="13"
+						width="89"
+						height="20"
 						forecolor="#000000"
 						backcolor="#009900"
 						key="element-90"/>
@@ -213,22 +232,6 @@ group by BBB.tar_st, BBB.naziv
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[EMBALAŽA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="89"
-						y="0"
-						width="50"
-						height="33"
-						forecolor="#000000"
-						backcolor="#009900"
-						key="element-90"/>
-					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ŠIFRA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -479,15 +482,6 @@ group by BBB.tar_st, BBB.naziv
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="88"
-						y="0"
-						width="0"
-						height="32"
-						key="line-23"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<line direction="TopDown">
-					<reportElement
 						x="138"
 						y="12"
 						width="396"
@@ -495,6 +489,31 @@ group by BBB.tar_st, BBB.naziv
 						key="line-25"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="88"
+						y="0"
+						width="0"
+						height="32"
+						key="line-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="89"
+						y="0"
+						width="50"
+						height="33"
+						forecolor="#000000"
+						backcolor="#009900"
+						key="element-90"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ŠIFRA]]></text>
+				</staticText>
 			</band>
 		</columnHeader>
 		<detail>
