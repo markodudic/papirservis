@@ -59,7 +59,7 @@
     <param-name>logoRecikelPdf</param-name>
     <param-value>c://projects//monolit//papirservis//WebContent//images//recikel.jpg</param-value>
   </context-param>
-  <context-param>
+  <!-- context-param>
 	 <param-name>SledenjeServerURL</param-name>
 	 <param-value>http://spoi.sledenje.com/gpswinservlets51303493/servlet/GpsPSLpos2orders</param-value>
   </context-param>
@@ -90,7 +90,7 @@
   <context-param>
 	 <param-name>distance_location</param-name>
 	 <param-value>0.002</param-value>
-  </context-param>
+  </context-param-->
   
   <servlet>
     <servlet-name>ArsoServlet</servlet-name>
@@ -123,7 +123,7 @@
   </servlet-mapping>
   
   
-  <servlet>
+  <!-- servlet>
     <servlet-name>TimerServlet</servlet-name>
     <servlet-class>si.papirservis.TimerServlet</servlet-class>
 	 <init-param>
@@ -160,7 +160,7 @@
     <servlet-mapping>
       <servlet-name>SledenjeServer</servlet-name>
       <url-pattern>/SledenjeServer</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping-->
 
 	<servlet>
 		<servlet-name>StrankeServlet</servlet-name>
