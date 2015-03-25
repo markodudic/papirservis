@@ -6,6 +6,8 @@
 
 <% Locale locale = Locale.getDefault();
 NumberFormat nf_ge = NumberFormat.getInstance(Locale.GERMAN);
+NumberFormat nf_ge1 = NumberFormat.getInstance(Locale.GERMAN);
+nf_ge1.setMaximumFractionDigits(0);
 /*response.setLocale(locale);*/%>
 <% session.setMaxInactiveInterval(30*60); %>
 <% 
@@ -267,18 +269,18 @@ String strsql = "SELECT DISTINCT id, sif_kupca, koda, zdruzi, delez,  " +
 		" dej_jan, dej_feb, dej_mar, dej_apr, dej_maj, dej_jun, dej_jul, dej_avg, dej_sep, dej_okt, dej_nov, dej_dec, " +
 		" zacetek, uporabnisko_ime, naziv, material, zbrano, prevzeto, " +
 		"CASE month(CAST('"+datum_fm+"' AS DATE))  " +
-		" WHEN 1 THEN (kol_feb+prevzeto) " +
-		" WHEN 2 THEN (kol_mar+prevzeto) " +
-		" WHEN 3 THEN (kol_apr+prevzeto) " +
-		" WHEN 4 THEN (kol_maj+prevzeto) " +
-		" WHEN 5 THEN (kol_jun+prevzeto) " +
-		" WHEN 6 THEN (kol_jul+prevzeto) " +
-		" WHEN 7 THEN (kol_avg+prevzeto) " +
-		" WHEN 8 THEN (kol_sep+prevzeto) " +
-		" WHEN 9 THEN (kol_okt+prevzeto) " +
-		" WHEN 10 THEN (kol_nov+prevzeto) " +
-		" WHEN 11 THEN (kol_dec+prevzeto) " +
-		" WHEN 12 THEN (kol_jan+prevzeto) " +
+		" WHEN 1 THEN (kol_feb*delez/100+prevzeto) " +
+		" WHEN 2 THEN (kol_mar*delez/100+prevzeto) " +
+		" WHEN 3 THEN (kol_apr*delez/100+prevzeto) " +
+		" WHEN 4 THEN (kol_maj*delez/100+prevzeto) " +
+		" WHEN 5 THEN (kol_jun*delez/100+prevzeto) " +
+		" WHEN 6 THEN (kol_jul*delez/100+prevzeto) " +
+		" WHEN 7 THEN (kol_avg*delez/100+prevzeto) " +
+		" WHEN 8 THEN (kol_sep*delez/100+prevzeto) " +
+		" WHEN 9 THEN (kol_okt*delez/100+prevzeto) " +
+		" WHEN 10 THEN (kol_nov*delez/100+prevzeto) " +
+		" WHEN 11 THEN (kol_dec*delez/100+prevzeto) " +
+		" WHEN 12 THEN (kol_jan*delez/100+prevzeto) " +
 		" END za_prevzeti " +
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
@@ -307,7 +309,7 @@ if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 	}
 }
 
-strsql += " GROUP BY a.sif_kupca, kkoda";
+strsql += " GROUP BY a.sif_kupca, koda";
 
 //tole je se zaradi zdruzi
 strsql += " UNION ALL ";
@@ -503,6 +505,17 @@ function disableSome(EW_this){
 <a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("delez","utf-8") %>">Delež&nbsp;<% if (OrderBy != null && OrderBy.equals("delez")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("delez")) ? "</b>" : ""%>
 		</td>
+
+		<td>
+<a href="">Zbrano&nbsp;</a>
+		</td>
+		<td>
+<a href="">Prevzeto&nbsp;</a>
+		</td>
+		<td>
+<a href="">Za prevzeti&nbsp;</a>
+		</td>
+
 		<td>
 <%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "<b>" : ""%>
 <a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jan","utf-8") %>">Kol jan&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -622,16 +635,6 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "<b>" : ""%>
 <a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_dec","utf-8") %>">Dej dec&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "</b>" : ""%>
-		</td>
-
-		<td>
-<a href="">Zbrano&nbsp;</a>
-		</td>
-		<td>
-<a href="">Prevzeto&nbsp;</a>
-		</td>
-		<td>
-<a href="">Za prevzeti&nbsp;</a>
 		</td>
 		
 		<td nowrap>
@@ -973,6 +976,9 @@ if (key != null && key.length() > 0) {
 	
 		<td nowrap><% out.print(x_zdruzi); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_delez)); %>&nbsp;</td>
+		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
+		<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+		<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_jan)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_feb)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_mar)); %>&nbsp;</td>
@@ -1028,6 +1034,9 @@ if (key != null && key.length() > 0) {
 				%>
 		</td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:delez" size="3" value="<% out.print(nf_ge.format(x_delez)); %>"></td>
+		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
+		<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+		<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jan" size="3" value="<% out.print(nf_ge.format(x_kol_jan)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_feb" size="3" value="<% out.print(nf_ge.format(x_kol_feb)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_mar" size="3" value="<% out.print(nf_ge.format(x_kol_mar)); %>"></td>
@@ -1053,9 +1062,6 @@ if (key != null && key.length() > 0) {
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_nov" size="3" value="<% out.print(nf_ge.format(x_dej_nov)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_dec" size="3" value="<% out.print(nf_ge.format(x_dej_dec)); %>"></td>
 <% } %>
-		<td><% out.print(nf_ge.format(x_zbrano)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_prevzeto)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_za_prevzeti)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
 &nbsp;</td>

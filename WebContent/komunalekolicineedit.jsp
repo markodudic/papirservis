@@ -527,7 +527,7 @@ try{
 		if (tmpfld == null) {
 			rs.updateNull("delez");
 		}else{
-			rs.updateInt("delez", Integer.parseInt(tmpfld));
+			rs.updateDouble("delez", Double.parseDouble(tmpfld));
 		}
 
 		tmpfld = ((String) x_kol_jan).trim();
