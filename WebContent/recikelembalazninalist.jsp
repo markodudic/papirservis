@@ -390,14 +390,14 @@ out.println(x_postaList);
 <td>&nbsp;</td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td>&nbsp;</td>
+<td><a href=>Delete</a></td>
 <% }  if (id_zavezanca==null || id_zavezanca.equals("-1") || id_zavezanca.equals("")) {%>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("st_pogodbe")) ? "<b>" : ""%>
 <a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("st_pogodbe","utf-8") %>">Št. pogodbe&nbsp;<% if (OrderBy != null && OrderBy.equals("st_pogodbe")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("st_pogodbe")) ? "</b>" : ""%>
 		</td>
-		<td>
+		<td nowrap>
 <%=(OrderBy != null && OrderBy.equals("naziv")) ? "<b>" : ""%>
 <a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("naziv","utf-8") %>">Naziv&nbsp;<% if (OrderBy != null && OrderBy.equals("naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("naziv")) ? "</b>" : ""%>
@@ -843,12 +843,12 @@ if (key != null && key.length() > 0) {
 } %>">Kopiraj</a></span></td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Delete</span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"></span></td>
 <% } if (id_zavezanca==null || id_zavezanca.equals("-1") || id_zavezanca.equals("")) {
 	%>
 	
 		<td><% out.print(x_st_pogodbe); %>&nbsp;</td>
-		<td><% out.print(x_naziv); %>&nbsp;</td>
+		<td nowrap><% out.print(x_naziv); %>&nbsp;</td>
 		<td><% out.print(x_naslov); %>&nbsp;</td>
 		<td><% out.print(x_kraj); %>&nbsp;</td>
 
@@ -880,7 +880,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(nf_ge.format(x_kol_dec)); %>&nbsp;</td>
 <% } else { %>
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
-		<td><% out.print(x_naziv2); %>&nbsp;</td>
+		<td nowrap><% out.print(x_naziv2); %>&nbsp;</td>
 		<td><% out.print(x_porocilo); %>&nbsp;</td>
 	
 		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:letna_napoved" size="3" value="<% out.print(nf_ge.format(x_letna_napoved)); %>"></td>
@@ -908,6 +908,175 @@ if (key != null && key.length() > 0) {
 }
 }
 %>
+
+	<tr class="ewTableHeader">
+<% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
+<td>&nbsp;</td>
+<% } %>
+<% if ((ewCurSec & ewAllowEdit) == ewAllowEdit ) { %>
+<td>&nbsp;</td>
+<% } %>
+<% if ((ewCurSec & ewAllowAdd) == ewAllowAdd ) { %>
+<td>&nbsp;</td>
+<% } %>
+<% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
+<td><a href=>Delete</a></td>
+<% }  if (id_zavezanca==null || id_zavezanca.equals("-1") || id_zavezanca.equals("")) {%>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("st_pogodbe")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("st_pogodbe","utf-8") %>">Št. pogodbe&nbsp;<% if (OrderBy != null && OrderBy.equals("st_pogodbe")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("st_pogodbe")) ? "</b>" : ""%>
+		</td>
+		<td nowrap>
+<%=(OrderBy != null && OrderBy.equals("naziv")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("naziv","utf-8") %>">Naziv&nbsp;<% if (OrderBy != null && OrderBy.equals("naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naziv")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("naslov")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("naslov","utf-8") %>">Naslov&nbsp;<% if (OrderBy != null && OrderBy.equals("naslov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naslov")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kraj")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kraj","utf-8") %>">Kraj&nbsp;<% if (OrderBy != null && OrderBy.equals("kraj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kraj")) ? "</b>" : ""%>
+		</td>
+		
+		<td>
+<%=(OrderBy != null && OrderBy.equals("posta")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("posta","utf-8") %>">Pošta&nbsp;<% if (OrderBy != null && OrderBy.equals("posta")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("posta")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("skrbnik")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("skrbnik","utf-8") %>">Skrbnik&nbsp;<% if (OrderBy != null && OrderBy.equals("skrbnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("skrbnik")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("interval_pavsala")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("interval_pavsala","utf-8") %>">Interval pavšala&nbsp;<% if (OrderBy != null && OrderBy.equals("interval_pavsala")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("interval_pavsala")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("kontaktna_oseba")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kontaktna_oseba","utf-8") %>">Kontaktna oseba&nbsp;<% if (OrderBy != null && OrderBy.equals("kontaktna_oseba")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kontaktna_oseba")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("telefon_kontaktna")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("telefon_kontaktna","utf-8") %>">Telefon kontaktna&nbsp;<% if (OrderBy != null && OrderBy.equals("telefon_kontaktna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("telefon_kontaktna")) ? "</b>" : ""%>
+		</td>		
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("mail_kontaktna")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("mail_kontaktna","utf-8") %>">Mail kontaktna&nbsp;<% if (OrderBy != null && OrderBy.equals("mail_kontaktna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("mail_kontaktna")) ? "</b>" : ""%>
+		</td>
+	    <td nowrap>
+<%=(OrderBy != null && OrderBy.equals("opombe_kontaktna")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("opombe_kontaktna","utf-8") %>">Opombe kontaktna&nbsp;<% if (OrderBy != null && OrderBy.equals("opombe_kontaktna")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("opombe_kontaktna")) ? "</b>" : ""%>
+		</td>
+<% } %>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("tar_st")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("tar_st","utf-8") %>">Tar št.&nbsp;<% if (OrderBy != null && OrderBy.equals("tar_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("tar_st")) ? "</b>" : ""%>
+		</td>
+	    <td>
+<%=(OrderBy != null && OrderBy.equals("naziv2")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("naziv2","utf-8") %>">Naziv embalaže&nbsp;<% if (OrderBy != null && OrderBy.equals("naziv2")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("naziv2")) ? "</b>" : ""%>
+		</td>
+	    <td nowrap>
+<%=(OrderBy != null && OrderBy.equals("porocilo")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("porocilo","utf-8") %>">Poročilo&nbsp;<% if (OrderBy != null && OrderBy.equals("porocilo")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("porocilo")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("letna_napoved","utf-8") %>">Letna napoved&nbsp;<% if (OrderBy != null && OrderBy.equals("letna_napoved")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("cena")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("cena","utf-8") %>">Cena&nbsp;<% if (OrderBy != null && OrderBy.equals("cena")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("cena")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_jan","utf-8") %>">Kol jan&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_feb","utf-8") %>">Kol feb&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_feb")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_mar","utf-8") %>">Kol mar&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_mar")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_apr","utf-8") %>">Kol apr&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_apr")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_maj","utf-8") %>">Kol maj&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_maj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_jun","utf-8") %>">Kol jun&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jun")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_jul","utf-8") %>">Kol jul&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jul")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_avg","utf-8") %>">Kol avg&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_avg")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_sep","utf-8") %>">Kol sep&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_sep")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_okt","utf-8") %>">Kol okt&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_okt")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_nov","utf-8") %>">Kol nov&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_nov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("kol_dec","utf-8") %>">Kol dec&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "</b>" : ""%>
+		</td>
+		<td nowrap>
+<%=(OrderBy != null && OrderBy.equals("zacetek")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("zacetek","utf-8") %>">Začetek&nbsp;<% if (OrderBy != null && OrderBy.equals("zacetek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("zacetek")) ? "</b>" : ""%>
+		</td>
+		<td nowrap>
+<%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "<b>" : ""%>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("uporabnik","utf-8") %>">Uporabnik&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("uporabnik")) ? "</b>" : ""%>
+		</td>
+</tr>
+
+
 </table>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete) { %>
 <% if (recActual > 0) { %>

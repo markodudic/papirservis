@@ -249,43 +249,46 @@ if ((datum != null) && (datum != ""))
 	datum_fm = (EW_UnFormatDateTime((String)datum,"EURODATE", locale)).toString();
 }
 
+
 String caseStr = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
-		" WHEN 1 THEN ((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100) - sum(kolicina) " +
-		" WHEN 2 THEN ((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100) - sum(kolicina) " +
-		" WHEN 3 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100) - sum(kolicina) " +
-		" WHEN 4 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+if("+mesec+"=1,ifnull(dej_apr,kol_apr),kol_apr)) * delez/100) - sum(kolicina) " +
-		" WHEN 5 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+if("+mesec+"=1,ifnull(dej_maj,kol_maj),kol_maj)) * delez/100) - sum(kolicina) " +
-		" WHEN 6 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+if("+mesec+"=1,ifnull(dej_jun,kol_jun),kol_jun)) * delez/100) - sum(kolicina) " +
-		" WHEN 7 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+if("+mesec+"=1,ifnull(dej_jul,kol_jul),kol_jul)) * delez/100) - sum(kolicina) " +
-		" WHEN 8 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+if("+mesec+"=1,ifnull(dej_avg,kol_avg),kol_avg)) * delez/100) - sum(kolicina) " +
-		" WHEN 9 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100) - sum(kolicina) " +
-		" WHEN 10 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100) - sum(kolicina) " +
-		" WHEN 11 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100) - sum(kolicina) " +
-		" WHEN 12 THEN ((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100) - sum(kolicina) " +
+		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 4 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+if("+mesec+"=1,ifnull(dej_apr,kol_apr),kol_apr)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 5 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+if("+mesec+"=1,ifnull(dej_maj,kol_maj),kol_maj)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 6 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+if("+mesec+"=1,ifnull(dej_jun,kol_jun),kol_jun)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 7 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+if("+mesec+"=1,ifnull(dej_jul,kol_jul),kol_jul)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 8 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+if("+mesec+"=1,ifnull(dej_avg,kol_avg),kol_avg)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 9 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 10 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 11 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 12 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100),0) - sum(kolicina) " +
 		" END prevzeto ";
 
-String strsql = "SELECT DISTINCT id, sif_kupca, koda, zdruzi, delez,  " +
+//******************************************* ZBRANO ********************
+String strsql = "SELECT DISTINCT aa.id, aa.sif_kupca, aa.koda, aa.zdruzi, aa.delez,  " +
 		" kol_jan, kol_feb, kol_mar, kol_apr, kol_maj, kol_jun, kol_jul, kol_avg, kol_sep, kol_okt, kol_nov, kol_dec, " +
 		" dej_jan, dej_feb, dej_mar, dej_apr, dej_maj, dej_jun, dej_jul, dej_avg, dej_sep, dej_okt, dej_nov, dej_dec, " +
-		" zacetek, uporabnisko_ime, naziv, material, zbrano, prevzeto, " +
+		" zacetek, uporabnisko_ime, naziv, material, aa.zbrano, bb.prevzeto, bb.za_prevzeti " +
+		/*", prevzeto, " +
 		"CASE month(CAST('"+datum_fm+"' AS DATE))  " +
-		" WHEN 1 THEN (kol_feb*delez/100+prevzeto) " +
-		" WHEN 2 THEN (kol_mar*delez/100+prevzeto) " +
-		" WHEN 3 THEN (kol_apr*delez/100+prevzeto) " +
-		" WHEN 4 THEN (kol_maj*delez/100+prevzeto) " +
-		" WHEN 5 THEN (kol_jun*delez/100+prevzeto) " +
-		" WHEN 6 THEN (kol_jul*delez/100+prevzeto) " +
-		" WHEN 7 THEN (kol_avg*delez/100+prevzeto) " +
-		" WHEN 8 THEN (kol_sep*delez/100+prevzeto) " +
-		" WHEN 9 THEN (kol_okt*delez/100+prevzeto) " +
-		" WHEN 10 THEN (kol_nov*delez/100+prevzeto) " +
-		" WHEN 11 THEN (kol_dec*delez/100+prevzeto) " +
-		" WHEN 12 THEN (kol_jan*delez/100+prevzeto) " +
-		" END za_prevzeti " +
+		" WHEN 1 THEN (IFNULL(kol_feb,0)*delez/100+prevzeto) " +
+		" WHEN 2 THEN (IFNULL(kol_mar,0)*delez/100+prevzeto) " +
+		" WHEN 3 THEN (IFNULL(kol_apr,0)*delez/100+prevzeto) " +
+		" WHEN 4 THEN (IFNULL(kol_maj,0)*delez/100+prevzeto) " +
+		" WHEN 5 THEN (IFNULL(kol_jun,0)*delez/100+prevzeto) " +
+		" WHEN 6 THEN (IFNULL(kol_jul,0)*delez/100+prevzeto) " +
+		" WHEN 7 THEN (IFNULL(kol_avg,0)*delez/100+prevzeto) " +
+		" WHEN 8 THEN (IFNULL(kol_sep,0)*delez/100+prevzeto) " +
+		" WHEN 9 THEN (IFNULL(kol_okt,0)*delez/100+prevzeto) " +
+		" WHEN 10 THEN (IFNULL(kol_nov,0)*delez/100+prevzeto) " +
+		" WHEN 11 THEN (IFNULL(kol_dec,0)*delez/100+prevzeto) " +
+		" WHEN 12 THEN (IFNULL(kol_jan,0)*delez/100+prevzeto) " +
+		" END za_prevzeti " +*/
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
-		" sum(kolicina) zbrano,  " +
-		" caseStr " +
+		" sum(kolicina) zbrano  " +
+		//" caseStr " +
 		"from komunale_kolicine as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join okolje as c on a.koda = c.koda "+
@@ -310,7 +313,7 @@ if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 }
 
 strsql += " GROUP BY a.sif_kupca, koda";
-
+/*
 //tole je se zaradi zdruzi
 strsql += " UNION ALL ";
 
@@ -331,14 +334,52 @@ if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 	strsql += " AND a.sif_kupca = " + sif_kupca;
 }
 
-strsql += " GROUP BY a.sif_kupca, a.koda";
+strsql += " GROUP BY a.sif_kupca, a.koda";*/
 
 //
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql += " ORDER BY " + OrderBy + " " + (String) session.getAttribute("komunalekolicine_OT") + ") as a";
 } else {
-	strsql += " ORDER BY sif_kupca, koda) as aa";
+	strsql += " ORDER BY sif_kupca, ifnull(zdruzi, a.koda), a.koda) as aa";
 }
+
+
+strsql += " LEFT JOIN ";
+
+strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, zbrano, prevzeto, " +
+		"CASE month(CAST('"+datum_fm+"' AS DATE))  " +
+		" WHEN 1 THEN (IFNULL(kol_feb,0)*delez/100+prevzeto) " +
+		" WHEN 2 THEN (IFNULL(kol_mar,0)*delez/100+prevzeto) " +
+		" WHEN 3 THEN (IFNULL(kol_apr,0)*delez/100+prevzeto) " +
+		" WHEN 4 THEN (IFNULL(kol_maj,0)*delez/100+prevzeto) " +
+		" WHEN 5 THEN (IFNULL(kol_jun,0)*delez/100+prevzeto) " +
+		" WHEN 6 THEN (IFNULL(kol_jul,0)*delez/100+prevzeto) " +
+		" WHEN 7 THEN (IFNULL(kol_avg,0)*delez/100+prevzeto) " +
+		" WHEN 8 THEN (IFNULL(kol_sep,0)*delez/100+prevzeto) " +
+		" WHEN 9 THEN (IFNULL(kol_okt,0)*delez/100+prevzeto) " +
+		" WHEN 10 THEN (IFNULL(kol_nov,0)*delez/100+prevzeto) " +
+		" WHEN 11 THEN (IFNULL(kol_dec,0)*delez/100+prevzeto) " +
+		" WHEN 12 THEN (IFNULL(kol_jan,0)*delez/100+prevzeto) " +
+		" END za_prevzeti " +
+		"from ( " +
+		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, sum(kolicina) zbrano, " +
+		" caseStr " +
+		"from komunale_kolicine as a "+
+		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+		
+if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
+	if(whereClause.length() > 0)
+		strsql += " AND a.sif_kupca = " + sif_kupca;
+	else {
+		strsql += " WHERE a.sif_kupca = " + sif_kupca;
+	}
+}
+strsql += " GROUP BY a.sif_kupca, ifnull(zdruzi, a.koda)";
+strsql += " ORDER BY sif_kupca, a.koda) as aa ";
+				
+strsql += " ) AS bb ON aa.sif_kupca = bb.sif_kupca and aa.koda = bb.koda";
+strsql += " ORDER BY aa.sif_kupca, aa.koda";
 
 String sqlParam1 = URLEncoder.encode(strsql.toString());
 String sqlParam2 = URLEncoder.encode(caseStr.toString());
@@ -382,6 +423,8 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 		session.setAttribute("komunalekolicine_REC", new Integer(startRec));
 	}
 }
+
+//******************************************* ZBRANO ********************
 
 
 %>
@@ -472,7 +515,7 @@ function disableSome(EW_this){
 <td>&nbsp;</td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td>&nbsp;</td>
+<td><a href=>Delete</a></td>
 <% }  if (sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")) {%>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_kupca")) ? "<b>" : ""%>
@@ -964,7 +1007,7 @@ if (key != null && key.length() > 0) {
 } %>">Spremeni</a></span></td>
 <% } %>
 <% if ((ewCurSec & ewAllowDelete) == ewAllowDelete ) { %>
-<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker">Delete</span></td>
+<td><span class="jspmaker"><input type="checkbox" name="key" value="<%=key %>" class="jspmaker"></span></td>
 <% } if (sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")) {
 	%>
 	
@@ -977,8 +1020,13 @@ if (key != null && key.length() > 0) {
 		<td nowrap><% out.print(x_zdruzi); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_delez)); %>&nbsp;</td>
 		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
-		<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
-		<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% if (x_koda.equals(x_zdruzi) || x_zdruzi.equals("") || (x_zdruzi == null)) { %>
+			<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+			<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% } else { %>
+			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% } %>
 		<td><% out.print(nf_ge.format(x_kol_jan)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_feb)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_mar)); %>&nbsp;</td>
@@ -1006,7 +1054,6 @@ if (key != null && key.length() > 0) {
 <% } else { %>
 		<td nowrap><% out.print(x_koda); %>&nbsp;</td>
 		<!-- td><% out.print(x_material); %>&nbsp;</td-->
-
 	
 		<td><%
 				String cbo_x_okolje_koda_js = "";
@@ -1035,8 +1082,13 @@ if (key != null && key.length() > 0) {
 		</td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:delez" size="3" value="<% out.print(nf_ge.format(x_delez)); %>"></td>
 		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
-		<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
-		<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% if (x_koda.equals(x_zdruzi) || x_zdruzi.equals("") || (x_zdruzi == null)) { %>
+			<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+			<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% } else { %>
+			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
+			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+		<% } %>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jan" size="3" value="<% out.print(nf_ge.format(x_kol_jan)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_feb" size="3" value="<% out.print(nf_ge.format(x_kol_feb)); %>"></td>
 		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_mar" size="3" value="<% out.print(nf_ge.format(x_kol_mar)); %>"></td>
