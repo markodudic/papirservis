@@ -41,7 +41,7 @@ a:visited {
 
 /* main table data cells */
 .ewTable td {
-	padding: 4px; /* cell padding */
+	padding: 2px; /* cell padding */
 	border: 1px solid; /* cell spacing */
 	border-color: #CCCCCC;  /* table background color */
 	color: #000000; /* font color */	

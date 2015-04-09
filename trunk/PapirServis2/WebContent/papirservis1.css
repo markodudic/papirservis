@@ -57,9 +57,9 @@ a:visited {
 .ewTable td {
 	font-family: 'Times New Roman'; /* font name */
 	font-size: small; /* font size */
-	padding: 4px; /* cell padding */
+	padding: 2px; /* cell padding */
 	border: 1px solid; /* cell spacing */
-	border-color: #FFFFFF;  /* table background color */
+	border-color: #CCCCCC;  /* table background color */
 	color: #000000; /* font color */	
 }
 
