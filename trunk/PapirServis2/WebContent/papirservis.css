@@ -2,19 +2,19 @@ body {
 	background-color: ; /* background color */
 	color: #000000; /* font color */	
 	font-family: Courier New; /* font name */
-	font-size: medium; /* font size */
+	font-size: small; /* font size */
 	margin: 0px 0px 0px 0px; /* top right bottom left */
 }
 
 .jspmaker {
 	color: ; /* text color */
 	font-family: Courier New; /* font name */
-	font-size: medium; /* font size */	
+	font-size: small; /* font size */	
 }
 
 input, textarea, select {	
 	font-family: Courier New; /* font name */
-	font-size: medium; /* font size */
+	font-size: small; /* font size */
 } 
 
 a:active {

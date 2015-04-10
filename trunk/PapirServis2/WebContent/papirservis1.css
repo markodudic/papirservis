@@ -2,7 +2,7 @@ body {
 	background-color: ; /* background color */
 	color: #000000; /* font color */	
 	font-family: 'Times New Roman'; /* font name */
-	font-size: medium; /* font size */
+	font-size: small; /* font size */
 	margin: 0px 0px 0px 0px; /* top right bottom left */
 }
 
@@ -28,7 +28,7 @@ body {
 
 input, textarea, select {	
 	font-family: 'Times New Roman'; /* font name */
-	font-size: medium; /* font size */
+	font-size: small; /* font size */
 } 
 
 a:active {

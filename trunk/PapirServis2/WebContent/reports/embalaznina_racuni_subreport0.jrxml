@@ -66,18 +66,18 @@ from
 	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
 		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
 		a.letna_napoved)) as KOE25_PAV,
-	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) as KOE25_DEJ,
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,IFNULL(a.kol_jan,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,IFNULL(a.kol_feb,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,IFNULL(a.kol_mar,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,IFNULL(a.kol_apr,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,IFNULL(a.kol_maj,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,IFNULL(a.kol_jun,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,IFNULL(a.kol_jul,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,IFNULL(a.kol_avg,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,IFNULL(a.kol_sep,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,IFNULL(a.kol_okt,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) as KOE25_DEJ,
 	0 NKOE25_CENA,
 	0 NKOE25_PAV,
 	0 NKOE25_DEJ, 
@@ -98,18 +98,18 @@ select b.tar_st, b.naziv,
 	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
 		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
 		a.letna_napoved)) NKOE25_PAV,
-	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) NKOE25_DEJ,
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,IFNULL(a.kol_jan,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,IFNULL(a.kol_feb,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,IFNULL(a.kol_mar,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,IFNULL(a.kol_apr,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,IFNULL(a.kol_maj,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,IFNULL(a.kol_jun,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,IFNULL(a.kol_jul,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,IFNULL(a.kol_avg,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,IFNULL(a.kol_sep,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,IFNULL(a.kol_okt,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) NKOE25_DEJ,
 	0 NKOE34_CENA,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
@@ -130,18 +130,18 @@ select b.tar_st, b.naziv,
 	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
 		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
 		a.letna_napoved)) NKOE34_PAV,
-	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,a.kol_jan,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,a.kol_feb,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,a.kol_mar,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,a.kol_apr,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,a.kol_maj,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,a.kol_jun,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,a.kol_jul,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,a.kol_avg,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,a.kol_sep,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,a.kol_okt,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,a.kol_nov,0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,a.kol_dec,0) NKOE34_DEJ
+	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,IFNULL(a.kol_jan,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,IFNULL(a.kol_feb,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,IFNULL(a.kol_mar,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,IFNULL(a.kol_apr,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,IFNULL(a.kol_maj,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,IFNULL(a.kol_jun,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,IFNULL(a.kol_jul,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,IFNULL(a.kol_avg,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,IFNULL(a.kol_sep,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,IFNULL(a.kol_okt,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
+	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
 	  recikel_embalaze$P!{aleto} as b
 where a.id_zavezanca = $P{sif_zavezanca} and

@@ -466,7 +466,7 @@ out.println(x_postaList);
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "<b>" : ""%>
-<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("letna_napoved","utf-8") %>">Letna napoved&nbsp;<% if (OrderBy != null && OrderBy.equals("letna_napoved")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("letna_napoved","utf-8") %>">Napoved&nbsp;<% if (OrderBy != null && OrderBy.equals("letna_napoved")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "</b>" : ""%>
 		</td>
 		<td>
@@ -566,6 +566,21 @@ if (startRec == 1)
    rs.beforeFirst();
 else
    rs.previous();
+
+float x_kol_jan_skupaj = 0;
+float x_kol_feb_skupaj = 0;
+float x_kol_mar_skupaj = 0;
+float x_kol_apr_skupaj = 0;
+float x_kol_maj_skupaj = 0;
+float x_kol_jun_skupaj = 0;
+float x_kol_jul_skupaj = 0;
+float x_kol_avg_skupaj = 0;
+float x_kol_sep_skupaj = 0;
+float x_kol_okt_skupaj = 0;
+float x_kol_nov_skupaj = 0;
+float x_kol_dec_skupaj = 0;
+
+
 while (rs.next() && recCount < stopRec) {
 	recCount++;
 	if (recCount >= startRec) {
@@ -596,7 +611,7 @@ while (rs.next() && recCount < stopRec) {
 	float x_kol_okt = 0;
 	float x_kol_nov = 0;
 	float x_kol_dec = 0;
-
+	
 	String x_st_pogodbe = "";
 	String x_naziv = "";
 	String x_naslov = "";
@@ -815,6 +830,20 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_uporabnik = "";
 	}
+	
+	x_kol_jan_skupaj += x_kol_jan;
+	x_kol_feb_skupaj += x_kol_feb;
+	x_kol_mar_skupaj += x_kol_mar;
+	x_kol_apr_skupaj += x_kol_apr;
+	x_kol_maj_skupaj += x_kol_maj;
+	x_kol_jun_skupaj += x_kol_jun;
+	x_kol_jul_skupaj += x_kol_jul;
+	x_kol_avg_skupaj += x_kol_avg;
+	x_kol_sep_skupaj += x_kol_sep;
+	x_kol_okt_skupaj += x_kol_okt;
+	x_kol_nov_skupaj += x_kol_nov;
+	x_kol_dec_skupaj += x_kol_dec;
+	
 
 %>
 	<tr class="<%= rowclass %>">
@@ -906,8 +935,25 @@ if (key != null && key.length() > 0) {
 
 //	}
 }
-}
-%>
+}%>
+
+<% if (id_zavezanca!=null && !id_zavezanca.equals("-1") && !id_zavezanca.equals("")) {%>
+	<tr class="ewTableAltRow">
+		<td colspan=9>SKUPAJ</td>
+		<td><% out.print(nf_ge.format(x_kol_jan_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_feb_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_mar_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_apr_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_maj_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jun_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jul_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_avg_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_sep_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_okt_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_nov_skupaj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_dec_skupaj)); %>&nbsp;</td>
+	</tr>
+<% } %>
 
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
@@ -996,7 +1042,7 @@ if (key != null && key.length() > 0) {
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "<b>" : ""%>
-<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("letna_napoved","utf-8") %>">Letna napoved&nbsp;<% if (OrderBy != null && OrderBy.equals("letna_napoved")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="recikelembalazninalist.jsp?order=<%= java.net.URLEncoder.encode("letna_napoved","utf-8") %>">Napoved&nbsp;<% if (OrderBy != null && OrderBy.equals("letna_napoved")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("recikelembalaznina_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("recikelembalaznina_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("letna_napoved")) ? "</b>" : ""%>
 		</td>
 		<td>
