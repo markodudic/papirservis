@@ -567,6 +567,7 @@ if (startRec == 1)
 else
    rs.previous();
 
+float x_letna_napoved_skupaj = 0;
 float x_kol_jan_skupaj = 0;
 float x_kol_feb_skupaj = 0;
 float x_kol_mar_skupaj = 0;
@@ -831,6 +832,7 @@ while (rs.next() && recCount < stopRec) {
 		x_uporabnik = "";
 	}
 	
+	x_letna_napoved_skupaj += x_letna_napoved;
 	x_kol_jan_skupaj += x_kol_jan;
 	x_kol_feb_skupaj += x_kol_feb;
 	x_kol_mar_skupaj += x_kol_mar;
@@ -939,7 +941,9 @@ if (key != null && key.length() > 0) {
 
 <% if (id_zavezanca!=null && !id_zavezanca.equals("-1") && !id_zavezanca.equals("")) {%>
 	<tr class="ewTableAltRow">
-		<td colspan=9>SKUPAJ</td>
+		<td colspan=7>SKUPAJ</td>
+		<td><% out.print(nf_ge.format(x_letna_napoved_skupaj)); %>&nbsp;</td>
+		<td></td>
 		<td><% out.print(nf_ge.format(x_kol_jan_skupaj)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_feb_skupaj)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_kol_mar_skupaj)); %>&nbsp;</td>
