@@ -35,6 +35,13 @@ function  EW_checkMyForm(EW_this)
 	            if (!EW_onError(EW_this, EW_this.x_stev_bianco, "SELECT", "Napačna številka - število dobavnic"))
 	                return false; 
 	}
+	
+	if (document.porocila.reportID.value == 26) {
+		if (document.porocila.nacin_obracuna_list.value == "VSI" && document.porocila.x_sif_zavezanca.value == "-1") {
+			alert ("Ni možno izbrati vse stranke in vse obračune");
+			return false;
+		}
+	}
 }
 
 function updateKoda(EW_this){
@@ -110,7 +117,8 @@ function updateRacun(){
 							"/reports/kupci_izpis",
 							"/reports/dobavnice_km_ure",
 							"/reports/sistem_embalaza_nova",
-							"/reports/embalaznina_racuni"
+							"/reports/embalaznina_racuni",
+							"/reports/embalaznina_porocila"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -167,9 +175,17 @@ function updateRacun(){
 
 	StringBuffer x_sif_zavezanciList = null;
 	
-	if ((reportID == 25))
+	if (reportID == 25)
 	{
 		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" onchange = \"updateKoda(this);\"><option value=\"-1\">Izberi</option>");
+	}
+	if (reportID == 26)
+	{
+		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" ><option value=\"-1\">Izberi</option>");
+	}
+	
+	if ((reportID == 25) || (reportID == 26))
+	{
 		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv, interval_pavsala " +
 									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
 									"ORDER BY naziv ASC";
@@ -471,7 +487,7 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 25)) {%>
+	<%if ((reportID == 25) || (reportID == 26)) {%>
 	<tr>
 		<td class="ewTableHeader">&#352;ifra zavezanca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_zavezanciList);%>&nbsp;</td>
@@ -528,7 +544,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 	
-	<%if ((reportID != 0) && (reportID != 1) && (reportID != 3) && (reportID != 5) && (reportID != 10) && (reportID != 22)) {%>
+	<%if ((reportID != 0) && (reportID != 1) && (reportID != 3) && (reportID != 5) && (reportID != 10) && (reportID != 22) && (reportID != 26)) {%>
 	<tr>
 		<td class="ewTableHeader">Datum od:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -589,6 +605,23 @@ function updateRacun(){
 	</tr>
 	<%}%>
 
+	<%if ((reportID == 26)) {%>
+	<tr>
+		<td class="ewTableHeader">Način obračuna:&nbsp;</td>
+		<td class="ewTableAltRow">
+			<select name="nacin_obracuna_list" style="width:150px">
+				<option value="VSI">Vsi obračuni</option>
+				<option value="LN">Letna napoved</option>
+				<option value="Q1">1. kvartal</option>
+				<option value="Q2">2. kvartal</option>
+				<option value="Q3">3. kvartal</option>
+				<option value="Q4">4. kvartal</option>
+				<option value="LD">Letna dejansko</option>
+			</select>&nbsp;
+		</td>
+	</tr>
+	<%}%>
+	
 	<%if ((reportID == 14) || (reportID == 18)) {%>
 	<!-- tr>
 		<td class="ewTableHeader">Sortiranje:&nbsp;</td>
@@ -651,6 +684,9 @@ function updateRacun(){
     		<INPUT type="radio" name="type" value="2">HTML
 	<%if ((reportID == 13) || (reportID == 19)) {%>
     		<INPUT type="radio" name="type" value="3">DOC
+	<%}%>
+	<%if (reportID == 26) {%>
+    		<INPUT type="radio" name="type" value="4">XLS
 	<%}%>
 		</td>
 	</tr>

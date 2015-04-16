@@ -39,6 +39,7 @@ function disableSome(EW_this){
 <%
     String report = request.getParameter("report");
 	int reportID = Integer.parseInt(request.getParameter("reportID"));
+	String type = request.getParameter("type");
 
     Map parameters = new HashMap();
     
@@ -326,6 +327,63 @@ function disableSome(EW_this){
 		
 	}
 
+	if (reportID == 26)
+	{	
+	    String nacin_obracuna = request.getParameter("nacin_obracuna_list");
+	    parameters.put("nacin_obracuna", nacin_obracuna);
+
+	    od_datum="01.01.2015";
+	    do_datum="01.01.2015";
+	    String od_datum_q1="01.01.2015";
+	    String do_datum_q1="01.01.2015";
+	    String od_datum_q2="01.01.2015";
+	    String do_datum_q2="01.01.2015";
+	    String od_datum_q3="01.01.2015";
+	    String do_datum_q3="01.01.2015";
+	    String od_datum_q4="01.01.2015";
+	    String do_datum_q4="01.01.2015";
+	    
+	    if (nacin_obracuna.equals("LN") || nacin_obracuna.equals("LD"))
+		{
+			od_datum = "01.01." + session.getAttribute("leto");
+			do_datum = "31.12." + session.getAttribute("leto");
+		}
+	    else if (nacin_obracuna.equals("Q1"))
+		{
+			od_datum_q1 = "01.01." + session.getAttribute("leto");
+			do_datum_q1 = "31.03." + session.getAttribute("leto");
+		}
+	    else if (nacin_obracuna.equals("Q2"))
+		{
+			od_datum_q2 = "01.04." + session.getAttribute("leto");
+			do_datum_q2 = "30.06." + session.getAttribute("leto");
+		}
+	    else if (nacin_obracuna.equals("Q3"))
+		{
+			od_datum_q3 = "01.07." + session.getAttribute("leto");
+			do_datum_q3 = "30.09." + session.getAttribute("leto");
+		}
+	    else if (nacin_obracuna.equals("Q4"))
+		{
+			od_datum_q4 = "01.10." + session.getAttribute("leto");
+			do_datum_q4 = "31.12." + session.getAttribute("leto");
+		}
+		parameters.put("od_datum", (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString());	
+		parameters.put("do_datum", (EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)).toString());
+    	parameters.put("od_datum_q1", (EW_UnFormatDateTime((String)od_datum_q1,"EURODATE", locale)).toString());	
+		parameters.put("do_datum_q1", (EW_UnFormatDateTime((String)do_datum_q1,"EURODATE", locale)).toString());
+    	parameters.put("od_datum_q2", (EW_UnFormatDateTime((String)od_datum_q2,"EURODATE", locale)).toString());	
+		parameters.put("do_datum_q2", (EW_UnFormatDateTime((String)do_datum_q2,"EURODATE", locale)).toString());
+    	parameters.put("od_datum_q3", (EW_UnFormatDateTime((String)od_datum_q3,"EURODATE", locale)).toString());	
+		parameters.put("do_datum_q3", (EW_UnFormatDateTime((String)do_datum_q3,"EURODATE", locale)).toString());
+    	parameters.put("od_datum_q4", (EW_UnFormatDateTime((String)od_datum_q4,"EURODATE", locale)).toString());	
+		parameters.put("do_datum_q4", (EW_UnFormatDateTime((String)do_datum_q4,"EURODATE", locale)).toString());
+		
+		if (Integer.parseInt(type) == 4)
+			parameters.put("xls", "1");
+		else
+			parameters.put("xls", "0");
+	}	
 	
 	//če je bianco dobavnica preberem naslednjo stevilko in stevilo bianco dobavnic ter obstojeco sifro povecam za stevilo
     String x_stev_bianco = request.getParameter("x_stev_bianco");
@@ -419,7 +477,6 @@ function disableSome(EW_this){
 		String sort = request.getParameter("sort");
 		parameters.put("sort", sort);
 	}*/
-	String type = request.getParameter("type");
 
 	if ((reportID != 13) || (reportID == 19))
 	{
@@ -445,7 +502,7 @@ function disableSome(EW_this){
         		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
         	}
                   	
-        	if ((reportID != 13) && (reportID != 19) && (reportID != 25))
+        	if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26))
         	{   		
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
@@ -513,6 +570,26 @@ function disableSome(EW_this){
 	    {
 			JRRtfExporter exporter = new JRRtfExporter();
 			response.setContentType("application/rtf");
+	
+	    	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
+			JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
+			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
+	    
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_WRITER,	response.getWriter());
+			exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+	  		try {
+				exporter.exportReport();
+			} catch (JRException e) {
+				e.printStackTrace();
+			}
+	    	
+	    }
+	    else if (Integer.parseInt(type) == 4) //XLS
+	    {
+			JRRtfExporter exporter = new JRRtfExporter();
+			response.setContentType("application/xls");
 	
 	    	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
 			JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
