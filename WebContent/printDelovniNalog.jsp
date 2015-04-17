@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.io.IOException,java.io.InputStream,
-		     java.io.PrintWriter,java.io.StringWriter,
+<%@ page import="java.io.*,
 		     java.util.*,java.sql.Connection,java.sql.DriverManager,
 		     net.sf.jasperreports.engine.JRException,
 			net.sf.jasperreports.engine.JRExporterParameter,	
@@ -16,6 +15,8 @@
 			net.sf.jasperreports.engine.export.JRPdfExporter,
 			net.sf.jasperreports.engine.export.JRPdfExporterParameter,
 			net.sf.jasperreports.engine.export.JRRtfExporter,
+			net.sf.jasperreports.engine.export.JRXlsExporterParameter,
+			net.sf.jasperreports.engine.export.JRXlsExporter,
 			net.sf.jasperreports.engine.JasperRunManager,
 			net.sf.jasperreports.engine.xml.JRXmlLoader,
 			java.io.ByteArrayOutputStream"%>
@@ -332,43 +333,18 @@ function disableSome(EW_this){
 	    String nacin_obracuna = request.getParameter("nacin_obracuna_list");
 	    parameters.put("nacin_obracuna", nacin_obracuna);
 
-	    od_datum="01.01.2015";
-	    do_datum="01.01.2015";
-	    String od_datum_q1="01.01.2015";
-	    String do_datum_q1="01.01.2015";
-	    String od_datum_q2="01.01.2015";
-	    String do_datum_q2="01.01.2015";
-	    String od_datum_q3="01.01.2015";
-	    String do_datum_q3="01.01.2015";
-	    String od_datum_q4="01.01.2015";
-	    String do_datum_q4="01.01.2015";
-	    
-	    if (nacin_obracuna.equals("LN") || nacin_obracuna.equals("LD"))
-		{
-			od_datum = "01.01." + session.getAttribute("leto");
-			do_datum = "31.12." + session.getAttribute("leto");
-		}
-	    else if (nacin_obracuna.equals("Q1"))
-		{
-			od_datum_q1 = "01.01." + session.getAttribute("leto");
-			do_datum_q1 = "31.03." + session.getAttribute("leto");
-		}
-	    else if (nacin_obracuna.equals("Q2"))
-		{
-			od_datum_q2 = "01.04." + session.getAttribute("leto");
-			do_datum_q2 = "30.06." + session.getAttribute("leto");
-		}
-	    else if (nacin_obracuna.equals("Q3"))
-		{
-			od_datum_q3 = "01.07." + session.getAttribute("leto");
-			do_datum_q3 = "30.09." + session.getAttribute("leto");
-		}
-	    else if (nacin_obracuna.equals("Q4"))
-		{
-			od_datum_q4 = "01.10." + session.getAttribute("leto");
-			do_datum_q4 = "31.12." + session.getAttribute("leto");
-		}
-		parameters.put("od_datum", (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString());	
+	    od_datum="01.01." + session.getAttribute("leto");
+	    do_datum="31.12." + session.getAttribute("leto");
+	    String od_datum_q1="01.01." + session.getAttribute("leto");
+	    String do_datum_q1="31.03." + session.getAttribute("leto");
+	    String od_datum_q2="01.04." + session.getAttribute("leto");
+	    String do_datum_q2="30.06." + session.getAttribute("leto");
+	    String od_datum_q3="01.07." + session.getAttribute("leto");
+	    String do_datum_q3="30.09." + session.getAttribute("leto");
+	    String od_datum_q4="01.10." + session.getAttribute("leto");
+	    String do_datum_q4="31.12." + session.getAttribute("leto");
+
+	    parameters.put("od_datum", (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString());	
 		parameters.put("do_datum", (EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)).toString());
     	parameters.put("od_datum_q1", (EW_UnFormatDateTime((String)od_datum_q1,"EURODATE", locale)).toString());	
 		parameters.put("do_datum_q1", (EW_UnFormatDateTime((String)do_datum_q1,"EURODATE", locale)).toString());
@@ -588,19 +564,32 @@ function disableSome(EW_this){
 	    }
 	    else if (Integer.parseInt(type) == 4) //XLS
 	    {
-			JRRtfExporter exporter = new JRRtfExporter();
-			response.setContentType("application/xls");
+	    	JRXlsExporter exporter = new JRXlsExporter();
+			//response.setContentType("application/vnd.ms-excel");
 	
 	    	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
 			JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
 	    
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+	        
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRExporterParameter.OUTPUT_WRITER,	response.getWriter());
+			//exporter.setParameter(JRExporterParameter.OUTPUT_WRITER,	response.getWriter());
 			exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+			
+	        
+	        //Excel specific parameter
+	        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+	        exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+	        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+	        
+	        
 	  		try {
 				exporter.exportReport();
+				OutputStream outputfile= new FileOutputStream(new File("c:/EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_")+".xls"));
+		        outputfile.write(output.toByteArray()); 
 			} catch (JRException e) {
 				e.printStackTrace();
 			}

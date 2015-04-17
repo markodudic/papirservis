@@ -686,7 +686,7 @@ function updateRacun(){
     		<INPUT type="radio" name="type" value="3">DOC
 	<%}%>
 	<%if (reportID == 26) {%>
-    		<INPUT type="radio" name="type" value="4">XLS
+    		<INPUT type="radio" name="type" value="4">XLS "c:/EmabalazaPorocilo.xls"
 	<%}%>
 		</td>
 	</tr>

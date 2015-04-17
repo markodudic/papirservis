@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA["VSI"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["0001/2013"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["0141/2014"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
