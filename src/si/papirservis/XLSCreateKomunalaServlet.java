@@ -149,7 +149,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 		// write data
 		r = s.createRow(rownum);
 		
-		for (int n=0; n<rowNames.length;n++) {
+		for (short n=0; n<rowNames.length;n++) {
 			c = r.createCell(n);
 
 			HSSFCellStyle cs = wb.createCellStyle();
@@ -218,7 +218,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 		//Object[] mun = (Object[]) municipality.keySet().toArray();
 		// write header
 		r = s.createRow(rownum);
-		for (int n=0; n<rowNames.length;n++) {
+		for (short n=0; n<rowNames.length;n++) {
 			c = r.createCell(n);
 			c.setCellStyle(cs);
 			if (rowNames[n].equals(""))
