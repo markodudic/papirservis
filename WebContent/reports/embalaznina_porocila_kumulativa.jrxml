@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="embalaznina_porocila"
+		 name="embalaznina_porocila_kumulativa"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
@@ -71,44 +71,9 @@
 	<parameter name="xls" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[new String("0")]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT *
-FROM
-     recikel_zavezanci$P!{aleto}
-WHERE 
-    ((st_pogodbe = $P{sif_zavezanca}) OR ($P{sif_zavezanca} = -1))
-	AND
-    ((($P{nacin_obracuna} = "LN") AND (interval_pavsala != 'NS')) OR
-      ($P{nacin_obracuna} != "LN"))]]></queryString>
+	<queryString><![CDATA[SELECT now()]]></queryString>
 
-	<field name="id" class="java.lang.Integer"/>
-	<field name="st_pogodbe" class="java.lang.String"/>
-	<field name="naziv" class="java.lang.String"/>
-	<field name="naslov" class="java.lang.String"/>
-	<field name="kraj" class="java.lang.String"/>
-	<field name="posta" class="java.lang.String"/>
-	<field name="davcna" class="java.lang.String"/>
-	<field name="maticna" class="java.lang.String"/>
-	<field name="mail" class="java.lang.String"/>
-	<field name="dejavnost" class="java.lang.String"/>
-	<field name="naslov_posiljanje" class="java.lang.String"/>
-	<field name="kraj_posiljanje" class="java.lang.String"/>
-	<field name="posta_posiljanje" class="java.lang.String"/>
-	<field name="skrbnik" class="java.lang.String"/>
-	<field name="vrsta_zavezanca" class="java.lang.String"/>
-	<field name="interval_pavsala" class="java.lang.String"/>
-	<field name="datum_pricetka_pogodbe" class="java.sql.Timestamp"/>
-	<field name="datum_sklenitve_pogodbe" class="java.sql.Timestamp"/>
-	<field name="valuta" class="java.lang.Integer"/>
-	<field name="kontaktna_oseba" class="java.lang.String"/>
-	<field name="telefon_kontaktna" class="java.lang.String"/>
-	<field name="mail_kontaktna" class="java.lang.String"/>
-	<field name="opombe_kontaktna" class="java.lang.String"/>
-	<field name="odgovorna_oseba" class="java.lang.String"/>
-	<field name="telefon_odgovorna" class="java.lang.String"/>
-	<field name="mail_odgovorna" class="java.lang.String"/>
-	<field name="opombe_odgovorna" class="java.lang.String"/>
-	<field name="zacetek" class="java.sql.Timestamp"/>
-	<field name="uporabnik" class="java.lang.Integer"/>
+	<field name="now()" class="java.sql.Timestamp"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -128,47 +93,15 @@ WHERE
 		</columnHeader>
 		<detail>
 			<band height="686"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="0"
-						y="2"
-						width="200"
-						height="14"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"
-						positionType="Float"/>
-					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[  Naziv kupca:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="204"
-						y="2"
-						width="200"
-						height="14"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-6"
-						positionType="Float"/>
-					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv}]]></textFieldExpression>
-				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="22"
+						y="0"
 						width="535"
 						height="22"
 						key="subreport-2"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("LN") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LN") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -177,7 +110,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
@@ -197,13 +130,13 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="50"
+						y="28"
 						width="535"
 						height="22"
 						key="subreport-3"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("Q1") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q1") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -212,7 +145,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -232,13 +165,13 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="80"
+						y="58"
 						width="535"
 						height="22"
 						key="subreport-4"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("Q2") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q2") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -247,7 +180,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -267,13 +200,13 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="111"
+						y="89"
 						width="535"
 						height="22"
 						key="subreport-5"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("Q3") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q3") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -282,7 +215,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -302,13 +235,13 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="143"
+						y="121"
 						width="535"
 						height="22"
 						key="subreport-6"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("Q4") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q4") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -317,7 +250,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -337,13 +270,13 @@ WHERE
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="172"
+						y="150"
 						width="535"
 						height="22"
 						key="subreport-7"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(($P{nacin_obracuna}.equals("LD") || $P{nacin_obracuna}.equals("VSI")) && !$F{interval_pavsala}.equals("NS"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LD") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
 						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
@@ -352,7 +285,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>

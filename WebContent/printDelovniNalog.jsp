@@ -330,6 +330,12 @@ function disableSome(EW_this){
 
 	if (reportID == 26)
 	{	
+	    String kumulativa = request.getParameter("kumulativa");
+	    if (kumulativa.equals("da")) {
+			report += "_kumulativa";
+			
+	    }
+
 	    String nacin_obracuna = request.getParameter("nacin_obracuna_list");
 	    parameters.put("nacin_obracuna", nacin_obracuna);
 
@@ -588,7 +594,12 @@ function disableSome(EW_this){
 	        
 	  		try {
 				exporter.exportReport();
-				OutputStream outputfile= new FileOutputStream(new File("c:/EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_")+".xls"));
+				String f = "c:/EmabalazaPorocilo.xls";
+				String kumulativa = request.getParameter("kumulativa");
+			    if (kumulativa.equals("ne")) {
+			    	f = "c:/EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_")+".xls";
+			    }
+			    OutputStream outputfile= new FileOutputStream(new File(f));
 		        outputfile.write(output.toByteArray()); 
 			} catch (JRException e) {
 				e.printStackTrace();

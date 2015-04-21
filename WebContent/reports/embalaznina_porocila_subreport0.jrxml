@@ -30,7 +30,7 @@
 		<defaultValueExpression ><![CDATA["QP"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["0001/2013"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="tip" isForPrompting="false" class="java.lang.Integer"/>
 	<parameter name="naziv_racun" isForPrompting="false" class="java.lang.String">
@@ -44,19 +44,16 @@
 	</parameter>
 	<queryString><![CDATA[select AAA.tar_st, AAA.naziv, 
 	if ($P{tip}=0, AAA.KOE25_PAV, AAA.KOE25_DEJ) AS KOE25_KOL,
-	AAA.KOE25_CENA AS KOE25_CENA,
-	if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, AAA.KOE25_DEJ*AAA.KOE25_CENA) AS KOE25_ZNESEK,
+	if ($P{tip}=0, AAA.KOE25_PAV_CENA, AAA.KOE25_DEJ_CENA) AS KOE25_ZNESEK,
 	if ($P{tip}=0, AAA.NKOE25_PAV, AAA.NKOE25_DEJ) AS NKOE25_KOL,
-	AAA.NKOE25_CENA AS NKOE25_CENA,
-	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, AAA.NKOE25_DEJ*AAA.NKOE25_CENA) AS NKOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE25_PAV_CENA, AAA.NKOE25_DEJ_CENA) AS NKOE25_ZNESEK,
 	if ($P{tip}=0, AAA.NKOE34_PAV, AAA.NKOE34_DEJ) AS NKOE34_KOL,
-	AAA.NKOE34_CENA AS NKOE34_CENA,
-	if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, AAA.NKOE34_DEJ*AAA.NKOE34_CENA) AS NKOE34_ZNESEK
+	if ($P{tip}=0, AAA.NKOE34_PAV_CENA, AAA.NKOE34_DEJ_CENA) AS NKOE34_ZNESEK
 from (
 select BBB.tar_st, BBB.naziv, 
-	SUM(BBB.KOE25_CENA) KOE25_CENA, SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ,
-	SUM(BBB.NKOE25_CENA) NKOE25_CENA, SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ,
-	SUM(BBB.NKOE34_CENA) NKOE34_CENA, SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ
+	SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ, SUM(BBB.KOE25_PAV * BBB.KOE25_CENA) KOE25_PAV_CENA, SUM(BBB.KOE25_DEJ * BBB.KOE25_CENA) KOE25_DEJ_CENA,
+	SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ, SUM(BBB.NKOE25_PAV * BBB.NKOE25_CENA) NKOE25_PAV_CENA, SUM(BBB.NKOE25_DEJ * BBB.NKOE25_CENA) NKOE25_DEJ_CENA,
+	SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ, SUM(BBB.NKOE34_PAV * BBB.NKOE34_CENA) NKOE34_PAV_CENA, SUM(BBB.NKOE34_DEJ * BBB.NKOE34_CENA) NKOE34_DEJ_CENA
 from
 (select b.tar_st, b.naziv, 
 	a.cena KOE25_CENA, 
@@ -82,10 +79,14 @@ from
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
-		a. id_embalaza = b.id and
-		b.porocilo = 'KOE25'
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
+	a. id_embalaza = b.id and
+	b.porocilo = 'KOE25' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
 	0 KOE25_CENA,
@@ -111,10 +112,14 @@ select b.tar_st, b.naziv,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
-		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE25'
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
+	a. id_embalaza = b.id and
+	b.porocilo = 'NKOE25' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
 	0 KOE25_CENA,
@@ -140,10 +145,14 @@ select b.tar_st, b.naziv,
 	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
-		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE34'		
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
+	a. id_embalaza = b.id and
+	b.porocilo = 'NKOE34' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))		
 order by 1) as BBB
 group by BBB.tar_st, BBB.naziv
 )	as AAA]]></queryString>
@@ -151,13 +160,10 @@ group by BBB.tar_st, BBB.naziv
 	<field name="tar_st" class="java.lang.String"/>
 	<field name="naziv" class="java.lang.String"/>
 	<field name="KOE25_KOL" class="java.lang.Double"/>
-	<field name="KOE25_CENA" class="java.lang.Double"/>
 	<field name="KOE25_ZNESEK" class="java.lang.Double"/>
 	<field name="NKOE25_KOL" class="java.lang.Double"/>
-	<field name="NKOE25_CENA" class="java.lang.Double"/>
 	<field name="NKOE25_ZNESEK" class="java.lang.Double"/>
 	<field name="NKOE34_KOL" class="java.lang.Double"/>
-	<field name="NKOE34_CENA" class="java.lang.Double"/>
 	<field name="NKOE34_ZNESEK" class="java.lang.Double"/>
 
 	<variable name="KOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -952,9 +958,9 @@ group by BBB.tar_st, BBB.naziv
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="327"
+						x="285"
 						y="48"
-						width="41"
+						width="83"
 						height="12"
 						backcolor="#CCCCCC"
 						key="textField-15"/>
@@ -1097,7 +1103,7 @@ group by BBB.tar_st, BBB.naziv
 						mode="Opaque"
 						x="0"
 						y="48"
-						width="327"
+						width="285"
 						height="12"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -1905,16 +1911,6 @@ group by BBB.tar_st, BBB.naziv
 						height="46"
 						key="line-56"/>
 					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<line direction="TopDown">
-					<reportElement
-						x="327"
-						y="48"
-						width="0"
-						height="12"
-						key="line-57"
-						stretchType="RelativeToBandHeight"/>
-					<graphicElement stretchType="RelativeToBandHeight"/>
 				</line>
 				<line direction="TopDown">
 					<reportElement

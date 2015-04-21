@@ -82,10 +82,14 @@ from
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
 		a. id_embalaza = b.id and
-		b.porocilo = 'KOE25'
+		b.porocilo = 'KOE25' and
+		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
 	0 KOE25_CENA,
@@ -111,10 +115,14 @@ select b.tar_st, b.naziv,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
 		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE25'
+		b.porocilo = 'NKOE25' and
+		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
 	0 KOE25_CENA,
@@ -140,10 +148,14 @@ select b.tar_st, b.naziv,
 	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) NKOE34_DEJ
 from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
+	  recikel_embalaze$P!{aleto} as b,
+	  recikel_zavezanci$P!{aleto} as c
+where (a.id_zavezanca = c.id) and
 		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE34'		
+		b.porocilo = 'NKOE34' and
+		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+      ($P{nacin_obracuna} != "LN"))		
 order by 1) as BBB
 group by BBB.tar_st, BBB.naziv
 )	as AAA]]></queryString>
@@ -866,7 +878,7 @@ group by BBB.tar_st, BBB.naziv
 						mode="Opaque"
 						x="0"
 						y="48"
-						width="327"
+						width="285"
 						height="12"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -880,9 +892,9 @@ group by BBB.tar_st, BBB.naziv
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="327"
+						x="285"
 						y="48"
-						width="41"
+						width="83"
 						height="12"
 						backcolor="#CCCCCC"
 						key="textField-15"/>

@@ -37,7 +37,7 @@ function  EW_checkMyForm(EW_this)
 	}
 	
 	if (document.porocila.reportID.value == 26) {
-		if (document.porocila.nacin_obracuna_list.value == "VSI" && document.porocila.x_sif_zavezanca.value == "-1") {
+		if (document.porocila.nacin_obracuna_list.value == "VSI" && document.porocila.x_sif_zavezanca.value == "-1" && document.porocila.kumulativa.value == "ne") {
 			alert ("Ni možno izbrati vse stranke in vse obračune");
 			return false;
 		}
@@ -618,6 +618,13 @@ function updateRacun(){
 				<option value="Q4">4. kvartal</option>
 				<option value="LD">Letna dejansko</option>
 			</select>&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Kumulativa:&nbsp;</td>
+		<td class="ewTableAltRow">
+    		<INPUT type="radio" name="kumulativa" value="da" checked>Da
+    		<INPUT type="radio" name="kumulativa" value="ne">Ne
 		</td>
 	</tr>
 	<%}%>
