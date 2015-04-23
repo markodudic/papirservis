@@ -1439,7 +1439,8 @@ group by BBB.tar_st, BBB.naziv
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{KOLICINA})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOLICINA})
+]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>
