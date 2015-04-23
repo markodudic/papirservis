@@ -44,19 +44,16 @@
 	</parameter>
 	<queryString><![CDATA[select AAA.tar_st, AAA.naziv, 
 	if ($P{tip}=0, AAA.KOE25_PAV, AAA.KOE25_DEJ) AS KOE25_KOL,
-	AAA.KOE25_CENA AS KOE25_CENA,
-	if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, AAA.KOE25_DEJ*AAA.KOE25_CENA) AS KOE25_ZNESEK,
+	if ($P{tip}=0, AAA.KOE25_PAV_CENA, AAA.KOE25_DEJ_CENA) AS KOE25_ZNESEK,
 	if ($P{tip}=0, AAA.NKOE25_PAV, AAA.NKOE25_DEJ) AS NKOE25_KOL,
-	AAA.NKOE25_CENA AS NKOE25_CENA,
-	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, AAA.NKOE25_DEJ*AAA.NKOE25_CENA) AS NKOE25_ZNESEK,
+	if ($P{tip}=0, AAA.NKOE25_PAV_CENA, AAA.NKOE25_DEJ_CENA) AS NKOE25_ZNESEK,
 	if ($P{tip}=0, AAA.NKOE34_PAV, AAA.NKOE34_DEJ) AS NKOE34_KOL,
-	AAA.NKOE34_CENA AS NKOE34_CENA,
-	if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, AAA.NKOE34_DEJ*AAA.NKOE34_CENA) AS NKOE34_ZNESEK
+	if ($P{tip}=0, AAA.NKOE34_PAV_CENA, AAA.NKOE34_DEJ_CENA) AS NKOE34_ZNESEK
 from (
 select BBB.tar_st, BBB.naziv, 
-	SUM(BBB.KOE25_CENA) KOE25_CENA, SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ,
-	SUM(BBB.NKOE25_CENA) NKOE25_CENA, SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ,
-	SUM(BBB.NKOE34_CENA) NKOE34_CENA, SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ
+	SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ, SUM(BBB.KOE25_PAV * BBB.KOE25_CENA) KOE25_PAV_CENA, SUM(BBB.KOE25_DEJ * BBB.KOE25_CENA) KOE25_DEJ_CENA,
+	SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ, SUM(BBB.NKOE25_PAV * BBB.NKOE25_CENA) NKOE25_PAV_CENA, SUM(BBB.NKOE25_DEJ * BBB.NKOE25_CENA) NKOE25_DEJ_CENA,
+	SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ, SUM(BBB.NKOE34_PAV * BBB.NKOE34_CENA) NKOE34_PAV_CENA, SUM(BBB.NKOE34_DEJ * BBB.NKOE34_CENA) NKOE34_DEJ_CENA
 from
 (select b.tar_st, b.naziv, 
 	a.cena KOE25_CENA, 
@@ -85,10 +82,10 @@ from recikel_embalaznina$P!{aleto} as a,
 	  recikel_embalaze$P!{aleto} as b,
 	  recikel_zavezanci$P!{aleto} as c
 where (a.id_zavezanca = c.id) and
-		a. id_embalaza = b.id and
-		b.porocilo = 'KOE25' and
-		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
-	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+	a. id_embalaza = b.id and
+	b.porocilo = 'KOE25' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
@@ -118,10 +115,10 @@ from recikel_embalaznina$P!{aleto} as a,
 	  recikel_embalaze$P!{aleto} as b,
 	  recikel_zavezanci$P!{aleto} as c
 where (a.id_zavezanca = c.id) and
-		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE25' and
-		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
-	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+	a. id_embalaza = b.id and
+	b.porocilo = 'NKOE25' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))	
 UNION ALL
 select b.tar_st, b.naziv, 
@@ -151,10 +148,10 @@ from recikel_embalaznina$P!{aleto} as a,
 	  recikel_embalaze$P!{aleto} as b,
 	  recikel_zavezanci$P!{aleto} as c
 where (a.id_zavezanca = c.id) and
-		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE34' and
-		(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
-	   ((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
+	a. id_embalaza = b.id and
+	b.porocilo = 'NKOE34' and
+	(c.id = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
+	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))		
 order by 1) as BBB
 group by BBB.tar_st, BBB.naziv
@@ -163,13 +160,10 @@ group by BBB.tar_st, BBB.naziv
 	<field name="tar_st" class="java.lang.String"/>
 	<field name="naziv" class="java.lang.String"/>
 	<field name="KOE25_KOL" class="java.lang.Double"/>
-	<field name="KOE25_CENA" class="java.lang.Double"/>
 	<field name="KOE25_ZNESEK" class="java.lang.Double"/>
 	<field name="NKOE25_KOL" class="java.lang.Double"/>
-	<field name="NKOE25_CENA" class="java.lang.Double"/>
 	<field name="NKOE25_ZNESEK" class="java.lang.Double"/>
 	<field name="NKOE34_KOL" class="java.lang.Double"/>
-	<field name="NKOE34_CENA" class="java.lang.Double"/>
 	<field name="NKOE34_ZNESEK" class="java.lang.Double"/>
 
 	<variable name="KOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
@@ -261,6 +255,12 @@ group by BBB.tar_st, BBB.naziv
 	</variable>
 	<variable name="NKOE34_SESTAVLJENI_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[($F{tar_st}.indexOf("6.")!=-1) ? $F{NKOE34_ZNESEK} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="KOLICINA" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Double(  
+($V{KOE25_KOL_SUM}.doubleValue()) +
+($V{NKOE25_KOL_SUM}.doubleValue()) +
+($V{NKOE34_KOL_SUM}.doubleValue()) )]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -884,17 +884,17 @@ group by BBB.tar_st, BBB.naziv
 						backcolor="#CCCCCC"
 						key="element-102"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[ZNESEK]]></text>
+				<text><![CDATA[SKUPAJ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="285"
+						x="327"
 						y="48"
-						width="83"
+						width="41"
 						height="12"
 						backcolor="#CCCCCC"
 						key="textField-15"/>
@@ -1425,6 +1425,21 @@ group by BBB.tar_st, BBB.naziv
 						<font fontName="Arial" pdfFontName="Helvetica" size="7" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_PLASTIKA_ZNESEK_SUM}.doubleValue() + $V{NKOE34_PLASTIKA_ZNESEK_SUM}.doubleValue())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="285"
+						y="48"
+						width="42"
+						height="12"
+						backcolor="#CCCCCC"
+						key="textField-56"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{KOLICINA})]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>

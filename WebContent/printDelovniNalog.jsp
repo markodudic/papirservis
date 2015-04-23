@@ -581,11 +581,9 @@ function disableSome(EW_this){
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 	        
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			//exporter.setParameter(JRExporterParameter.OUTPUT_WRITER,	response.getWriter());
+	        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
 			
-	        
 	        //Excel specific parameter
 	        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 	        exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
@@ -594,13 +592,26 @@ function disableSome(EW_this){
 	        
 	  		try {
 				exporter.exportReport();
-				String f = "c:/EmabalazaPorocilo.xls";
+
+				String f = "EmabalazaPorocilo.xls";
+				String kumulativa = request.getParameter("kumulativa");
+			    if (kumulativa.equals("ne")) {
+			    	f = "EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_").replace("-1", "vse")+".xls";
+			    }
+			    else {
+			    	f = "EmabalazaPorocilo_kumulativa.xls";
+			    }
+				response.setHeader("Content-Disposition","attachment; filename=\""+f+"\"");
+				response.setContentType("application/vnd.ms-excel");
+		        ServletOutputStream ouputStream = response.getOutputStream();
+		        ouputStream.write(output.toByteArray());
+		        /*String f = "c:/EmabalazaPorocilo.xls";
 				String kumulativa = request.getParameter("kumulativa");
 			    if (kumulativa.equals("ne")) {
 			    	f = "c:/EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_")+".xls";
 			    }
 			    OutputStream outputfile= new FileOutputStream(new File(f));
-		        outputfile.write(output.toByteArray()); 
+		        outputfile.write(output.toByteArray()); */
 			} catch (JRException e) {
 				e.printStackTrace();
 			}
