@@ -124,6 +124,7 @@ if ((meni & ewRecikel) == ewRecikel){
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="recikelembalazninalist.jsp?cmd=top">Poro&#269;anje</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=25">Ra&#269;un</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=26">Poro&#269;ilo</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=27">Rekapitulacija</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>
 

@@ -328,7 +328,7 @@ function disableSome(EW_this){
 		
 	}
 
-	if (reportID == 26)
+	if ((reportID == 26) || (reportID == 27))
 	{	
 	    String kumulativa = request.getParameter("kumulativa");
 	    if (kumulativa.equals("da")) {
@@ -484,7 +484,7 @@ function disableSome(EW_this){
         		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
         	}
                   	
-        	if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26))
+        	if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26) && (reportID != 27))
         	{   		
         		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
