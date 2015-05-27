@@ -5,10 +5,10 @@
 		 name="embalaznina_rekapitulacija"
 		 columnCount="1"
 		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="595"
+		 orientation="Landscape"
+		 pageWidth="2381"
 		 pageHeight="842"
-		 columnWidth="535"
+		 columnWidth="2321"
 		 columnSpacing="0"
 		 leftMargin="30"
 		 rightMargin="30"
@@ -97,10 +97,9 @@
 					<reportElement
 						x="0"
 						y="6"
-						width="535"
+						width="2264"
 						height="22"
-						key="subreport-2"
-						isRemoveLineWhenBlank="true">
+						key="subreport-2">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LN") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -125,17 +124,16 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="34"
-						width="535"
+						y="36"
+						width="2264"
 						height="22"
 						key="subreport-3"
-						positionType="Float"
-						isRemoveLineWhenBlank="true">
+						positionType="Float">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q1") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -160,17 +158,16 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum_q1}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="64"
-						width="535"
+						y="71"
+						width="2264"
 						height="22"
 						key="subreport-4"
-						positionType="Float"
-						isRemoveLineWhenBlank="true">
+						positionType="Float">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q2") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -195,17 +192,16 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum_q2}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="95"
-						width="535"
+						y="103"
+						width="2264"
 						height="22"
 						key="subreport-5"
-						positionType="Float"
-						isRemoveLineWhenBlank="true">
+						positionType="Float">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q3") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -230,17 +226,16 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum_q3}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="127"
-						width="535"
+						y="137"
+						width="2264"
 						height="22"
 						key="subreport-6"
-						positionType="Float"
-						isRemoveLineWhenBlank="true">
+						positionType="Float">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q4") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -265,17 +260,16 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum_q4}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="0"
-						y="156"
-						width="535"
+						y="172"
+						width="2264"
 						height="22"
 						key="subreport-7"
-						positionType="Float"
-						isRemoveLineWhenBlank="true">
+						positionType="Float">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LD") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="aleto">
@@ -300,7 +294,7 @@
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_xls_subreport0.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_rekapitulacija_subreport0.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

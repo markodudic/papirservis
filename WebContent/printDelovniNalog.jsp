@@ -331,7 +331,7 @@ function disableSome(EW_this){
 	if ((reportID == 26) || (reportID == 27))
 	{	
 	    String kumulativa = request.getParameter("kumulativa");
-	    if (kumulativa.equals("da")) {
+	    if (kumulativa!=null && kumulativa.equals("da")) {
 			report += "_kumulativa";
 			
 	    }
@@ -474,8 +474,7 @@ function disableSome(EW_this){
 	
 	try
     {
-    	
-		if (Integer.parseInt(type) == 1) //PDF
+    	if (Integer.parseInt(type) == 1) //PDF
         {
         	if (reportID != 25) {
         		parameters.put("picture", getServletContext().getInitParameter("logoPdf"));
@@ -484,30 +483,30 @@ function disableSome(EW_this){
         		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
         	}
                   	
-        	if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26) && (reportID != 27))
+            if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26) && (reportID != 27))
         	{   		
-        		InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
+                InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
 				JasperRunManager.runReportToPdfStream(reportStream, response.getOutputStream(), parameters, conn );				
         	}
         	else
         	{   	
-	        	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
-	    		JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
-	    		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
+                JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 	    		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
-	    		JRPdfExporter exporter = new JRPdfExporter();
+                JRPdfExporter exporter = new JRPdfExporter();
 				ByteArrayOutputStream pdfReport = new ByteArrayOutputStream();
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, pdfReport);
 	
-		  		try {
+                try {
 					exporter.exportReport();
 				} catch (JRException e) {
 					e.printStackTrace();
 				}
 	
-				byte[] pdfasbytes = pdfReport.toByteArray();
+                byte[] pdfasbytes = pdfReport.toByteArray();
 				response.setContentType("application/pdf");
 				response.setContentLength(pdfasbytes.length);
 				ServletOutputStream ouputStream = response.getOutputStream();
@@ -572,12 +571,11 @@ function disableSome(EW_this){
 	    {
 	    	JRXlsExporter exporter = new JRXlsExporter();
 			//response.setContentType("application/vnd.ms-excel");
-	
 	    	InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jrxml");
-			JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
+	    	JasperDesign jasperDesign = JRXmlLoader.load(reportStream );
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
-	    
+	  		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);		
+			
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 	        
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
@@ -587,43 +585,40 @@ function disableSome(EW_this){
 	        //Excel specific parameter
 	        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 	        exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-	        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+	        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);	        
 	        
-	        
-	  		try {
+	    	try {
 				exporter.exportReport();
 
 				String f = "EmabalazaPorocilo.xls";
 				String kumulativa = request.getParameter("kumulativa");
-			    if (kumulativa.equals("ne")) {
-			    	f = "EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_").replace("-1", "vse")+".xls";
+			    if (kumulativa != null) {
+					if (kumulativa.equals("ne")) {
+				    	f = "EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_").replace("-1", "vse")+".xls";
+				    }
+				    else {
+				    	f = "EmabalazaPorocilo_kumulativa.xls";
+				    }
 			    }
 			    else {
-			    	f = "EmabalazaPorocilo_kumulativa.xls";
+			    	f = "EmabalazaRekapitulacija_"+sif_zavezanca.replace("/", "_").replace("-1", "vse")+".xls";			    	
 			    }
 				response.setHeader("Content-Disposition","attachment; filename=\""+f+"\"");
 				response.setContentType("application/vnd.ms-excel");
 		        ServletOutputStream ouputStream = response.getOutputStream();
 		        ouputStream.write(output.toByteArray());
-		        /*String f = "c:/EmabalazaPorocilo.xls";
-				String kumulativa = request.getParameter("kumulativa");
-			    if (kumulativa.equals("ne")) {
-			    	f = "c:/EmabalazaPorocilo_"+sif_zavezanca.replace("/", "_")+".xls";
-			    }
-			    OutputStream outputfile= new FileOutputStream(new File(f));
-		        outputfile.write(output.toByteArray()); */
 			} catch (JRException e) {
 				e.printStackTrace();
 			}
-	    	
 	    }
         
         response.getOutputStream().flush();
-        response.getOutputStream().close();
+        response.getOutputStream().close(); 
     }
     catch (JRException e)
     {
-      // display stack trace in the browser
+    	e.printStackTrace();
+    	// display stack trace in the browser
       StringWriter stringWriter = new StringWriter();
       PrintWriter printWriter = new PrintWriter(stringWriter);
       e.printStackTrace(printWriter);

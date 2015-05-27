@@ -621,6 +621,9 @@ function updateRacun(){
 			</select>&nbsp;
 		</td>
 	</tr>
+	<%}%>
+
+	<%if (reportID == 26) {%>
 	<tr>
 		<td class="ewTableHeader">Kumulativa:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -689,7 +692,9 @@ function updateRacun(){
 		<td class="ewTableHeader">Tip poro&#269;ila:&nbsp;</td>
 		<td class="ewTableAltRow">
     		<INPUT type="radio" name="type" value="1" checked>PDF
+	<%if (reportID != 27) {%>
     		<INPUT type="radio" name="type" value="2">HTML
+	<%}%>
 	<%if ((reportID == 13) || (reportID == 19)) {%>
     		<INPUT type="radio" name="type" value="3">DOC
 	<%}%>
