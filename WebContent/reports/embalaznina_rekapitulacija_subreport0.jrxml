@@ -42,7 +42,7 @@
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2015-12-01"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select st_pogodbe, naziv,
+	<queryString><![CDATA[select id, st_pogodbe, naziv, naslov, kraj, posta, davcna, maticna, mail, dejavnost, naslov_posiljanje, kraj_posiljanje, posta_posiljanje, skrbnik, vrsta_zavezanca, interval_pavsala, datum_pricetka_pogodbe, datum_sklenitve_pogodbe, valuta, kontaktna_oseba, telefon_kontaktna, mail_kontaktna, opombe_kontaktna, odgovorna_oseba, telefon_odgovorna, mail_odgovorna, opombe_odgovorna,
 	if ($P{tip}=0, SUM(KOE25_PAV_1_1),SUM(KOE25_DEJ_1_1)) KOE25_1_1, if ($P{tip}=0, SUM(KOE25_PAV_1_1)*SUM(KOE25_CENA_1_1),SUM(KOE25_DEJ_1_1)*SUM(KOE25_CENA_1_1)) KOE25_CENA_1_1,
 	if ($P{tip}=0, SUM(KOE25_PAV_1_2),SUM(KOE25_DEJ_1_2)) KOE25_1_2, if ($P{tip}=0, SUM(KOE25_PAV_1_2)*SUM(KOE25_CENA_1_2),SUM(KOE25_DEJ_1_2)*SUM(KOE25_CENA_1_2)) KOE25_CENA_1_2,
 	if ($P{tip}=0, SUM(KOE25_PAV_2_1),SUM(KOE25_DEJ_2_1)) KOE25_2_1, if ($P{tip}=0, SUM(KOE25_PAV_2_1)*SUM(KOE25_CENA_2_1),SUM(KOE25_DEJ_2_1)*SUM(KOE25_CENA_2_1)) KOE25_CENA_2_1,
@@ -74,7 +74,7 @@
 	if ($P{tip}=0, SUM(NKOE34_PAV_6_2),SUM(NKOE34_DEJ_6_2)) NKOE34_6_2, if ($P{tip}=0, SUM(NKOE34_PAV_6_2)*SUM(NKOE34_CENA_6_2),SUM(NKOE34_DEJ_6_2)*SUM(NKOE34_CENA_6_2)) NKOE34_CENA_6_2,
 	if ($P{tip}=0, SUM(NKOE34_PAV_7_0),SUM(NKOE34_DEJ_7_0)) NKOE34_7_0, if ($P{tip}=0, SUM(NKOE34_PAV_7_0)*SUM(NKOE34_CENA_7_0),SUM(NKOE34_DEJ_7_0)*SUM(NKOE34_CENA_7_0)) NKOE34_CENA_7_0
 	from (
-select c.st_pogodbe, c.naziv,
+select c.*,
 	a.cena KOE25_CENA_1_1, 
 	if ('Q1'=$P{nacin_obracuna} || 'Q2'=$P{nacin_obracuna} || 'Q3'=$P{nacin_obracuna} || 'Q4'=$P{nacin_obracuna}, 
 		(a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1), 
@@ -134,7 +134,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))	
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -194,7 +194,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -254,7 +254,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -314,7 +314,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -374,7 +374,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -434,7 +434,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -494,7 +494,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -554,7 +554,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -614,7 +614,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -674,7 +674,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,
 	0,
 	0,
@@ -734,7 +734,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))																      
 union all
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0 KOE25_CENA_1_1, 0 KOE25_PAV_1_1,0 KOE25_DEJ_1_1,0 KOE25_CENA_1_2,0 KOE25_PAV_1_2,0 KOE25_DEJ_1_2,0 KOE25_CENA_2_1,0 KOE25_PAV_2_1,0 KOE25_DEJ_2_1,0 KOE25_CENA_2_2,0 KOE25_PAV_2_2,0 KOE25_DEJ_2_2,0 KOE25_CENA_2_3,0 KOE25_PAV_2_3,0 KOE25_DEJ_2_3,0 KOE25_CENA_3_0,0 KOE25_PAV_3_0,0 KOE25_DEJ_3_0,0 KOE25_CENA_4_0,0 KOE25_PAV_4_0,0 KOE25_DEJ_4_0,0 KOE25_CENA_5_0,0 KOE25_PAV_5_0,0 KOE25_DEJ_5_0,0 KOE25_CENA_6_1,0 KOE25_PAV_6_1,0 KOE25_DEJ_6_1,0 KOE25_CENA_6_2,0 KOE25_PAV_6_2,0 KOE25_DEJ_6_2,0 KOE25_CENA_7_0,0 KOE25_PAV_7_0,0 KOE25_DEJ_7_0,
 	a.cena NKOE25_CENA_1_1, 
 	if ('Q1'=$P{nacin_obracuna} || 'Q2'=$P{nacin_obracuna} || 'Q3'=$P{nacin_obracuna} || 'Q4'=$P{nacin_obracuna}, 
@@ -794,7 +794,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))	
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -854,7 +854,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -914,7 +914,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -974,7 +974,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1034,7 +1034,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1094,7 +1094,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1154,7 +1154,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1214,7 +1214,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1274,7 +1274,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1334,7 +1334,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
 	0,
@@ -1394,7 +1394,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))																      
 union all
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0 KOE25_CENA_1_1, 0 KOE25_PAV_1_1,0 KOE25_DEJ_1_1,0 KOE25_CENA_1_2,0 KOE25_PAV_1_2,0 KOE25_DEJ_1_2,0 KOE25_CENA_2_1,0 KOE25_PAV_2_1,0 KOE25_DEJ_2_1,0 KOE25_CENA_2_2,0 KOE25_PAV_2_2,0 KOE25_DEJ_2_2,0 KOE25_CENA_2_3,0 KOE25_PAV_2_3,0 KOE25_DEJ_2_3,0 KOE25_CENA_3_0,0 KOE25_PAV_3_0,0 KOE25_DEJ_3_0,0 KOE25_CENA_4_0,0 KOE25_PAV_4_0,0 KOE25_DEJ_4_0,0 KOE25_CENA_5_0,0 KOE25_PAV_5_0,0 KOE25_DEJ_5_0,0 KOE25_CENA_6_1,0 KOE25_PAV_6_1,0 KOE25_DEJ_6_1,0 KOE25_CENA_6_2,0 KOE25_PAV_6_2,0 KOE25_DEJ_6_2,0 KOE25_CENA_7_0,0 KOE25_PAV_7_0,0 KOE25_DEJ_7_0,
 	0 NKOE25_CENA_1_1,0 NKOE25_PAV_1_1,0 NKOE25_DEJ_1_1,0 NKOE25_CENA_1_2,0 NKOE25_PAV_1_2,0 NKOE25_DEJ_1_2,0 NKOE25_CENA_2_1,0 NKOE25_PAV_2_1,0 NKOE25_DEJ_2_1,0 NKOE25_CENA_2_2,0 NKOE25_PAV_2_2,0 NKOE25_DEJ_2_2,0 NKOE25_CENA_2_3,0 NKOE25_PAV_2_3,0 NKOE25_DEJ_2_3,0 NKOE25_CENA_3_0,0 NKOE25_PAV_3_0,0 NKOE25_DEJ_3_0,0 NKOE25_CENA_4_0,0 NKOE25_PAV_4_0,0 NKOE25_DEJ_4_0,0 NKOE25_CENA_5_0,0 NKOE25_PAV_5_0,0 NKOE25_DEJ_5_0,0 NKOE25_CENA_6_1,0 NKOE25_PAV_6_1,0 NKOE25_DEJ_6_1,0 NKOE25_CENA_6_2,0 NKOE25_PAV_6_2,0 NKOE25_DEJ_6_2,0 NKOE25_CENA_7_0,0 NKOE25_PAV_7_0,0 NKOE25_DEJ_7_0,
 	a.cena NKOE34_CENA_1_1, 
@@ -1445,7 +1445,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))	
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1496,7 +1496,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1547,7 +1547,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1598,7 +1598,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1649,7 +1649,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1700,7 +1700,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1751,7 +1751,7 @@ where (a.id_zavezanca = c.id) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
       ($P{nacin_obracuna} != "LN"))
 UNION ALL
-select c.st_pogodbe, c.naziv,
+select c.*,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,
@@ -1804,8 +1804,33 @@ where (a.id_zavezanca = c.id) and
 order by 1) as a
 group by st_pogodbe, naziv]]></queryString>
 
+	<field name="id" class="java.lang.Integer"/>
 	<field name="st_pogodbe" class="java.lang.String"/>
 	<field name="naziv" class="java.lang.String"/>
+	<field name="naslov" class="java.lang.String"/>
+	<field name="kraj" class="java.lang.String"/>
+	<field name="posta" class="java.lang.String"/>
+	<field name="davcna" class="java.lang.String"/>
+	<field name="maticna" class="java.lang.String"/>
+	<field name="mail" class="java.lang.String"/>
+	<field name="dejavnost" class="java.lang.String"/>
+	<field name="naslov_posiljanje" class="java.lang.String"/>
+	<field name="kraj_posiljanje" class="java.lang.String"/>
+	<field name="posta_posiljanje" class="java.lang.String"/>
+	<field name="skrbnik" class="java.lang.String"/>
+	<field name="vrsta_zavezanca" class="java.lang.String"/>
+	<field name="interval_pavsala" class="java.lang.String"/>
+	<field name="datum_pricetka_pogodbe" class="java.sql.Timestamp"/>
+	<field name="datum_sklenitve_pogodbe" class="java.sql.Timestamp"/>
+	<field name="valuta" class="java.lang.Integer"/>
+	<field name="kontaktna_oseba" class="java.lang.String"/>
+	<field name="telefon_kontaktna" class="java.lang.String"/>
+	<field name="mail_kontaktna" class="java.lang.String"/>
+	<field name="opombe_kontaktna" class="java.lang.String"/>
+	<field name="odgovorna_oseba" class="java.lang.String"/>
+	<field name="telefon_odgovorna" class="java.lang.String"/>
+	<field name="mail_odgovorna" class="java.lang.String"/>
+	<field name="opombe_odgovorna" class="java.lang.String"/>
 	<field name="KOE25_1_1" class="java.lang.Double"/>
 	<field name="KOE25_CENA_1_1" class="java.lang.Double"/>
 	<field name="KOE25_1_2" class="java.lang.Double"/>
@@ -4449,7 +4474,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4465,7 +4490,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4481,7 +4506,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4577,7 +4602,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4689,7 +4714,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4769,7 +4794,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4801,7 +4826,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4817,7 +4842,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4833,7 +4858,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4849,7 +4874,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4961,7 +4986,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -4993,7 +5018,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5009,7 +5034,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5121,7 +5146,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5153,7 +5178,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5169,7 +5194,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5281,7 +5306,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5313,7 +5338,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5329,7 +5354,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5473,7 +5498,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5489,7 +5514,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5505,7 +5530,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5537,7 +5562,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5553,7 +5578,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5633,7 +5658,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE34_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE34_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5745,7 +5770,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5777,7 +5802,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_25_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_25_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5793,7 +5818,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_NKOE_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_NKOE_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5809,7 +5834,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{KOE25_SUM})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5825,7 +5850,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{NKOE25_SUM})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5841,7 +5866,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{NKOE34_SUM})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE34_SUM})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5889,7 +5914,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{KOE25_SUM}.doubleValue() + $V{NKOE25_SUM}.doubleValue())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM}.doubleValue() + $V{NKOE25_SUM}.doubleValue())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5905,7 +5930,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{NKOE25_SUM}.doubleValue() + $V{NKOE34_SUM}.doubleValue())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM}.doubleValue() + $V{NKOE34_SUM}.doubleValue())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5921,7 +5946,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{KOE25_SUM}.doubleValue() + $V{NKOE25_SUM}.doubleValue() + $V{NKOE34_SUM}.doubleValue())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM}.doubleValue() + $V{NKOE25_SUM}.doubleValue() + $V{NKOE34_SUM}.doubleValue())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5965,7 +5990,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5981,7 +6006,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -5997,7 +6022,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE34_SUM_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE34_SUM_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6013,7 +6038,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6029,7 +6054,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6045,7 +6070,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6093,7 +6118,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6109,7 +6134,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6125,7 +6150,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE34_SUM_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE34_SUM_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6141,7 +6166,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6157,7 +6182,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6173,7 +6198,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_2})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_2})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6205,7 +6230,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6221,7 +6246,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6237,7 +6262,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_3})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_3})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6269,7 +6294,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6285,7 +6310,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6301,7 +6326,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_4})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_4})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6333,7 +6358,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6349,7 +6374,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6365,7 +6390,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_5})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_5})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6397,7 +6422,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{KOE25_SUM_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{KOE25_SUM_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6413,7 +6438,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE25_SUM_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE25_SUM_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6429,7 +6454,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{NKOE34_SUM_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{NKOE34_SUM_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6445,7 +6470,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6461,7 +6486,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6477,7 +6502,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_6})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_6})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6509,7 +6534,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_KOE25_SUM_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_KOE25_SUM_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6525,7 +6550,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6541,7 +6566,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6557,7 +6582,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_CENA_7})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{SUM_SUM_CENA_7})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6573,7 +6598,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_25})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_25})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6589,7 +6614,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6605,7 +6630,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6637,7 +6662,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_KOE25})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_KOE25})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6653,7 +6678,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE25})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE25})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -6669,7 +6694,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.0000").format($V{SUM_SUM_NKOE34})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_SUM_NKOE34})]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>
