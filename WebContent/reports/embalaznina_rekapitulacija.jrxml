@@ -5,10 +5,10 @@
 		 name="embalaznina_rekapitulacija"
 		 columnCount="1"
 		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="2381"
+		 orientation="Landscape"
+		 pageWidth="3940"
 		 pageHeight="2834"
-		 columnWidth="2321"
+		 columnWidth="3880"
 		 columnSpacing="0"
 		 leftMargin="30"
 		 rightMargin="30"
@@ -97,7 +97,7 @@
 					<reportElement
 						x="0"
 						y="6"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-2">
 							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LN") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
@@ -130,7 +130,7 @@
 					<reportElement
 						x="0"
 						y="36"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-3"
 						positionType="Float">
@@ -164,7 +164,7 @@
 					<reportElement
 						x="0"
 						y="71"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-4"
 						positionType="Float">
@@ -198,7 +198,7 @@
 					<reportElement
 						x="0"
 						y="103"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-5"
 						positionType="Float">
@@ -232,7 +232,7 @@
 					<reportElement
 						x="0"
 						y="137"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-6"
 						positionType="Float">
@@ -266,7 +266,7 @@
 					<reportElement
 						x="0"
 						y="172"
-						width="2264"
+						width="3880"
 						height="22"
 						key="subreport-7"
 						positionType="Float">

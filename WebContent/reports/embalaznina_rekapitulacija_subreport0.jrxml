@@ -6,9 +6,9 @@
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Landscape"
-		 pageWidth="2324"
+		 pageWidth="3940"
 		 pageHeight="802"
-		 columnWidth="2324"
+		 columnWidth="3940"
 		 columnSpacing="0"
 		 leftMargin="0"
 		 rightMargin="0"
@@ -43,36 +43,36 @@
 		<defaultValueExpression ><![CDATA["2015-12-01"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[select id, st_pogodbe, naziv, naslov, kraj, posta, davcna, maticna, mail, dejavnost, naslov_posiljanje, kraj_posiljanje, posta_posiljanje, skrbnik, vrsta_zavezanca, interval_pavsala, datum_pricetka_pogodbe, datum_sklenitve_pogodbe, valuta, kontaktna_oseba, telefon_kontaktna, mail_kontaktna, opombe_kontaktna, odgovorna_oseba, telefon_odgovorna, mail_odgovorna, opombe_odgovorna,
-	if ($P{tip}=0, SUM(KOE25_PAV_1_1),SUM(KOE25_DEJ_1_1)) KOE25_1_1, if ($P{tip}=0, SUM(KOE25_PAV_1_1)*SUM(KOE25_CENA_1_1),SUM(KOE25_DEJ_1_1)*SUM(KOE25_CENA_1_1)) KOE25_CENA_1_1,
-	if ($P{tip}=0, SUM(KOE25_PAV_1_2),SUM(KOE25_DEJ_1_2)) KOE25_1_2, if ($P{tip}=0, SUM(KOE25_PAV_1_2)*SUM(KOE25_CENA_1_2),SUM(KOE25_DEJ_1_2)*SUM(KOE25_CENA_1_2)) KOE25_CENA_1_2,
-	if ($P{tip}=0, SUM(KOE25_PAV_2_1),SUM(KOE25_DEJ_2_1)) KOE25_2_1, if ($P{tip}=0, SUM(KOE25_PAV_2_1)*SUM(KOE25_CENA_2_1),SUM(KOE25_DEJ_2_1)*SUM(KOE25_CENA_2_1)) KOE25_CENA_2_1,
-	if ($P{tip}=0, SUM(KOE25_PAV_2_2),SUM(KOE25_DEJ_2_2)) KOE25_2_2, if ($P{tip}=0, SUM(KOE25_PAV_2_2)*SUM(KOE25_CENA_2_2),SUM(KOE25_DEJ_2_2)*SUM(KOE25_CENA_2_2)) KOE25_CENA_2_2,
-	if ($P{tip}=0, SUM(KOE25_PAV_2_3),SUM(KOE25_DEJ_2_3)) KOE25_2_3, if ($P{tip}=0, SUM(KOE25_PAV_2_3)*SUM(KOE25_CENA_2_3),SUM(KOE25_DEJ_2_3)*SUM(KOE25_CENA_2_3)) KOE25_CENA_2_3,
-	if ($P{tip}=0, SUM(KOE25_PAV_3_0),SUM(KOE25_DEJ_3_0)) KOE25_3_0, if ($P{tip}=0, SUM(KOE25_PAV_3_0)*SUM(KOE25_CENA_3_0),SUM(KOE25_DEJ_3_0)*SUM(KOE25_CENA_3_0)) KOE25_CENA_3_0,
-	if ($P{tip}=0, SUM(KOE25_PAV_4_0),SUM(KOE25_DEJ_4_0)) KOE25_4_0, if ($P{tip}=0, SUM(KOE25_PAV_4_0)*SUM(KOE25_CENA_4_0),SUM(KOE25_DEJ_4_0)*SUM(KOE25_CENA_4_0)) KOE25_CENA_4_0,
-	if ($P{tip}=0, SUM(KOE25_PAV_5_0),SUM(KOE25_DEJ_5_0)) KOE25_5_0, if ($P{tip}=0, SUM(KOE25_PAV_5_0)*SUM(KOE25_CENA_5_0),SUM(KOE25_DEJ_5_0)*SUM(KOE25_CENA_5_0)) KOE25_CENA_5_0,
-	if ($P{tip}=0, SUM(KOE25_PAV_6_1),SUM(KOE25_DEJ_6_1)) KOE25_6_1, if ($P{tip}=0, SUM(KOE25_PAV_6_1)*SUM(KOE25_CENA_6_1),SUM(KOE25_DEJ_6_1)*SUM(KOE25_CENA_6_1)) KOE25_CENA_6_1,
-	if ($P{tip}=0, SUM(KOE25_PAV_6_2),SUM(KOE25_DEJ_6_2)) KOE25_6_2, if ($P{tip}=0, SUM(KOE25_PAV_6_2)*SUM(KOE25_CENA_6_2),SUM(KOE25_DEJ_6_2)*SUM(KOE25_CENA_6_2)) KOE25_CENA_6_2,
-	if ($P{tip}=0, SUM(KOE25_PAV_7_0),SUM(KOE25_DEJ_7_0)) KOE25_7_0, if ($P{tip}=0, SUM(KOE25_PAV_7_0)*SUM(KOE25_CENA_7_0),SUM(KOE25_DEJ_7_0)*SUM(KOE25_CENA_7_0)) KOE25_CENA_7_0,
-	if ($P{tip}=0, SUM(NKOE25_PAV_1_1),SUM(NKOE25_DEJ_1_1)) NKOE25_1_1, if ($P{tip}=0, SUM(NKOE25_PAV_1_1)*SUM(NKOE25_CENA_1_1),SUM(NKOE25_DEJ_1_1)*SUM(NKOE25_CENA_1_1)) NKOE25_CENA_1_1,
-	if ($P{tip}=0, SUM(NKOE25_PAV_1_2),SUM(NKOE25_DEJ_1_2)) NKOE25_1_2, if ($P{tip}=0, SUM(NKOE25_PAV_1_2)*SUM(NKOE25_CENA_1_2),SUM(NKOE25_DEJ_1_2)*SUM(NKOE25_CENA_1_2)) NKOE25_CENA_1_2,
-	if ($P{tip}=0, SUM(NKOE25_PAV_2_1),SUM(NKOE25_DEJ_2_1)) NKOE25_2_1, if ($P{tip}=0, SUM(NKOE25_PAV_2_1)*SUM(NKOE25_CENA_2_1),SUM(NKOE25_DEJ_2_1)*SUM(NKOE25_CENA_2_1)) NKOE25_CENA_2_1,
-	if ($P{tip}=0, SUM(NKOE25_PAV_2_2),SUM(NKOE25_DEJ_2_2)) NKOE25_2_2, if ($P{tip}=0, SUM(NKOE25_PAV_2_2)*SUM(NKOE25_CENA_2_2),SUM(NKOE25_DEJ_2_2)*SUM(NKOE25_CENA_2_2)) NKOE25_CENA_2_2,
-	if ($P{tip}=0, SUM(NKOE25_PAV_2_3),SUM(NKOE25_DEJ_2_3)) NKOE25_2_3, if ($P{tip}=0, SUM(NKOE25_PAV_2_3)*SUM(NKOE25_CENA_2_3),SUM(NKOE25_DEJ_2_3)*SUM(NKOE25_CENA_2_3)) NKOE25_CENA_2_3,
-	if ($P{tip}=0, SUM(NKOE25_PAV_3_0),SUM(NKOE25_DEJ_3_0)) NKOE25_3_0, if ($P{tip}=0, SUM(NKOE25_PAV_3_0)*SUM(NKOE25_CENA_3_0),SUM(NKOE25_DEJ_3_0)*SUM(NKOE25_CENA_3_0)) NKOE25_CENA_3_0,
-	if ($P{tip}=0, SUM(NKOE25_PAV_4_0),SUM(NKOE25_DEJ_4_0)) NKOE25_4_0, if ($P{tip}=0, SUM(NKOE25_PAV_4_0)*SUM(NKOE25_CENA_4_0),SUM(NKOE25_DEJ_4_0)*SUM(NKOE25_CENA_4_0)) NKOE25_CENA_4_0,
-	if ($P{tip}=0, SUM(NKOE25_PAV_5_0),SUM(NKOE25_DEJ_5_0)) NKOE25_5_0, if ($P{tip}=0, SUM(NKOE25_PAV_5_0)*SUM(NKOE25_CENA_5_0),SUM(NKOE25_DEJ_5_0)*SUM(NKOE25_CENA_5_0)) NKOE25_CENA_5_0,
-	if ($P{tip}=0, SUM(NKOE25_PAV_6_1),SUM(NKOE25_DEJ_6_1)) NKOE25_6_1, if ($P{tip}=0, SUM(NKOE25_PAV_6_1)*SUM(NKOE25_CENA_6_1),SUM(NKOE25_DEJ_6_1)*SUM(NKOE25_CENA_6_1)) NKOE25_CENA_6_1,
-	if ($P{tip}=0, SUM(NKOE25_PAV_6_2),SUM(NKOE25_DEJ_6_2)) NKOE25_6_2, if ($P{tip}=0, SUM(NKOE25_PAV_6_2)*SUM(NKOE25_CENA_6_2),SUM(NKOE25_DEJ_6_2)*SUM(NKOE25_CENA_6_2)) NKOE25_CENA_6_2,
-	if ($P{tip}=0, SUM(NKOE25_PAV_7_0),SUM(NKOE25_DEJ_7_0)) NKOE25_7_0, if ($P{tip}=0, SUM(NKOE25_PAV_7_0)*SUM(NKOE25_CENA_7_0),SUM(NKOE25_DEJ_7_0)*SUM(NKOE25_CENA_7_0)) NKOE25_CENA_7_0,
-	if ($P{tip}=0, SUM(NKOE34_PAV_1_1),SUM(NKOE34_DEJ_1_1)) NKOE34_1_1, if ($P{tip}=0, SUM(NKOE34_PAV_1_1)*SUM(NKOE34_CENA_1_1),SUM(NKOE34_DEJ_1_1)*SUM(NKOE34_CENA_1_1)) NKOE34_CENA_1_1,
-	if ($P{tip}=0, SUM(NKOE34_PAV_2_1),SUM(NKOE34_DEJ_2_1)) NKOE34_2_1, if ($P{tip}=0, SUM(NKOE34_PAV_2_1)*SUM(NKOE34_CENA_2_1),SUM(NKOE34_DEJ_2_1)*SUM(NKOE34_CENA_2_1)) NKOE34_CENA_2_1,
-	if ($P{tip}=0, SUM(NKOE34_PAV_3_0),SUM(NKOE34_DEJ_3_0)) NKOE34_3_0, if ($P{tip}=0, SUM(NKOE34_PAV_3_0)*SUM(NKOE34_CENA_3_0),SUM(NKOE34_DEJ_3_0)*SUM(NKOE34_CENA_3_0)) NKOE34_CENA_3_0,
-	if ($P{tip}=0, SUM(NKOE34_PAV_4_0),SUM(NKOE34_DEJ_4_0)) NKOE34_4_0, if ($P{tip}=0, SUM(NKOE34_PAV_4_0)*SUM(NKOE34_CENA_4_0),SUM(NKOE34_DEJ_4_0)*SUM(NKOE34_CENA_4_0)) NKOE34_CENA_4_0,
-	if ($P{tip}=0, SUM(NKOE34_PAV_5_0),SUM(NKOE34_DEJ_5_0)) NKOE34_5_0, if ($P{tip}=0, SUM(NKOE34_PAV_5_0)*SUM(NKOE34_CENA_5_0),SUM(NKOE34_DEJ_5_0)*SUM(NKOE34_CENA_5_0)) NKOE34_CENA_5_0,
-	if ($P{tip}=0, SUM(NKOE34_PAV_6_1),SUM(NKOE34_DEJ_6_1)) NKOE34_6_1, if ($P{tip}=0, SUM(NKOE34_PAV_6_1)*SUM(NKOE34_CENA_6_1),SUM(NKOE34_DEJ_6_1)*SUM(NKOE34_CENA_6_1)) NKOE34_CENA_6_1,
-	if ($P{tip}=0, SUM(NKOE34_PAV_6_2),SUM(NKOE34_DEJ_6_2)) NKOE34_6_2, if ($P{tip}=0, SUM(NKOE34_PAV_6_2)*SUM(NKOE34_CENA_6_2),SUM(NKOE34_DEJ_6_2)*SUM(NKOE34_CENA_6_2)) NKOE34_CENA_6_2,
-	if ($P{tip}=0, SUM(NKOE34_PAV_7_0),SUM(NKOE34_DEJ_7_0)) NKOE34_7_0, if ($P{tip}=0, SUM(NKOE34_PAV_7_0)*SUM(NKOE34_CENA_7_0),SUM(NKOE34_DEJ_7_0)*SUM(NKOE34_CENA_7_0)) NKOE34_CENA_7_0
+	if ($P{tip}=0, SUM(KOE25_PAV_1_1),SUM(KOE25_DEJ_1_1)) KOE25_1_1, SUM(KOE25_CENA_1_1) KOE25_C_1_1, if ($P{tip}=0, SUM(KOE25_PAV_1_1)*SUM(KOE25_CENA_1_1),SUM(KOE25_DEJ_1_1)*SUM(KOE25_CENA_1_1)) KOE25_CENA_1_1,
+	if ($P{tip}=0, SUM(KOE25_PAV_1_2),SUM(KOE25_DEJ_1_2)) KOE25_1_2, SUM(KOE25_CENA_1_2) KOE25_C_1_2, if ($P{tip}=0, SUM(KOE25_PAV_1_2)*SUM(KOE25_CENA_1_2),SUM(KOE25_DEJ_1_2)*SUM(KOE25_CENA_1_2)) KOE25_CENA_1_2,
+	if ($P{tip}=0, SUM(KOE25_PAV_2_1),SUM(KOE25_DEJ_2_1)) KOE25_2_1, SUM(KOE25_CENA_2_1) KOE25_C_2_1, if ($P{tip}=0, SUM(KOE25_PAV_2_1)*SUM(KOE25_CENA_2_1),SUM(KOE25_DEJ_2_1)*SUM(KOE25_CENA_2_1)) KOE25_CENA_2_1,
+	if ($P{tip}=0, SUM(KOE25_PAV_2_2),SUM(KOE25_DEJ_2_2)) KOE25_2_2, SUM(KOE25_CENA_2_2) KOE25_C_2_2, if ($P{tip}=0, SUM(KOE25_PAV_2_2)*SUM(KOE25_CENA_2_2),SUM(KOE25_DEJ_2_2)*SUM(KOE25_CENA_2_2)) KOE25_CENA_2_2,
+	if ($P{tip}=0, SUM(KOE25_PAV_2_3),SUM(KOE25_DEJ_2_3)) KOE25_2_3, SUM(KOE25_CENA_2_3) KOE25_C_2_3, if ($P{tip}=0, SUM(KOE25_PAV_2_3)*SUM(KOE25_CENA_2_3),SUM(KOE25_DEJ_2_3)*SUM(KOE25_CENA_2_3)) KOE25_CENA_2_3,
+	if ($P{tip}=0, SUM(KOE25_PAV_3_0),SUM(KOE25_DEJ_3_0)) KOE25_3_0, SUM(KOE25_CENA_3_0) KOE25_C_3_0, if ($P{tip}=0, SUM(KOE25_PAV_3_0)*SUM(KOE25_CENA_3_0),SUM(KOE25_DEJ_3_0)*SUM(KOE25_CENA_3_0)) KOE25_CENA_3_0,
+	if ($P{tip}=0, SUM(KOE25_PAV_4_0),SUM(KOE25_DEJ_4_0)) KOE25_4_0, SUM(KOE25_CENA_4_0) KOE25_C_4_0, if ($P{tip}=0, SUM(KOE25_PAV_4_0)*SUM(KOE25_CENA_4_0),SUM(KOE25_DEJ_4_0)*SUM(KOE25_CENA_4_0)) KOE25_CENA_4_0,
+	if ($P{tip}=0, SUM(KOE25_PAV_5_0),SUM(KOE25_DEJ_5_0)) KOE25_5_0, SUM(KOE25_CENA_5_0) KOE25_C_5_0, if ($P{tip}=0, SUM(KOE25_PAV_5_0)*SUM(KOE25_CENA_5_0),SUM(KOE25_DEJ_5_0)*SUM(KOE25_CENA_5_0)) KOE25_CENA_5_0,
+	if ($P{tip}=0, SUM(KOE25_PAV_6_1),SUM(KOE25_DEJ_6_1)) KOE25_6_1, SUM(KOE25_CENA_6_1) KOE25_C_6_1, if ($P{tip}=0, SUM(KOE25_PAV_6_1)*SUM(KOE25_CENA_6_1),SUM(KOE25_DEJ_6_1)*SUM(KOE25_CENA_6_1)) KOE25_CENA_6_1,
+	if ($P{tip}=0, SUM(KOE25_PAV_6_2),SUM(KOE25_DEJ_6_2)) KOE25_6_2, SUM(KOE25_CENA_6_2) KOE25_C_6_2, if ($P{tip}=0, SUM(KOE25_PAV_6_2)*SUM(KOE25_CENA_6_2),SUM(KOE25_DEJ_6_2)*SUM(KOE25_CENA_6_2)) KOE25_CENA_6_2,
+	if ($P{tip}=0, SUM(KOE25_PAV_7_0),SUM(KOE25_DEJ_7_0)) KOE25_7_0, SUM(KOE25_CENA_7_0) KOE25_C_7_0, if ($P{tip}=0, SUM(KOE25_PAV_7_0)*SUM(KOE25_CENA_7_0),SUM(KOE25_DEJ_7_0)*SUM(KOE25_CENA_7_0)) KOE25_CENA_7_0,
+	if ($P{tip}=0, SUM(NKOE25_PAV_1_1),SUM(NKOE25_DEJ_1_1)) NKOE25_1_1, SUM(NKOE25_CENA_1_1) NKOE25_C_1_1, if ($P{tip}=0, SUM(NKOE25_PAV_1_1)*SUM(NKOE25_CENA_1_1),SUM(NKOE25_DEJ_1_1)*SUM(NKOE25_CENA_1_1)) NKOE25_CENA_1_1,
+	if ($P{tip}=0, SUM(NKOE25_PAV_1_2),SUM(NKOE25_DEJ_1_2)) NKOE25_1_2, SUM(NKOE25_CENA_1_2) NKOE25_C_1_2, if ($P{tip}=0, SUM(NKOE25_PAV_1_2)*SUM(NKOE25_CENA_1_2),SUM(NKOE25_DEJ_1_2)*SUM(NKOE25_CENA_1_2)) NKOE25_CENA_1_2,
+	if ($P{tip}=0, SUM(NKOE25_PAV_2_1),SUM(NKOE25_DEJ_2_1)) NKOE25_2_1, SUM(NKOE25_CENA_2_1) NKOE25_C_2_1, if ($P{tip}=0, SUM(NKOE25_PAV_2_1)*SUM(NKOE25_CENA_2_1),SUM(NKOE25_DEJ_2_1)*SUM(NKOE25_CENA_2_1)) NKOE25_CENA_2_1,
+	if ($P{tip}=0, SUM(NKOE25_PAV_2_2),SUM(NKOE25_DEJ_2_2)) NKOE25_2_2, SUM(NKOE25_CENA_2_2) NKOE25_C_2_2, if ($P{tip}=0, SUM(NKOE25_PAV_2_2)*SUM(NKOE25_CENA_2_2),SUM(NKOE25_DEJ_2_2)*SUM(NKOE25_CENA_2_2)) NKOE25_CENA_2_2,
+	if ($P{tip}=0, SUM(NKOE25_PAV_2_3),SUM(NKOE25_DEJ_2_3)) NKOE25_2_3, SUM(NKOE25_CENA_2_3) NKOE25_C_2_3, if ($P{tip}=0, SUM(NKOE25_PAV_2_3)*SUM(NKOE25_CENA_2_3),SUM(NKOE25_DEJ_2_3)*SUM(NKOE25_CENA_2_3)) NKOE25_CENA_2_3,
+	if ($P{tip}=0, SUM(NKOE25_PAV_3_0),SUM(NKOE25_DEJ_3_0)) NKOE25_3_0, SUM(NKOE25_CENA_3_0) NKOE25_C_3_0, if ($P{tip}=0, SUM(NKOE25_PAV_3_0)*SUM(NKOE25_CENA_3_0),SUM(NKOE25_DEJ_3_0)*SUM(NKOE25_CENA_3_0)) NKOE25_CENA_3_0,
+	if ($P{tip}=0, SUM(NKOE25_PAV_4_0),SUM(NKOE25_DEJ_4_0)) NKOE25_4_0, SUM(NKOE25_CENA_4_0) NKOE25_C_4_0, if ($P{tip}=0, SUM(NKOE25_PAV_4_0)*SUM(NKOE25_CENA_4_0),SUM(NKOE25_DEJ_4_0)*SUM(NKOE25_CENA_4_0)) NKOE25_CENA_4_0,
+	if ($P{tip}=0, SUM(NKOE25_PAV_5_0),SUM(NKOE25_DEJ_5_0)) NKOE25_5_0, SUM(NKOE25_CENA_5_0) NKOE25_C_5_0, if ($P{tip}=0, SUM(NKOE25_PAV_5_0)*SUM(NKOE25_CENA_5_0),SUM(NKOE25_DEJ_5_0)*SUM(NKOE25_CENA_5_0)) NKOE25_CENA_5_0,
+	if ($P{tip}=0, SUM(NKOE25_PAV_6_1),SUM(NKOE25_DEJ_6_1)) NKOE25_6_1, SUM(NKOE25_CENA_6_1) NKOE25_C_6_1, if ($P{tip}=0, SUM(NKOE25_PAV_6_1)*SUM(NKOE25_CENA_6_1),SUM(NKOE25_DEJ_6_1)*SUM(NKOE25_CENA_6_1)) NKOE25_CENA_6_1,
+	if ($P{tip}=0, SUM(NKOE25_PAV_6_2),SUM(NKOE25_DEJ_6_2)) NKOE25_6_2, SUM(NKOE25_CENA_6_2) NKOE25_C_6_2, if ($P{tip}=0, SUM(NKOE25_PAV_6_2)*SUM(NKOE25_CENA_6_2),SUM(NKOE25_DEJ_6_2)*SUM(NKOE25_CENA_6_2)) NKOE25_CENA_6_2,
+	if ($P{tip}=0, SUM(NKOE25_PAV_7_0),SUM(NKOE25_DEJ_7_0)) NKOE25_7_0, SUM(NKOE25_CENA_7_0) NKOE25_C_7_0, if ($P{tip}=0, SUM(NKOE25_PAV_7_0)*SUM(NKOE25_CENA_7_0),SUM(NKOE25_DEJ_7_0)*SUM(NKOE25_CENA_7_0)) NKOE25_CENA_7_0,
+	if ($P{tip}=0, SUM(NKOE34_PAV_1_1),SUM(NKOE34_DEJ_1_1)) NKOE34_1_1, SUM(NKOE34_CENA_1_1) NKOE34_C_1_1, if ($P{tip}=0, SUM(NKOE34_PAV_1_1)*SUM(NKOE34_CENA_1_1),SUM(NKOE34_DEJ_1_1)*SUM(NKOE34_CENA_1_1)) NKOE34_CENA_1_1,
+	if ($P{tip}=0, SUM(NKOE34_PAV_2_1),SUM(NKOE34_DEJ_2_1)) NKOE34_2_1, SUM(NKOE34_CENA_2_1) NKOE34_C_2_1, if ($P{tip}=0, SUM(NKOE34_PAV_2_1)*SUM(NKOE34_CENA_2_1),SUM(NKOE34_DEJ_2_1)*SUM(NKOE34_CENA_2_1)) NKOE34_CENA_2_1,
+	if ($P{tip}=0, SUM(NKOE34_PAV_3_0),SUM(NKOE34_DEJ_3_0)) NKOE34_3_0, SUM(NKOE34_CENA_3_0) NKOE34_C_3_0, if ($P{tip}=0, SUM(NKOE34_PAV_3_0)*SUM(NKOE34_CENA_3_0),SUM(NKOE34_DEJ_3_0)*SUM(NKOE34_CENA_3_0)) NKOE34_CENA_3_0,
+	if ($P{tip}=0, SUM(NKOE34_PAV_4_0),SUM(NKOE34_DEJ_4_0)) NKOE34_4_0, SUM(NKOE34_CENA_4_0) NKOE34_C_4_0, if ($P{tip}=0, SUM(NKOE34_PAV_4_0)*SUM(NKOE34_CENA_4_0),SUM(NKOE34_DEJ_4_0)*SUM(NKOE34_CENA_4_0)) NKOE34_CENA_4_0,
+	if ($P{tip}=0, SUM(NKOE34_PAV_5_0),SUM(NKOE34_DEJ_5_0)) NKOE34_5_0, SUM(NKOE34_CENA_5_0) NKOE34_C_5_0, if ($P{tip}=0, SUM(NKOE34_PAV_5_0)*SUM(NKOE34_CENA_5_0),SUM(NKOE34_DEJ_5_0)*SUM(NKOE34_CENA_5_0)) NKOE34_CENA_5_0,
+	if ($P{tip}=0, SUM(NKOE34_PAV_6_1),SUM(NKOE34_DEJ_6_1)) NKOE34_6_1, SUM(NKOE34_CENA_6_1) NKOE34_C_6_1, if ($P{tip}=0, SUM(NKOE34_PAV_6_1)*SUM(NKOE34_CENA_6_1),SUM(NKOE34_DEJ_6_1)*SUM(NKOE34_CENA_6_1)) NKOE34_CENA_6_1,
+	if ($P{tip}=0, SUM(NKOE34_PAV_6_2),SUM(NKOE34_DEJ_6_2)) NKOE34_6_2, SUM(NKOE34_CENA_6_2) NKOE34_C_6_2, if ($P{tip}=0, SUM(NKOE34_PAV_6_2)*SUM(NKOE34_CENA_6_2),SUM(NKOE34_DEJ_6_2)*SUM(NKOE34_CENA_6_2)) NKOE34_CENA_6_2,
+	if ($P{tip}=0, SUM(NKOE34_PAV_7_0),SUM(NKOE34_DEJ_7_0)) NKOE34_7_0, SUM(NKOE34_CENA_7_0) NKOE34_C_7_0, if ($P{tip}=0, SUM(NKOE34_PAV_7_0)*SUM(NKOE34_CENA_7_0),SUM(NKOE34_DEJ_7_0)*SUM(NKOE34_CENA_7_0)) NKOE34_CENA_7_0
 	from (
 select c.*,
 	a.cena KOE25_CENA_1_1, 
@@ -1832,64 +1832,94 @@ group by st_pogodbe, naziv]]></queryString>
 	<field name="mail_odgovorna" class="java.lang.String"/>
 	<field name="opombe_odgovorna" class="java.lang.String"/>
 	<field name="KOE25_1_1" class="java.lang.Double"/>
+	<field name="KOE25_C_1_1" class="java.lang.Double"/>
 	<field name="KOE25_CENA_1_1" class="java.lang.Double"/>
 	<field name="KOE25_1_2" class="java.lang.Double"/>
+	<field name="KOE25_C_1_2" class="java.lang.Double"/>
 	<field name="KOE25_CENA_1_2" class="java.lang.Double"/>
 	<field name="KOE25_2_1" class="java.lang.Double"/>
+	<field name="KOE25_C_2_1" class="java.lang.Double"/>
 	<field name="KOE25_CENA_2_1" class="java.lang.Double"/>
 	<field name="KOE25_2_2" class="java.lang.Double"/>
+	<field name="KOE25_C_2_2" class="java.lang.Double"/>
 	<field name="KOE25_CENA_2_2" class="java.lang.Double"/>
 	<field name="KOE25_2_3" class="java.lang.Double"/>
+	<field name="KOE25_C_2_3" class="java.lang.Double"/>
 	<field name="KOE25_CENA_2_3" class="java.lang.Double"/>
 	<field name="KOE25_3_0" class="java.lang.Double"/>
+	<field name="KOE25_C_3_0" class="java.lang.Double"/>
 	<field name="KOE25_CENA_3_0" class="java.lang.Double"/>
 	<field name="KOE25_4_0" class="java.lang.Double"/>
+	<field name="KOE25_C_4_0" class="java.lang.Double"/>
 	<field name="KOE25_CENA_4_0" class="java.lang.Double"/>
 	<field name="KOE25_5_0" class="java.lang.Double"/>
+	<field name="KOE25_C_5_0" class="java.lang.Double"/>
 	<field name="KOE25_CENA_5_0" class="java.lang.Double"/>
 	<field name="KOE25_6_1" class="java.lang.Double"/>
+	<field name="KOE25_C_6_1" class="java.lang.Double"/>
 	<field name="KOE25_CENA_6_1" class="java.lang.Double"/>
 	<field name="KOE25_6_2" class="java.lang.Double"/>
+	<field name="KOE25_C_6_2" class="java.lang.Double"/>
 	<field name="KOE25_CENA_6_2" class="java.lang.Double"/>
 	<field name="KOE25_7_0" class="java.lang.Double"/>
+	<field name="KOE25_C_7_0" class="java.lang.Double"/>
 	<field name="KOE25_CENA_7_0" class="java.lang.Double"/>
 	<field name="NKOE25_1_1" class="java.lang.Double"/>
+	<field name="NKOE25_C_1_1" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_1_1" class="java.lang.Double"/>
 	<field name="NKOE25_1_2" class="java.lang.Double"/>
+	<field name="NKOE25_C_1_2" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_1_2" class="java.lang.Double"/>
 	<field name="NKOE25_2_1" class="java.lang.Double"/>
+	<field name="NKOE25_C_2_1" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_2_1" class="java.lang.Double"/>
 	<field name="NKOE25_2_2" class="java.lang.Double"/>
+	<field name="NKOE25_C_2_2" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_2_2" class="java.lang.Double"/>
 	<field name="NKOE25_2_3" class="java.lang.Double"/>
+	<field name="NKOE25_C_2_3" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_2_3" class="java.lang.Double"/>
 	<field name="NKOE25_3_0" class="java.lang.Double"/>
+	<field name="NKOE25_C_3_0" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_3_0" class="java.lang.Double"/>
 	<field name="NKOE25_4_0" class="java.lang.Double"/>
+	<field name="NKOE25_C_4_0" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_4_0" class="java.lang.Double"/>
 	<field name="NKOE25_5_0" class="java.lang.Double"/>
+	<field name="NKOE25_C_5_0" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_5_0" class="java.lang.Double"/>
 	<field name="NKOE25_6_1" class="java.lang.Double"/>
+	<field name="NKOE25_C_6_1" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_6_1" class="java.lang.Double"/>
 	<field name="NKOE25_6_2" class="java.lang.Double"/>
+	<field name="NKOE25_C_6_2" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_6_2" class="java.lang.Double"/>
 	<field name="NKOE25_7_0" class="java.lang.Double"/>
+	<field name="NKOE25_C_7_0" class="java.lang.Double"/>
 	<field name="NKOE25_CENA_7_0" class="java.lang.Double"/>
 	<field name="NKOE34_1_1" class="java.lang.Double"/>
+	<field name="NKOE34_C_1_1" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_1_1" class="java.lang.Double"/>
 	<field name="NKOE34_2_1" class="java.lang.Double"/>
+	<field name="NKOE34_C_2_1" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_2_1" class="java.lang.Double"/>
 	<field name="NKOE34_3_0" class="java.lang.Double"/>
+	<field name="NKOE34_C_3_0" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_3_0" class="java.lang.Double"/>
 	<field name="NKOE34_4_0" class="java.lang.Double"/>
+	<field name="NKOE34_C_4_0" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_4_0" class="java.lang.Double"/>
 	<field name="NKOE34_5_0" class="java.lang.Double"/>
+	<field name="NKOE34_C_5_0" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_5_0" class="java.lang.Double"/>
 	<field name="NKOE34_6_1" class="java.lang.Double"/>
+	<field name="NKOE34_C_6_1" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_6_1" class="java.lang.Double"/>
 	<field name="NKOE34_6_2" class="java.lang.Double"/>
+	<field name="NKOE34_C_6_2" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_6_2" class="java.lang.Double"/>
 	<field name="NKOE34_7_0" class="java.lang.Double"/>
+	<field name="NKOE34_C_7_0" class="java.lang.Double"/>
 	<field name="NKOE34_CENA_7_0" class="java.lang.Double"/>
 
 	<variable name="KOE25_SUM_1" class="java.lang.Double" resetType="Report" calculation="Nothing">
@@ -2155,7 +2185,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="36"  isSplitAllowed="true" >
+			<band height="35"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						mode="Opaque"
@@ -2175,9 +2205,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="94"
+						x="1090"
 						y="9"
-						width="100"
+						width="140"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2207,7 +2237,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="94"
+						x="1090"
 						y="22"
 						width="20"
 						height="13"
@@ -2223,7 +2253,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="134"
+						x="1150"
 						y="22"
 						width="20"
 						height="13"
@@ -2239,7 +2269,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="174"
+						x="1210"
 						y="22"
 						width="20"
 						height="13"
@@ -2255,7 +2285,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="114"
+						x="1130"
 						y="22"
 						width="20"
 						height="13"
@@ -2271,7 +2301,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="154"
+						x="1190"
 						y="22"
 						width="20"
 						height="13"
@@ -2287,9 +2317,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="194"
+						x="1230"
 						y="9"
-						width="100"
+						width="140"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2303,7 +2333,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="194"
+						x="1230"
 						y="22"
 						width="20"
 						height="13"
@@ -2319,7 +2349,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="234"
+						x="1290"
 						y="22"
 						width="20"
 						height="13"
@@ -2335,7 +2365,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="274"
+						x="1350"
 						y="22"
 						width="20"
 						height="13"
@@ -2351,7 +2381,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="214"
+						x="1270"
 						y="22"
 						width="20"
 						height="13"
@@ -2367,7 +2397,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="254"
+						x="1330"
 						y="22"
 						width="20"
 						height="13"
@@ -2383,7 +2413,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="384"
+						x="1480"
 						y="9"
 						width="25"
 						height="26"
@@ -2399,7 +2429,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="409"
+						x="1505"
 						y="9"
 						width="25"
 						height="26"
@@ -2415,9 +2445,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="94"
+						x="1090"
 						y="0"
-						width="340"
+						width="440"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2431,9 +2461,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="434"
+						x="1530"
 						y="9"
-						width="140"
+						width="200"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2447,7 +2477,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="434"
+						x="1530"
 						y="22"
 						width="20"
 						height="13"
@@ -2463,7 +2493,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="474"
+						x="1590"
 						y="22"
 						width="20"
 						height="13"
@@ -2479,7 +2509,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="554"
+						x="1710"
 						y="22"
 						width="20"
 						height="13"
@@ -2495,7 +2525,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="454"
+						x="1570"
 						y="22"
 						width="20"
 						height="13"
@@ -2511,7 +2541,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="494"
+						x="1630"
 						y="22"
 						width="20"
 						height="13"
@@ -2527,9 +2557,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="434"
+						x="1530"
 						y="0"
-						width="420"
+						width="560"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2543,7 +2573,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="514"
+						x="1650"
 						y="22"
 						width="20"
 						height="13"
@@ -2559,7 +2589,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="534"
+						x="1690"
 						y="22"
 						width="20"
 						height="13"
@@ -2575,9 +2605,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="574"
+						x="1730"
 						y="9"
-						width="140"
+						width="220"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2591,7 +2621,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="574"
+						x="1730"
 						y="22"
 						width="20"
 						height="13"
@@ -2607,7 +2637,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="614"
+						x="1790"
 						y="22"
 						width="20"
 						height="13"
@@ -2623,7 +2653,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="694"
+						x="1910"
 						y="22"
 						width="20"
 						height="13"
@@ -2639,7 +2669,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="594"
+						x="1770"
 						y="22"
 						width="20"
 						height="13"
@@ -2655,7 +2685,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="634"
+						x="1830"
 						y="22"
 						width="20"
 						height="13"
@@ -2671,7 +2701,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="654"
+						x="1850"
 						y="22"
 						width="20"
 						height="13"
@@ -2687,7 +2717,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="674"
+						x="1890"
 						y="22"
 						width="20"
 						height="13"
@@ -2703,7 +2733,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="804"
+						x="2040"
 						y="9"
 						width="25"
 						height="26"
@@ -2719,7 +2749,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="829"
+						x="2065"
 						y="9"
 						width="25"
 						height="26"
@@ -2735,7 +2765,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="714"
+						x="1950"
 						y="9"
 						width="40"
 						height="13"
@@ -2751,7 +2781,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="714"
+						x="1930"
 						y="22"
 						width="20"
 						height="13"
@@ -2767,7 +2797,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="734"
+						x="1970"
 						y="22"
 						width="20"
 						height="13"
@@ -2783,7 +2813,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="754"
+						x="1990"
 						y="9"
 						width="25"
 						height="26"
@@ -2799,7 +2829,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="779"
+						x="2015"
 						y="9"
 						width="25"
 						height="26"
@@ -2815,7 +2845,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="334"
+						x="1430"
 						y="9"
 						width="25"
 						height="26"
@@ -2831,7 +2861,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="359"
+						x="1455"
 						y="9"
 						width="25"
 						height="26"
@@ -2847,9 +2877,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="854"
+						x="2090"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2863,7 +2893,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="854"
+						x="2090"
 						y="22"
 						width="20"
 						height="13"
@@ -2879,7 +2909,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="874"
+						x="2130"
 						y="22"
 						width="20"
 						height="13"
@@ -2895,9 +2925,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="854"
+						x="2090"
 						y="0"
-						width="220"
+						width="280"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2911,9 +2941,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="894"
+						x="2150"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2927,7 +2957,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="894"
+						x="2150"
 						y="22"
 						width="20"
 						height="13"
@@ -2943,7 +2973,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="914"
+						x="2190"
 						y="22"
 						width="20"
 						height="13"
@@ -2959,9 +2989,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="934"
+						x="2210"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -2975,7 +3005,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="934"
+						x="2210"
 						y="22"
 						width="20"
 						height="13"
@@ -2991,7 +3021,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="954"
+						x="2250"
 						y="22"
 						width="20"
 						height="13"
@@ -3007,7 +3037,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1024"
+						x="2320"
 						y="9"
 						width="25"
 						height="26"
@@ -3023,7 +3053,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1049"
+						x="2345"
 						y="9"
 						width="25"
 						height="26"
@@ -3039,7 +3069,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="974"
+						x="2270"
 						y="9"
 						width="25"
 						height="26"
@@ -3055,7 +3085,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="999"
+						x="2295"
 						y="9"
 						width="25"
 						height="26"
@@ -3071,9 +3101,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1074"
+						x="2370"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3087,7 +3117,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1074"
+						x="2370"
 						y="22"
 						width="20"
 						height="13"
@@ -3103,7 +3133,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1094"
+						x="2410"
 						y="22"
 						width="20"
 						height="13"
@@ -3119,9 +3149,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1074"
+						x="2370"
 						y="0"
-						width="220"
+						width="280"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3135,9 +3165,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1114"
+						x="2430"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3151,7 +3181,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1114"
+						x="2430"
 						y="22"
 						width="20"
 						height="13"
@@ -3167,7 +3197,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1134"
+						x="2470"
 						y="22"
 						width="20"
 						height="13"
@@ -3183,9 +3213,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1154"
+						x="2490"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3199,7 +3229,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1154"
+						x="2490"
 						y="22"
 						width="20"
 						height="13"
@@ -3215,7 +3245,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1174"
+						x="2530"
 						y="22"
 						width="20"
 						height="13"
@@ -3231,7 +3261,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1244"
+						x="2600"
 						y="9"
 						width="25"
 						height="26"
@@ -3247,7 +3277,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1269"
+						x="2625"
 						y="9"
 						width="25"
 						height="26"
@@ -3263,7 +3293,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1194"
+						x="2550"
 						y="9"
 						width="25"
 						height="26"
@@ -3279,7 +3309,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1219"
+						x="2575"
 						y="9"
 						width="25"
 						height="26"
@@ -3295,9 +3325,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1294"
+						x="2650"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3311,7 +3341,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1294"
+						x="2650"
 						y="22"
 						width="20"
 						height="13"
@@ -3327,7 +3357,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1314"
+						x="2690"
 						y="22"
 						width="20"
 						height="13"
@@ -3343,9 +3373,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1294"
+						x="2650"
 						y="0"
-						width="220"
+						width="280"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3359,9 +3389,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1334"
+						x="2710"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3375,7 +3405,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1334"
+						x="2710"
 						y="22"
 						width="20"
 						height="13"
@@ -3391,7 +3421,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1354"
+						x="2750"
 						y="22"
 						width="20"
 						height="13"
@@ -3407,9 +3437,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1374"
+						x="2770"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3423,7 +3453,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1374"
+						x="2770"
 						y="22"
 						width="20"
 						height="13"
@@ -3439,7 +3469,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1394"
+						x="2810"
 						y="22"
 						width="20"
 						height="13"
@@ -3455,7 +3485,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1464"
+						x="2880"
 						y="9"
 						width="25"
 						height="26"
@@ -3471,7 +3501,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1489"
+						x="2905"
 						y="9"
 						width="25"
 						height="26"
@@ -3487,7 +3517,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1414"
+						x="2830"
 						y="9"
 						width="25"
 						height="26"
@@ -3503,7 +3533,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1439"
+						x="2855"
 						y="9"
 						width="25"
 						height="26"
@@ -3519,9 +3549,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1514"
+						x="2930"
 						y="9"
-						width="100"
+						width="140"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3535,7 +3565,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1514"
+						x="2930"
 						y="22"
 						width="20"
 						height="13"
@@ -3551,7 +3581,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1554"
+						x="2990"
 						y="22"
 						width="20"
 						height="13"
@@ -3567,7 +3597,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1594"
+						x="3050"
 						y="22"
 						width="20"
 						height="13"
@@ -3583,7 +3613,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1534"
+						x="2970"
 						y="22"
 						width="20"
 						height="13"
@@ -3599,7 +3629,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1574"
+						x="3030"
 						y="22"
 						width="20"
 						height="13"
@@ -3615,9 +3645,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1614"
+						x="3070"
 						y="9"
-						width="100"
+						width="140"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3631,7 +3661,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1614"
+						x="3070"
 						y="22"
 						width="20"
 						height="13"
@@ -3647,7 +3677,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1654"
+						x="3130"
 						y="22"
 						width="20"
 						height="13"
@@ -3663,7 +3693,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1694"
+						x="3190"
 						y="22"
 						width="20"
 						height="13"
@@ -3679,7 +3709,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1634"
+						x="3110"
 						y="22"
 						width="20"
 						height="13"
@@ -3695,7 +3725,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1674"
+						x="3170"
 						y="22"
 						width="20"
 						height="13"
@@ -3711,7 +3741,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1864"
+						x="3400"
 						y="9"
 						width="25"
 						height="26"
@@ -3727,7 +3757,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1889"
+						x="3425"
 						y="9"
 						width="25"
 						height="26"
@@ -3743,9 +3773,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1514"
+						x="2930"
 						y="0"
-						width="400"
+						width="520"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3759,7 +3789,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1814"
+						x="3350"
 						y="9"
 						width="25"
 						height="26"
@@ -3775,7 +3805,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1839"
+						x="3375"
 						y="9"
 						width="25"
 						height="26"
@@ -3791,9 +3821,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1714"
+						x="3210"
 						y="9"
-						width="100"
+						width="140"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3807,7 +3837,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1714"
+						x="3210"
 						y="22"
 						width="20"
 						height="13"
@@ -3823,7 +3853,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1754"
+						x="3270"
 						y="22"
 						width="20"
 						height="13"
@@ -3839,7 +3869,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1794"
+						x="3330"
 						y="22"
 						width="20"
 						height="13"
@@ -3855,7 +3885,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1734"
+						x="3250"
 						y="22"
 						width="20"
 						height="13"
@@ -3871,7 +3901,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1774"
+						x="3310"
 						y="22"
 						width="20"
 						height="13"
@@ -3887,9 +3917,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1914"
+						x="3450"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3903,7 +3933,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1914"
+						x="3450"
 						y="22"
 						width="20"
 						height="13"
@@ -3919,7 +3949,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1934"
+						x="3490"
 						y="22"
 						width="20"
 						height="13"
@@ -3935,9 +3965,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1914"
+						x="3450"
 						y="0"
-						width="220"
+						width="279"
 						height="9"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3951,9 +3981,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1954"
+						x="3510"
 						y="9"
-						width="40"
+						width="59"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -3967,7 +3997,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1954"
+						x="3510"
 						y="22"
 						width="20"
 						height="13"
@@ -3983,7 +4013,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1974"
+						x="3549"
 						y="22"
 						width="20"
 						height="13"
@@ -3999,9 +4029,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1994"
+						x="3569"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -4015,7 +4045,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="1994"
+						x="3569"
 						y="22"
 						width="20"
 						height="13"
@@ -4031,7 +4061,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2014"
+						x="3609"
 						y="22"
 						width="20"
 						height="13"
@@ -4047,7 +4077,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2084"
+						x="3679"
 						y="9"
 						width="25"
 						height="26"
@@ -4063,7 +4093,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2109"
+						x="3704"
 						y="9"
 						width="25"
 						height="26"
@@ -4079,7 +4109,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2034"
+						x="3629"
 						y="9"
 						width="25"
 						height="26"
@@ -4095,7 +4125,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2059"
+						x="3654"
 						y="9"
 						width="25"
 						height="26"
@@ -4111,7 +4141,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2134"
+						x="3729"
 						y="0"
 						width="175"
 						height="9"
@@ -4127,7 +4157,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2134"
+						x="3729"
 						y="9"
 						width="25"
 						height="26"
@@ -4143,7 +4173,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2159"
+						x="3754"
 						y="9"
 						width="25"
 						height="26"
@@ -4159,7 +4189,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2184"
+						x="3779"
 						y="9"
 						width="25"
 						height="26"
@@ -4175,7 +4205,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2209"
+						x="3804"
 						y="9"
 						width="25"
 						height="26"
@@ -4191,7 +4221,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2234"
+						x="3829"
 						y="9"
 						width="25"
 						height="26"
@@ -4207,7 +4237,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2259"
+						x="3854"
 						y="9"
 						width="25"
 						height="26"
@@ -4223,7 +4253,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="2284"
+						x="3879"
 						y="9"
 						width="25"
 						height="26"
@@ -4239,9 +4269,9 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="294"
+						x="1370"
 						y="9"
-						width="40"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -4255,7 +4285,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="294"
+						x="1370"
 						y="22"
 						width="20"
 						height="13"
@@ -4271,7 +4301,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="314"
+						x="1410"
 						y="22"
 						width="20"
 						height="13"
@@ -4300,6 +4330,920 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_racun}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="94"
+						y="0"
+						width="250"
+						height="9"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-239"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PODATKI PARTNERJA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="94"
+						y="9"
+						width="70"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-240"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NASLOV]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="164"
+						y="9"
+						width="33"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-241"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KRAJ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="197"
+						y="9"
+						width="16"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-242"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[POŠTA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="213"
+						y="9"
+						width="27"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-243"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DŠ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="240"
+						y="9"
+						width="27"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-244"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[MŠ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="267"
+						y="9"
+						width="39"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-245"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SPLOŠEN MAIL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="306"
+						y="9"
+						width="38"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-246"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DEJAVNOST]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="344"
+						y="0"
+						width="119"
+						height="9"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-247"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PODATKI POŠILJANJA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="344"
+						y="9"
+						width="70"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-248"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NASLOV]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="414"
+						y="9"
+						width="33"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-249"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KRAJ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="447"
+						y="9"
+						width="16"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-250"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[POŠTA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="463"
+						y="0"
+						width="16"
+						height="35"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-251"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SKRBNIK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="479"
+						y="0"
+						width="55"
+						height="35"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-252"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[VRSTA ZAVEZANCA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="534"
+						y="0"
+						width="16"
+						height="35"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-253"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[INTERVAL PAVŠALA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="550"
+						y="0"
+						width="23"
+						height="35"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-254"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DATUM PRIČETKA POGODBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="573"
+						y="0"
+						width="23"
+						height="35"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-255"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DATUM SKLENITVE POGODBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="596"
+						y="0"
+						width="247"
+						height="9"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-256"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KONTAKTNI PODATKI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="596"
+						y="9"
+						width="57"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-257"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KONTAKTNA OSEBA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="653"
+						y="9"
+						width="45"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-258"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[TELEFON]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="698"
+						y="9"
+						width="45"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-259"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[MAIL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="743"
+						y="9"
+						width="100"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-260"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[OPOMBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="843"
+						y="0"
+						width="247"
+						height="9"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-261"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KONTAKTNI PODATKI ODGOVORNE OSEBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="843"
+						y="9"
+						width="57"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-262"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ODGOVORNA OSEBA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="900"
+						y="9"
+						width="45"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-263"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[TELEFON]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="945"
+						y="9"
+						width="45"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-264"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[MAIL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="990"
+						y="9"
+						width="100"
+						height="26"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-265"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[OPOMBE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3589"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-266"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE34 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3530"
+						y="22"
+						width="19"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-267"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3470"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-268"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3290"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-269"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE2 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3230"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-270"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE1 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3150"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-271"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE2 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3090"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-272"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE1 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3010"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-273"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE2 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2950"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-274"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[SE1 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2790"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-275"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE34 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2730"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-276"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2670"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-277"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2510"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-278"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE34 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2450"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-279"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2390"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-280"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2230"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-281"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE34 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2170"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-282"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[NKOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="2110"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-283"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOE25 cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1950"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-284"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1870"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-285"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PET cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1810"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-286"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PLT
+ cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1750"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-287"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PLP cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1670"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-288"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PET cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1610"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-289"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PLT
+ cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1550"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-290"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PLP cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1390"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-291"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1310"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-292"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PT cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1250"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-293"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PP cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1170"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-294"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PT cena]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="1110"
+						y="22"
+						width="20"
+						height="13"
+						forecolor="#000000"
+						backcolor="#99FF99"
+						key="element-295"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PP cena]]></text>
+				</staticText>
 			</band>
 		</columnHeader>
 		<detail>
@@ -4335,7 +5279,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="94"
+						x="1090"
 						y="0"
 						width="20"
 						height="9"
@@ -4351,7 +5295,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="134"
+						x="1150"
 						y="0"
 						width="20"
 						height="9"
@@ -4367,7 +5311,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="114"
+						x="1130"
 						y="0"
 						width="20"
 						height="9"
@@ -4383,7 +5327,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="154"
+						x="1190"
 						y="0"
 						width="20"
 						height="9"
@@ -4399,7 +5343,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="194"
+						x="1230"
 						y="0"
 						width="20"
 						height="9"
@@ -4415,7 +5359,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="234"
+						x="1290"
 						y="0"
 						width="20"
 						height="9"
@@ -4431,7 +5375,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="214"
+						x="1270"
 						y="0"
 						width="20"
 						height="9"
@@ -4447,7 +5391,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="254"
+						x="1330"
 						y="0"
 						width="20"
 						height="9"
@@ -4463,7 +5407,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="174"
+						x="1210"
 						y="0"
 						width="20"
 						height="9"
@@ -4479,7 +5423,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="274"
+						x="1350"
 						y="0"
 						width="20"
 						height="9"
@@ -4495,7 +5439,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="384"
+						x="1480"
 						y="0"
 						width="25"
 						height="9"
@@ -4511,7 +5455,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="409"
+						x="1505"
 						y="0"
 						width="25"
 						height="9"
@@ -4527,7 +5471,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="434"
+						x="1530"
 						y="0"
 						width="20"
 						height="9"
@@ -4543,7 +5487,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="474"
+						x="1590"
 						y="0"
 						width="20"
 						height="9"
@@ -4559,7 +5503,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="454"
+						x="1570"
 						y="0"
 						width="20"
 						height="9"
@@ -4575,7 +5519,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="494"
+						x="1630"
 						y="0"
 						width="20"
 						height="9"
@@ -4591,7 +5535,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="554"
+						x="1710"
 						y="0"
 						width="20"
 						height="9"
@@ -4607,7 +5551,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="514"
+						x="1650"
 						y="0"
 						width="20"
 						height="9"
@@ -4623,7 +5567,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="534"
+						x="1690"
 						y="0"
 						width="20"
 						height="9"
@@ -4639,7 +5583,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="574"
+						x="1730"
 						y="0"
 						width="20"
 						height="9"
@@ -4655,7 +5599,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="614"
+						x="1790"
 						y="0"
 						width="20"
 						height="9"
@@ -4671,7 +5615,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="594"
+						x="1770"
 						y="0"
 						width="20"
 						height="9"
@@ -4687,7 +5631,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="634"
+						x="1830"
 						y="0"
 						width="20"
 						height="9"
@@ -4703,7 +5647,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="694"
+						x="1910"
 						y="0"
 						width="20"
 						height="9"
@@ -4719,7 +5663,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="654"
+						x="1850"
 						y="0"
 						width="20"
 						height="9"
@@ -4735,7 +5679,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="674"
+						x="1890"
 						y="0"
 						width="20"
 						height="9"
@@ -4751,7 +5695,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="714"
+						x="1930"
 						y="0"
 						width="20"
 						height="9"
@@ -4767,7 +5711,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="734"
+						x="1970"
 						y="0"
 						width="20"
 						height="9"
@@ -4783,7 +5727,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="804"
+						x="2040"
 						y="0"
 						width="25"
 						height="9"
@@ -4799,7 +5743,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="829"
+						x="2065"
 						y="0"
 						width="25"
 						height="9"
@@ -4815,7 +5759,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="754"
+						x="1990"
 						y="0"
 						width="25"
 						height="9"
@@ -4831,7 +5775,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="779"
+						x="2015"
 						y="0"
 						width="25"
 						height="9"
@@ -4847,7 +5791,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="334"
+						x="1430"
 						y="0"
 						width="25"
 						height="9"
@@ -4863,7 +5807,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="359"
+						x="1455"
 						y="0"
 						width="25"
 						height="9"
@@ -4879,7 +5823,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="854"
+						x="2090"
 						y="0"
 						width="20"
 						height="9"
@@ -4895,7 +5839,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="874"
+						x="2130"
 						y="0"
 						width="20"
 						height="9"
@@ -4911,7 +5855,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="894"
+						x="2150"
 						y="0"
 						width="20"
 						height="9"
@@ -4927,7 +5871,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="914"
+						x="2190"
 						y="0"
 						width="20"
 						height="9"
@@ -4943,7 +5887,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="934"
+						x="2210"
 						y="0"
 						width="20"
 						height="9"
@@ -4959,7 +5903,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="954"
+						x="2250"
 						y="0"
 						width="20"
 						height="9"
@@ -4975,7 +5919,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1024"
+						x="2320"
 						y="0"
 						width="25"
 						height="9"
@@ -4991,7 +5935,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1049"
+						x="2345"
 						y="0"
 						width="25"
 						height="9"
@@ -5007,7 +5951,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="974"
+						x="2270"
 						y="0"
 						width="25"
 						height="9"
@@ -5023,7 +5967,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="999"
+						x="2295"
 						y="0"
 						width="25"
 						height="9"
@@ -5039,7 +5983,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1074"
+						x="2370"
 						y="0"
 						width="20"
 						height="9"
@@ -5055,7 +5999,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1094"
+						x="2410"
 						y="0"
 						width="20"
 						height="9"
@@ -5071,7 +6015,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1114"
+						x="2430"
 						y="0"
 						width="20"
 						height="9"
@@ -5087,7 +6031,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1134"
+						x="2470"
 						y="0"
 						width="20"
 						height="9"
@@ -5103,7 +6047,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1154"
+						x="2490"
 						y="0"
 						width="20"
 						height="9"
@@ -5119,7 +6063,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1174"
+						x="2530"
 						y="0"
 						width="20"
 						height="9"
@@ -5135,7 +6079,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1244"
+						x="2600"
 						y="0"
 						width="25"
 						height="9"
@@ -5151,7 +6095,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1269"
+						x="2625"
 						y="0"
 						width="25"
 						height="9"
@@ -5167,7 +6111,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1194"
+						x="2550"
 						y="0"
 						width="25"
 						height="9"
@@ -5183,7 +6127,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1219"
+						x="2575"
 						y="0"
 						width="25"
 						height="9"
@@ -5199,7 +6143,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1294"
+						x="2650"
 						y="0"
 						width="20"
 						height="9"
@@ -5215,7 +6159,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1314"
+						x="2690"
 						y="0"
 						width="20"
 						height="9"
@@ -5231,7 +6175,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1334"
+						x="2710"
 						y="0"
 						width="20"
 						height="9"
@@ -5247,7 +6191,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1354"
+						x="2750"
 						y="0"
 						width="20"
 						height="9"
@@ -5263,7 +6207,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1374"
+						x="2770"
 						y="0"
 						width="20"
 						height="9"
@@ -5279,7 +6223,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1394"
+						x="2810"
 						y="0"
 						width="20"
 						height="9"
@@ -5295,7 +6239,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1464"
+						x="2880"
 						y="0"
 						width="25"
 						height="9"
@@ -5311,7 +6255,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1489"
+						x="2905"
 						y="0"
 						width="25"
 						height="9"
@@ -5327,7 +6271,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1414"
+						x="2830"
 						y="0"
 						width="25"
 						height="9"
@@ -5343,7 +6287,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1439"
+						x="2855"
 						y="0"
 						width="25"
 						height="9"
@@ -5359,7 +6303,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1514"
+						x="2930"
 						y="0"
 						width="20"
 						height="9"
@@ -5375,7 +6319,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1554"
+						x="2990"
 						y="0"
 						width="20"
 						height="9"
@@ -5391,7 +6335,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1534"
+						x="2970"
 						y="0"
 						width="20"
 						height="9"
@@ -5407,7 +6351,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1574"
+						x="3030"
 						y="0"
 						width="20"
 						height="9"
@@ -5423,7 +6367,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1614"
+						x="3070"
 						y="0"
 						width="20"
 						height="9"
@@ -5439,7 +6383,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1654"
+						x="3130"
 						y="0"
 						width="20"
 						height="9"
@@ -5455,7 +6399,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1634"
+						x="3110"
 						y="0"
 						width="20"
 						height="9"
@@ -5471,7 +6415,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1674"
+						x="3170"
 						y="0"
 						width="20"
 						height="9"
@@ -5487,7 +6431,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1594"
+						x="3050"
 						y="0"
 						width="20"
 						height="9"
@@ -5503,7 +6447,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1694"
+						x="3190"
 						y="0"
 						width="20"
 						height="9"
@@ -5519,7 +6463,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1864"
+						x="3400"
 						y="0"
 						width="25"
 						height="9"
@@ -5535,7 +6479,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1889"
+						x="3425"
 						y="0"
 						width="25"
 						height="9"
@@ -5551,7 +6495,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1814"
+						x="3350"
 						y="0"
 						width="25"
 						height="9"
@@ -5567,7 +6511,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1839"
+						x="3375"
 						y="0"
 						width="25"
 						height="9"
@@ -5583,7 +6527,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1714"
+						x="3210"
 						y="0"
 						width="20"
 						height="9"
@@ -5599,7 +6543,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1754"
+						x="3270"
 						y="0"
 						width="20"
 						height="9"
@@ -5615,7 +6559,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1734"
+						x="3250"
 						y="0"
 						width="20"
 						height="9"
@@ -5631,7 +6575,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1774"
+						x="3310"
 						y="0"
 						width="20"
 						height="9"
@@ -5647,7 +6591,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1794"
+						x="3330"
 						y="0"
 						width="20"
 						height="9"
@@ -5663,7 +6607,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1914"
+						x="3450"
 						y="0"
 						width="20"
 						height="9"
@@ -5679,7 +6623,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1934"
+						x="3490"
 						y="0"
 						width="20"
 						height="9"
@@ -5695,7 +6639,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1954"
+						x="3510"
 						y="0"
 						width="20"
 						height="9"
@@ -5711,7 +6655,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1974"
+						x="3549"
 						y="0"
 						width="20"
 						height="9"
@@ -5727,7 +6671,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1994"
+						x="3569"
 						y="0"
 						width="20"
 						height="9"
@@ -5743,7 +6687,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2014"
+						x="3609"
 						y="0"
 						width="20"
 						height="9"
@@ -5759,7 +6703,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2084"
+						x="3679"
 						y="0"
 						width="25"
 						height="9"
@@ -5775,7 +6719,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2109"
+						x="3704"
 						y="0"
 						width="25"
 						height="9"
@@ -5791,7 +6735,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2034"
+						x="3629"
 						y="0"
 						width="25"
 						height="9"
@@ -5807,7 +6751,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2059"
+						x="3654"
 						y="0"
 						width="25"
 						height="9"
@@ -5823,7 +6767,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2134"
+						x="3729"
 						y="0"
 						width="25"
 						height="9"
@@ -5839,7 +6783,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2159"
+						x="3754"
 						y="0"
 						width="25"
 						height="9"
@@ -5855,7 +6799,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2209"
+						x="3804"
 						y="0"
 						width="25"
 						height="9"
@@ -5871,7 +6815,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="294"
+						x="1370"
 						y="0"
 						width="20"
 						height="9"
@@ -5887,7 +6831,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="314"
+						x="1410"
 						y="0"
 						width="20"
 						height="9"
@@ -5903,7 +6847,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2184"
+						x="3779"
 						y="0"
 						width="25"
 						height="9"
@@ -5919,7 +6863,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2234"
+						x="3829"
 						y="0"
 						width="25"
 						height="9"
@@ -5935,7 +6879,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2259"
+						x="3854"
 						y="0"
 						width="25"
 						height="9"
@@ -5951,7 +6895,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2284"
+						x="3879"
 						y="0"
 						width="25"
 						height="9"
@@ -5963,6 +6907,808 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{SUM_CENA_1}.doubleValue() + $V{SUM_CENA_2}.doubleValue() + $V{SUM_CENA_3}.doubleValue() + $V{SUM_CENA_4}.doubleValue() + $V{SUM_CENA_5}.doubleValue() + $V{SUM_CENA_6}.doubleValue() + $V{SUM_CENA_7}.doubleValue())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="94"
+						y="0"
+						width="70"
+						height="9"
+						key="textField-165"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naslov}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="164"
+						y="0"
+						width="33"
+						height="9"
+						key="textField-166"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kraj}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="197"
+						y="0"
+						width="16"
+						height="9"
+						key="textField-167"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{posta}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="213"
+						y="0"
+						width="27"
+						height="9"
+						key="textField-168"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{davcna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="240"
+						y="0"
+						width="27"
+						height="9"
+						key="textField-169"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{maticna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="267"
+						y="0"
+						width="39"
+						height="9"
+						key="textField-170"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{mail}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="306"
+						y="0"
+						width="38"
+						height="9"
+						key="textField-171"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dejavnost}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="463"
+						y="0"
+						width="16"
+						height="9"
+						key="textField-172"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{skrbnik}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="344"
+						y="0"
+						width="70"
+						height="9"
+						key="textField-173"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naslov_posiljanje}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="414"
+						y="0"
+						width="33"
+						height="9"
+						key="textField-174"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kraj_posiljanje}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="447"
+						y="0"
+						width="16"
+						height="9"
+						key="textField-175"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{posta_posiljanje}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="479"
+						y="0"
+						width="55"
+						height="9"
+						key="textField-176"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{vrsta_zavezanca}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="534"
+						y="0"
+						width="16"
+						height="9"
+						key="textField-177"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{interval_pavsala}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="550"
+						y="0"
+						width="23"
+						height="9"
+						key="textField-178"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{datum_pricetka_pogodbe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="573"
+						y="0"
+						width="23"
+						height="9"
+						key="textField-179"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{datum_sklenitve_pogodbe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="596"
+						y="0"
+						width="57"
+						height="9"
+						key="textField-180"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kontaktna_oseba}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="653"
+						y="0"
+						width="45"
+						height="9"
+						key="textField-181"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{telefon_kontaktna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="698"
+						y="0"
+						width="45"
+						height="9"
+						key="textField-182"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{mail_kontaktna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="743"
+						y="0"
+						width="100"
+						height="9"
+						key="textField-183"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opombe_kontaktna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="843"
+						y="0"
+						width="57"
+						height="9"
+						key="textField-184"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{odgovorna_oseba}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="900"
+						y="0"
+						width="45"
+						height="9"
+						key="textField-185"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{telefon_odgovorna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="945"
+						y="0"
+						width="45"
+						height="9"
+						key="textField-186"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{mail_odgovorna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="990"
+						y="0"
+						width="100"
+						height="9"
+						key="textField-187"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opombe_odgovorna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3589"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-188"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_7_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3530"
+						y="0"
+						width="19"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-189"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_7_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3470"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-190"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_7_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3290"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-191"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_6_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3230"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-192"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_6_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3150"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-193"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_6_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3090"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-194"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_6_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="3010"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-195"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_6_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2950"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-196"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_6_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2790"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-197"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_5_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2730"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-198"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_5_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2670"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-199"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_5_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2510"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-200"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_4_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2450"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-201"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_4_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2390"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-202"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_4_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2230"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-203"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_3_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2170"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-204"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_3_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="2110"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-205"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_3_0})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1950"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-206"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_2_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1870"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-207"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_2_3})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1810"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-208"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_2_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1750"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-209"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_2_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1670"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-210"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_2_3})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1610"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-211"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_2_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1550"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-212"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_2_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1390"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-213"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE34_C_1_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1310"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-214"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_1_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1250"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-215"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{NKOE25_C_1_1})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1170"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-216"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_1_2})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1110"
+						y="0"
+						width="20"
+						height="9"
+						backcolor="#99FF99"
+						key="textField-217"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_C_1_1})]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
@@ -5979,7 +7725,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="169"
+						x="1205"
 						y="0"
 						width="25"
 						height="9"
@@ -5995,7 +7741,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="269"
+						x="1345"
 						y="0"
 						width="25"
 						height="9"
@@ -6011,7 +7757,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="294"
+						x="1370"
 						y="0"
 						width="20"
 						height="9"
@@ -6027,7 +7773,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="334"
+						x="1430"
 						y="0"
 						width="25"
 						height="9"
@@ -6043,7 +7789,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="359"
+						x="1455"
 						y="0"
 						width="25"
 						height="9"
@@ -6059,7 +7805,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="384"
+						x="1480"
 						y="0"
 						width="25"
 						height="9"
@@ -6075,7 +7821,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="409"
+						x="1505"
 						y="0"
 						width="25"
 						height="9"
@@ -6107,7 +7853,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="549"
+						x="1705"
 						y="0"
 						width="25"
 						height="9"
@@ -6123,7 +7869,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="689"
+						x="1905"
 						y="0"
 						width="25"
 						height="9"
@@ -6139,7 +7885,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="714"
+						x="1930"
 						y="0"
 						width="20"
 						height="9"
@@ -6155,7 +7901,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="754"
+						x="1990"
 						y="0"
 						width="25"
 						height="9"
@@ -6171,7 +7917,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="779"
+						x="2015"
 						y="0"
 						width="25"
 						height="9"
@@ -6187,7 +7933,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="804"
+						x="2040"
 						y="0"
 						width="25"
 						height="9"
@@ -6203,7 +7949,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="829"
+						x="2065"
 						y="0"
 						width="25"
 						height="9"
@@ -6219,7 +7965,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="974"
+						x="2270"
 						y="0"
 						width="25"
 						height="9"
@@ -6235,7 +7981,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="999"
+						x="2295"
 						y="0"
 						width="25"
 						height="9"
@@ -6251,7 +7997,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1024"
+						x="2320"
 						y="0"
 						width="25"
 						height="9"
@@ -6267,7 +8013,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1049"
+						x="2345"
 						y="0"
 						width="25"
 						height="9"
@@ -6283,7 +8029,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1194"
+						x="2550"
 						y="0"
 						width="25"
 						height="9"
@@ -6299,7 +8045,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1219"
+						x="2575"
 						y="0"
 						width="25"
 						height="9"
@@ -6315,7 +8061,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1244"
+						x="2600"
 						y="0"
 						width="25"
 						height="9"
@@ -6331,7 +8077,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1269"
+						x="2625"
 						y="0"
 						width="25"
 						height="9"
@@ -6347,7 +8093,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1414"
+						x="2830"
 						y="0"
 						width="25"
 						height="9"
@@ -6363,7 +8109,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1439"
+						x="2855"
 						y="0"
 						width="25"
 						height="9"
@@ -6379,7 +8125,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1464"
+						x="2880"
 						y="0"
 						width="25"
 						height="9"
@@ -6395,7 +8141,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1489"
+						x="2905"
 						y="0"
 						width="25"
 						height="9"
@@ -6411,7 +8157,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1589"
+						x="3045"
 						y="0"
 						width="25"
 						height="9"
@@ -6427,7 +8173,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1689"
+						x="3185"
 						y="0"
 						width="25"
 						height="9"
@@ -6443,7 +8189,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1789"
+						x="3325"
 						y="0"
 						width="25"
 						height="9"
@@ -6459,7 +8205,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1814"
+						x="3350"
 						y="0"
 						width="25"
 						height="9"
@@ -6475,7 +8221,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1839"
+						x="3375"
 						y="0"
 						width="25"
 						height="9"
@@ -6491,7 +8237,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1864"
+						x="3400"
 						y="0"
 						width="25"
 						height="9"
@@ -6507,7 +8253,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="1889"
+						x="3425"
 						y="0"
 						width="25"
 						height="9"
@@ -6523,7 +8269,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2034"
+						x="3629"
 						y="0"
 						width="25"
 						height="9"
@@ -6539,7 +8285,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2059"
+						x="3654"
 						y="0"
 						width="25"
 						height="9"
@@ -6555,7 +8301,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2084"
+						x="3679"
 						y="0"
 						width="25"
 						height="9"
@@ -6571,7 +8317,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2109"
+						x="3704"
 						y="0"
 						width="25"
 						height="9"
@@ -6587,7 +8333,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2184"
+						x="3779"
 						y="0"
 						width="25"
 						height="9"
@@ -6603,7 +8349,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2234"
+						x="3829"
 						y="0"
 						width="25"
 						height="9"
@@ -6619,7 +8365,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2259"
+						x="3854"
 						y="0"
 						width="25"
 						height="9"
@@ -6635,7 +8381,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2284"
+						x="3879"
 						y="0"
 						width="25"
 						height="9"
@@ -6651,7 +8397,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2134"
+						x="3729"
 						y="0"
 						width="25"
 						height="9"
@@ -6667,7 +8413,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2159"
+						x="3754"
 						y="0"
 						width="25"
 						height="9"
@@ -6683,7 +8429,7 @@ $F{NKOE34_6_1}.doubleValue()*$F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_6_2}.
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="2209"
+						x="3804"
 						y="0"
 						width="25"
 						height="9"
