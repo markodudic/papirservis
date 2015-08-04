@@ -116,7 +116,7 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), 
 	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("stroski"), rs.getString("dod_stroski"), 
 	    							  String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")),
-	    							  String.valueOf(rs.getDouble("stroski")+rs.getDouble("dod_stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), rs.getString("opomba")};
+	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), rs.getString("opomba")};
 	    		createRow(dobavnica);
 	    	}
 	    	
