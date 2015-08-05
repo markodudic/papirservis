@@ -38,12 +38,8 @@
 	<queryString><![CDATA[SELECT 
 IFNULL(SUM(dob.`stev_km`), 0) AS dob_stev_km, 
 IFNULL(SUM(dob.`stev_ur`), 0) AS dob_stev_ur, 
-IFNULL(SUM(dob.`stev_km` * kamion.cena_km + dob.`stev_ur` * kamion.cena_ura + IFNULL(dob.stroski,0)), 0) as skupaj
-from (SELECT kamion.*
-	FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam) zadnji
-	WHERE kamion.sif_kam = zadnji.sif_kam and
-	      kamion.zacetek = zadnji.datum)  kamion,
-      (SELECT dob.*
+IFNULL(SUM(dob.`stev_km` * dob.cena_km + dob.`stev_ur` * dob.cena_ura + IFNULL(dob.stroski,0)), 0) as skupaj
+from (SELECT dob.*
 	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
 			WHERE dob.sif_kupca = $P{sif_str}
@@ -52,8 +48,7 @@ from (SELECT kamion.*
 			group by st_dob, pozicija) zadnji
 	WHERE dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum)  dob
-WHERE dob.sif_kam = kamion.sif_kam]]></queryString>
+	      dob.zacetek = zadnji.datum)  dob]]></queryString>
 
 	<field name="dob_stev_km" class="java.math.BigDecimal"/>
 	<field name="dob_stev_ur" class="java.lang.Double"/>

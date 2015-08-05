@@ -36,18 +36,14 @@
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT 
-kamion.sif_kam as sif_kam,
-kamion.kamion as kamion,
+dob.sif_kam as sif_kam,
+dob.kamion as kamion,
 IFNULL(SUM(dob.`stev_km`), 0) AS dob_stev_km, 
-IFNULL(kamion.cena_km, 0) as cena_km,
+IFNULL(dob.cena_km, 0) as cena_km,
 IFNULL(SUM(dob.`stev_ur`), 0) AS dob_stev_ur, 
-IFNULL(kamion.cena_ura, 0) as cena_ura,
-IFNULL(SUM(dob.`stev_km`) * kamion.cena_km + SUM(dob.`stev_ur`) * kamion.cena_ura, 0) as skupaj
-from (SELECT kamion.*
-	FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam) zadnji
-	WHERE kamion.sif_kam = zadnji.sif_kam and
-	      kamion.zacetek = zadnji.datum)  kamion,
-      (SELECT dob.*
+IFNULL(dob.cena_ura, 0) as cena_ura,
+IFNULL(SUM(dob.`stev_km`) * dob.cena_km + SUM(dob.`stev_ur`) * dob.cena_ura, 0) as skupaj
+from (SELECT dob.*
 	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
 			WHERE dob.sif_kupca = $P{sif_str}
@@ -57,8 +53,7 @@ from (SELECT kamion.*
 	WHERE dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
 	      dob.zacetek = zadnji.datum)  dob
-WHERE dob.sif_kam = kamion.sif_kam
-GROUP BY kamion.sif_kam, kamion.kamion, kamion.cena_km, kamion.cena_ura]]></queryString>
+GROUP BY dob.sif_kam, dob.kamion, dob.cena_km, dob.cena_ura]]></queryString>
 
 	<field name="sif_kam" class="java.lang.String"/>
 	<field name="kamion" class="java.lang.String"/>
