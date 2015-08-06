@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA["2014-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2014-1-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2014-1-10"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.12.2008"]]></defaultValueExpression>
@@ -42,7 +42,7 @@
 		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="potnik" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["5"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
@@ -57,7 +57,7 @@
 		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("5")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sort" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("1")]]></defaultValueExpression>
@@ -66,27 +66,18 @@
 		<parameterDescription><![CDATA["Vsi potniki"]]></parameterDescription>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2014"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2015"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["Vse nadenote"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      concat(kupci.`naslov`, ', ', kupci.`posta`, ' ',  kupci.`kraj`, ' ') AS kupci_naslov
 FROM kupci 
-	left join (SELECT dob.*
-	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
-			FROM $P!{dobLeto} dob 
-			where datum >= CAST($P{od_datum} AS DATE) 
-				AND datum <= CAST($P{do_datum} AS DATE)
-			group by st_dob, pozicija) zadnji
-	WHERE dob.st_dob = zadnji.st_dob and
-	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum ) dob on (kupci.sif_kupca = dob.sif_kupca) 
-	left join enote on (dob.sif_enote = enote.sif_enote)
+	left join enote on (kupci.sif_enote = enote.sif_enote)
 WHERE ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
-     ((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     ((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      ((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1)) and
      kupci.sif_kupca IN (select sif_kupca 
