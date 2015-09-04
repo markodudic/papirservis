@@ -30,10 +30,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2014-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2015-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2014-1-10"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2015-7-10"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.12.2008"]]></defaultValueExpression>
@@ -45,13 +45,13 @@
 		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("17")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_enote" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>

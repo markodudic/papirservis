@@ -35,50 +35,60 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT 
-dob.`st_dob` AS dob_st_dob, 
-dob.`pozicija` AS dob_pozicija, 
-dob.`datum` AS dob_datum, 
-dob.`koda` AS dob_koda, 
-dob.`kolicina` AS dob_kolicina, 
-IFNULL(dob.`strcena`,0) AS dob_cena,
-IFNULL(dob.`kolicina`,0) AS dob_kolicina, 
-IFNULL(dob.`kolicina` * dob.`strcena`,0) AS nab_vrednost,
-materiali.pc_nizka AS pc_nizka,
-IFNULL(dob.`kolicina` * materiali.pc_nizka,0) AS prod_vrednost,
-IFNULL((dob.`kolicina` * materiali.pc_nizka), 0) - IFNULL((dob.`kolicina` * dob.`strcena`),0) as rvc
-FROM 
-	(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena
-	from
-	((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
-	from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
-		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
-         					from $P!{dobLeto} dob
-				           where dob.sif_kupca = $P{sif_str}  and
-					      dob.datum >= CAST($P{od_datum} AS DATE) AND
-					      dob.datum <= CAST($P{do_datum}  AS DATE) 
-				group by st_dob, pozicija) zadnji
-		WHERE dob.st_dob = zadnji.st_dob and
-	      		dob.pozicija = zadnji.pozicija and
-	      		dob.zacetek = zadnji.datum ) dob 
-	        	left join cenastr
-        	        	on (dob.sif_kupca = cenastr.sif_kupca and
-	    	     cenastr.material_koda = dob.koda and
-	     	     cenastr.veljavnost <= dob.datum))
-	group by dob.st_dob, dob.pozicija) c
-	left join cenastr on
-		cenastr.veljavnost = c.v and
-      		cenastr.id = c.i)
-	group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob,
-     (SELECT materiali.*
-	FROM materiali, (SELECT koda, max(zacetek) datum 
-			FROM materiali 
-			WHERE veljavnost <= CAST($P{do_datum}  AS DATE)
-                   	group by koda) zadnji
-	WHERE materiali.koda = zadnji.koda and
-	      materiali.zacetek = zadnji.datum) materiali
-WHERE dob.`koda` = materiali.`koda` 
-ORDER BY dob.st_dob, dob.pozicija]]></queryString>
+	<queryString><![CDATA[Select 	A.`dob_st_dob` AS dob_st_dob, 
+	A.`dob_pozicija` AS dob_pozicija, 
+	A.`dob_datum` AS dob_datum, 
+	A.`dob_koda` AS dob_koda, 
+	A.`kolicina` AS dob_kolicina,
+	IFNULL(A.`strcena`,0) AS dob_cena,
+	IFNULL(A.`kolicina`,0) AS dob_kolicina, 
+	IFNULL(A.`kolicina` * A.`strcena`,0) AS nab_vrednost,
+	(SELECT pc_nizka
+	FROM materiali
+	WHERE materiali.koda = A.dob_koda and
+	      materiali.veljavnost = A.veljavnost) AS pc_nizka,
+	(SELECT IFNULL(A.`kolicina` * materiali.pc_nizka,0)
+	FROM materiali
+	WHERE materiali.koda = A.dob_koda and
+	      materiali.veljavnost = A.veljavnost) AS prod_vrednost,
+	(SELECT sum(IFNULL((A.`kolicina` * materiali.pc_nizka),0) - IFNULL((A.`kolicina` * A.`strcena`),0))
+	FROM materiali
+	WHERE materiali.koda = A.dob_koda and
+	      materiali.veljavnost = A.veljavnost) AS rvc
+from (
+	SELECT distinct dob.`st_dob` AS dob_st_dob, 
+	dob.`pozicija` AS dob_pozicija, 
+	dob.`datum` AS dob_datum, 
+	dob.`koda` AS dob_koda, 
+	dob.kolicina,
+	dob.`strcena`,
+	(select max(veljavnost) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  veljavnost
+	FROM 
+		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena
+		from
+		((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
+		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
+			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+	         					from $P!{dobLeto} dob
+					           where dob.sif_kupca = $P{sif_str}  and
+					      		dob.datum >= CAST($P{od_datum} AS DATE) AND
+					      		dob.datum <= CAST($P{do_datum}  AS DATE) 
+					group by st_dob, pozicija) zadnji
+			WHERE dob.st_dob = zadnji.st_dob and
+		      		dob.pozicija = zadnji.pozicija and
+		      		dob.zacetek = zadnji.datum ) dob 
+		        	left join cenastr
+	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
+		    	     cenastr.material_koda = dob.koda and
+		     	     cenastr.veljavnost <= dob.datum))
+		group by dob.st_dob, dob.pozicija) c
+		left join cenastr on
+			cenastr.veljavnost = c.v and
+	      		cenastr.id = c.i)
+		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
+	   left join
+		materiali on (dob.`koda` = materiali.`koda`)) AS A
+ORDER BY dob_st_dob, dob_pozicija]]></queryString>
 
 	<field name="dob_st_dob" class="java.lang.Integer"/>
 	<field name="dob_pozicija" class="java.lang.Integer"/>

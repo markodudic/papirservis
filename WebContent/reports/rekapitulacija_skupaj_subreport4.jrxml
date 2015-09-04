@@ -36,7 +36,7 @@
 	osnovna.osnovna as osnovna,
 	IFNULL(sum(str.kol_os),0) as kol_os,
 	osnovna.cena_am as cena_am,
-	sum(PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(str.veljavnost,'%Y%m'))) as mesecev
+	sum(PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m'))) as mesecev
 from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
 	FROM stranke ,  (SELECT sif_str, max(veljavnost) veljavnost
 			FROM stranke
@@ -61,13 +61,13 @@ order by osnovna.sif_os]]></queryString>
 	<field name="mesecev" class="java.math.BigDecimal"/>
 
 	<variable name="sum_all" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[new Double(  (($F{kol_os}.doubleValue()) * ($F{cena_am}.doubleValue())) * (( $F{mesecev}.doubleValue() >= 0 ? new Double("1.0") : new Double("0.0") )).doubleValue() )]]></variableExpression>
+		<variableExpression><![CDATA[new Double(  $F{kol_os}.doubleValue() * $F{cena_am}.doubleValue() * $F{mesecev}.doubleValue() )]]></variableExpression>
 	</variable>
 	<variable name="sum_row" class="java.lang.Double" resetType="None" calculation="Nothing">
-		<variableExpression><![CDATA[new Double(  (($F{kol_os}.doubleValue()) * ($F{cena_am}.doubleValue())) * (( $F{mesecev}.doubleValue() >= 0 ? new Double("1.0") : new Double("0.0") ).doubleValue()) )]]></variableExpression>
+		<variableExpression><![CDATA[new Double(  $F{kol_os}.doubleValue() * $F{cena_am}.doubleValue() * $F{mesecev}.doubleValue() )]]></variableExpression>
 	</variable>
 	<variable name="st_mesecev" class="java.lang.Double" resetType="Column" calculation="Nothing">
-		<variableExpression><![CDATA[( $F{mesecev}.doubleValue() >= 0 ? new Double("1.0") : new Double("0.0") )]]></variableExpression>
+		<variableExpression><![CDATA[$F{mesecev}.doubleValue()]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >

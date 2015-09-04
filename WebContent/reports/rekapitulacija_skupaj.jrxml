@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2203043"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2203732"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
@@ -33,10 +33,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2011-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2014-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2011-1-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2014-6-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
@@ -45,7 +45,7 @@
 		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2011"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2015"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,

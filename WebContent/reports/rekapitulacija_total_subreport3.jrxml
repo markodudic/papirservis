@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA["1044659"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT IFNULL(-sum(str.kol_os * osnovna.cena_am), 0) as amortizacija,
-PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(veljavnost,'%Y%m')) as mesecev
+PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
 from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
 	FROM stranke , (SELECT sif_os, sif_str, max(veljavnost) veljavnost
 			FROM stranke
@@ -54,7 +54,7 @@ group by mesecev]]></queryString>
 	<field name="mesecev" class="java.lang.Long"/>
 
 	<variable name="sum_all" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[new Double($F{amortizacija}.doubleValue()  * ( $F{mesecev}.doubleValue() >= 0 ? new Double("1.0") : new Double("0.0")).doubleValue() )]]></variableExpression>
+		<variableExpression><![CDATA[new Double($F{amortizacija}.doubleValue()  * $F{mesecev}.doubleValue() )]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
