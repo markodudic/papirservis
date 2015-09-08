@@ -24,26 +24,26 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["6000089"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2203732"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2011-5-5"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2015-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2011-5-30"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2015-6-30"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT osnovna.sif_os as sif_os,
 	osnovna.osnovna as osnovna,
 	IFNULL(sum(str.kol_os),0) as kol_os,
 	osnovna.cena_am as cena_am,
-	sum(PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m'))) as mesecev
+	PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
 from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
-	FROM stranke ,  (SELECT sif_str, max(veljavnost) veljavnost
+	FROM stranke ,  (SELECT sif_os, sif_str, max(veljavnost) veljavnost
 			FROM stranke
 			WHERE veljavnost < CAST($P{do_datum} AS DATE) and
 				sif_kupca =  $P{sif_str}
-			GROUP BY sif_str) zadnji
-	WHERE stranke.sif_kupca =  $P{sif_str} and
+			GROUP BY sif_os, sif_str) zadnji
+	WHERE stranke.sif_os = zadnji.sif_os and
 	      stranke.sif_str = zadnji.sif_str and
 	      stranke.veljavnost = zadnji.veljavnost) as str,
 	(SELECT osnovna.*
@@ -58,7 +58,7 @@ order by osnovna.sif_os]]></queryString>
 	<field name="osnovna" class="java.lang.String"/>
 	<field name="kol_os" class="java.math.BigDecimal"/>
 	<field name="cena_am" class="java.lang.Double"/>
-	<field name="mesecev" class="java.math.BigDecimal"/>
+	<field name="mesecev" class="java.lang.Long"/>
 
 	<variable name="sum_all" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[new Double(  $F{kol_os}.doubleValue() * $F{cena_am}.doubleValue() * $F{mesecev}.doubleValue() )]]></variableExpression>
@@ -67,7 +67,7 @@ order by osnovna.sif_os]]></queryString>
 		<variableExpression><![CDATA[new Double(  $F{kol_os}.doubleValue() * $F{cena_am}.doubleValue() * $F{mesecev}.doubleValue() )]]></variableExpression>
 	</variable>
 	<variable name="st_mesecev" class="java.lang.Double" resetType="Column" calculation="Nothing">
-		<variableExpression><![CDATA[$F{mesecev}.doubleValue()]]></variableExpression>
+		<variableExpression><![CDATA[new Double($F{mesecev}.doubleValue())]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >

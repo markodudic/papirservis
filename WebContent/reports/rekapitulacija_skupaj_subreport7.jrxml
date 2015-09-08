@@ -42,19 +42,19 @@
 	sum((SELECT IFNULL(A.`kolicina` * materiali.pc_nizka,0)
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost)) AS prod_vrednost,
+	      materiali.zacetek = A.zacetek)) AS prod_vrednost,
 	sum((SELECT sum(IFNULL((A.`kolicina` * materiali.pc_nizka),0) - IFNULL((A.`kolicina` * A.`strcena`),0))
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost)) AS rvc,
-	A.veljavnost
+	      materiali.zacetek = A.zacetek)) AS rvc,
+	A.zacetek
 from (
 	SELECT distinct dob.st_dob,
 	dob.`koda` AS dob_koda, 
 	materiali.material as dob_material,
 	dob.kolicina,
 	dob.`strcena`,
-	(select max(veljavnost) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  veljavnost
+	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena
 		from
@@ -80,7 +80,7 @@ from (
 		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
 	   left join
 		materiali on (dob.`koda` = materiali.`koda`)) AS A
-GROUP BY dob_koda, veljavnost
+GROUP BY dob_koda, zacetek
 ORDER BY dob_koda]]></queryString>
 
 	<field name="dob_koda" class="java.lang.String"/>
@@ -89,7 +89,7 @@ ORDER BY dob_koda]]></queryString>
 	<field name="nab_vrednost" class="java.lang.Double"/>
 	<field name="prod_vrednost" class="java.lang.Double"/>
 	<field name="rvc" class="java.lang.Double"/>
-	<field name="veljavnost" class="java.sql.Timestamp"/>
+	<field name="zacetek" class="java.sql.Timestamp"/>
 
 	<variable name="sum_kol" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_kolicina}]]></variableExpression>

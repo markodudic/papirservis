@@ -46,15 +46,15 @@
 	(SELECT pc_nizka
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost) AS pc_nizka,
+	      materiali.zacetek = A.zacetek) AS pc_nizka,
 	(SELECT IFNULL(A.`kolicina` * materiali.pc_nizka,0)
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost) AS prod_vrednost,
+	      materiali.zacetek = A.zacetek) AS prod_vrednost,
 	(SELECT sum(IFNULL((A.`kolicina` * materiali.pc_nizka),0) - IFNULL((A.`kolicina` * A.`strcena`),0))
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost) AS rvc
+	      materiali.zacetek = A.zacetek) AS rvc
 from (
 	SELECT distinct dob.`st_dob` AS dob_st_dob, 
 	dob.`pozicija` AS dob_pozicija, 
@@ -62,7 +62,7 @@ from (
 	dob.`koda` AS dob_koda, 
 	dob.kolicina,
 	dob.`strcena`,
-	(select max(veljavnost) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  veljavnost
+	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena
 		from

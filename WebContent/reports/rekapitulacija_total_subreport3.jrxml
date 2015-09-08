@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA["1044659"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT IFNULL(-sum(str.kol_os * osnovna.cena_am), 0) as amortizacija,
-PERIOD_DIFF(DATE_FORMAT(CAST($P{do_datum} AS DATE),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
+PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
 from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
 	FROM stranke , (SELECT sif_os, sif_str, max(veljavnost) veljavnost
 			FROM stranke

@@ -39,13 +39,13 @@
 	IFNULL(sum((SELECT A.`kolicina` * materiali.pc_nizka
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
-	      materiali.veljavnost = A.veljavnost)), 0) AS prod_vrednost
+	      materiali.zacetek = A.zacetek)), 0) AS prod_vrednost
 from (
 	SELECT distinct dob.st_dob,
 	dob.`koda` AS dob_koda, 
 	dob.kolicina,
 	dob.`cena`,
-	(select max(veljavnost) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  veljavnost
+	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena
 		from
