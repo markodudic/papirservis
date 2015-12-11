@@ -100,9 +100,9 @@ Fax: 02 720 78 14]]></text>
 						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[KOMERCIALA
-Papirniški trg 17
-1000 Ljubljana
-Tel: 01 588 08 40
+Brnčičeva 31
+1231 Ljubljana - Črnuče
+Tel: 01 588 08 51
 Fax: 01 588 08 53]]></text>
 				</staticText>
 				<staticText>
@@ -121,6 +121,23 @@ Fax: 01 588 08 53]]></text>
 					</textElement>
 				<text><![CDATA[NAROČANJE ODVOZOV NA ŠT. 01 588 08 50
 50]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="203"
+						y="18"
+						width="83"
+						height="62"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Ljubljana
+Šlandrova 4a
+1231 Ljubljana - Črnuče
+Tel: 05 120 09 85]]></text>
 				</staticText>
 			</band>
 		</pageHeader>

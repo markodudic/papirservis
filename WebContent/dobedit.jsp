@@ -2025,7 +2025,7 @@ return true;
 	</tr>				
 	<tr>
 		<td class="ewTableHeader">Arso prenos&nbsp;</td>
-		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 0? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 1? "checked" : "" %> value = "1">DA&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 0? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 1? "checked" : "" %> value = "1">DA&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos == 2? "checked" : "" %> value = "2">TUJINA&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso status&nbsp;</td>

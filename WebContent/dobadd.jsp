@@ -1697,7 +1697,7 @@ return true;
 	</tr>				
 	<tr>
 		<td class="ewTableHeader">Arso prenos&nbsp;</td>
-		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("2")? "checked" : "" %> value = "2">TUJINA&nbsp;</td>
 	</tr>
 	
 	<input type="hidden" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;

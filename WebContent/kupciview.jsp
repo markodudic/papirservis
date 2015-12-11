@@ -494,7 +494,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso prenos&nbsp;</td>
-		<td class="ewTableAltRow"><% out.print((x_arso_prenos == 1 ? "DA" : "NE")); %>&nbsp;</td>
+		<td class="ewTableAltRow"><% out.print((x_arso_prenos == 0 ? "NE" : x_arso_prenos == 1 ? "DA" : "TUJINA")); %>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso št.&nbsp;</td>

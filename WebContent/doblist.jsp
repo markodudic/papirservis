@@ -1114,7 +1114,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, k.maticna, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
+strsql = new StringBuffer("SELECT DISTINCT dob.*, k.naziv, k.maticna, k.posta, k.kraj, k.arso_prenos, u.ime_in_priimek, s.sofer as ssofer, mat.material, oko.material okoljemat, k.arso_prenos " +
 		"FROM " + session.getAttribute("letoTabela") + " dob " +
 		"left join kupci k on dob.sif_kupca = k.sif_kupca " +
 		"left join uporabniki u on dob.uporabnik = u.sif_upor "+
@@ -2319,7 +2319,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_embalaza_shema); %>&nbsp;</td>
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
-		<td><% out.print((x_arso_prenos.equals("1") ? "DA" : "NE")); %>&nbsp;</td>
+		<td><% out.print((x_arso_prenos.equals("1") ? "DA" : x_arso_prenos.equals("0") ? "NE" : "TUJINA")); %>&nbsp;</td>
 		<td nowrap><% out.print((x_arso_status.equals("0") ? "NI POSLAN-NI POTRJEN" : (x_arso_status.equals("1") ? "POSLAN-NI POTRJEN" : "POSLAN-POTRJEN"))); %>&nbsp;</td>
 	</tr>
 <%

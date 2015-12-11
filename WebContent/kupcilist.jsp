@@ -877,7 +877,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print(x_opomba5); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_analiza, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
-		<td><% out.print((x_arso_prenos == 1 ? "DA" : "NE")); %>&nbsp;</td>
+		<td><% out.print((x_arso_prenos == 0 ? "NE" : x_arso_prenos == 1 ? "DA" : "TUJINA")); %>&nbsp;</td>
 		<td><% out.print(x_arso_pslj_st); %>&nbsp;</td>
 		<td><% out.print(x_arso_pslj_status); %>&nbsp;</td>
 		<td><% out.print(x_arso_aktivnost_pslj); %>&nbsp;</td>

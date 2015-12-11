@@ -539,7 +539,7 @@ WHERE
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -554,18 +554,17 @@ WHERE
 				<staticText>
 					<reportElement
 						x="0"
-						y="572"
+						y="593"
 						width="534"
-						height="66"
+						height="45"
 						key="staticText-4"
 						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Salomon d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. 
-Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000 .]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -995,7 +994,7 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
 				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
@@ -1256,6 +1255,20 @@ Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis 
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_prvz_st}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="567"
+						width="534"
+						height="25"
+						key="staticText-42"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>
