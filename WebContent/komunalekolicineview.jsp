@@ -66,7 +66,7 @@ try{
 	if (a.equals("I")) {// Get a record to display
 		String tkey = "'" + key.replaceAll("'",escapeString) + "'";
 		String strsql = "select komunale_kolicine.*, b.naziv, c.material, uporabniki.uporabnisko_ime " +
-				"from komunale_kolicine " +
+				"from " + session.getAttribute("letoTabelaKomunale") + " komunale_kolicine " +
 				"left join kupci as b on komunale_kolicine.sif_kupca = b.sif_kupca " +
 				"left join okolje as c on komunale_kolicine.koda = c.koda " +
 				"left join uporabniki on komunale_kolicine.uporabnik = sif_upor " +

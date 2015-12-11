@@ -146,7 +146,7 @@ try{
 			rs.insertRow();
 
 			//za vsakego novo komunalo dodamo vse kode
-			strsql = "insert into komunale_kolicine (sif_kupca, koda) " +
+			strsql = "insert into " + session.getAttribute("letoTabelaKomunale") + "  (sif_kupca, koda) " +
 					"SELECT "+x_sif_kupca+", koda FROM okolje WHERE koda like '15 01%'";
 			out.println(strsql);
 			stmt.executeUpdate(strsql);

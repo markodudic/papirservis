@@ -109,6 +109,9 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 		else
 			session.setAttribute("letoTabelaProdaja",  "prodaja"+request.getParameter("leto"));			
 
+		session.setAttribute("letoTabelaKomunale",  "komunale_kolicine"+request.getParameter("leto"));			
+
+		
 		response.sendRedirect("index.jsp");
 	}
 }else{

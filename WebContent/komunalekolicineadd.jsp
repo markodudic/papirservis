@@ -97,7 +97,7 @@ try{
 	ResultSet rs = null;
 	if (a.equals("C")){ // Get a record to display
 		String tkey = "'" + key.replaceAll("'",escapeString) + "'";
-		String strsql = "SELECT * FROM komunale_kolicine WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabelaKomunale") + "  WHERE `id`=" + tkey;
 		
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()){
@@ -347,7 +347,7 @@ try{
 		}
 
 		// Open record
-		String strsql = "SELECT * FROM komunale_kolicine WHERE 0 = 1";
+		String strsql = "SELECT * FROM " + session.getAttribute("letoTabelaKomunale") + "  WHERE 0 = 1";
 		//out.println(strsql);
 		rs = stmt.executeQuery(strsql);
 		rs.moveToInsertRow();

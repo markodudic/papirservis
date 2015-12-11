@@ -65,6 +65,7 @@ if (sif_kupca!=null && sif_kupca.equals("null")) sif_kupca=null;
 <%
 
 String a = request.getParameter("Submit");
+out.println("SUBMIT="+a);
 if (a != null && a.equals("Potrdi")) {
 	Enumeration<String> parameterNames = request.getParameterNames();
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -78,7 +79,7 @@ if (a != null && a.equals("Potrdi")) {
             if (paramValue.equals("")||paramValue.equals("0")) paramValue=null;
             if (pKeys[2].equals("zdruzi")) {
 	            if (paramValue!=null) {
-					String sqlquery = "update komunale_kolicine" + 
+					String sqlquery = "update " + session.getAttribute("letoTabelaKomunale") + 
 							" set " + pKeys[2] + " = '" + paramValue + "'," +
 							"		uporabnik = "+ Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")) +
 							" WHERE sif_kupca = " + pKeys[0] + " AND koda = '" + pKeys[1] + "'";
@@ -91,7 +92,7 @@ if (a != null && a.equals("Potrdi")) {
 	            	out.println("Neveljavna vrednost za: "+ paramValue+"<br>");
 	            	continue;
 	            }
-				String sqlquery = "update komunale_kolicine" + 
+				String sqlquery = "update " + session.getAttribute("letoTabelaKomunale") + 
 						" set " + pKeys[2] + " = " + paramValue + "," +
 						"		uporabnik = "+ Integer.parseInt((String) session.getAttribute("papirservis1_status_UserID")) +
 						" WHERE sif_kupca = " + pKeys[0] + " AND koda = '" + pKeys[1] + "'";
@@ -289,7 +290,7 @@ String strsql = "SELECT DISTINCT aa.id, aa.sif_kupca, aa.koda, aa.zdruzi, aa.del
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
 		" sum(kolicina) zbrano  " +
 		//" caseStr " +
-		"from komunale_kolicine as a "+
+		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join okolje as c on a.koda = c.koda "+
 		" left join uporabniki on a.uporabnik = sif_upor " +
@@ -320,7 +321,7 @@ strsql += " UNION ALL ";
 strsql += "select a.*, null kkoda, b.naziv, c.material, uporabniki.uporabnisko_ime, " +
 		" sum(kolicina) zbrano,  " +
 		" caseStr " +
-		"from komunale_kolicine as a "+
+		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join okolje as c on a.koda = c.koda "+
 		" left join uporabniki on a.uporabnik = sif_upor " +
@@ -364,7 +365,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, zbrano, prevze
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, sum(kolicina) zbrano, " +
 		" caseStr " +
-		"from komunale_kolicine as a "+
+		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
 		
@@ -432,17 +433,25 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <script language="JavaScript">
 function disableSome(EW_this){
 }
+
+function keyPressed(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+    	document.getElementById("Submit").value = "Potrdi";
+    	return false;
+    }
+    return true;
+};
 </script>
 
 <p><span class="jspmaker">Tabela: recikel embalaznina</span></p>
-<form id="komunalaForm" action="komunalekolicinelist.jsp" method="post">
+<form id="komunalaForm" name="komunalaForm" action="komunalekolicinelist.jsp" method="post">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
 		<td><span class="jspmaker">
 			<input type="hidden" name="start" value="1">
 			<input type="text" name="psearch" size="20">
-			<input type="Submit" name="Submit" value="Išči">
+			<input type="Submit" name="Submit" id="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="komunalekolicinelist.jsp?cmd=reset">Prikaži vse</a>
 			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>')";>
 		</span></td>
@@ -499,7 +508,7 @@ function disableSome(EW_this){
 		<td>
 			<a href="komunalekolicineadd.jsp">Dodaj nov zapis</a>
 			<% if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {%>
-				<input type="Submit" name="Submit" value="Potrdi">
+				<input type="Submit" name="Submit" value="Potrdi" autofocus>
 			<% } %>
 		</td>
 	</tr>
@@ -550,75 +559,15 @@ function disableSome(EW_this){
 		</td>
 
 		<td>
-<a href="">Zbrano&nbsp;</a>
+<a href="">Prevzeto nalogi&nbsp;</a>
 		</td>
 		<td>
-<a href="">Prevzeto&nbsp;</a>
+<a href="">Dejansko&nbsp;</a>
 		</td>
 		<td>
 <a href="">Za prevzeti&nbsp;</a>
 		</td>
 
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jan","utf-8") %>">Kol jan&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_feb","utf-8") %>">Kol feb&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_feb")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_mar","utf-8") %>">Kol mar&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_mar")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_apr","utf-8") %>">Kol apr&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_apr")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_maj","utf-8") %>">Kol maj&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_maj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jun","utf-8") %>">Kol jun&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jun")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jul","utf-8") %>">Kol jul&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jul")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_avg","utf-8") %>">Kol avg&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_avg")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_sep","utf-8") %>">Kol sep&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_sep")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_okt","utf-8") %>">Kol okt&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_okt")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_nov","utf-8") %>">Kol nov&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_nov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "<b>" : ""%>
-<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_dec","utf-8") %>">Kol dec&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "</b>" : ""%>
-		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("dej_jan")) ? "<b>" : ""%>
 <a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_jan","utf-8") %>">Dej jan&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -678,6 +627,73 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "<b>" : ""%>
 <a href="komunaledejicinelist.jsp?order=<%= java.net.URLEncoder.encode("dej_dec","utf-8") %>">Dej dec&nbsp;<% if (OrderBy != null && OrderBy.equals("dej_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunaledejicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunaledejicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("dej_dec")) ? "</b>" : ""%>
+		</td>
+		<td>
+<a href="">Dej sum&nbsp;</a>
+		</td>
+		
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jan","utf-8") %>">Nap jan&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jan")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jan")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_feb","utf-8") %>">Nap feb&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_feb")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_feb")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_mar","utf-8") %>">Nap mar&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_mar")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_mar")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_apr","utf-8") %>">Nap apr&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_apr")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_apr")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_maj","utf-8") %>">Nap maj&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_maj")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_maj")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jun","utf-8") %>">Nap jun&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jun")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jun")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_jul","utf-8") %>">Nap jul&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_jul")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_jul")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_avg","utf-8") %>">Nap avg&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_avg")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_avg")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_sep","utf-8") %>">Nap sep&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_sep")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_sep")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_okt","utf-8") %>">Nap okt&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_okt")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_okt")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_nov","utf-8") %>">Nap nov&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_nov")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_nov")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "<b>" : ""%>
+<a href="komunalekolicinelist.jsp?order=<%= java.net.URLEncoder.encode("kol_dec","utf-8") %>">Nap dec&nbsp;<% if (OrderBy != null && OrderBy.equals("kol_dec")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("komunalekolicine_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("komunalekolicine_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("kol_dec")) ? "</b>" : ""%>
+		</td>
+		<td>
+<a href="">Kol sum&nbsp;</a>
 		</td>
 		
 		<td nowrap>
@@ -1027,18 +1043,7 @@ if (key != null && key.length() > 0) {
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
 		<% } %>
-		<td><% out.print(nf_ge.format(x_kol_jan)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_feb)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_mar)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_apr)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_maj)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_jun)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_jul)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_avg)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_sep)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_okt)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_nov)); %>&nbsp;</td>
-		<td><% out.print(nf_ge.format(x_kol_dec)); %>&nbsp;</td>
+
 		<td><% out.print(nf_ge.format(x_dej_jan)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_dej_feb)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_dej_mar)); %>&nbsp;</td>
@@ -1051,6 +1056,22 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(nf_ge.format(x_dej_okt)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_dej_nov)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_dej_dec)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_dej_jan+x_dej_feb+x_dej_mar+x_dej_apr+x_dej_maj+x_dej_jun+x_dej_jul+x_dej_avg+x_dej_sep+x_dej_okt+x_dej_nov+x_dej_dec)); %>&nbsp;</td>
+		
+		<td><% out.print(nf_ge.format(x_kol_jan)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_feb)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_mar)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_apr)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_maj)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jun)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jul)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_avg)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_sep)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_okt)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_nov)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_dec)); %>&nbsp;</td>
+		<td><% out.print(nf_ge.format(x_kol_jan+x_kol_feb+x_kol_mar+x_kol_apr+x_kol_maj+x_kol_jun+x_kol_jul+x_kol_avg+x_kol_sep+x_kol_okt+x_kol_nov+x_kol_dec)); %>&nbsp;</td>
+
 <% } else { %>
 		<td nowrap><% out.print(x_koda); %>&nbsp;</td>
 		<!-- td><% out.print(x_material); %>&nbsp;</td-->
@@ -1089,30 +1110,35 @@ if (key != null && key.length() > 0) {
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
 		<% } %>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jan" size="3" value="<% out.print(nf_ge.format(x_kol_jan)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_feb" size="3" value="<% out.print(nf_ge.format(x_kol_feb)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_mar" size="3" value="<% out.print(nf_ge.format(x_kol_mar)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_apr" size="3" value="<% out.print(nf_ge.format(x_kol_apr)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_maj" size="3" value="<% out.print(nf_ge.format(x_kol_maj)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jun" size="3" value="<% out.print(nf_ge.format(x_kol_jun)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jul" size="3" value="<% out.print(nf_ge.format(x_kol_jul)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_avg" size="3" value="<% out.print(nf_ge.format(x_kol_avg)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_sep" size="3" value="<% out.print(nf_ge.format(x_kol_sep)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_okt" size="3" value="<% out.print(nf_ge.format(x_kol_okt)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_nov" size="3" value="<% out.print(nf_ge.format(x_kol_nov)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_dec" size="3" value="<% out.print(nf_ge.format(x_kol_dec)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jan" size="3" value="<% out.print(nf_ge.format(x_dej_jan)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_feb" size="3" value="<% out.print(nf_ge.format(x_dej_feb)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_mar" size="3" value="<% out.print(nf_ge.format(x_dej_mar)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_apr" size="3" value="<% out.print(nf_ge.format(x_dej_apr)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_maj" size="3" value="<% out.print(nf_ge.format(x_dej_maj)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jun" size="3" value="<% out.print(nf_ge.format(x_dej_jun)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jul" size="3" value="<% out.print(nf_ge.format(x_dej_jul)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_avg" size="3" value="<% out.print(nf_ge.format(x_dej_avg)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_sep" size="3" value="<% out.print(nf_ge.format(x_dej_sep)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_okt" size="3" value="<% out.print(nf_ge.format(x_dej_okt)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_nov" size="3" value="<% out.print(nf_ge.format(x_dej_nov)); %>"></td>
-		<td><input type="text" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_dec" size="3" value="<% out.print(nf_ge.format(x_dej_dec)); %>"></td>
+
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jan" size="3" value="<% out.print(nf_ge.format(x_dej_jan)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_feb" size="3" value="<% out.print(nf_ge.format(x_dej_feb)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_mar" size="3" value="<% out.print(nf_ge.format(x_dej_mar)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_apr" size="3" value="<% out.print(nf_ge.format(x_dej_apr)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_maj" size="3" value="<% out.print(nf_ge.format(x_dej_maj)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jun" size="3" value="<% out.print(nf_ge.format(x_dej_jun)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_jul" size="3" value="<% out.print(nf_ge.format(x_dej_jul)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_avg" size="3" value="<% out.print(nf_ge.format(x_dej_avg)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_sep" size="3" value="<% out.print(nf_ge.format(x_dej_sep)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_okt" size="3" value="<% out.print(nf_ge.format(x_dej_okt)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_nov" size="3" value="<% out.print(nf_ge.format(x_dej_nov)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:dej_dec" size="3" value="<% out.print(nf_ge.format(x_dej_dec)); %>"></td>
+		<td><% out.print(nf_ge.format(x_dej_jan+x_dej_feb+x_dej_mar+x_dej_apr+x_dej_maj+x_dej_jun+x_dej_jul+x_dej_avg+x_dej_sep+x_dej_okt+x_dej_nov+x_dej_dec)); %>&nbsp;</td>
+		
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jan" size="3" value="<% out.print(nf_ge.format(x_kol_jan)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_feb" size="3" value="<% out.print(nf_ge.format(x_kol_feb)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_mar" size="3" value="<% out.print(nf_ge.format(x_kol_mar)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_apr" size="3" value="<% out.print(nf_ge.format(x_kol_apr)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_maj" size="3" value="<% out.print(nf_ge.format(x_kol_maj)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jun" size="3" value="<% out.print(nf_ge.format(x_kol_jun)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_jul" size="3" value="<% out.print(nf_ge.format(x_kol_jul)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_avg" size="3" value="<% out.print(nf_ge.format(x_kol_avg)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_sep" size="3" value="<% out.print(nf_ge.format(x_kol_sep)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_okt" size="3" value="<% out.print(nf_ge.format(x_kol_okt)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_nov" size="3" value="<% out.print(nf_ge.format(x_kol_nov)); %>"></td>
+		<td><input type="text" onKeyPress="keyPressed(event, this);" name="<% out.print(sif_kupca); %>:<% out.print(x_koda); %>:kol_dec" size="3" value="<% out.print(nf_ge.format(x_kol_dec)); %>"></td>
+		<td><% out.print(nf_ge.format(x_kol_jan+x_kol_feb+x_kol_mar+x_kol_apr+x_kol_maj+x_kol_jun+x_kol_jul+x_kol_avg+x_kol_sep+x_kol_okt+x_kol_nov+x_kol_dec)); %>&nbsp;</td>
+		
 <% } %>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
@@ -1208,3 +1234,4 @@ if (totalRecs > 0) {
 <% } %>
 </td></tr></table>
 <%@ include file="footer.jsp" %>
+
