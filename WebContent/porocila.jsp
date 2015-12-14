@@ -36,7 +36,7 @@ function  EW_checkMyForm(EW_this)
 	                return false; 
 	}
 	
-	if ((document.porocila.reportID.value == 26) || (document.porocila.reportID.value == 27)) {
+	if ((document.porocila.reportID.value == 26) || (document.porocila.reportID.value == 27) || (document.porocila.reportID.value == 29) || (document.porocila.reportID.value == 30)) {
 		if (document.porocila.nacin_obracuna_list.value == "VSI" && document.porocila.x_sif_zavezanca.value == "-1" && document.porocila.kumulativa.value == "ne") {
 			alert ("Ni možno izbrati vse stranke in vse obračune");
 			return false;
@@ -119,7 +119,10 @@ function updateRacun(){
 							"/reports/sistem_embalaza_nova",
 							"/reports/embalaznina_racuni",
 							"/reports/embalaznina_porocila",
-							"/reports/embalaznina_rekapitulacija"
+							"/reports/embalaznina_rekapitulacija",
+							"/reports/embalaznina_racuni_new",
+							"/reports/embalaznina_porocila_new",
+							"/reports/embalaznina_rekapitulacija_new"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -176,16 +179,16 @@ function updateRacun(){
 
 	StringBuffer x_sif_zavezanciList = null;
 	
-	if (reportID == 25)
+	if ((reportID == 25) || (reportID == 28))
 	{
 		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" onchange = \"updateKoda(this);\"><option value=\"-1\">Izberi</option>");
 	}
-	if ((reportID == 26) || (reportID == 27))
+	if ((reportID == 26) || (reportID == 27) || (reportID == 29) || (reportID == 30))
 	{
 		x_sif_zavezanciList = new StringBuffer("<select name=\"x_sif_zavezanca\" ><option value=\"-1\">Izberi</option>");
 	}
 	
-	if ((reportID == 25) || (reportID == 26) || (reportID == 27))
+	if ((reportID == 25) || (reportID == 26) || (reportID == 27) || (reportID == 28) || (reportID == 29) || (reportID == 30))
 	{
 		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv, interval_pavsala " +
 									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
@@ -488,7 +491,7 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 25) || (reportID == 26) || (reportID == 27)) {%>
+	<%if ((reportID == 25) || (reportID == 26) || (reportID == 27) || (reportID == 28) || (reportID == 29) || (reportID == 30)) {%>
 	<tr>
 		<td class="ewTableHeader">&#352;ifra zavezanca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_zavezanciList);%>&nbsp;</td>
@@ -545,7 +548,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 	
-	<%if ((reportID != 0) && (reportID != 1) && (reportID != 3) && (reportID != 5) && (reportID != 10) && (reportID != 22) && (reportID != 26) && (reportID != 27)) {%>
+	<%if ((reportID != 0) && (reportID != 1) && (reportID != 3) && (reportID != 5) && (reportID != 10) && (reportID != 22) && (reportID != 26) && (reportID != 27) && (reportID != 29) && (reportID != 30)) {%>
 	<tr>
 		<td class="ewTableHeader">Datum od:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -562,7 +565,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 
-	<%if ((reportID == 25)) {%>
+	<%if ((reportID == 25) || (reportID == 28)) {%>
 	<tr>
 		<td class="ewTableHeader">Datum opravljene storitve:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -606,7 +609,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 
-	<%if ((reportID == 26)  || (reportID == 27)) {%>
+	<%if ((reportID == 26)  || (reportID == 27)  || (reportID == 29)  || (reportID == 30)) {%>
 	<tr>
 		<td class="ewTableHeader">Način obračuna:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -623,7 +626,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 
-	<%if (reportID == 26) {%>
+	<%if ((reportID == 26)  || (reportID == 29)) {%>
 	<tr>
 		<td class="ewTableHeader">Kumulativa:&nbsp;</td>
 		<td class="ewTableAltRow">
@@ -692,13 +695,13 @@ function updateRacun(){
 		<td class="ewTableHeader">Tip poro&#269;ila:&nbsp;</td>
 		<td class="ewTableAltRow">
     		<INPUT type="radio" name="type" value="1" checked>PDF
-	<%if (reportID != 27) {%>
+	<%if ((reportID != 27) && (reportID != 30)) {%>
     		<INPUT type="radio" name="type" value="2">HTML
 	<%}%>
 	<%if ((reportID == 13) || (reportID == 19)) {%>
     		<INPUT type="radio" name="type" value="3">DOC
 	<%}%>
-	<%if ((reportID == 26) || (reportID == 27)) {%>
+	<%if ((reportID == 26) || (reportID == 27) || (reportID == 29) || (reportID == 30)) {%>
     		<INPUT type="radio" name="type" value="4">XLS
 	<%}%>
 		</td>
