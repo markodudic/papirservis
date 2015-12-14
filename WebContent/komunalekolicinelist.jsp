@@ -65,7 +65,6 @@ if (sif_kupca!=null && sif_kupca.equals("null")) sif_kupca=null;
 <%
 
 String a = request.getParameter("Submit");
-out.println("SUBMIT="+a);
 if (a != null && a.equals("Potrdi")) {
 	Enumeration<String> parameterNames = request.getParameterNames();
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -347,8 +346,8 @@ if (OrderBy != null && OrderBy.length() > 0) {
 
 strsql += " LEFT JOIN ";
 
-strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, zbrano, prevzeto, " +
-		"CASE month(CAST('"+datum_fm+"' AS DATE))  " +
+strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zbrano, sum(prevzeto) prevzeto, " +
+		"sum(CASE month(CAST('"+datum_fm+"' AS DATE))  " +
 		" WHEN 1 THEN (IFNULL(kol_feb,0)*delez/100+prevzeto) " +
 		" WHEN 2 THEN (IFNULL(kol_mar,0)*delez/100+prevzeto) " +
 		" WHEN 3 THEN (IFNULL(kol_apr,0)*delez/100+prevzeto) " +
@@ -361,7 +360,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, zbrano, prevze
 		" WHEN 10 THEN (IFNULL(kol_nov,0)*delez/100+prevzeto) " +
 		" WHEN 11 THEN (IFNULL(kol_dec,0)*delez/100+prevzeto) " +
 		" WHEN 12 THEN (IFNULL(kol_jan,0)*delez/100+prevzeto) " +
-		" END za_prevzeti " +
+		" END) za_prevzeti " +
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, sum(kolicina) zbrano, " +
 		" caseStr " +
@@ -376,8 +375,9 @@ if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 		strsql += " WHERE a.sif_kupca = " + sif_kupca;
 	}
 }
-strsql += " GROUP BY a.sif_kupca, ifnull(zdruzi, a.koda)";
+strsql += " GROUP BY a.sif_kupca, a.koda";
 strsql += " ORDER BY sif_kupca, a.koda) as aa ";
+strsql += " GROUP BY aa.sif_kupca, IFNULL(aa.zdruzi, aa.koda) ";
 				
 strsql += " ) AS bb ON aa.sif_kupca = bb.sif_kupca and aa.koda = bb.koda";
 strsql += " ORDER BY aa.sif_kupca, aa.koda";
