@@ -1,0 +1,232 @@
+update recikel_embalaznina2016 set cena=0;
+
+CREATE TABLE `recikel_embalaznina_prenos` (
+	`zavezanca` INT NULL,
+	`embalaza` INT NULL,
+	`skupaj` DOUBLE NULL
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(letna_napoved) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set letna_napoved = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_jan) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_jan = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_feb) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_feb = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_mar) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_mar = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_apr) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_apr = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_maj) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_maj = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_jun) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_jun = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_jul) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_jul = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_avg) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_avg = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_sep) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_sep = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_okt) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_okt = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_nov) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_nov = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+insert into recikel_embalaznina_prenos
+select id_zavezanca, 1, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (1,12) group by id_zavezanca union all
+select id_zavezanca, 2, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (2,13) group by id_zavezanca union all
+select id_zavezanca, 3, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (3,14) group by id_zavezanca union all
+select id_zavezanca, 4, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (4,15) group by id_zavezanca union all
+select id_zavezanca, 5, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (5,16) group by id_zavezanca union all
+select id_zavezanca, 6, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (6,17) group by id_zavezanca union all
+select id_zavezanca, 7, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (7,18) group by id_zavezanca union all
+select id_zavezanca, 8, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (8,19) group by id_zavezanca union all
+select id_zavezanca, 9, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (9,20) group by id_zavezanca union all
+select id_zavezanca, 10, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (10,21) group by id_zavezanca union all
+select id_zavezanca, 11, sum(kol_dec) from recikel_embalaznina2016 where id_embalaza in (11,22) group by id_zavezanca;
+
+update recikel_embalaznina2016 set kol_dec = (select skupaj from recikel_embalaznina_prenos prenos where zavezanca = id_zavezanca and id_embalaza = embalaza);
+
+truncate table recikel_embalaznina_prenos;
+
+delete from recikel_embalaznina2016 where id_embalaza >= 12 and id_embalaza <=22;

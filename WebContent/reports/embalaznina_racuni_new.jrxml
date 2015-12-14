@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="embalaznina_racuni_new"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="stroskovno_mesto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="picture" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\WebContent\\images\\recikel.jpg"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer(2016)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011-1-1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011-5-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="opravljena_storitva" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011-1-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="opravljena_storitva_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datum_racuna" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2011-1-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datum_racuna_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["MP"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="racun" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_racun" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["pavšal"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT *,
+DATE_FORMAT(ADDDATE(CAST($P{datum_racuna} AS DATE), valuta), '%d.%m.%Y') as zapadlost
+FROM
+     recikel_zavezanci$P!{aleto}
+WHERE 
+     (st_pogodbe = $P{sif_zavezanca}) or 
+    (($P{sif_zavezanca} = -1) and (interval_pavsala = $P{nacin_obracuna}))]]></queryString>
+
+	<field name="id" class="java.lang.Integer"/>
+	<field name="st_pogodbe" class="java.lang.String"/>
+	<field name="naziv" class="java.lang.String"/>
+	<field name="naslov" class="java.lang.String"/>
+	<field name="kraj" class="java.lang.String"/>
+	<field name="posta" class="java.lang.String"/>
+	<field name="davcna" class="java.lang.String"/>
+	<field name="maticna" class="java.lang.String"/>
+	<field name="mail" class="java.lang.String"/>
+	<field name="dejavnost" class="java.lang.String"/>
+	<field name="naslov_posiljanje" class="java.lang.String"/>
+	<field name="kraj_posiljanje" class="java.lang.String"/>
+	<field name="posta_posiljanje" class="java.lang.String"/>
+	<field name="skrbnik" class="java.lang.String"/>
+	<field name="vrsta_zavezanca" class="java.lang.String"/>
+	<field name="interval_pavsala" class="java.lang.String"/>
+	<field name="datum_pricetka_pogodbe" class="java.sql.Date"/>
+	<field name="datum_sklenitve_pogodbe" class="java.sql.Date"/>
+	<field name="valuta" class="java.lang.Integer"/>
+	<field name="kontaktna_oseba" class="java.lang.String"/>
+	<field name="telefon_kontaktna" class="java.lang.String"/>
+	<field name="mail_kontaktna" class="java.lang.String"/>
+	<field name="opombe_kontaktna" class="java.lang.String"/>
+	<field name="odgovorna_oseba" class="java.lang.String"/>
+	<field name="telefon_odgovorna" class="java.lang.String"/>
+	<field name="mail_odgovorna" class="java.lang.String"/>
+	<field name="opombe_odgovorna" class="java.lang.String"/>
+	<field name="zacetek" class="java.sql.Timestamp"/>
+	<field name="uporabnik" class="java.lang.Integer"/>
+	<field name="zapadlost" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="500"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="413"
+						y="2"
+						width="117"
+						height="38"
+						key="subreport-1"
+						positionType="Float"/>
+					<subreportParameter  name="picture">
+						<subreportParameterExpression><![CDATA[$P{picture}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "header_recikel.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement
+						x="0"
+						y="2"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  PRILOGA K RAČUNU PO POGODBI ŠT.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="15"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Naziv kupca:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="28"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-36"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Davčna št.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="41"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-38"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Stroškovno mesto:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="60"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-39"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Datum opravljene storitve:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="74"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-40"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Datum računa:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="88"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-41"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[  Datum zapadlosti:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="74"
+						width="200"
+						height="14"
+						key="textField-1"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{datum_racuna_str}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="60"
+						width="200"
+						height="14"
+						key="textField-2"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{opravljena_storitva_str}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="41"
+						width="200"
+						height="14"
+						key="textField-3"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{stroskovno_mesto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="106"
+						width="528"
+						height="13"
+						key="textField-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Specifikacija storitve: ("+$P{od_datum_str}+" - "+$P{do_datum_str}+") storitve prenosa obveznosti ravnanja z embalažo in odpadno embalažo ("+$P{nacin_obracuna}+")"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="28"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-5"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{davcna}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="15"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-6"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{naziv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="2"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-7"
+						positionType="Float"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{st_pogodbe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="88"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-8"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{zapadlost}]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="119"
+						width="535"
+						height="12"
+						key="subreport-2"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["PAVŠAL"]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="136"
+						width="535"
+						height="12"
+						key="subreport-3"
+						positionType="Float"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["DEJANSKO"]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="152"
+						width="535"
+						height="9"
+						key="subreport-4"
+						positionType="Float"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["PORAČUN"]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "embalaznina_racuni_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="168"
+						width="528"
+						height="13"
+						key="textField-9"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Zneski so brez DDV-ja."]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
