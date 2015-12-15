@@ -127,7 +127,7 @@ WHERE
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="500"  isSplitAllowed="true" >
+			<band height="200"  isSplitAllowed="true" >
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="413"

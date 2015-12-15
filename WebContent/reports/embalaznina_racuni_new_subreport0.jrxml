@@ -49,16 +49,12 @@
 	IFNULL(if ($P{tip}=0, AAA.KOE25_PAV, if ($P{tip}=1, AAA.KOE25_DEJ, AAA.KOE25_DEJ-AAA.KOE25_PAV)),0) AS KOE25_KOL,
 	AAA.KOE25_CENA AS KOE25_CENA,
 	IFNULL(if ($P{tip}=0, AAA.KOE25_PAV*AAA.KOE25_CENA, if ($P{tip}=1, AAA.KOE25_DEJ*AAA.KOE25_CENA, (AAA.KOE25_DEJ-AAA.KOE25_PAV)*AAA.KOE25_CENA)),0) AS KOE25_ZNESEK,
-	if ($P{tip}=0, AAA.NKOE25_PAV, if ($P{tip}=1, AAA.NKOE25_DEJ, AAA.NKOE25_DEJ-AAA.NKOE25_PAV)) AS NKOE25_KOL,
-	AAA.NKOE25_CENA AS NKOE25_CENA,
-	if ($P{tip}=0, AAA.NKOE25_PAV*AAA.NKOE25_CENA, if ($P{tip}=1, AAA.NKOE25_DEJ*AAA.NKOE25_CENA, (AAA.NKOE25_DEJ-AAA.NKOE25_PAV)*AAA.NKOE25_CENA)) AS NKOE25_ZNESEK,
 	IFNULL(if ($P{tip}=0, AAA.NKOE34_PAV, if ($P{tip}=1, AAA.NKOE34_DEJ, AAA.NKOE34_DEJ-AAA.NKOE34_PAV)),0) AS NKOE34_KOL,
 	AAA.NKOE34_CENA AS NKOE34_CENA,
 	IFNULL(if ($P{tip}=0, AAA.NKOE34_PAV*AAA.NKOE34_CENA, if ($P{tip}=1, AAA.NKOE34_DEJ*AAA.NKOE34_CENA, (AAA.NKOE34_DEJ-AAA.NKOE34_PAV)*AAA.NKOE34_CENA)),0) AS NKOE34_ZNESEK
 from (
 select BBB.tar_st, BBB.naziv, 
 	SUM(BBB.KOE25_CENA) KOE25_CENA, SUM(BBB.KOE25_PAV) KOE25_PAV, SUM(BBB.KOE25_DEJ) KOE25_DEJ,
-	SUM(BBB.NKOE25_CENA) NKOE25_CENA, SUM(BBB.NKOE25_PAV) NKOE25_PAV, SUM(BBB.NKOE25_DEJ) NKOE25_DEJ,
 	SUM(BBB.NKOE34_CENA) NKOE34_CENA, SUM(BBB.NKOE34_PAV) NKOE34_PAV, SUM(BBB.NKOE34_DEJ) NKOE34_DEJ
 from
 (select b.tar_st, b.naziv, 
@@ -78,9 +74,6 @@ from
 	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,IFNULL(a.kol_okt,0),0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
 	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) as KOE25_DEJ,
-	0 NKOE25_CENA,
-	0 NKOE25_PAV,
-	0 NKOE25_DEJ, 
 	0 NKOE34_CENA,
 	0 NKOE34_PAV,
 	0 NKOE34_DEJ
@@ -94,38 +87,6 @@ select b.tar_st, b.naziv,
 	0 KOE25_CENA,
 	0 KOE25_PAV,
 	0 KOE25_DEJ, 
-	a.cena NKOE25_CENA, 
-	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
-		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
-		a.letna_napoved)) NKOE25_PAV,
-	if (DATE_FORMAT($P{od_datum}, '%c')<=1 && DATE_FORMAT($P{do_datum}, '%c')>=1,IFNULL(a.kol_jan,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=2 && DATE_FORMAT($P{do_datum}, '%c')>=2,IFNULL(a.kol_feb,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=3 && DATE_FORMAT($P{do_datum}, '%c')>=3,IFNULL(a.kol_mar,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=4 && DATE_FORMAT($P{do_datum}, '%c')>=4,IFNULL(a.kol_apr,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=5 && DATE_FORMAT($P{do_datum}, '%c')>=5,IFNULL(a.kol_maj,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=6 && DATE_FORMAT($P{do_datum}, '%c')>=6,IFNULL(a.kol_jun,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=7 && DATE_FORMAT($P{do_datum}, '%c')>=7,IFNULL(a.kol_jul,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=8 && DATE_FORMAT($P{do_datum}, '%c')>=8,IFNULL(a.kol_avg,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=9 && DATE_FORMAT($P{do_datum}, '%c')>=9,IFNULL(a.kol_sep,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=10 && DATE_FORMAT($P{do_datum}, '%c')>=10,IFNULL(a.kol_okt,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=11 && DATE_FORMAT($P{do_datum}, '%c')>=11,IFNULL(a.kol_nov,0),0)+
-	if (DATE_FORMAT($P{od_datum}, '%c')<=12 && DATE_FORMAT($P{do_datum}, '%c')>=12,IFNULL(a.kol_dec,0),0) NKOE25_DEJ,
-	0 NKOE34_CENA,
-	0 NKOE34_PAV,
-	0 NKOE34_DEJ
-from recikel_embalaznina$P!{aleto} as a,
-	  recikel_embalaze$P!{aleto} as b
-where a.id_zavezanca = $P{sif_zavezanca} and
-		a. id_embalaza = b.id and
-		b.porocilo = 'NKOE'
-UNION ALL
-select b.tar_st, b.naziv, 
-	0 KOE25_CENA,
-	0 KOE25_PAV,
-	0 KOE25_DEJ, 
-	0 NKOE25_CENA,
-	0 NKOE25_PAV,
-	0 NKOE25_DEJ, 
 	a.cena NKOE34_CENA, 
 	if ('MP'=$P{nacin_obracuna}, (a.letna_napoved/12)*(TIMESTAMPDIFF(MONTH,$P{od_datum},$P{do_datum})+1),
 		if ('QP'=$P{nacin_obracuna}, (a.letna_napoved/4)*(TIMESTAMPDIFF(QUARTER,$P{od_datum},$P{do_datum})+1),
@@ -156,9 +117,6 @@ group by BBB.tar_st, BBB.naziv
 	<field name="KOE25_KOL" class="java.lang.Double"/>
 	<field name="KOE25_CENA" class="java.lang.Double"/>
 	<field name="KOE25_ZNESEK" class="java.lang.Double"/>
-	<field name="NKOE25_KOL" class="java.lang.Double"/>
-	<field name="NKOE25_CENA" class="java.lang.Double"/>
-	<field name="NKOE25_ZNESEK" class="java.lang.Double"/>
 	<field name="NKOE34_KOL" class="java.lang.Double"/>
 	<field name="NKOE34_CENA" class="java.lang.Double"/>
 	<field name="NKOE34_ZNESEK" class="java.lang.Double"/>
@@ -166,17 +124,11 @@ group by BBB.tar_st, BBB.naziv
 	<variable name="KOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{KOE25_ZNESEK}]]></variableExpression>
 	</variable>
-	<variable name="NKOE25_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[$F{NKOE25_KOL}]]></variableExpression>
-	</variable>
 	<variable name="NKOE34_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{NKOE34_KOL}]]></variableExpression>
 	</variable>
 	<variable name="KOE25_KOL_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{KOE25_KOL}]]></variableExpression>
-	</variable>
-	<variable name="NKOE25_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[$F{NKOE25_ZNESEK}]]></variableExpression>
 	</variable>
 	<variable name="NKOE34_ZNESEK_SUM" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{NKOE34_ZNESEK}]]></variableExpression>
@@ -184,7 +136,6 @@ group by BBB.tar_st, BBB.naziv
 	<variable name="ZNESEK" class="java.lang.Double" resetType="Report" calculation="Nothing">
 		<variableExpression><![CDATA[new java.lang.Double(  
 ($V{KOE25_ZNESEK_SUM}.doubleValue()) +
-($V{NKOE25_ZNESEK_SUM}.doubleValue()) +
 ($V{NKOE34_ZNESEK_SUM}.doubleValue()) )]]></variableExpression>
 	</variable>
 		<background>
