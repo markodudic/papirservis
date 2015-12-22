@@ -107,9 +107,9 @@ Fax: 01 588 08 53]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="286"
+						x="203"
 						y="0"
-						width="249"
+						width="332"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -134,10 +134,10 @@ Fax: 01 588 08 53]]></text>
 					<textElement>
 						<font fontName="Arial" size="8" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Ljubljana
+				<text><![CDATA[LJUBLJANA
 Šlandrova 4a
 1231 Ljubljana - Črnuče
-Tel: 05 120 09 85]]></text>
+Tel: 051 200 985]]></text>
 				</staticText>
 			</band>
 		</pageHeader>

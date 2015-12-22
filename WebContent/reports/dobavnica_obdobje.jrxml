@@ -597,7 +597,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						x="168"
 						y="216"
-						width="150"
+						width="273"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -611,7 +611,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</textField>
 				<staticText>
 					<reportElement
-						x="318"
+						x="442"
 						y="216"
 						width="14"
 						height="17"
@@ -627,9 +627,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="338"
+						x="457"
 						y="216"
-						width="130"
+						width="64"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1258,7 +1258,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
 				</staticText>

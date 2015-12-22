@@ -936,7 +936,7 @@ WHERE
 					<reportElement
 						x="170"
 						y="218"
-						width="150"
+						width="261"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -950,7 +950,7 @@ WHERE
 				</textField>
 				<staticText>
 					<reportElement
-						x="320"
+						x="431"
 						y="218"
 						width="14"
 						height="17"
@@ -966,9 +966,9 @@ WHERE
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="340"
+						x="444"
 						y="218"
-						width="130"
+						width="81"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -1265,7 +1265,7 @@ WHERE
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
 				</staticText>

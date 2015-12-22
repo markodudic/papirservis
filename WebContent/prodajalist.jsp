@@ -186,7 +186,7 @@ Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet
 ResultSet rs = null;
 
 // Build SQL
-String strsql = "SELECT prodaja.*, u.ime_in_priimek, k.naziv, e.naziv naziv_enote, mat.material, oko.material okoljemat " +
+String strsql = "SELECT prodaja.*, u.ime_in_priimek, k.naziv, k.arso_prenos, e.naziv naziv_enote, mat.material, oko.material okoljemat " +
 				" FROM " + session.getAttribute("letoTabelaProdaja") + " prodaja "+
 				"	left join uporabniki u on prodaja.uporabnik = u.sif_upor " +
 				"	left join kupci k on prodaja.sif_kupca = k.sif_kupca " +
