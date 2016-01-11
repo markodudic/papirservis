@@ -30,7 +30,7 @@ ew_SecTable[3] = 8;
 int ewCurSec = 0; // initialise
 ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).intValue();
 if ((ewCurSec & ewAllowEdit) != ewAllowEdit) {
-	response.sendRedirect("cenastrlist.jsp"); 
+	response.sendRedirect("cenastrprodlist.jsp"); 
 	response.flushBuffer(); 
 	return;
 }
@@ -43,7 +43,7 @@ String escapeString = "\\\\'";
 request.setCharacterEncoding("utf-8");
 String key = request.getParameter("key");
 if (key == null || key.length() == 0 ) {
-	response.sendRedirect("cenastrlist.jsp");
+	response.sendRedirect("cenastrprodlist.jsp");
 	response.flushBuffer();
 	return;
 }
@@ -70,7 +70,7 @@ try{
 	ResultSet rs = null;
 	if (a.equals("I")){ // Get a record to display
 		String tkey = "'" + key.replaceAll("'",escapeString) + "'";
-		String strsql = "SELECT * FROM `cenastr` WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM `cenastrprod` WHERE `id`=" + tkey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			rs.close();
@@ -80,7 +80,7 @@ try{
 			conn.close();
 			conn = null;
 			out.clear();
-			response.sendRedirect("cenastrlist.jsp");
+			response.sendRedirect("cenastrprodlist.jsp");
 			response.flushBuffer();
 			return;
 		}else{
@@ -138,7 +138,7 @@ try{
 
 		// Open record
 		String tkey = "'" + key.replaceAll("'",escapeString) + "'";
-		String strsql = "SELECT * FROM `cenastr` WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM `cenastrprod` WHERE `id`=" + tkey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			rs.close();
@@ -148,7 +148,7 @@ try{
 			conn.close();
 			conn = null;
 			out.clear();
-			response.sendRedirect("cenastrlist.jsp");
+			response.sendRedirect("cenastrprodlist.jsp");
 			response.flushBuffer();
 			return;
 		}
@@ -206,7 +206,7 @@ try{
 		stmt = null;
 		conn.close();
 		conn = null;
-		response.sendRedirect("cenastrlist.jsp");
+		response.sendRedirect("cenastrprodlist.jsp");
 		response.flushBuffer();
 		return;
 	}
@@ -216,11 +216,11 @@ try{
 
 
 if(request.getParameter("prikaz_kupca")!= null){
-	session.setAttribute("cenastr_kupac",  request.getParameter("prikaz_kupca"));
+	session.setAttribute("cenastrprod_kupac",  request.getParameter("prikaz_kupca"));
 }
 
 if(request.getParameter("prikaz_material_koda")!= null){
-	session.setAttribute("cenastr_material_koda",  request.getParameter("prikaz_material_koda"));
+	session.setAttribute("cenastrprod_material_koda",  request.getParameter("prikaz_material_koda"));
 }
 
 
@@ -234,7 +234,7 @@ String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
 String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`" + kupciQueryFilter + 
 //									" ORDER BY `naziv` ASC";
-									" order by " + session.getAttribute("cenastr_kupac") + " asc";
+									" order by " + session.getAttribute("cenastrprod_kupac") + " asc";
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
 	int rowcntwrk_x_sif_kupca = 0;
@@ -246,7 +246,7 @@ ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupc
 			x_sif_kupcaList.append(" selected");
 		}
 		String tmpValue_x_sif_kupca = "";
-		String tmpNaziv = rswrk_x_sif_kupca.getString((String)session.getAttribute("cenastr_kupac"));
+		String tmpNaziv = rswrk_x_sif_kupca.getString((String)session.getAttribute("cenastrprod_kupac"));
 		if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 		x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
 		rowcntwrk_x_sif_kupca++;
@@ -265,7 +265,7 @@ String sqlwrk_x_material_koda = "SELECT `materiali`.`koda`, `material` " +
 								"FROM `materiali`, (select koda, max(zacetek) as zacetek from materiali group by koda) as m " +
 								"WHERE materiali.koda = m.koda and materiali.zacetek = m.zacetek "+
 //								"ORDER BY `material` ASC";
-								"order by " + session.getAttribute("cenastr_material_koda") + " asc";
+								"order by " + session.getAttribute("cenastrprod_material_koda") + " asc";
 Statement stmtwrk_x_material_koda = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_material_koda = stmtwrk_x_material_koda.executeQuery(sqlwrk_x_material_koda);
 	int rowcntwrk_x_material_koda = 0;
@@ -275,7 +275,7 @@ ResultSet rswrk_x_material_koda = stmtwrk_x_material_koda.executeQuery(sqlwrk_x_
 			x_material_kodaList.append(" selected");
 		}
 		String tmpValue_x_material_koda = "";
-		String tmpNaziv = rswrk_x_material_koda.getString((String)session.getAttribute("cenastr_material_koda"));
+		String tmpNaziv = rswrk_x_material_koda.getString((String)session.getAttribute("cenastrprod_material_koda"));
 		if (tmpNaziv != null) tmpValue_x_material_koda = tmpNaziv;
 		x_material_kodaList.append(">").append(tmpValue_x_material_koda).append("</option>");
 		rowcntwrk_x_material_koda++;
@@ -289,7 +289,7 @@ x_material_kodaList.append("</select>");
 
 %>
 <%@ include file="header.jsp" %>
-<p><span class="jspmaker">Popravek v tabeli: cenastr<br><br><a href="cenastrlist.jsp">Nazaj na pregled</a></span></p>
+<p><span class="jspmaker">Popravek v tabeli: cenastrprod<br><br><a href="cenastrprodlist.jsp">Nazaj na pregled</a></span></p>
 <script language="JavaScript" src="ew.js"></script>
 <script language="JavaScript" src="popcalendar.js"></script>
 <script language="JavaScript">
@@ -321,18 +321,18 @@ return true;
 
 // end JavaScript -->
 </script>
-<form onSubmit="return EW_checkMyForm(this);"  name="cenastredit" action="cenastredit.jsp" method="post">
+<form onSubmit="return EW_checkMyForm(this);"  name="cenastrprodedit" action="cenastrprodedit.jsp" method="post">
 <p>
 <input type="hidden" name="a" value="U">
 <input type="hidden" name="key" value="<%= key %>">
 <table class="ewTable">
 	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><a href="<%out.print("cenastredit.jsp?prikaz_kupca=sif_kupca&key=" + key);%>">šifra</a>&nbsp;<a href="<%out.print("cenastredit.jsp?prikaz_kupca=naziv&key=" + key );%>">naziv</a>&nbsp;<a href="<%out.print("cenastredit.jsp?prikaz_kupca=naslov&key=" + key );%>">naslov</a></span>&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><a href="<%out.print("cenastrprodedit.jsp?prikaz_kupca=sif_kupca&key=" + key);%>">šifra</a>&nbsp;<a href="<%out.print("cenastrprodedit.jsp?prikaz_kupca=naziv&key=" + key );%>">naziv</a>&nbsp;<a href="<%out.print("cenastrprodedit.jsp?prikaz_kupca=naslov&key=" + key );%>">naslov</a></span>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Material koda&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_material_kodaList);%><span class="jspmaker"><a href="<%out.print("cenastredit.jsp?prikaz_material_koda=koda&key=" + key );%>">koda</a>&nbsp;<a href="<%out.print("cenastredit.jsp?prikaz_material_koda=material&key=" + key );%>">material</a>&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_material_kodaList);%><span class="jspmaker"><a href="<%out.print("cenastrprodedit.jsp?prikaz_material_koda=koda&key=" + key );%>">koda</a>&nbsp;<a href="<%out.print("cenastrprodedit.jsp?prikaz_material_koda=material&key=" + key );%>">material</a>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Cena&nbsp;</td>
