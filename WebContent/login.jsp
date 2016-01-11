@@ -68,6 +68,8 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 
 				 	session.setAttribute("cenastr_material_koda",  "material");
 				 	session.setAttribute("cenastr_kupac",  "naziv");
+				 	session.setAttribute("cenastrprod_material_koda",  "material");
+				 	session.setAttribute("cenastrprod_kupac",  "naziv");
 					session.setAttribute("osnovna_show",  "osnovna");
 
 				 	session.setAttribute("recikelembalaze_koda",  "material");
