@@ -262,7 +262,7 @@ String caseStr = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
 		" WHEN 9 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100),0) - sum(kolicina) " +
 		" WHEN 10 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100),0) - sum(kolicina) " +
 		" WHEN 11 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 12 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 12 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100),0) " +
 		" END prevzeto ";
 
 //******************************************* ZBRANO ********************
@@ -346,8 +346,8 @@ if (OrderBy != null && OrderBy.length() > 0) {
 
 strsql += " LEFT JOIN ";
 
-strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zbrano, sum(prevzeto) prevzeto, " +
-		"sum(CASE month(CAST('"+datum_fm+"' AS DATE))  " +
+strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zbrano, sum(prevzeto) prevzeto, SUM(prevzeto)-SUM(zbrano) za_prevzeti " +
+		/*"sum(CASE month(CAST('"+datum_fm+"' AS DATE))  " +
 		" WHEN 1 THEN (IFNULL(kol_feb,0)*delez/100+prevzeto) " +
 		" WHEN 2 THEN (IFNULL(kol_mar,0)*delez/100+prevzeto) " +
 		" WHEN 3 THEN (IFNULL(kol_apr,0)*delez/100+prevzeto) " +
@@ -360,7 +360,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zb
 		" WHEN 10 THEN (IFNULL(kol_nov,0)*delez/100+prevzeto) " +
 		" WHEN 11 THEN (IFNULL(kol_dec,0)*delez/100+prevzeto) " +
 		" WHEN 12 THEN (IFNULL(kol_jan,0)*delez/100+prevzeto) " +
-		" END) za_prevzeti " +
+		" END) za_prevzeti " +*/
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, sum(kolicina) zbrano, " +
 		" caseStr " +
@@ -380,6 +380,13 @@ strsql += " ORDER BY sif_kupca, a.koda) as aa ";
 strsql += " GROUP BY aa.sif_kupca, IFNULL(aa.zdruzi, aa.koda) ";
 				
 strsql += " ) AS bb ON aa.sif_kupca = bb.sif_kupca and aa.koda = bb.koda";
+
+if (session.getAttribute("komunalekolicine_hideEmpty").equals("1") && 
+		(sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")))
+{
+	strsql += " WHERE aa.zdruzi is null OR aa.zdruzi = aa.koda";
+}
+
 strsql += " ORDER BY aa.sif_kupca, aa.koda";
 
 String sqlParam1 = URLEncoder.encode(strsql.toString());
@@ -454,6 +461,9 @@ function keyPressed(event) {
 			<input type="Submit" name="Submit" id="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="komunalekolicinelist.jsp?cmd=reset">Prikaži vse</a>
 			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>')";>
+			<% if (sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")) { %>
+				<input type="Submit" name="Submit" value="Skrij/Prikaži prazne" onClick='<%if (session.getAttribute("komunalekolicine_hideEmpty").equals("0")) {session.setAttribute("komunalekolicine_hideEmpty", "1");}else{session.setAttribute("komunalekolicine_hideEmpty", "0");}%>'>
+			<% } %>
 		</span></td>
 	</tr>
 	
@@ -493,13 +503,13 @@ function keyPressed(event) {
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum,'dd.mm.yyyy');return false;">&nbsp;
 		</td>		
 	</tr>	
-	<tr>
+	<!-- tr>
 		<td class="jspmaker">Izbrani mesec:&nbsp;</td>
 		<td class="jspmaker">
     		<INPUT type="radio" name="mesec" value="izbrani" <%if (mesec==1) out.println("checked");%>>Izbrani
     		<INPUT type="radio" name="mesec" value="prejsnji" <%if (mesec==0) out.println("checked");%>>Prejšnji
 		</td>
-	</tr>
+	</tr-->
 </table>
 <table>
 <% if ((ewCurSec & ewAllowAdd) == ewAllowAdd) { %>
@@ -562,10 +572,10 @@ function keyPressed(event) {
 <a href="">Prevzeto nalogi&nbsp;</a>
 		</td>
 		<td>
-<a href="">Dejansko&nbsp;</a>
+<a href="">Plan prevzema&nbsp;</a>
 		</td>
 		<td>
-<a href="">Za prevzeti&nbsp;</a>
+<a href="">Trenutno za prevzeti&nbsp;</a>
 		</td>
 
 		<td>
@@ -1144,6 +1154,7 @@ if (key != null && key.length() > 0) {
 		<td nowrap><% out.print(EW_FormatDateTime(x_uporabnik,7,locale)); %>&nbsp;</td>
 &nbsp;</td>
 	</tr>
+	
 <%
 
 //	}
