@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="cenastrlist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="cenastrprodlist.jsp"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -31,7 +31,7 @@ int ewCurSec = 0; // initialise
 ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).intValue();
 
 if ((ewCurSec & ewAllowView) != ewAllowView) {
-	response.sendRedirect("cenastrlist.jsp"); 
+	response.sendRedirect("cenastrprodlist.jsp"); 
 	response.flushBuffer(); 
 	return;
 }
@@ -42,7 +42,7 @@ if ((ewCurSec & ewAllowView) != ewAllowView) {
 String tmpfld = null;
 String escapeString = "\\\\'";
 String key = request.getParameter("key");
-if (key == null || key.length() == 0) { response.sendRedirect("cenastrlist.jsp");}
+if (key == null || key.length() == 0) { response.sendRedirect("cenastrprodlist.jsp");}
 
 // Get action
 String a = request.getParameter("a");
@@ -62,11 +62,11 @@ try{
 	ResultSet rs = null;
 	if (a.equals("I")) {// Get a record to display
 		String tkey = "'" + key.replaceAll("'",escapeString) + "'";
-		String strsql = "SELECT * FROM `cenastr` WHERE `id`=" + tkey;
+		String strsql = "SELECT * FROM `cenastrprod` WHERE `id`=" + tkey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
 			out.clear();
-			response.sendRedirect("cenastrlist.jsp");
+			response.sendRedirect("cenastrprodlist.jsp");
 		}else{
 			rs.first();
 		}
@@ -113,7 +113,7 @@ function disableSome(EW_this){
 }
 </script>
 
-<p><span class="jspmaker">Pregled : cenastr<br><br><a href="cenastrlist.jsp">Nazaj na pregled</a></span></p>
+<p><span class="jspmaker">Pregled : cenastrprod<br><br><a href="cenastrprodlist.jsp">Nazaj na pregled</a></span></p>
 <p>
 <form>
 <table class="ewTable">

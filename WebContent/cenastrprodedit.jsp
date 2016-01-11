@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" errorPage="cenastrlist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*" errorPage="cenastrprodlist.jsp"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>

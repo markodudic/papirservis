@@ -1,4 +1,4 @@
-<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="cenastrlist.jsp"%>
+<%@ page session="true" buffer="16kb" import="java.sql.*,java.util.*,java.text.*"  errorPage="cenastrprodlist.jsp"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <% Locale locale = Locale.getDefault();
 /*response.setLocale(locale);*/%>
@@ -30,7 +30,7 @@ ew_SecTable[3] = 8;
 int ewCurSec = 0; // initialise
 ewCurSec = ((Integer) session.getAttribute("papirservis1_status_UserLevel")).intValue();
 if ((ewCurSec & ewAllowDelete) != ewAllowDelete) {
-	response.sendRedirect("cenastrlist.jsp"); 
+	response.sendRedirect("cenastrprodlist.jsp"); 
 	response.flushBuffer(); 
 	return;
 }
@@ -46,7 +46,7 @@ String key = "";
 String [] arRecKey = request.getParameterValues("key");
 String sqlKey = "";
 if (arRecKey == null || arRecKey.length == 0 ) {
-	response.sendRedirect("cenastrlist.jsp");
+	response.sendRedirect("cenastrprodlist.jsp");
 	response.flushBuffer();
 	return;
 }
@@ -73,21 +73,21 @@ try{
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	ResultSet rs = null;
 	if (a.equals("I")){ // Display
-		String strsql = "SELECT * FROM `cenastr` WHERE " + sqlKey;
+		String strsql = "SELECT * FROM `cenastrprod` WHERE " + sqlKey;
 		rs = stmt.executeQuery(strsql);
 		if (!rs.next()) {
-			response.sendRedirect("cenastrlist.jsp");
+			response.sendRedirect("cenastrprodlist.jsp");
 		}else{
 			rs.beforeFirst();
 		}
 	}else if (a.equals("D")){ // Delete
-		String strsql = "DELETE FROM `cenastr` WHERE " + sqlKey;
+		String strsql = "DELETE FROM `cenastrprod` WHERE " + sqlKey;
 		stmt.executeUpdate(strsql);
 		stmt.close();
 		stmt = null;
 		conn.close();
 		conn = null;
-		response.sendRedirect("cenastrlist.jsp");
+		response.sendRedirect("cenastrprodlist.jsp");
 		response.flushBuffer();
 		return;
 	}
@@ -98,8 +98,8 @@ function disableSome(EW_this){
 }
 </script>
 
-<p><span class="jspmaker">Izbriši iz tabele: cenastr<br><br><a href="cenastrlist.jsp">Nazaj na pregled</a></span></p>
-<form action="cenastrdelete.jsp" method="post">
+<p><span class="jspmaker">Izbriši iz tabele: cenastrprod<br><br><a href="cenastrprodlist.jsp">Nazaj na pregled</a></span></p>
+<form action="cenastrproddelete.jsp" method="post">
 <p>
 <input type="hidden" name="a" value="D">
 <table class="ewTable">
