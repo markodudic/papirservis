@@ -294,7 +294,7 @@ function disableSome(EW_this){
 }
 </script>
 
-<p><span class="jspmaker">Tabela: cenastr</span></p>
+<p><span class="jspmaker">Tabela: cena stranke nabava</span></p>
 <form action="cenastrlist.jsp">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>

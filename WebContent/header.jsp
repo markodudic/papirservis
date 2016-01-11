@@ -42,7 +42,8 @@ int leto  = Integer.parseInt(((String) session.getAttribute("leto")));
 if ((meni & ewSifers) ==  ewSifers){
 %>
 			<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">&#352;IFRANTI</span></td></tr>
-			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrlist.jsp?cmd=top">Cene stranke</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrlist.jsp?cmd=top">Cene stranke nabava</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrprodlist.jsp?cmd=top">Cene stranke prodaja</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="enotelist.jsp?cmd=resetall">Enote</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="kamionlist.jsp?cmd=top">Kamion</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="kupcilist.jsp?cmd=resetall">Kupci</a></span></td></tr>
