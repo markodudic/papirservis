@@ -138,6 +138,9 @@ a:visited {
 	background-color: #006600; /* dinos */	
 }
 
+.ewCellKomunaleUnderZero {
+	background-color: #ff6666; /* komunale  */	
+}
 
 .ewTableHeader2 {
 	background-color: #594FBF; /* header color */

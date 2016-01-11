@@ -336,7 +336,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="560"
+						y="556"
 						width="534"
 						height="0"
 						key="line-4"
@@ -894,7 +894,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="495"
+						y="518"
 						width="534"
 						height="0"
 						key="line-7"
@@ -906,7 +906,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="144"
 						y="448"
 						width="391"
-						height="42"
+						height="66"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-23"
@@ -915,7 +915,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -1072,9 +1072,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="496"
-						width="530"
-						height="57"
+						y="522"
+						width="534"
+						height="31"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-24"
@@ -1083,7 +1083,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
 				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement

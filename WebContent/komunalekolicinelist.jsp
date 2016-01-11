@@ -1048,7 +1048,11 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
 		<% if (x_koda.equals(x_zdruzi) || x_zdruzi.equals("") || (x_zdruzi == null)) { %>
 			<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
-			<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+			<% if(x_za_prevzeti >= 0) { %> 
+				<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+			<% } else { %>
+				<td class="ewCellKomunaleUnderZero"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>			
+			<% } %>
 		<% } else { %>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
@@ -1115,7 +1119,11 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(nf_ge1.format(x_zbrano)); %>&nbsp;</td>
 		<% if (x_koda.equals(x_zdruzi) || x_zdruzi.equals("") || (x_zdruzi == null)) { %>
 			<td><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
-			<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+			<% if(x_za_prevzeti >= 0) { %> 
+				<td><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>
+			<% } else { %>
+				<td class="ewCellKomunaleUnderZero"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>			
+			<% } %>
 		<% } else { %>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_prevzeto)); %>&nbsp;</td>
 			<td class="ewCellDontConfirmedRow"><% out.print(nf_ge1.format(x_za_prevzeti)); %>&nbsp;</td>

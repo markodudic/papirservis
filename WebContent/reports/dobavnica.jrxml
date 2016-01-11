@@ -482,7 +482,7 @@ WHERE
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="499"
+						y="526"
 						width="534"
 						height="0"
 						key="line-2"
@@ -530,7 +530,7 @@ WHERE
 						x="141"
 						y="452"
 						width="391"
-						height="42"
+						height="70"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-2"
@@ -539,7 +539,7 @@ WHERE
 					<textElement verticalAlignment="Top">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -983,9 +983,9 @@ WHERE
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="500"
+						y="530"
 						width="530"
-						height="58"
+						height="31"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-8"
@@ -994,7 +994,7 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
 				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
