@@ -251,17 +251,17 @@ if ((datum != null) && (datum != ""))
 
 
 String caseStr = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
-		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 4 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+if("+mesec+"=1,ifnull(dej_apr,kol_apr),kol_apr)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 5 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+if("+mesec+"=1,ifnull(dej_maj,kol_maj),kol_maj)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 6 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+if("+mesec+"=1,ifnull(dej_jun,kol_jun),kol_jun)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 7 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+if("+mesec+"=1,ifnull(dej_jul,kol_jul),kol_jul)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 8 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+if("+mesec+"=1,ifnull(dej_avg,kol_avg),kol_avg)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 9 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 10 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100),0) - sum(kolicina) " +
-		" WHEN 11 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100),0) - sum(kolicina) " +
+		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 4 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+if("+mesec+"=1,ifnull(dej_apr,kol_apr),kol_apr)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 5 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+if("+mesec+"=1,ifnull(dej_maj,kol_maj),kol_maj)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 6 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+if("+mesec+"=1,ifnull(dej_jun,kol_jun),kol_jun)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 7 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+if("+mesec+"=1,ifnull(dej_jul,kol_jul),kol_jul)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 8 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+if("+mesec+"=1,ifnull(dej_avg,kol_avg),kol_avg)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 9 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+if("+mesec+"=1,ifnull(dej_sep,kol_sep),kol_sep)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 10 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+if("+mesec+"=1,ifnull(dej_okt,kol_okt),kol_okt)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
+		" WHEN 11 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+if("+mesec+"=1,ifnull(dej_nov,kol_nov),kol_nov)) * delez/100),0) - IFNULL(SUM(kolicina),0) " +
 		" WHEN 12 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+ifnull(dej_mar,kol_mar)+ifnull(dej_apr,kol_apr)+ifnull(dej_maj,kol_maj)+ifnull(dej_jun,kol_jun)+ifnull(dej_jul,kol_jul)+ifnull(dej_avg,kol_avg)+ifnull(dej_sep,kol_sep)+ifnull(dej_okt,kol_okt)+ifnull(dej_nov,kol_nov)+if("+mesec+"=1,ifnull(dej_dec,kol_dec),kol_dec)) * delez/100),0) " +
 		" END prevzeto ";
 
@@ -362,7 +362,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zb
 		" WHEN 12 THEN (IFNULL(kol_jan,0)*delez/100+prevzeto) " +
 		" END) za_prevzeti " +*/
 		"from ( " +
-		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, sum(kolicina) zbrano, " +
+		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, IFNULL(SUM(kolicina),0) zbrano, " +
 		" caseStr " +
 		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
