@@ -58,11 +58,13 @@ if (a == null || a.length() == 0) {
 Object x_sif_kupca = null;
 Object x_material_koda = null;
 Object x_cena = null;
+Object x_sif_enote = null;
 Object x_zacetek = null;
 Object x_veljavnost = null;
 Object x_uporabnik = null;
 StringBuffer x_sif_kupcaList = null;
 StringBuffer x_material_kodaList = null;
+StringBuffer x_sif_enoteList = null;
 
 // Open Connection to the database
 try{
@@ -106,13 +108,15 @@ try{
 			}
 
 			x_cena = String.valueOf(rs.getDouble("cena"));
+			x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+			
 			if (rs.getTimestamp("zacetek") != null){
 				x_zacetek = rs.getTimestamp("zacetek");
 			}else{
 				x_zacetek = null;
 			}
 		
-	x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
+			x_uporabnik = String.valueOf(rs.getLong("uporabnik"));
 		}
 		rs.close();
 	}else if (a.equals("U")) {// Update
@@ -129,7 +133,9 @@ try{
 		}else{
 			x_cena = "";
 		}
-
+		if (request.getParameter("x_sif_enote") != null){
+			x_sif_enote = request.getParameter("x_sif_enote");
+		}
 		if (request.getParameter("x_veljavnost") != null){
 			x_veljavnost = (String) request.getParameter("x_veljavnost");
 		}else{
@@ -184,6 +190,15 @@ try{
 			rs.updateDouble("cena",Double.parseDouble(tmpfld));
 		}
 
+		// Field sif_enote
+		tmpfld = ((String) x_sif_enote).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		if (tmpfld == null) {
+			rs.updateNull("sif_enote");
+		} else {
+			rs.updateInt("sif_enote",Integer.parseInt(tmpfld));
+		}
+		
 		// Field veljavnost
 		if (IsDate((String) x_veljavnost,"EURODATE", locale)) {
 			rs.updateTimestamp("veljavnost", EW_UnFormatDateTime((String)x_veljavnost,"EURODATE", locale));
@@ -287,6 +302,30 @@ stmtwrk_x_material_koda = null;
 x_material_kodaList.append("</select>");
 
 
+String cbo_x_sif_enote_js = "";
+x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\"><option value=\"\">Izberi</option>");
+String sqlwrk_x_sif_enote = "SELECT `sif_enote`, `naziv` FROM `enote`";
+Statement stmtwrk_x_sif_enote = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_sif_enote = stmtwrk_x_sif_enote.executeQuery(sqlwrk_x_sif_enote);
+	int rowcntwrk_x_sif_enote = 0;
+	while (rswrk_x_sif_enote.next()) {
+		//x_sif_enoteList += "<option value=\"" + HTMLEncode(rswrk_x_sif_enote.getString("naziv")) + "\"";
+		String tmpSifra = rswrk_x_sif_enote.getString("sif_enote");
+		x_sif_enoteList.append("<option value=\"").append(tmpSifra).append("\"");
+		if (tmpSifra.equals(x_sif_enote)) {
+			x_sif_enoteList.append(" selected");
+		}
+		String tmpValue_x_sif_enote = "";
+		String tmpNaziv = rswrk_x_sif_enote.getString("naziv");
+		if (tmpNaziv!= null) tmpValue_x_sif_enote = tmpNaziv;
+		x_sif_enoteList.append(">").append(tmpValue_x_sif_enote).append("</option>");
+		rowcntwrk_x_sif_enote++;
+	}
+rswrk_x_sif_enote.close();
+rswrk_x_sif_enote = null;
+stmtwrk_x_sif_enote.close();
+stmtwrk_x_sif_enote = null;
+x_sif_enoteList.append("</select>");
 %>
 <%@ include file="header.jsp" %>
 <p><span class="jspmaker">Popravek v tabeli: cenastrprod<br><br><a href="cenastrprodlist.jsp">Nazaj na pregled</a></span></p>
@@ -337,6 +376,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Cena&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Enota&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Veljavnost&nbsp;</td>

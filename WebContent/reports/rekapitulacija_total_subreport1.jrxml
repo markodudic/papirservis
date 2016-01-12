@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA["dob2015"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[Select 	IFNULL(sum(-A.`kolicina` * A.`cena`), 0) AS nab_vrednost,
-	IFNULL(sum((SELECT A.`kolicina` * materiali.pc_nizka
+	IFNULL(sum((SELECT A.`kolicina` * IFNULL(A.strcenaprod, materiali.pc_nizka)
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
 	      materiali.zacetek = A.zacetek)), 0) AS prod_vrednost
@@ -45,11 +45,12 @@ from (
 	dob.`koda` AS dob_koda, 
 	dob.kolicina,
 	dob.`cena`,
+	dob.`strcenaprod`,
 	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
-		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena
+		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena,  max(cenastrprod.cena) as strcenaprod
 		from
-		((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
+		((select max(cenastr.veljavnost) v, max(cenastr.id) i,  max(cenastrprod.veljavnost) vv, max(cenastrprod.id) ii, dob.*
 		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
 			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
          					from $P!{dobLeto} dob
@@ -63,11 +64,18 @@ from (
 		        	left join cenastr
 	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
 		    	     cenastr.material_koda = dob.koda and
-		     	     cenastr.veljavnost <= dob.datum))
+		     	     cenastr.veljavnost <= dob.datum)
+		        	left join cenastrprod
+	        	        	on (dob.sif_kupca = cenastrprod.sif_kupca and
+		    	     cenastrprod.material_koda = dob.koda and
+		     	     cenastrprod.veljavnost <= dob.datum))
 		group by dob.st_dob, dob.pozicija) c
 		left join cenastr on
 			cenastr.veljavnost = c.v and
-	      		cenastr.id = c.i)
+	      		cenastr.id = c.i
+		left join cenastrprod on
+			cenastrprod.veljavnost = c.vv and
+	      		cenastrprod.id = c.ii)
 		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
 	   left join
 		materiali on (dob.`koda` = materiali.`koda`)) AS A

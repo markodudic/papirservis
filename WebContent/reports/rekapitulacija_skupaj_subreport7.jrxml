@@ -39,26 +39,30 @@
 	A.dob_material as dob_material,
 	sum(IFNULL(A.`kolicina`,0)) AS dob_kolicina,
 	sum(IFNULL(A.`kolicina` * A.`strcena`,0)) AS nab_vrednost,
-	sum((SELECT IFNULL(A.`kolicina` * materiali.pc_nizka,0)
+	sum((SELECT IFNULL(A.`kolicina` * IFNULL(A.strcenaprod, materiali.pc_nizka),0)
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
 	      materiali.zacetek = A.zacetek)) AS prod_vrednost,
-	sum((SELECT sum(IFNULL((A.`kolicina` * materiali.pc_nizka),0) - IFNULL((A.`kolicina` * A.`strcena`),0))
+	sum((SELECT sum(IFNULL((A.`kolicina` * IFNULL(A.strcenaprod, materiali.pc_nizka)),0) - IFNULL((A.`kolicina` * A.`strcena`),0))
 	FROM materiali
 	WHERE materiali.koda = A.dob_koda and
 	      materiali.zacetek = A.zacetek)) AS rvc,
-	A.zacetek
+	(SELECT IFNULL(A.strcenaprod, pc_nizka)
+	FROM materiali
+	WHERE materiali.koda = A.dob_koda and
+	      materiali.zacetek = A.zacetek) AS pc_nizka
 from (
 	SELECT distinct dob.st_dob,
 	dob.`koda` AS dob_koda, 
 	materiali.material as dob_material,
 	dob.kolicina,
 	dob.`strcena`,
+	dob.`strcenaprod`,
 	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
-		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena
+		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena,  max(cenastrprod.cena) as strcenaprod
 		from
-		((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.*
+		((select max(cenastr.veljavnost) v, max(cenastr.id) i,  max(cenastrprod.veljavnost) vv, max(cenastrprod.id) ii, dob.*
 		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
 			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 	         					from $P!{dobLeto} dob
@@ -72,15 +76,22 @@ from (
 		        	left join cenastr
 	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
 		    	     cenastr.material_koda = dob.koda and
-		     	     cenastr.veljavnost <= dob.datum))
+		     	     cenastr.veljavnost <= dob.datum)
+		        	left join cenastrprod
+	        	        	on (dob.sif_kupca = cenastrprod.sif_kupca and
+		    	     cenastrprod.material_koda = dob.koda and
+		     	     cenastrprod.veljavnost <= dob.datum))
 		group by dob.st_dob, dob.pozicija) c
 		left join cenastr on
 			cenastr.veljavnost = c.v and
-	      		cenastr.id = c.i)
+	      		cenastr.id = c.i
+		left join cenastrprod on
+			cenastrprod.veljavnost = c.vv and
+	      		cenastrprod.id = c.ii)
 		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
 	   left join
 		materiali on (dob.`koda` = materiali.`koda`)) AS A
-GROUP BY dob_koda, zacetek
+GROUP BY dob_koda, pc_nizka
 ORDER BY dob_koda]]></queryString>
 
 	<field name="dob_koda" class="java.lang.String"/>
@@ -89,7 +100,7 @@ ORDER BY dob_koda]]></queryString>
 	<field name="nab_vrednost" class="java.lang.Double"/>
 	<field name="prod_vrednost" class="java.lang.Double"/>
 	<field name="rvc" class="java.lang.Double"/>
-	<field name="zacetek" class="java.sql.Timestamp"/>
+	<field name="pc_nizka" class="java.lang.Double"/>
 
 	<variable name="sum_kol" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_kolicina}]]></variableExpression>
@@ -191,9 +202,9 @@ ORDER BY dob_koda]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="401"
+						x="402"
 						y="0"
-						width="70"
+						width="69"
 						height="16"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -361,9 +372,9 @@ ORDER BY dob_koda]]></queryString>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="270"
+						x="237"
 						y="1"
-						width="74"
+						width="107"
 						height="16"
 						backcolor="#CCCCCC"
 						key="textField-5"/>
@@ -376,9 +387,9 @@ ORDER BY dob_koda]]></queryString>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="342"
+						x="344"
 						y="1"
-						width="60"
+						width="58"
 						height="16"
 						backcolor="#CCCCCC"
 						key="textField-6"/>
