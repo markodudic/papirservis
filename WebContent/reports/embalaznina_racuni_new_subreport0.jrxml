@@ -151,14 +151,14 @@ group by BBB.tar_st, BBB.naziv
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="33"  isSplitAllowed="true" >
+			<band height="27"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						mode="Opaque"
 						x="185"
 						y="0"
 						width="30"
-						height="33"
+						height="27"
 						forecolor="#000000"
 						backcolor="#009900"
 						key="element-90"/>
@@ -190,7 +190,7 @@ group by BBB.tar_st, BBB.naziv
 						x="0"
 						y="13"
 						width="185"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#009900"
 						key="element-90"/>
@@ -238,7 +238,7 @@ group by BBB.tar_st, BBB.naziv
 						x="267"
 						y="13"
 						width="53"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-92"/>
@@ -254,7 +254,7 @@ group by BBB.tar_st, BBB.naziv
 						x="320"
 						y="13"
 						width="54"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-93"/>
@@ -270,7 +270,7 @@ group by BBB.tar_st, BBB.naziv
 						x="480"
 						y="13"
 						width="54"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-97"/>
@@ -286,7 +286,7 @@ group by BBB.tar_st, BBB.naziv
 						x="427"
 						y="13"
 						width="53"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-98"/>
@@ -302,7 +302,7 @@ group by BBB.tar_st, BBB.naziv
 						x="374"
 						y="13"
 						width="53"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-99"/>
@@ -326,7 +326,7 @@ group by BBB.tar_st, BBB.naziv
 						x="0"
 						y="0"
 						width="0"
-						height="32"
+						height="26"
 						key="line-7"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -335,7 +335,7 @@ group by BBB.tar_st, BBB.naziv
 						x="534"
 						y="0"
 						width="0"
-						height="32"
+						height="26"
 						key="line-8"
 						stretchType="RelativeToBandHeight"/>
 					<graphicElement stretchType="RelativeToBandHeight"/>
@@ -345,7 +345,7 @@ group by BBB.tar_st, BBB.naziv
 						x="374"
 						y="0"
 						width="0"
-						height="32"
+						height="26"
 						key="line-13"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -363,7 +363,7 @@ group by BBB.tar_st, BBB.naziv
 						x="185"
 						y="0"
 						width="0"
-						height="32"
+						height="26"
 						key="line-23"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -373,7 +373,7 @@ group by BBB.tar_st, BBB.naziv
 						x="215"
 						y="13"
 						width="53"
-						height="20"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="element-91"/>
@@ -388,7 +388,7 @@ group by BBB.tar_st, BBB.naziv
 						x="215"
 						y="0"
 						width="0"
-						height="32"
+						height="26"
 						key="line-12"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
