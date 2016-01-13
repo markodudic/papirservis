@@ -1467,7 +1467,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PAPIR KOE]]></text>
+				<text><![CDATA[PAPIR 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1627,7 +1627,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PLASTIČNA EMBALAŽA KOE]]></text>
+				<text><![CDATA[PLASTIČNA EMBALAŽA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1803,7 +1803,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PLASTIČNA NKOE]]></text>
+				<text><![CDATA[PLASTIČNA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1835,7 +1835,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[LESENA KOE]]></text>
+				<text><![CDATA[LESENA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1851,7 +1851,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE]]></text>
+				<text><![CDATA[25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1867,7 +1867,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE znesek]]></text>
+				<text><![CDATA[25. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1899,7 +1899,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[LESENA NKOE]]></text>
+				<text><![CDATA[LESENA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1915,7 +1915,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE]]></text>
+				<text><![CDATA[34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1931,7 +1931,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE znesek]]></text>
+				<text><![CDATA[34. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1979,7 +1979,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOVINSKA KOE]]></text>
+				<text><![CDATA[KOVINSKA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1995,7 +1995,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE]]></text>
+				<text><![CDATA[25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2011,7 +2011,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE znesek]]></text>
+				<text><![CDATA[25. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2043,7 +2043,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOVINSKA NKOE]]></text>
+				<text><![CDATA[KOVINSKA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2059,7 +2059,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE]]></text>
+				<text><![CDATA[34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2075,7 +2075,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE znesek]]></text>
+				<text><![CDATA[34. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2123,7 +2123,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[STEKLENA KOE]]></text>
+				<text><![CDATA[STEKLENA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2155,7 +2155,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE znesek]]></text>
+				<text><![CDATA[25. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2187,7 +2187,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[STEKLENA NKOE]]></text>
+				<text><![CDATA[STEKLENA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2203,7 +2203,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE]]></text>
+				<text><![CDATA[34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2219,7 +2219,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE znesek]]></text>
+				<text><![CDATA[34. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2267,7 +2267,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[SESTAVLJENA KOE]]></text>
+				<text><![CDATA[SESTAVLJENA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2411,7 +2411,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[SESTAVLJENA NKOE]]></text>
+				<text><![CDATA[SESTAVLJENA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2507,7 +2507,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NEVARNA KOE]]></text>
+				<text><![CDATA[NEVARNA 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2539,7 +2539,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE znesek]]></text>
+				<text><![CDATA[25. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2571,7 +2571,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NEVARNA NKOE]]></text>
+				<text><![CDATA[NEVARNA 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2587,7 +2587,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE]]></text>
+				<text><![CDATA[34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2603,7 +2603,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE znesek]]></text>
+				<text><![CDATA[34. ČLEN znesek]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2667,7 +2667,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[SKUPAJ KOE]]></text>
+				<text><![CDATA[SKUPAJ 25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2683,7 +2683,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[SKUPAJ NKOE]]></text>
+				<text><![CDATA[SKUPAJ 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -2731,7 +2731,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PAPIR NKOE]]></text>
+				<text><![CDATA[PAPIR 34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3227,7 +3227,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE cena]]></text>
+				<text><![CDATA[34. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3243,7 +3243,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE cena]]></text>
+				<text><![CDATA[25. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3323,7 +3323,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE cena]]></text>
+				<text><![CDATA[34. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3339,7 +3339,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE cena]]></text>
+				<text><![CDATA[25. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3355,7 +3355,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE cena]]></text>
+				<text><![CDATA[34. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3371,7 +3371,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE cena]]></text>
+				<text><![CDATA[25. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3387,7 +3387,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE cena]]></text>
+				<text><![CDATA[34. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3403,7 +3403,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE cena]]></text>
+				<text><![CDATA[25. ČLEN cena]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -3532,7 +3532,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="4" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE]]></text>
+				<text><![CDATA[25. ČLEN]]></text>
 				</staticText>
 			</band>
 		</columnHeader>

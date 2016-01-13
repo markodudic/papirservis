@@ -290,7 +290,7 @@ x_kodaList.append("</select>");
 							if (HTMLEncode(x_arso_list[i].replaceAll("'", "")).equals(x_porocilo)) {
 								x_arso_listOption += " selected";
 							}
-							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")) + "</option>";
+							x_arso_listOption += ">" + HTMLEncode(x_arso_list[i].replaceAll("'", "")).replace("NKOE","34. ČLEN").replace("KOE","25. ČLEN") + "</option>";
 							out.println(x_arso_listOption);			
 						}
 					}

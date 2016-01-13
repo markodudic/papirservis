@@ -560,7 +560,7 @@ rswrk_x_posta = stmtwrk_x_posta.executeQuery(sqlwrk_x_posta);
 			x_postaList += " selected";
 		}
 		String tmpValue_x_posta = "";
-		if (rswrk_x_posta.getString("naziv")!= null) tmpValue_x_posta = rswrk_x_posta.getString("tar_st") + ", " + rswrk_x_posta.getString("naziv") + ", " + rswrk_x_posta.getString("porocilo");
+		if (rswrk_x_posta.getString("naziv")!= null) tmpValue_x_posta = rswrk_x_posta.getString("tar_st") + ", " + rswrk_x_posta.getString("naziv") + ", " + rswrk_x_posta.getString("porocilo").replace("NKOE","34. ČLEN").replace("KOE","25. ČLEN");
 		x_postaList += ">" + tmpValue_x_posta
  + "</option>";
 		rowcntwrk_x_posta++;

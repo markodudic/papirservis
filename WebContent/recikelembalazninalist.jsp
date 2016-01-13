@@ -893,7 +893,7 @@ if (key != null && key.length() > 0) {
 
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td><% out.print(x_naziv2); %>&nbsp;</td>
-		<td><% out.print(x_porocilo); %>&nbsp;</td>
+		<td><% out.print(x_porocilo.replace("KOE","25. ČLEN").replace("NKOE","34. ČLEN")); %>&nbsp;</td>
 	
 		<td><% out.print(nf_ge.format(x_letna_napoved)); %>&nbsp;</td>
 		<td><% out.print(nf_ge.format(x_cena)); %>&nbsp;</td>
@@ -912,7 +912,7 @@ if (key != null && key.length() > 0) {
 <% } else { %>
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td nowrap><% out.print(x_naziv2); %>&nbsp;</td>
-		<td><% out.print(x_porocilo); %>&nbsp;</td>
+		<td><% out.print(x_porocilo.replace("NKOE","34. ČLEN").replace("KOE","25. ČLEN")); %>&nbsp;</td>
 	
 		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:letna_napoved" size="3" value="<% out.print(nf_ge.format(x_letna_napoved)); %>"></td>
 		<td><input type="text" name="<% out.print(id_zavezanca); %>:<% out.print(x_id_embalaza); %>:cena" size="3" value="<% out.print(nf_ge.format(x_cena)); %>"></td>

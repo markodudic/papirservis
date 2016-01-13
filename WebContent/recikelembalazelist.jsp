@@ -450,7 +450,7 @@ if (key != null && key.length() > 0) {
 <% } %>
 		<td><% out.print(x_tar_st); %>&nbsp;</td>
 		<td><% out.print(x_naziv); %>&nbsp;</td>
-		<td><% out.print(x_porocilo); %>&nbsp;</td>
+		<td><% out.print(x_porocilo.replace("NKOE","34. ČLEN").replace("KOE","25. ČLEN")); %>&nbsp;</td>
 		<td><% out.print(x_koda); %>&nbsp;</td>
 		<td><% out.print(x_material); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_zacetek,7,locale)); %>&nbsp;</td>

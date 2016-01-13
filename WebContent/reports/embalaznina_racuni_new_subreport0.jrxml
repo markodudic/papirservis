@@ -214,7 +214,7 @@ group by BBB.tar_st, BBB.naziv
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[KOE]]></text>
+				<text><![CDATA[25. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -230,7 +230,7 @@ group by BBB.tar_st, BBB.naziv
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[NKOE]]></text>
+				<text><![CDATA[34. ČLEN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
