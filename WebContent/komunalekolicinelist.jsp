@@ -61,6 +61,17 @@ if ((request.getParameter("mesec") == null) || request.getParameter("mesec").equ
 }
 String sif_kupca = request.getParameter("sif_kupca");
 if (sif_kupca!=null && sif_kupca.equals("null")) sif_kupca=null;
+
+out.println("="+session.getAttribute("papirservis1_komunale_sif_kupca"));
+
+if (sif_kupca == null && session.getAttribute("papirservis1_komunale_sif_kupca") != null) {
+	sif_kupca = (String) session.getAttribute("papirservis1_komunale_sif_kupca");
+}
+else {
+	session.setAttribute("papirservis1_komunale_sif_kupca", sif_kupca);
+}
+out.println("="+session.getAttribute("papirservis1_komunale_sif_kupca"));
+
 %>
 <%
 
