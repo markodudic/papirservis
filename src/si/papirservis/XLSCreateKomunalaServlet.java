@@ -32,7 +32,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 	private static String[] rowNames = {"Šifra", "Naziv", "Koda", "Združi", "Delež", 
 								"Napoved jan", "Napoved feb", "Napoved mar", "Napoved apr", "Napoved maj", "Napoved jun", "Napoved jul", "Napoved avg", "Napoved sep", "Napoved okt", "Napoved nov", "Napoved dec",
 								"Dejansko jan", "Dejansko feb", "Dejansko mar", "Dejansko apr", "Dejansko maj", "Dejansko jun", "Dejansko jul", "Dejansko avg", "Dejansko sep", "Dejansko okt", "Dejansko nov", "Dejansko dec",
-								"Zbrano", "Prevzeto", "Za prevzeti"};
+								"Prevzeto nalogi", "Plan prevzema", "Trenutno za prevzeti"};
 	private static String[] rowTypes = {"S", "S", "S", "S", "D", 
 								"D", "D", "D", "D", "D", "D", "D", "D", "D", "D", "D", "D",
 								"D", "D", "D", "D", "D", "D", "D", "D", "D", "D", "D", "D",
