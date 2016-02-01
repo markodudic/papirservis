@@ -1853,6 +1853,7 @@ if (totalRecs > 0) {
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("arso_status","UTF-8") %>">Arso status&nbsp;<% if (OrderBy != null && OrderBy.equals("uporabnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_status")) ? "</b>" : ""%>
 		</td>
+		<td><a href="">Arso datum&nbsp;</a></td>
 </tr>
 <%
 
@@ -1945,6 +1946,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_arso_odp_dej_nastanka = "";
 	String x_arso_status = "";
 	String x_arso_prenos = "";
+	Object x_arso_datum = null;
 	
 	String x_uporabnik = "";
 	String x_obdelana = "";
@@ -2213,6 +2215,13 @@ while (rs.next() ){//&& recCount < stopRec) {
 	
 	x_arso_prenos = String.valueOf(rs.getLong("arso_prenos"));
 
+	// arso_datum
+	if (rs.getTimestamp("arso_datum") != null){
+		x_arso_datum = rs.getTimestamp("arso_datum");
+	}else{
+		x_arso_datum = "";
+	}
+	
 	// obdelana
 	x_obdelana = String.valueOf(rs.getLong("obdelana"));
 	
@@ -2321,6 +2330,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_arso_odp_dej_nastanka); %>&nbsp;</td>
 		<td><% out.print((x_arso_prenos.equals("1") ? "DA" : x_arso_prenos.equals("0") ? "NE" : "TUJINA")); %>&nbsp;</td>
 		<td nowrap><% out.print((x_arso_status.equals("0") ? "NI POSLAN-NI POTRJEN" : (x_arso_status.equals("1") ? "POSLAN-NI POTRJEN" : "POSLAN-POTRJEN"))); %>&nbsp;</td>
+		<td><% out.print(EW_FormatDateTime(x_arso_datum,7,locale)); %>&nbsp;</td>
 	</tr>
 <%
 

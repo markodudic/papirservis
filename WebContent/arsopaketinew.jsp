@@ -201,7 +201,7 @@ ResultSet rs = null;
 //String strsql = "SELECT dob.*, kupci.naziv " +
 //					 "FROM (select *, max(dob.zacetek) from " + session.getAttribute("letoTabela") + " dob group by st_dob) dob " +
 //					 "left join kupci on (dob.sif_kupca = kupci.sif_kupca) ";
-String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.*, " +
+String strsql = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, DATEDIFF(now(), dob.datum) as datum_diff, DATE_ADD(now(), INTERVAL -14 DAY) as datum_arso, dob.*, " +
 						"	kupci.naziv, kupci.maticna kupci_maticna, kupci.arso_pslj_st, kupci.arso_pslj_status, " +
 						"	enote.naziv enote_naziv, enote.maticna enote_maticna, enote.arso_prjm_st, enote.arso_prjm_status, enote.arso_odp_locpr_id,  " +
 						"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
@@ -341,6 +341,7 @@ function disableSome(EW_this){
 <a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum(*)&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "</b>" : ""%>
 		</td>
+		<td><a href="">Datum arso&nbsp;</a></td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("enotenaziv")) ? "<b>" : ""%>
 <a href="arsopaketinew.jsp?order=<%= java.net.URLEncoder.encode("enote_naziv","UTF-8") %>">Enota&nbsp;<% if (OrderBy != null && OrderBy.equals("enote_naziv")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("arso_new_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("arso_new_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -498,6 +499,8 @@ while (rs.next() && recCount < stopRec) {
 	String x_st_dob = "";
 	String x_pozicija = "";
 	Object x_datum = null;
+	int x_datum_diff = 0;
+	Object x_datum_arso = null;
 	String x_enote_naziv = "";
 	String x_sif_str = "";
 	String x_stranka = "";
@@ -532,6 +535,15 @@ while (rs.next() && recCount < stopRec) {
 		x_datum = "";
 	}
 
+	x_datum_diff = rs.getInt("datum_diff");
+	
+	// datum arso
+	if (rs.getTimestamp("datum_arso") != null){
+		x_datum_arso = rs.getTimestamp("datum_arso");
+	}else{
+		x_datum_arso = "";
+	}
+	
 	// sif_str
 	x_sif_str = String.valueOf(rs.getLong("sif_str"));
 
@@ -649,7 +661,13 @@ while (rs.next() && recCount < stopRec) {
 <% } %>
 		<td><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
-		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+		<% if (x_datum_diff > 15) { %>
+			<td class="ewCellDontSendRow"><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+			<td><% out.print(EW_FormatDateTime(x_datum_arso,7,locale)); %>&nbsp;</td>
+		<% } else { %>
+			<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
+			<td>&nbsp;</td>
+		<% } %>			
 		<td><% out.print(x_enote_naziv);%>&nbsp;</td>
 		<td><% out.print(x_sif_str);%>&nbsp;</td>
 		<td><%out.print(rs.getString("stranka"));%>&nbsp;</td>

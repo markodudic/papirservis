@@ -50,7 +50,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("SERVLET GET");	
+		//System.out.println("SERVLET GET");	
 		doPost(request, response);
 	}
 
@@ -70,7 +70,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 		if (key!=null && !key.equals("null")) {
 			//zbrisem datoteko
 			try{
-				System.out.println(SAVE_FILES+key);
+				//System.out.println(SAVE_FILES+key);
 	    		File file = new File(SAVE_FILES+key);
 	    		boolean f = file.delete();
     			OutputStream out = response.getOutputStream();
@@ -151,13 +151,17 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	private Document getEVL(String ids, String tabela, int PAKET_INT_ID) {
 
     	Statement stmt = null;
+    	Statement stmt1 = null;
     	ResultSet rs = null;
 
 	    try {
 	    	String xml = "";
 	    	connectionMake();
 
-	    	String query = 	"SELECT date_format(dob.datum, '%d.%m.%Y') as datum_odaje, dob.*, " +
+	    	String query = 	"SELECT DATE_FORMAT(IF (DATEDIFF(now(), dob.datum)>15, DATE_ADD(now(), INTERVAL -14 DAY), dob.datum), '%d.%m.%Y') as datum_odaje, " +
+	    					"	IF (DATEDIFF(now(), dob.datum)>15, 1, 0) datum_spremeni, " +
+	    					"	DATE_FORMAT(DATE_ADD(now(), INTERVAL -14 DAY), '%Y-%m-%d') arso_datum, " +
+	    					"	dob.*, " +
 	    					"	kupci.maticna kupci_maticna, kupci.arso_pslj_st, kupci.arso_pslj_status, " +
 	    					"	enote.maticna enote_maticna, enote.arso_prjm_st, enote.arso_prjm_status, enote.arso_odp_locpr_id,  " +
 	    					"	kamion.maticna kamion_maticna, kamion.arso_prvz_st, kamion.arso_prvz_status, " +
@@ -183,7 +187,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 							"		ON (dob.koda = mat.koda) " +
 	    					" WHERE concat(dob.id) IN ("+ids+")";
 
-	    	System.out.println(query);	           
+	    	//System.out.println(query);	           
 	    	stmt = con.createStatement();   	
 	    	rs = stmt.executeQuery(query);
 	    	
@@ -399,6 +403,17 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		Element ODP_AKTIVNOST_PRJM = doc.createElement("ODP_AKTIVNOST_PRJM");
 	    		ODP_AKTIVNOST_PRJM.appendChild(doc.createTextNode(rs.getString("arso_aktivnost_prjm")));
 	    		ODPADEK.appendChild(ODP_AKTIVNOST_PRJM);
+	    		
+	    		if (rs.getInt("datum_spremeni") == 1) {
+	    			//updatetam datum dobavnice na datum arso
+	    	    	String query1 = "update  " + tabela +
+	    	    				" set arso_datum = '" + rs.getString("arso_datum") + "'" +
+	    						" WHERE id = "+rs.getInt("id");
+	    	    	
+	    	    	//System.out.println(query1);
+	    			stmt1 = con.createStatement();   	
+	    			stmt1.executeUpdate(query1);
+	    		}
 	    	}
 	    	
 	    	return doc;
@@ -413,7 +428,10 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		if (stmt != null) {
 	    			stmt.close();
 	    		}
-			} catch (Exception e) {
+	    		if (stmt1 != null) {
+	    			stmt1.close();
+	    		}
+	    	} catch (Exception e) {
 			}
 	    }
 		
@@ -451,7 +469,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    	String query = 	"insert into arso_paketi (sifra, datum, od, do, sif_skup, potrjen, sif_upor, naziv, xml, ids) " +
 	    				"values (" + sifra + ",now(),'" + od_datum + "','" + do_datum + "'," + skupina + ",0," + sif_upor + ",'"+imePaketa+"','" + st_dob + "','"+ids+"')";
 	    	
-	    	System.out.println(query);
+	    	//System.out.println(query);
 			stmt = con.createStatement();   	
 			stmt.executeUpdate(query);
 
@@ -461,7 +479,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    				" set arso_status = 1 " + 
 						" WHERE id IN ("+ids+")";
 	    	
-	    	System.out.println(query);
+	    	//System.out.println(query);
 			stmt = con.createStatement();   	
 			stmt.executeUpdate(query);
 			
@@ -476,7 +494,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 				DOMSource source = new DOMSource(doc);
 				StringWriter stringWriter = new StringWriter(); 
 		        transformer.transform(source, new StreamResult(stringWriter)); 
-		        System.out.println(stringWriter.toString());
+		        //System.out.println(stringWriter.toString());
 		        
 		        FileWriter fstream = new FileWriter(SAVE_FILES+imePaketa);
 				BufferedWriter outFile = new BufferedWriter(fstream);
