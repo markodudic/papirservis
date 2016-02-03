@@ -491,6 +491,14 @@ WHERE
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["Zneski so brez DDV-ja."]]></textFieldExpression>
 				</textField>
+				<break>
+					<reportElement
+						x="0"
+						y="182"
+						width="535"
+						height="0"
+						key="element-1"/>
+				</break>
 			</band>
 		</detail>
 		<columnFooter>
