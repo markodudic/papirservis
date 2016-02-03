@@ -3598,7 +3598,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_1_2})]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="1130"
@@ -3612,7 +3612,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($F{KOE25_CENA_1_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{KOE25_CENA_1_1}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -3662,7 +3662,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_1})]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="1315"
@@ -3676,7 +3676,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{SUM_CENA_1})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{SUM_CENA_1}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

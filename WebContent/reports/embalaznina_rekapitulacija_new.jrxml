@@ -30,43 +30,43 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(2015)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(2016)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Q1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["VSI"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-12-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-12-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_q1" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum_q1" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-03-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-03-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_q2" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-04-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-04-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum_q2" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-06-30"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-06-30"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_q3" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-07-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-07-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum_q3" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-09-30"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-09-30"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_q4" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-10-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-10-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum_q4" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-12-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-12-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="xls" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[new String("0")]]></defaultValueExpression>
