@@ -349,7 +349,7 @@ function disableSome(EW_this){
 	    String do_datum_q3="30.09." + session.getAttribute("leto");
 	    String od_datum_q4="01.10." + session.getAttribute("leto");
 	    String do_datum_q4="31.12." + session.getAttribute("leto");
-
+	    
 	    parameters.put("od_datum", (EW_UnFormatDateTime((String)od_datum,"EURODATE", locale)).toString());	
 		parameters.put("do_datum", (EW_UnFormatDateTime((String)do_datum,"EURODATE", locale)).toString());
     	parameters.put("od_datum_q1", (EW_UnFormatDateTime((String)od_datum_q1,"EURODATE", locale)).toString());	

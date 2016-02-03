@@ -37,7 +37,7 @@
 		<defaultValueExpression ><![CDATA["pavšal"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2015-12-01"]]></defaultValueExpression>
@@ -116,7 +116,7 @@ from recikel_embalaznina$P!{aleto} as a,
 	  recikel_zavezanci$P!{aleto} as c
 where (a.id_zavezanca = c.id) and
 	a.id_embalaza = b.id and
-	b.porocilo = 'KOE25' and
+	b.porocilo = 'KOE' and
 	b.id = 1 and
 	(c.st_pogodbe = $P{sif_zavezanca} or ($P{sif_zavezanca} = -1)) and
 	((($P{nacin_obracuna} = "LN") and (c.interval_pavsala != 'NS')) or
@@ -3598,7 +3598,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_1_2})]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="1130"
@@ -3612,7 +3612,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{KOE25_CENA_1_1}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($F{KOE25_CENA_1_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -3662,7 +3662,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_1})]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="1315"
@@ -3676,7 +3676,7 @@ $F{NKOE34_CENA_6_1}.doubleValue() + $F{NKOE34_CENA_6_2}.doubleValue())]]></varia
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Helvetica" size="4" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{SUM_CENA_1}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.000").format($V{SUM_CENA_1})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
