@@ -295,7 +295,7 @@ function disableSome(EW_this){
 	}
 
 
-	if (reportID == 25)
+	if ((reportID == 25) || (reportID == 28))
 	{
 	    String opravljena_storitva = request.getParameter("opravljena_storitva");
 		if (opravljena_storitva != null)
@@ -328,7 +328,7 @@ function disableSome(EW_this){
 		
 	}
 
-	if ((reportID == 26) || (reportID == 27))
+	if ((reportID == 26) || (reportID == 27) || (reportID == 29) || (reportID == 30))
 	{	
 	    String kumulativa = request.getParameter("kumulativa");
 	    if (kumulativa!=null && kumulativa.equals("da")) {
@@ -476,14 +476,14 @@ function disableSome(EW_this){
     {
     	if (Integer.parseInt(type) == 1) //PDF
         {
-        	if (reportID != 25) {
+        	if ((reportID != 25) && (reportID != 28)) {
         		parameters.put("picture", getServletContext().getInitParameter("logoPdf"));
         	}
         	else {
         		parameters.put("picture", getServletContext().getInitParameter("logoRecikelPdf"));
         	}
                   	
-            if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26) && (reportID != 27))
+            if ((reportID != 13) && (reportID != 19) && (reportID != 25) && (reportID != 26) && (reportID != 27) && (reportID != 28) && (reportID != 29) && (reportID != 30))
         	{   		
                 InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(report+".jasper");
 				response.setContentType("application/pdf");
@@ -515,7 +515,7 @@ function disableSome(EW_this){
         }
         else if (Integer.parseInt(type) == 2) //HTML
         {
-        	if (reportID != 25) {
+        	if ((reportID != 25) && (reportID != 28)) {
         		parameters.put("picture", getServletContext().getInitParameter("logoPdf"));
         	}
         	else {

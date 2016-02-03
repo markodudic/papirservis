@@ -380,7 +380,9 @@ WHERE
 						width="535"
 						height="12"
 						key="subreport-2"
-						isRemoveLineWhenBlank="true"/>
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("MP") || $P{nacin_obracuna}.equals("QP") || $P{nacin_obracuna}.equals("LP") || $P{racun}.equals("1"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -413,7 +415,9 @@ WHERE
 						height="12"
 						key="subreport-3"
 						positionType="Float"
-						isRemoveLineWhenBlank="true"/>
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("MD") || $P{nacin_obracuna}.equals("QD") || $P{nacin_obracuna}.equals("LD") || $P{racun}.equals("1"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -446,7 +450,9 @@ WHERE
 						height="9"
 						key="subreport-4"
 						positionType="Float"
-						isRemoveLineWhenBlank="true"/>
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{racun}.equals("1"))]]></printWhenExpression>
+						</reportElement>
 					<subreportParameter  name="od_datum">
 						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
 					</subreportParameter>
