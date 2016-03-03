@@ -66,6 +66,7 @@ if (pSearch != null && pSearch.length() > 0) {
 			b_search = b_search + "`tel_st1` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`tel_st2` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`fax` LIKE '%" + kw + "%' OR ";
+			b_search = b_search + "`email` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`razred` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`sif_rac` LIKE '%" + kw + "%' OR ";
 			b_search = b_search + "`opomba` LIKE '%" + kw + "%' OR ";
@@ -89,6 +90,7 @@ if (pSearch != null && pSearch.length() > 0) {
 		b_search = b_search + "`tel_st1` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`tel_st2` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`fax` LIKE '" + pSearch + "%' OR ";
+		b_search = b_search + "`email` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`razred` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`sif_rac` LIKE '" + pSearch + "%' OR ";
 		b_search = b_search + "`opomba` LIKE '" + pSearch + "%' OR ";
@@ -366,6 +368,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("fax")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("email")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("email","UTF-8") %>">email&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("email")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("email")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("potnik")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("potnik","UTF-8") %>">Potnik&nbsp;<% if (OrderBy != null && OrderBy.equals("potnik")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("potnik")) ? "</b>" : ""%>
@@ -529,6 +536,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_tel_st1 = "";
 	String x_tel_st2 = "";
 	String x_fax = "";
+	String x_email = "";
 	String x_potnik = "";
 	String x_razred = "";
 	String x_bala = "";
@@ -623,6 +631,13 @@ while (rs.next() && recCount < stopRec) {
 		x_fax = "";
 	}
 
+	// email
+	if (rs.getString("email") != null){
+		x_email = rs.getString("email");
+	}else{
+		x_email = "";
+	}
+	
 	// potnik
 	x_potnik = String.valueOf(rs.getLong("potnik"));
 
@@ -801,6 +816,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_tel_st1); %>&nbsp;</td>
 		<td><% out.print(x_tel_st2); %>&nbsp;</td>
 		<td><% out.print(x_fax); %>&nbsp;</td>
+		<td><% out.print(x_email); %>&nbsp;</td>
 		<td><%
 if (x_potnik!=null && ((String)x_potnik).length() > 0) {
 	String sqlwrk_where = "";

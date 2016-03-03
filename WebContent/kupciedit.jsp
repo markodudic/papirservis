@@ -58,6 +58,7 @@ Object x_kont_oseba = null;
 Object x_tel_st1 = null;
 Object x_tel_st2 = null;
 Object x_fax = null;
+Object x_email = null;
 Object x_potnik = null;
 Object x_razred = null;
 Object x_bala = null;
@@ -151,6 +152,11 @@ try{
 				x_fax = rs.getString("fax");
 			}else{
 				x_fax = "";
+			}
+			if (rs.getString("email") != null){
+				x_email = rs.getString("email");
+			}else{
+				x_email = "";
 			}
 	x_potnik = String.valueOf(rs.getLong("potnik"));
 			if (rs.getString("razred") != null){
@@ -309,6 +315,11 @@ try{
 			x_fax = (String) request.getParameter("x_fax");
 		}else{
 			x_fax = "";
+		}
+		if (request.getParameter("x_email") != null){
+			x_email = (String) request.getParameter("x_email");
+		}else{
+			x_email = "";
 		}
 		if (request.getParameter("x_potnik") != null){
 			x_potnik = request.getParameter("x_potnik");
@@ -533,6 +544,17 @@ try{
 			rs.updateString("fax", tmpfld);
 		}
 
+		// Field email
+		tmpfld = ((String) x_email);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("email");
+		}else{
+			rs.updateString("email", tmpfld);
+		}
+		
 		// Field potnik
 		tmpfld = ((String) x_potnik).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -877,6 +899,10 @@ out.println(x_postaList);
 	<tr>
 		<td class="ewTableHeader">fax&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_fax" size="30" maxlength="255" value="<%= HTMLEncode((String)x_fax) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">email&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_email" size="30" maxlength="255" value="<%= HTMLEncode((String)x_email) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Potnik&nbsp;</td>
