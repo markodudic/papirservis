@@ -29,10 +29,21 @@ int ewCurSec  = ((Integer) session.getAttribute("papirservis1_status_UserLevel")
 <%
 String a = request.getParameter("a"); //tip
 
-String key1 = "";
+String evls = request.getParameter("evls");
 if (a != null && a.length() != 0) {  //Potrdi paket
-	key1 = request.getParameter("key");
-	//out.println(key1);
+	if (a.equals("U")) {
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	    	String sqlquery = "update arso_paketi set potrjen=1, poslan=1 where sifra IN (" + evls + ")";
+			//out.println(sqlquery);
+	    	stmt.executeUpdate(sqlquery);
+	    	stmt.close();
+			stmt = null;
+		}catch(SQLException ex){
+			out.println(ex.toString());
+		}
+	}
+	/*key1 = request.getParameter("key");
 	if (key1 != null && key1.length() > 0) {
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -45,7 +56,6 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 						" WHERE concat(',', (select CAST(ids AS CHAR(10000) CHARACTER SET utf8) from arso_paketi where sifra="+key1+"), ',')" +
 						"		REGEXP concat(',', id , ',') and arso_status = 1";
 	    	stmt.executeUpdate(sqlquery);
-	    	//out.println(sqlquery);
 	    	
 			if (a.equals("D")) // brisi paket
 		    	sqlquery = "delete from arso_paketi where sifra="+key1;
@@ -58,7 +68,7 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 		}catch(SQLException ex){
 			out.println(ex.toString());
 		}
-	}
+	}*/
 }
 
 
@@ -215,6 +225,10 @@ if (dbwhere.length() > 0) {
 if ((ewCurSec & ewAllowList) != ewAllowList) {
 	whereClause = whereClause + "(0=1) AND ";
 }
+if (session.getAttribute("arsoposiljanje_hideSend").equals("1"))
+{
+	whereClause = whereClause + " poslan = 0 AND ";
+}
 if (whereClause.length() > 5 && whereClause.substring(whereClause.length()-5, whereClause.length()).equals(" AND ")) {
 	whereClause = whereClause.substring(0, whereClause.length()-5);
 }
@@ -225,7 +239,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY `" + OrderBy + "` " + (String) session.getAttribute("arso_OT");
 }
 
-out.println(strsql);
+//out.println(strsql);
 rs = stmt.executeQuery(strsql);
 rs.last();
 totalRecs = rs.getRow();
@@ -286,10 +300,59 @@ String do_datum = s;
 <script language="JavaScript">
 function disableSome(EW_this){
 }
+
+var formData = new FormData();
+var str;
+
+function getFolder() {
+	var inp = document.getElementById('evl_dir');
+	formData = new FormData();
+	str = "";
+	for (var i = 0; i < inp.files.length; ++i) {
+	  var name = inp.files.item(i).name;
+	  formData.append('evl', inp.files.item(i), name);
+	  if (str.length > 1) {
+	  	str = str + "," + name.substring(name.lastIndexOf("\\"), name.lastIndexOf(".pdf"));
+	  }
+	  else {
+		str = name.substring(name.lastIndexOf("\\"), name.lastIndexOf(".pdf"));
+	  }
+	}
+	
+	//var str = document.arsoposiljanjetools.evl_dir.value;
+	//var dir = str.substring(str.lastIndexOf("\\"));
+	//dir = "C:/Projects/Monolit/pdfbox/doc";
+	document.arsoposiljanjetools.folder.value = str;
+}
+
+function sendEvls() {
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/papirservis/ArsoPosiljanjeServlet', true);
+	xhr.onload = function () {
+	  if (xhr.status === 200) {
+	    alert('Evl-ji uspešno poslani.'+xhr.responseText);
+	    var res = xhr.responseText.split("|", 2);
+	    //document.getElementById('arsoposiljanje').action = 'arsoposiljanjelist.jsp?a=U&evls='+str+'&arso_paket='+ res[0];
+		//document.getElementById('arsoposiljanje').submit();
+	    window.location.href = "/papirservis/" + res[1];
+	  } else {
+	    alert('Napaka pri pošiljanju evl-jev!');
+	  }
+	};
+	xhr.send(formData);	
+	
+	/*var pdfs = document.getElementById(id).pdf;
+	
+	for (var i = 0; i < pdfs.length; i++){
+		var pdf = pdfs.item(i);
+		pdf.value = "DA";
+	}*/
+	
+}
 </script>
 
 <p><span class="jspmaker">Pregled: arso paketi pošiljanje</span></p>
-<form action="arsoposiljanjelist.jsp">
+<form action="arsoposiljanjelist.jsp" name="arsoposiljanjetools" id="arsoposiljanjetools">
 <table border="0" cellspacing="0" cellpadding="4">
 	<tr>
 		<td><span class="jspmaker">Iskanje po poljih označenih z (*)</span></td>
@@ -297,7 +360,18 @@ function disableSome(EW_this){
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="arsoposiljanjelist.jsp?cmd=reset">Prikaži vse</a>
-		</span></td>
+		</span>
+		<input type="Submit" name="Submit" value="Skrij/Prikaži poslane" onClick='<%if (session.getAttribute("arsoposiljanje_hideSend").equals("0")) {session.setAttribute("arsoposiljanje_hideSend", "1");}else{session.setAttribute("arsoposiljanje_hideSend", "0");}%>'>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="file" id="evl_dir" name="evl_dir" accept="application/pdf" multiple style="display: none;" onchange="javascript:getFolder();"/>
+			<input type="button" value="Izberi evl-je" onclick="document.getElementById('evl_dir').click();" /></td>
+		<td><input type="text" name="folder" style="width:500px;" readonly></td>
+	</tr>
+	<tr>
+		<td><input type=button value="Pošlji evl-je" onclick="javascript:sendEvls();">
+		</td>
 	</tr>
 </table>
 </form>
@@ -308,12 +382,12 @@ function disableSome(EW_this){
 <table class="ewTable">
 	<tr class="ewTableHeader">
 <% if ((ewCurSec & ewAllowView) == ewAllowView ) { %>
-<td nowrap>
+<!-- td nowrap>
 <img src="images/checkall.gif" alt="Vsi" width="20" height="20" border="0" onClick='izberiVse2(true, "arsoposiljanje");'>
 <img src="images/uncheckall.gif" alt="Noben" width="20" height="20" border="0" onClick='izberiVse2(false, "arsoposiljanje");'>
-</td>
+</td-->
 <td><a href="">Poslan</a></td>
-<td><a href="">PDF</a></td>
+<!-- td><a href="">PDF</a></td-->
 <td><a href="">EMAIL</a></td>
 <% } %>
 		<td>
@@ -486,18 +560,19 @@ while (rs.next() && recCount < stopRec) {
 
 %>
 	<tr class="<%= rowclass %>">
-<td>
+<!-- td>
 	<% if (x_poslan.equals("0")) { %>
 		<span class="jspmaker"><input type="checkbox" name="key" id="key" value="S" class="jspmaker"></span>
 	<% } %>	
-</td>
+</td-->
 <td>
 	<% if (x_poslan.equals("1")) { %>
 	DA<% } else {%>
 	NE<% } %>
 </td>
-<td>
-</td>
+<!-- td>
+	<span class="jspmaker" ><input type="text" name="pdf" id="pdf" value="NE"  style="width:20px; border: none; background-color: transparent;" readonly class="jspmaker"></span>
+</td-->
 <td>
 	<% if (x_emails == null || x_emails.equals("") || x_emails.equals("0")) { %>
 	NE<% } else {%>

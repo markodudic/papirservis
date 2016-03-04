@@ -82,6 +82,7 @@ if (request.getParameter("submit") != null && ((String) request.getParameter("su
 					session.setAttribute("enote",  rs.getString("enote"));
 
 					session.setAttribute("komunalekolicine_hideEmpty", "0");
+					session.setAttribute("arsoposiljanje_hideSend", "0");
 					
 					validpwd = true;
 				}

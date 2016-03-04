@@ -72,7 +72,7 @@ public class Arso  extends Init {
 				String kraj =((String)kupec.elementAt(4)).trim();
 				String maticna =((String)kupec.elementAt(5)).trim();
 				String xml = getArsoData(url+maticna);
-				//System.out.println("RESULT="+xml);
+				System.out.println("RESULT="+xml);
 				Document doc = parseXmlFile(xml);
 				if (doc == null) {
 					System.out.println("Napaka pri poizvedbi na Arso za url: "+url+maticna);
@@ -83,6 +83,7 @@ public class Arso  extends Init {
 				if (idZavezanca == null) {
 					neObstajajoVArsoBazi += maticna+";"+naziv+";"+naslov+";"+posta+" "+kraj+"\r\n";
 				} else {
+					System.out.println("setIdZavezanca="+maticna+":"+idZavezanca);
 					setIdZavezanca(maticna, idZavezanca);
 				}
 			}
