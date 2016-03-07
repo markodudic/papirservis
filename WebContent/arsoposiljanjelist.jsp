@@ -36,7 +36,7 @@ if (a != null && a.length() != 0) {  //Potrdi paket
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	    	String sqlquery = "update arso_paketi set potrjen=1, poslan=1, arso_st=" + arso_paket + " where sifra IN (" + evls + ")";
-			out.println(sqlquery);
+			//out.println(sqlquery);
 	    	stmt.executeUpdate(sqlquery);
 	    	stmt.close();
 			stmt = null;
@@ -316,40 +316,15 @@ function getFolder() {
 	  	str = str + "," + name.substring(name.lastIndexOf("\\"), name.lastIndexOf(".pdf"));
 	  }
 	  else {
-		//str = name.substring(name.lastIndexOf("\\"), name.lastIndexOf(".pdf"));
-		str = name;
+		str = name.substring(name.lastIndexOf("\\"), name.lastIndexOf(".pdf"));
+		//str = name;
 	  }
 	}
 	
 	document.arsoposiljanjetools.folder.value = str;
 }
 
-function sendEvls() {
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/papirservis/ArsoPosiljanjeServlet', true);
-	xhr.onload = function () {
-	  if (xhr.status === 200) {
-	    alert('Evl-ji uspešno poslani. Paket: '+xhr.responseText);
-	    var res = xhr.responseText.split("|", 2);
-	    window.location.href = "/papirservis/" + res[1];
-		setTimeout(function() {
-		    document.getElementById('arsoposiljanje').action = 'arsoposiljanjelist.jsp?a=U&evls='+str+'&arso_paket='+ res[0];
-			document.getElementById('arsoposiljanje').submit();
-		}, 100);
-	  } else {
-	    alert('Napaka pri pošiljanju evl-jev!');
-	  }
-	};
-	xhr.send(formData);	
-	
-	/*var pdfs = document.getElementById(id).pdf;
-	
-	for (var i = 0; i < pdfs.length; i++){
-		var pdf = pdfs.item(i);
-		pdf.value = "DA";
-	}*/
-	
-}
+
 </script>
 
 <p><span class="jspmaker">Pregled: arso paketi pošiljanje</span></p>

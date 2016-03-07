@@ -174,6 +174,70 @@ function xls_create_komunala(param1, param2) {
 	document.getElementById('komunalaForm').action = 'komunalakolicinelist.jsp';
 }
 
+function sendEvls() {
+	alert("Po kliku počakajte da se EVL-ji pripravijo in pošljejo. Po končanju boste dobili obvestilo.");
+	
+/*	var event = $(document).click(function(e) {
+	    e.stopPropagation();
+	    e.preventDefault();
+	    e.stopImmediatePropagation();
+	    return false;
+	});*/
+	
+
+	// disable right click
+	/*document.addEventListener("contextmenu", function(e){
+	    e.stopPropagation();
+	    e.preventDefault();
+	    e.stopImmediatePropagation();
+	}, false);*/
+	
+	document.onclick=DisableRightClick;
+	document.onmouseup=DisableRightClick;
+	document.onmousedown=DisableRightClick;
+	prvic = true;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/papirservis/ArsoPosiljanjeServlet', true);
+	xhr.onload = function () {
+	  if (xhr.status === 200) {
+	    alert('Evl-ji uspešno poslani.');
+	    var res = xhr.responseText.split("|", 2);
+	    window.location.href = "/papirservis/" + res[1];
+		setTimeout(function() {
+		    document.getElementById('arsoposiljanje').action = 'arsoposiljanjelist.jsp?a=U&evls='+str+'&arso_paket='+ res[0];
+			document.getElementById('arsoposiljanje').submit();
+		}, 100);
+	  } else {
+	    alert('Napaka pri pošiljanju evl-jev!');
+	  }
+	};
+	xhr.send(formData);
+}
+
+var prvic = true;
+function DisableRightClick(e) 
+{
+	if(e.button == 0)
+	{
+		if (!prvic) alert ("Počakaj da končam");
+		prvic = false;
+		return false;
+	}
+	if(e.button == 1)
+	{
+		alert ("Počakaj da končam");
+		return false;
+	}
+	if(e.button == 2)
+	{
+		alert ("Počakaj da končam");
+		return false;
+	}
+}
+
+
+
 function mail(keys, receiver, msg, tabela, user, sender) {
 	keyChecked = "";
 	if (keys.length == undefined) {
