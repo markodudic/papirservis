@@ -222,6 +222,54 @@
 	<servlet>
 		<servlet-name>ArsoPosiljanjeServlet</servlet-name>
 		<servlet-class>si.papirservis.ArsoPosiljanjeServlet</servlet-class>
+		<init-param>
+		  	<param-name>smtpServer</param-name>
+			<param-value>smtp.gmail.com</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>subject</param-name>
+			<param-value>EVL</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>body</param-name>
+			<param-value>EVL</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>user</param-name>
+			<param-value>marko.dudic@boatguard.com</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>pass</param-name>
+			<param-value>trzaska297A</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>sender</param-name>
+			<param-value>marko.dudic@gmail.com</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>mail_smtp_auth</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>mail_smtp_port</param-name>
+			<param-value>465</param-value>
+		</init-param>
+		<init-param>
+		  	<param-name>mail_smtp_socketFactory_port</param-name>
+			<param-value>465</param-value>
+		</init-param>		
+		<init-param>
+		  	<param-name>mail_smtp_starttls_enable</param-name>
+			<param-value>false</param-value>
+		</init-param>								
+		<init-param>
+		  	<param-name>mail_transport_protocol</param-name>
+			<param-value>smtp</param-value>
+		</init-param>		
+		<init-param>
+		  	<param-name>use_ssl</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</servlet>
     <servlet-mapping>
       <servlet-name>ArsoPosiljanjeServlet</servlet-name>

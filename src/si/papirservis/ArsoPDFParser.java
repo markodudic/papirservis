@@ -94,10 +94,12 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	        File filename = null;
 			
             //EVIDENCNI LOCATIONS
+	        wordList = new ArrayList();
             String str = "Evidenčni,Digitalni";
             seek = str.split(",");
             ArsoPDFParser printer = new ArsoPDFParser(dir);
             
+            pageNo = 0;
             for (int i = 0; i < pages.getCount(); i++) {
                 pageNo += 1;
             	PDPage page = (PDPage) pages.get(i);
@@ -349,7 +351,7 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	        // Add form objects to output page
 	        AffineTransform afTop = new AffineTransform();
 	        layerUtility.appendFormAsLayer(outPdfPage, formPdf1, afTop, "top");
-	        System.out.println( "signLocation="+signLocation );
+	        //System.out.println( "signLocation="+signLocation );
 	        AffineTransform afBottom = AffineTransform.getTranslateInstance(0.0, signLocation);
 	        if (!join) {
 	        	afBottom = AffineTransform.getTranslateInstance(0.0, -signLocation+85);
