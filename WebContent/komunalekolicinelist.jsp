@@ -54,7 +54,8 @@ String b_search = "";
 String whereClause = "";
 int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 
-String datum = request.getParameter("datum");
+String datum_od = request.getParameter("datum_od");
+String datum_do = request.getParameter("datum_do");
 int mesec = 0;
 if ((request.getParameter("mesec") == null) || request.getParameter("mesec").equals("izbrani")) {
 	mesec = 1;
@@ -79,7 +80,7 @@ if (a != null && a.equals("Potrdi")) {
 	Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
     while (parameterNames.hasMoreElements()) {
         String paramName = parameterNames.nextElement();
-        if (paramName.equals("start") || paramName.equals("psearch") || paramName.equals("sif_kupca") || paramName.equals("Submit") || paramName.equals("datum") || paramName.equals("mesec")) continue;
+        if (paramName.equals("start") || paramName.equals("psearch") || paramName.equals("sif_kupca") || paramName.equals("Submit") || paramName.equals("datum_od") || paramName.equals("datum_do") || paramName.equals("mesec")) continue;
         String[] pKeys = paramName.split(":");
 	  	String[] paramValues = request.getParameterValues(paramName);
         for (int i = 0; i < paramValues.length; i++) {
@@ -237,7 +238,22 @@ String searchwhere1 = (String) session.getAttribute("komunalekolicine_searchwher
 Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 ResultSet rs = null;
 
-if (datum==null || datum.equals("-1") || datum.equals("")) {
+if (datum_od==null || datum_od.equals("-1") || datum_od.equals("")) {
+	Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
+	String y 	= String.valueOf(dat.get(Calendar.YEAR));
+	String s = "01.01." + y;
+	
+	datum_od = s;
+}
+
+String datum_fmod = null;
+if ((datum_od != null) && (datum_od != ""))
+{
+	datum_fmod = (EW_UnFormatDateTime((String)datum_od,"EURODATE", locale)).toString();
+}
+
+
+if (datum_do==null || datum_do.equals("-1") || datum_do.equals("")) {
 	Calendar dat = Calendar.getInstance(TimeZone.getDefault()); 
 	String y 	= String.valueOf(dat.get(Calendar.YEAR));
 	String m 	= String.valueOf(dat.get(Calendar.MONTH) + 1);
@@ -249,13 +265,13 @@ if (datum==null || datum.equals("-1") || datum.equals("")) {
 	s = s + "." + m;
 	s = s + "." + y;
 	
-	datum = s;
+	datum_do = s;
 }
 
 String datum_fm = null;
-if ((datum != null) && (datum != ""))
+if ((datum_do != null) && (datum_do != ""))
 {
-	datum_fm = (EW_UnFormatDateTime((String)datum,"EURODATE", locale)).toString();
+	datum_fm = (EW_UnFormatDateTime((String)datum_do,"EURODATE", locale)).toString();
 }
 
 
@@ -302,7 +318,7 @@ String strsql = "SELECT DISTINCT aa.id, aa.sif_kupca, aa.koda, aa.zdruzi, aa.del
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join okolje as c on a.koda = c.koda "+
 		" left join uporabniki on a.uporabnik = sif_upor " +
-		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
 
 if (dbwhere.length() > 0) {
 	whereClause += " (" + dbwhere + ") AND ";
@@ -375,7 +391,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zb
 		" caseStr " +
 		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
-		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
 		
 if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 	if(whereClause.length() > 0)
@@ -506,10 +522,17 @@ function keyPressed(event) {
 		</td>
 	</tr>	
 	<tr>
-		<td class="jspmaker">Datum za dejanske količine:&nbsp;</td>
+		<td class="jspmaker">Datum od:&nbsp;</td>
 		<td class="jspmaker">
-			<input type="text" name="datum" value="<%= EW_FormatDateTime(datum,7, locale) %>">&nbsp;
-			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum,'dd.mm.yyyy');return false;">&nbsp;
+			<input type="text" name="datum_od" value="<%= EW_FormatDateTime(datum_od,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum_od,'dd.mm.yyyy');return false;">&nbsp;
+		</td>		
+	</tr>	
+	<tr>
+		<td class="jspmaker">Datum do:&nbsp;</td>
+		<td class="jspmaker">
+			<input type="text" name="datum_do" value="<%= EW_FormatDateTime(datum_do,7, locale) %>">&nbsp;
+			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum_do,'dd.mm.yyyy');return false;">&nbsp;
 		</td>		
 	</tr>	
 	<!-- tr>

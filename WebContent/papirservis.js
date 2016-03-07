@@ -177,33 +177,18 @@ function xls_create_komunala(param1, param2) {
 function sendEvls() {
 	alert("Po kliku počakajte da se EVL-ji pripravijo in pošljejo. Po končanju boste dobili obvestilo.");
 	
-/*	var event = $(document).click(function(e) {
-	    e.stopPropagation();
-	    e.preventDefault();
-	    e.stopImmediatePropagation();
-	    return false;
-	});*/
-	
-
-	// disable right click
-	/*document.addEventListener("contextmenu", function(e){
-	    e.stopPropagation();
-	    e.preventDefault();
-	    e.stopImmediatePropagation();
-	}, false);*/
-	
 	document.onclick=DisableRightClick;
 	document.onmouseup=DisableRightClick;
 	document.onmousedown=DisableRightClick;
 	prvic = true;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/papirservis/ArsoPosiljanjeServlet', true);
+	xhr.open('POST', '/kovine/ArsoPosiljanjeServlet', true);
 	xhr.onload = function () {
 	  if (xhr.status === 200) {
 	    alert('Evl-ji uspešno poslani.');
 	    var res = xhr.responseText.split("|", 2);
-	    window.location.href = "/papirservis/" + res[1];
+	    window.location.href = "/kovine/" + res[1];
 		setTimeout(function() {
 		    document.getElementById('arsoposiljanje').action = 'arsoposiljanjelist.jsp?a=U&evls='+str+'&arso_paket='+ res[0];
 			document.getElementById('arsoposiljanje').submit();
