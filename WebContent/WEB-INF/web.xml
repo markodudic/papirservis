@@ -223,51 +223,51 @@
 		<servlet-name>ArsoPosiljanjeServlet</servlet-name>
 		<servlet-class>si.papirservis.ArsoPosiljanjeServlet</servlet-class>
 		<init-param>
-		  	<param-name>smtpServer</param-name>
+		  	<param-name>smtpServerArso</param-name>
 			<param-value>smtp.gmail.com</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>subject</param-name>
+		  	<param-name>subjectArso</param-name>
 			<param-value>EVL</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>body</param-name>
+		  	<param-name>bodyArso</param-name>
 			<param-value>EVL</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>user</param-name>
+		  	<param-name>userArso</param-name>
 			<param-value>marko.dudic@boatguard.com</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>pass</param-name>
+		  	<param-name>passArso</param-name>
 			<param-value>trzaska297A</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>sender</param-name>
+		  	<param-name>senderArso</param-name>
 			<param-value>marko.dudic@gmail.com</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>mail_smtp_auth</param-name>
+		  	<param-name>mail_smtp_authArso</param-name>
 			<param-value>true</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>mail_smtp_port</param-name>
+		  	<param-name>mail_smtp_portArso</param-name>
 			<param-value>465</param-value>
 		</init-param>
 		<init-param>
-		  	<param-name>mail_smtp_socketFactory_port</param-name>
+		  	<param-name>mail_smtp_socketFactory_portArso</param-name>
 			<param-value>465</param-value>
 		</init-param>		
 		<init-param>
-		  	<param-name>mail_smtp_starttls_enable</param-name>
+		  	<param-name>mail_smtp_starttls_enableArso</param-name>
 			<param-value>false</param-value>
 		</init-param>								
 		<init-param>
-		  	<param-name>mail_transport_protocol</param-name>
+		  	<param-name>mail_transport_protocolArso</param-name>
 			<param-value>smtp</param-value>
 		</init-param>		
 		<init-param>
-		  	<param-name>use_ssl</param-name>
+		  	<param-name>use_sslArso</param-name>
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>

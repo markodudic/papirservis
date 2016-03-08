@@ -61,18 +61,18 @@ public class ArsoPosiljanjeServlet extends InitServlet implements Servlet {
 
     public void init() throws ServletException
     {
-		smtpServer = (String) getServletConfig().getInitParameter("smtpServer");
-    	subject = (String) getServletConfig().getInitParameter("subject");
-    	body = (String) getServletConfig().getInitParameter("body");
-    	user = (String) getServletConfig().getInitParameter("user");
-    	pass = (String) getServletConfig().getInitParameter("pass");
-    	sender = (String) getServletConfig().getInitParameter("sender");
-    	mail_smtp_auth = (String) getServletConfig().getInitParameter("mail_smtp_auth");
-    	mail_smtp_port = (String) getServletConfig().getInitParameter("mail_smtp_port");
-    	mail_smtp_socketFactory_port = (String) getServletConfig().getInitParameter("mail_smtp_socketFactory_port");
-    	mail_smtp_starttls_enable = (String) getServletConfig().getInitParameter("mail_smtp_starttls_enable");
-    	mail_transport_protocol = (String) getServletConfig().getInitParameter("mail_transport_protocol");
-    	use_ssl = (String) getServletConfig().getInitParameter("use_ssl");
+		smtpServer = (String) getServletConfig().getInitParameter("smtpServerArso");
+    	subject = (String) getServletConfig().getInitParameter("subjectArso");
+    	body = (String) getServletConfig().getInitParameter("bodyArso");
+    	user = (String) getServletConfig().getInitParameter("userArso");
+    	pass = (String) getServletConfig().getInitParameter("passArso");
+    	sender = (String) getServletConfig().getInitParameter("senderArso");
+    	mail_smtp_auth = (String) getServletConfig().getInitParameter("mail_smtp_authArso");
+    	mail_smtp_port = (String) getServletConfig().getInitParameter("mail_smtp_portArso");
+    	mail_smtp_socketFactory_port = (String) getServletConfig().getInitParameter("mail_smtp_socketFactory_portArso");
+    	mail_smtp_starttls_enable = (String) getServletConfig().getInitParameter("mail_smtp_starttls_enableArso");
+    	mail_transport_protocol = (String) getServletConfig().getInitParameter("mail_transport_protocolArso");
+    	use_ssl = (String) getServletConfig().getInitParameter("use_sslArso");
     }
     
 	/*
