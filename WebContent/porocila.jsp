@@ -190,7 +190,7 @@ function updateRacun(){
 	
 	if ((reportID == 25) || (reportID == 26) || (reportID == 27) || (reportID == 28) || (reportID == 29) || (reportID == 30))
 	{
-		String sqlwrk_x_sif_kupca = "SELECT distinct st_pogodbe, naziv, interval_pavsala " +
+		String sqlwrk_x_sif_kupca = "SELECT distinct id, st_pogodbe, naziv, interval_pavsala " +
 									"FROM recikel_zavezanci" + session.getAttribute("leto") + " " +
 									"ORDER BY naziv ASC";
 		
@@ -199,7 +199,7 @@ function updateRacun(){
 		
 		int rowcntwrk_x_sif_kupca = 0;
 		while (rswrk_x_sif_kupca.next()) {
-			String tmpSifra = rswrk_x_sif_kupca.getString("st_pogodbe");
+			String tmpSifra = rswrk_x_sif_kupca.getString("id");
 			x_sif_zavezanciList.append("<option value=\"").append(tmpSifra).append("\"");
 			String tmpValue_x_sif_kupca = "";
 			String tmpNaziv = rswrk_x_sif_kupca.getString("naziv");

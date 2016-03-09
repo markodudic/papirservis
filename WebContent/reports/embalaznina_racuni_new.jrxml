@@ -69,14 +69,14 @@
 		<defaultValueExpression ><![CDATA["pavšal"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["207"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT *,
 DATE_FORMAT(ADDDATE(CAST($P{datum_racuna} AS DATE), valuta), '%d.%m.%Y') as zapadlost
 FROM
      recikel_zavezanci$P!{aleto}
 WHERE 
-     (st_pogodbe = $P{sif_zavezanca}) or 
+     (id = $P{sif_zavezanca}) or 
     (($P{sif_zavezanca} = -1) and (interval_pavsala = $P{nacin_obracuna}))]]></queryString>
 
 	<field name="id" class="java.lang.Integer"/>
@@ -95,8 +95,8 @@ WHERE
 	<field name="skrbnik" class="java.lang.String"/>
 	<field name="vrsta_zavezanca" class="java.lang.String"/>
 	<field name="interval_pavsala" class="java.lang.String"/>
-	<field name="datum_pricetka_pogodbe" class="java.sql.Date"/>
-	<field name="datum_sklenitve_pogodbe" class="java.sql.Date"/>
+	<field name="datum_pricetka_pogodbe" class="java.sql.Timestamp"/>
+	<field name="datum_sklenitve_pogodbe" class="java.sql.Timestamp"/>
 	<field name="valuta" class="java.lang.Integer"/>
 	<field name="kontaktna_oseba" class="java.lang.String"/>
 	<field name="telefon_kontaktna" class="java.lang.String"/>
@@ -396,7 +396,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
@@ -431,7 +431,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -466,7 +466,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>

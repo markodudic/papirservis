@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA["QP"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["207"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="racun" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>

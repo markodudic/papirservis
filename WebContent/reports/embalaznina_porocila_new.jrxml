@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA["VSI"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["0001/2013"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["207"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
@@ -75,7 +75,7 @@
 FROM
      recikel_zavezanci$P!{aleto}
 WHERE 
-    ((st_pogodbe = $P{sif_zavezanca}) OR ($P{sif_zavezanca} = -1))
+    ((id = $P{sif_zavezanca}) OR ($P{sif_zavezanca} = -1))
 	AND
     ((($P{nacin_obracuna} = "LN") AND (interval_pavsala != 'NS')) OR
       ($P{nacin_obracuna} != "LN"))]]></queryString>
@@ -177,7 +177,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
@@ -212,7 +212,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -247,7 +247,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -282,7 +282,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -317,7 +317,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
@@ -352,7 +352,7 @@ WHERE
 						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="sif_zavezanca">
-						<subreportParameterExpression><![CDATA[$F{st_pogodbe}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{id}+""]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="tip">
 						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
