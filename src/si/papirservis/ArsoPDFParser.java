@@ -161,7 +161,24 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
         	printer.setEndPage(pageNo);
         	printer.writeText(pdDocument, dummy);
         
+        	//ce je podpis na dveh straneh
+        	boolean signLatsPage = true;
+        
         	System.out.println(wordList);
+        	if (wordList.size() == 0) {
+            	page = (PDPage) pages.get(pageNo-2);
+            	
+            	printer.processPage(page);
+            	
+            	dummy = new StringWriter();
+            	printer.setStartPage(pageNo);
+            	printer.setEndPage(pageNo);
+            	printer.writeText(pdDocument, dummy);
+            
+            	signLatsPage = false;
+            	System.out.println(wordList);
+        	}
+        	
         	String[] sign = ((String)wordList.get(0)).split("_");
             
             //SIGN PDF
@@ -169,7 +186,13 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
         	int start = Integer.parseInt(sign[1]);
         	int end = 0;
         	int len = 155;
-	        PDPage pageSignClone = pages.get(ps-1);
+	        PDPage pageSignClone;
+	        if (signLatsPage) {
+	        	pageSignClone = pages.get(ps-1);
+	        }
+	        else {
+	        	pageSignClone = pages.get(ps-2);
+	        }
     		COSDictionary pageDict = pageSignClone.getCOSObject();
     		COSDictionary newPageDict = new COSDictionary(pageDict);
     		newPageDict.removeItem(COSName.ANNOTS);
@@ -178,7 +201,12 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
             double pWidth = pageSign.getMediaBox().getWidth();
             rectangle = new PDRectangle();
             rectangle.setUpperRightY((int)pHeight - start + 10);
-            rectangle.setLowerLeftY((int)pHeight - start - len);
+            if (signLatsPage) {
+                rectangle.setLowerLeftY((int)pHeight - start - len);
+            }
+            else {
+                rectangle.setLowerLeftY(55);            	
+            }
             rectangle.setUpperRightX(0);
             rectangle.setLowerLeftX((int)pWidth);                  
             pageSign.setCropBox(rectangle);
@@ -187,6 +215,27 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 			outputDoc1.save(filenameSign);              
             outputDoc1.close();
             
+            if (!signLatsPage) {
+            	outputDoc1 = new PDDocument();
+		        pageSignClone = pages.get(ps-1);
+	    		pageDict = pageSignClone.getCOSObject();
+	    		newPageDict = new COSDictionary(pageDict);
+	    		newPageDict.removeItem(COSName.ANNOTS);
+	    		pageSign = new PDPage(newPageDict);
+	            rectangle = new PDRectangle();
+	            rectangle.setUpperRightY((int)pHeight - 55);
+	            rectangle.setLowerLeftY((int)pHeight - 200);
+	            rectangle.setUpperRightX(0);
+	            rectangle.setLowerLeftX((int)pWidth);                  
+	            pageSign.setCropBox(rectangle);
+	            outputDoc1.addPage(pageSign);
+	            File filenameSign1 = new File(path+"/"+pFile.getName().substring(0,pFile.getName().lastIndexOf("."))+"_sign1"+".pdf");
+				outputDoc1.save(filenameSign1);              
+	            outputDoc1.close();
+	            
+	            generateSideBySidePDF(filenameSign, filenameSign1, 650, 200, 0, false); //todo
+	            filenameSign = filenameSign1;
+            }            
             
             //RAZREŽEM PO LISTIH
         	for (int i=0; i<evidenciList.size()-1; i++) {
@@ -251,17 +300,20 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
                 outputDoc1.close();
 
                 
+                //ce je evl na dveh listih
             	File filename1 = new File(path+"/"+pFile.getName().substring(0,pFile.getName().lastIndexOf("."))+"_"+(i-1)+".pdf");
                 if ((i+1) % 3 == 0) {
                     int koef = 40;
-                    //if (i<3) koef = 10;
                     String[] evidenciPrev = ((String)evidenciList.get(i-1)).split("_");
-                    generateSideBySidePDF(filename1, filename, (int)pHeight - Integer.parseInt(evidenciPrev[1]) + koef, i, false);
-//        			generateSideBySidePDF(filename1, filename, end + koef, i, false);
+                    generateSideBySidePDF(filename1, filename, (int)pHeight - Integer.parseInt(evidenciPrev[1]) + koef, 0, i, false);
                 }
 
                 if ((i+2) % 3 != 0) {
-                	generateSideBySidePDF(filename, filenameSign, 600, i, true);
+                	int signLocation = 600;
+                	if (!signLatsPage) {
+                		signLocation -= 500;
+                	}
+                	generateSideBySidePDF(filename, filenameSign, signLocation, 0, i, true);
                 }
                 
                 filename1.delete();
@@ -319,7 +371,7 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 
 	
 	
-	public static void generateSideBySidePDF(File pdf1File, File pdf2File, int signLocation, int rec, boolean join) {
+	public static void generateSideBySidePDF(File pdf1File, File pdf2File, int signLocation, int topLoc, int rec, boolean join) {
 		PDDocument pdf1 = null;
     	PDDocument pdf2 = null;
 	    PDDocument outPdf = null;
@@ -328,11 +380,35 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	        pdf2 = PDDocument.load(pdf2File);
 	        outPdf = new PDDocument();
 
+	        File outPdfFile = pdf2File;
+	        if (join) {
+		        int xMaticna = 260;
+	            int yMaticna = 20;
+	            Rectangle rect = new Rectangle( xMaticna, yMaticna, 50, 10 ); 
+	            PDFTextStripperByArea stripper = new PDFTextStripperByArea(); 
+	            stripper.setSortByPosition( true ); 
+	            stripper.addRegion( "class", rect ); 
+	            stripper.extractRegions( pdf1.getPage(0)); 
+	            System.out.println( "***********MATICNA***************" );
+	            System.out.println( stripper.getTextForRegion( "class" ).trim() );
+	            String maticna = stripper.getTextForRegion( "class" ).trim();
+	            maticneList.add(maticna);
+	            stripper.removeRegion("class");
+	            
+	    	    outPdfFile = new File(pdf1File.getParent()+"/"+pdf1File.getName().substring(0,pdf1File.getName().lastIndexOf("_"))+"_"+maticna+"_"+rec+".pdf");
+	        }
+	        
 	        // Create output PDF frame
 	        PDRectangle pdf1Frame = ((PDPage)pdf1.getDocumentCatalog().getPages().get(0)).getCropBox();
 	        PDRectangle pdf2Frame = ((PDPage)pdf2.getDocumentCatalog().getPages().get(0)).getCropBox();
-	        //PDRectangle outPdfFrame = new PDRectangle(pdf1Frame.getWidth()+pdf2Frame.getWidth(), Math.max(pdf1Frame.getHeight(), pdf2Frame.getHeight()));
-	        PDRectangle outPdfFrame = new PDRectangle(pdf1Frame.getWidth(), pdf1Frame.getHeight());
+	        
+	        PDRectangle outPdfFrame;
+	        if (topLoc == 0) {
+		        outPdfFrame = new PDRectangle(pdf1Frame.getWidth(), pdf1Frame.getHeight());
+	        }
+	        else {
+		        outPdfFrame = new PDRectangle(pdf1Frame.getWidth(), pdf1Frame.getHeight()+pdf2Frame.getHeight());
+	        }
 
 	        // Create output page with calculated frame and add it to the document
 	        COSDictionary dict = new COSDictionary();
@@ -349,35 +425,21 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	        PDFormXObject formPdf2 = layerUtility.importPageAsForm(pdf2, 0);
 
 	        // Add form objects to output page
-	        AffineTransform afTop = new AffineTransform();
+	        //AffineTransform afTop = new AffineTransform();
+	        AffineTransform afTop = AffineTransform.getTranslateInstance(0.0, topLoc);
 	        layerUtility.appendFormAsLayer(outPdfPage, formPdf1, afTop, "top");
-	        //System.out.println( "signLocation="+signLocation );
+	        System.out.println( "signLocation="+signLocation );
 	        AffineTransform afBottom = AffineTransform.getTranslateInstance(0.0, signLocation);
 	        if (!join) {
-	        	afBottom = AffineTransform.getTranslateInstance(0.0, -signLocation+85);
+	        	if (topLoc == 0) {
+	        		afBottom = AffineTransform.getTranslateInstance(0.0, -signLocation+85);
+	        	}
+	        	else {
+	        		afBottom = AffineTransform.getTranslateInstance(0.0, signLocation);
+	        	}
 	        }
 	        layerUtility.appendFormAsLayer(outPdfPage, formPdf2, afBottom, "bottom");
 
-	        File outPdfFile = pdf2File;
-	        if (join) {
-		        int xMaticna = 260;
-	            int yMaticna = 20;
-	            Rectangle rect = new Rectangle( xMaticna, yMaticna, 50, 13 ); 
-	            PDFTextStripperByArea stripper = new PDFTextStripperByArea(); 
-	            stripper.setSortByPosition( true ); 
-	            stripper.addRegion( "class", rect ); 
-	            stripper.extractRegions( outPdfPage ); 
-	            System.out.println( "***********MATICNA***************" );
-	            System.out.println( stripper.getTextForRegion( "class" ).trim() );
-	            String maticna = stripper.getTextForRegion( "class" ).trim();
-	            maticneList.add(maticna);
-	            stripper.removeRegion("class");
-	            
-	    	    outPdfFile = new File(pdf1File.getParent()+"/"+pdf1File.getName().substring(0,pdf1File.getName().lastIndexOf("_"))+"_"+maticna+"_"+rec+".pdf");
-	        }
-	        /*else {
-	        	pdf1File.delete();
-	        }*/
 	        System.out.println( "outPdfFile="+outPdfFile );
             
 	        outPdf.save(outPdfFile);
