@@ -114,16 +114,27 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
             }
             System.out.println(wordList);
         	List evidenciList = wordList;
+        	
+        	//PRESORTIRAM TAKO DA DOBIM VSE ZAČETKE IN KONCE
         	List evidenciListFull = new ArrayList<String>();
         	evidenciListFull.add(evidenciList.get(0));
         	
         	int prevPage = 1;
         	for (int i=1; i<evidenciList.size()-1; i++) {
         		boolean endOnOtherPage = true;
+    			boolean changeOrder = false;
         		String curr = (String)evidenciList.get(i);
         		if (prevPage != Integer.parseInt(curr.split("_")[0])) {
         			evidenciListFull.add(prevPage+"_"+endOfContent+"_"+seek[0]);
-        			evidenciListFull.add(curr);
+        			if (Integer.parseInt(curr.split("_")[1]) < header) {
+        				evidenciListFull.add(curr);
+            		}
+        			else{
+        				//IZJEMA
+                		String in = curr.split("_")[0]+"_"+header+"_"+seek[0];
+            			evidenciListFull.add(in);
+                		changeOrder = true;
+        			}
         			endOnOtherPage = false;
         		}
         		else {
@@ -134,13 +145,18 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
         		String[] nextSplit = next.split("_");
         		prevPage = Integer.parseInt(nextSplit[0]);
         		String in = nextSplit[0]+"_"+header+"_"+seek[0];
-        		evidenciListFull.add(in);
-       		
+    			if (changeOrder) {
+    				//IZJEMA
+            		in = curr.split("_")[0]+"_"+curr.split("_")[1]+"_"+seek[0];
+    			}
+    			evidenciListFull.add(in);
+      		
         		if (endOnOtherPage) {
         			i++;
         			evidenciListFull.add(evidenciList.get(i));
         		}
         	}
+        	evidenciListFull.add(evidenciList.get(evidenciList.size()-1));
             System.out.println(evidenciListFull);
             evidenciList = evidenciListFull;
             
@@ -238,7 +254,9 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
             }            
             
             //RAZREŽEM PO LISTIH
-        	for (int i=0; i<evidenciList.size()-1; i++) {
+            float expandAndEnd = 0;
+            if (signLatsPage) evidenciList.remove(evidenciList.size()-1);
+            for (int i=0; i<evidenciList.size()-1; i++) {
         		String[] evidenciCurr = ((String)evidenciList.get(i)).split("_");
         		ps = Integer.parseInt(evidenciCurr[0]);
         		start = Integer.parseInt(evidenciCurr[1]);
@@ -302,19 +320,25 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
                 
                 //ce je evl na dveh listih
             	File filename1 = new File(path+"/"+pFile.getName().substring(0,pFile.getName().lastIndexOf("."))+"_"+(i-1)+".pdf");
-                if ((i+1) % 3 == 0) {
+                if ((i+1) % 3 == 0 && (expandAndEnd + (end - expand) > 200)) {
                     int koef = 40;
                     String[] evidenciPrev = ((String)evidenciList.get(i-1)).split("_");
+                    System.out.println("*****************2 SIDE EVL*******************");
+                    System.out.println("filename1="+filename1);
+                    System.out.println("filename="+filename);
                     generateSideBySidePDF(filename1, filename, (int)pHeight - Integer.parseInt(evidenciPrev[1]) + koef, 0, i, false);
                 }
 
-                if ((i+2) % 3 != 0) {
+                if (((i+2) % 3 != 0) && (expandAndEnd + (end - expand) > 200)) {
                 	int signLocation = 600;
                 	if (!signLatsPage) {
                 		signLocation -= 500;
                 	}
-                	generateSideBySidePDF(filename, filenameSign, signLocation, 0, i, true);
+                	System.out.println("*****************SIGN*******************");
+                    generateSideBySidePDF(filename, filenameSign, signLocation, 0, i, true);
                 }
+                
+                expandAndEnd = end - expand;
                 
                 filename1.delete();
         	}
