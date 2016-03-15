@@ -330,9 +330,9 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
                 }
 
                 if (((i+2) % 3 != 0) && (expandAndEnd + (end - expand) > 200)) {
-                	int signLocation = 600;
+                	int signLocation = 500;
                 	if (!signLatsPage) {
-                		signLocation -= 500;
+                		signLocation -= 400;
                 	}
                 	System.out.println("*****************SIGN*******************");
                     generateSideBySidePDF(filename, filenameSign, signLocation, 0, i, true);
