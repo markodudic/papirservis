@@ -52,7 +52,7 @@ when 8 then materiali.`ravnanje8`
 when 9 then materiali.`ravnanje9`
 else 0 end,
 IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
-IFNULL(-dob.`kolicina` * materiali.str_dv * kupci.bala/100, 0) AS dob_proizvodnja,
+IFNULL(-dob.`kolicina` * materiali.str_dv * kupci.bala/100, 0) * enote.strosek_proizvodnja AS dob_proizvodnja,
 IFNULL(-dob.`dod_stroski`, 0) as dob_stroski,
 IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
 IFNULL(dob_pozicije.stev_km,0) as dob_stev_km,
@@ -76,6 +76,7 @@ FROM kupci, skup,
 		WHERE dob.st_dob = zadnji.st_dob and
 		      dob.pozicija = zadnji.pozicija and
 		      dob.zacetek = zadnji.datum)  dob
+    left join enote on (dob.sif_enote = enote.sif_enote)
     left join (SELECT stranke.*
 		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
  		group by sif_str ) zadnji
