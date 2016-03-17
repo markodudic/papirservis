@@ -413,8 +413,7 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	            stripper.setSortByPosition( true ); 
 	            stripper.addRegion( "class", rect ); 
 	            stripper.extractRegions( pdf1.getPage(0)); 
-	            System.out.println( "***********MATICNA***************" );
-	            System.out.println( stripper.getTextForRegion( "class" ).trim() );
+	            System.out.println( "maticna="+stripper.getTextForRegion( "class" ).trim());
 	            String maticna = stripper.getTextForRegion( "class" ).trim();
 	            maticneList.add(maticna);
 	            stripper.removeRegion("class");

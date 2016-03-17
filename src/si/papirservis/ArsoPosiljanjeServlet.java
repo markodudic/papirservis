@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -94,19 +95,23 @@ public class ArsoPosiljanjeServlet extends InitServlet implements Servlet {
 	 *      HttpServletResponse arg1)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tempDir = this.getServletContext().getRealPath("/") + "arso/";
-		String zipName = "evl_"+ (new Date()).getTime() + ".zip";
-        
-		System.out.println("uploadFile="+tempDir);
-		FileOutputStream fos = new FileOutputStream(tempDir+"/" +zipName);
-		ZipOutputStream zos = new ZipOutputStream(fos);
 		OutputStream os = response.getOutputStream();
 		byte[] buffer = new byte[1024];
 		
 		try {
+			String tempDir = this.getServletContext().getRealPath("/") + "arso/";
+			
 			MultipartUpload mu = new MultipartUpload().decode(request, response, 20000000, tempDir+"/");
 			System.out.println(mu.files);
-			
+
+			Set<String> entry = mu.files.keySet();
+			String f = (String)entry.toArray()[0];
+			String n = f.substring(0,f.lastIndexOf("."));
+			String zipName = n + "_"+ (new Date()).getTime() + ".zip";
+	        
+			System.out.println("uploadFile="+tempDir);
+			FileOutputStream fos = new FileOutputStream(tempDir+"/" +zipName);
+			ZipOutputStream zos = new ZipOutputStream(fos);
 			
 			ArsoPDFParser arso = new ArsoPDFParser(tempDir);
 			
