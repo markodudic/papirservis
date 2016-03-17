@@ -296,6 +296,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("nadenota")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("strosek")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("blokada","UTF-8") %>">Strošek proizvodnja&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("strosek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("strosek")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_st")) ? "<b>" : ""%>
 <a href="enotelist.jsp?order=<%= java.net.URLEncoder.encode("arso_prjm_st","UTF-8") %>">Arso št.&nbsp;<% if (OrderBy != null && OrderBy.equals("arso_prjm_st")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_st")) ? "</b>" : ""%>
@@ -373,6 +378,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_dejavnost = "";
 	String x_dovoljenje = "";
 	String x_nadenota = "";
+	int x_strosek = 0;
 	String x_arso_prjm_st = "";
 	String x_arso_prjm_status = "";
 	String x_arso_aktivnost_prjm = "";
@@ -424,6 +430,9 @@ while (rs.next() && recCount < stopRec) {
 		x_nadenota = "";
 	}
 	
+	// blokada
+	x_strosek = rs.getInt("strosek_proizvodnja");
+
 	// arso_prjm_st
 	if (rs.getString("arso_prjm_st") != null){
 		x_arso_prjm_st = rs.getString("arso_prjm_st");
@@ -516,6 +525,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_dejavnost); %>&nbsp;</td>
 		<td><% out.print(x_dovoljenje); %>&nbsp;</td>
 		<td><% out.print(x_nadenota); %>&nbsp;</td>
+		<td><% out.print((x_strosek == 1 ? "DA" : "NE")); %>&nbsp;</td>
 		<td><% out.print(x_arso_prjm_st); %>&nbsp;</td>
 		<td><% out.print(x_arso_prjm_status); %>&nbsp;</td>
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>

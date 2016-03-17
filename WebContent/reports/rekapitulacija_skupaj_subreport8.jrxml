@@ -55,7 +55,7 @@ when 8 then materiali.`ravnanje8`
 when 9 then materiali.`ravnanje9`
 else 0 end,
 IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
-IFNULL(dob.`kolicina` * materiali.str_dv * kupci.bala/100,0) AS dob_proizvodnja,
+IFNULL(dob.`kolicina` * materiali.str_dv * kupci.bala/100,0) * enote.strosek_proizvodnja AS dob_proizvodnja,
 IFNULL(dob.`dod_stroski`,0) as dob_stroski,
 IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
 IFNULL(dob_pozicije.stev_km,0) as dob_stev_km,
@@ -66,8 +66,7 @@ materiali.prevoz1,
 materiali.prevoz2,
 materiali.prevoz3,
 materiali.prevoz4,
-IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem,
-stranke.obracun_km
+IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem
 FROM kupci, skup,
     (SELECT dob.*
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
@@ -79,13 +78,8 @@ FROM kupci, skup,
 		WHERE dob.st_dob = zadnji.st_dob and
 		      dob.pozicija = zadnji.pozicija and
 		      dob.zacetek = zadnji.datum)  dob
-    left join (SELECT stranke.*
-		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 		group by sif_str ) zadnji
-		WHERE stranke.sif_kupca = $P{sif_str} and
-			stranke.sif_str = zadnji.sif_str and
-	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),
-    (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
+    left join enote on (dob.sif_enote = enote.sif_enote),
+   (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
 			WHERE dob.sif_kupca = $P{sif_str} and
@@ -152,7 +146,6 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 	<field name="prevoz3" class="java.lang.Double"/>
 	<field name="prevoz4" class="java.lang.Double"/>
 	<field name="najem" class="java.lang.Double"/>
-	<field name="obracun_km" class="java.lang.Long"/>
 
 	<variable name="sum_zaup" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dob_zaup}]]></variableExpression>
@@ -173,20 +166,25 @@ ORDER BY dob.st_dob, dob.pozicija]]></queryString>
 		<variableExpression><![CDATA[$F{dob_stroski}]]></variableExpression>
 	</variable>
 	<variable name="sum_prevoz" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[!$F{prevoz_material}.booleanValue() ?
-	new Double ("0.00") : 
-		($F{obracun_km}.doubleValue() <= 5 ? 
-			new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
-			($F{obracun_km}.doubleValue() > 5 && $F{obracun_km}.doubleValue() <= 10 ? 
-				new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
-				($F{obracun_km}.doubleValue() > 10 && $F{obracun_km}.doubleValue() <= 20 ? 
-					new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
-					($F{obracun_km}.doubleValue() > 20 ? 
-						new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
+		<variableExpression><![CDATA[$F{prevoz_kamion}.booleanValue() && 
+!$F{prevoz_material}.booleanValue() ?
+	$F{dob_prevoz} : 
+	(!$F{prevoz_kamion}.booleanValue() && 
+	$F{prevoz_material}.booleanValue() ? 
+		($F{dob_stev_km}.doubleValue() / 2 <= 5 ? 
+			new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
+			($F{dob_stev_km}.doubleValue() / 2 > 5 && $F{dob_stev_km}.doubleValue() / 2 <= 10 ? 
+				new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
+				($F{dob_stev_km}.doubleValue() / 2 > 10 && $F{dob_stev_km}.doubleValue() / 2 <= 20 ? 
+					new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
+					($F{dob_stev_km}.doubleValue() / 2 > 20 ? 
+						new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
 						new Double ("0.00"))
 				)
 			) 
-		) ]]></variableExpression>
+		) : 
+		new Double ("0.00")
+	)]]></variableExpression>
 	</variable>
 	<variable name="sum_najem" class="java.lang.Double" resetType="Report" calculation="Average">
 		<variableExpression><![CDATA[$F{najem}]]></variableExpression>
@@ -537,20 +535,25 @@ $F{dob_ravnanje} : new Double ("0.00")]]></textFieldExpression>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[!$F{prevoz_material}.booleanValue() ?
-	new Double ("0.00") : 
-		($F{obracun_km}.doubleValue() <= 5 ? 
-			new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
-			($F{obracun_km}.doubleValue() > 5 && $F{obracun_km}.doubleValue() <= 10 ? 
-				new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
-				($F{obracun_km}.doubleValue() > 10 && $F{obracun_km}.doubleValue() <= 20 ? 
-					new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
-					($F{obracun_km}.doubleValue() > 20 ? 
-						new Double ($F{obracun_km}.doubleValue() * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{prevoz_kamion}.booleanValue() && 
+!$F{prevoz_material}.booleanValue() ?
+	$F{dob_prevoz} : 
+	(!$F{prevoz_kamion}.booleanValue() && 
+	$F{prevoz_material}.booleanValue() ? 
+		($F{dob_stev_km}.doubleValue() / 2 <= 5 ? 
+			new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz1}.doubleValue()) : 
+			($F{dob_stev_km}.doubleValue() / 2 > 5 && $F{dob_stev_km}.doubleValue() / 2 <= 10 ? 
+				new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz2}.doubleValue()) : 
+				($F{dob_stev_km}.doubleValue() / 2 > 10 && $F{dob_stev_km}.doubleValue() / 2 <= 20 ? 
+					new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz3}.doubleValue()) : 
+					($F{dob_stev_km}.doubleValue() / 2 > 20 ? 
+						new Double (($F{dob_stev_km}.doubleValue() / 2) * $F{dob_kolicina}.doubleValue() * $F{prevoz4}.doubleValue()) : 
 						new Double ("0.00"))
 				)
 			) 
-		) ]]></textFieldExpression>
+		) : 
+		new Double ("0.00")
+	)]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

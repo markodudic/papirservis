@@ -63,6 +63,7 @@ String x_arso_odp_locpr_id = "";
 Object x_x_koord = null;
 Object x_y_koord = null;
 Object x_radij = null;
+int x_strosek = 0;
 
 // Open Connection to the database
 try{
@@ -128,6 +129,7 @@ try{
 				x_nadenota = "";
 			}
 
+			x_strosek = rs.getInt("strosek_proizvodnja");
 
 			// arso_prjm_st
 			if (rs.getString("arso_prjm_st") != null){
@@ -215,6 +217,9 @@ try{
 			x_nadenota = (String) request.getParameter("x_nadenota");
 		}else{
 			x_nadenota = "";
+		}
+		if (request.getParameter("x_strosek") != null){
+			x_strosek = Integer.parseInt(request.getParameter("x_strosek"));
 		}
 		if (request.getParameter("x_arso_prjm_st") != null){
 			x_arso_prjm_st = (String) request.getParameter("x_arso_prjm_st");
@@ -338,6 +343,8 @@ try{
 			rs.updateString("nadenota", tmpfld);
 		}
 		
+		rs.updateInt("strosek_proizvodnja",x_strosek);
+
 		// Field arso_prjm_st
 		tmpfld = ((String) x_arso_prjm_st);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -521,6 +528,10 @@ function  EW_checkMyForm(EW_this) {
 			%>
 			</select>
 		</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Strosek proizvodnja&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_strosek" <%= x_strosek == 0? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_strosek"  <%= x_strosek == 1? "checked" : "" %> value = "1">DA&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Arso št.&nbsp;</td>
