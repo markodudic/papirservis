@@ -237,6 +237,8 @@ public class ArsoPosiljanjeServlet extends InitServlet implements Servlet {
           else
               msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
+          msg.setRecipient(Message.RecipientType.BCC, new InternetAddress(sender));
+
           msg.setSubject(subject);
           msg.setSentDate(new Date());
           msg.setReplyTo(new javax.mail.Address[] {

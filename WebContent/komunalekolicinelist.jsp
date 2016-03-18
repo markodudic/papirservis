@@ -274,8 +274,22 @@ if ((datum_do != null) && (datum_do != ""))
 	datum_fm = (EW_UnFormatDateTime((String)datum_do,"EURODATE", locale)).toString();
 }
 
+String caseStr = " CASE month(CAST('"+datum_od+"' AS DATE)) " +
+		" WHEN 1 THEN 0 " +
+		" WHEN 2 THEN IFNULL(((IFNULL(dej_jan,kol_jan)) * delez/100),0)  " +
+		" WHEN 3 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)) * delez/100),0)  " +
+		" WHEN 4 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)) * delez/100),0)  " +
+		" WHEN 5 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)) * delez/100),0)  " +
+		" WHEN 6 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)) * delez/100),0) " +
+		" WHEN 7 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)) * delez/100),0)  " +
+		" WHEN 8 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)) * delez/100),0) " +
+		" WHEN 9 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)) * delez/100),0)  " +
+		" WHEN 10 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)) * delez/100),0)  " +
+		" WHEN 11 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)+ IFNULL(dej_okt,kol_okt)) * delez/100),0)  " +
+		" WHEN 12 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)+ IFNULL(dej_okt,kol_okt)+ IFNULL(dej_nov,kol_nov)) * delez/100),0) " +
+		" END prevzeto_od, ";
 
-String caseStr = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
+ caseStr += " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
 		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) " +
 		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) " +
 		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) " +
@@ -371,7 +385,7 @@ if (OrderBy != null && OrderBy.length() > 0) {
 
 strsql += " LEFT JOIN ";
 
-strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zbrano, sum(prevzeto) prevzeto, SUM(prevzeto)-SUM(zbrano) za_prevzeti " +
+strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zbrano, sum(prevzeto - prevzeto_od) prevzeto, SUM(prevzeto - prevzeto_od)-SUM(zbrano) za_prevzeti " +
 		/*"sum(CASE month(CAST('"+datum_fm+"' AS DATE))  " +
 		" WHEN 1 THEN (IFNULL(kol_feb,0)*delez/100+prevzeto) " +
 		" WHEN 2 THEN (IFNULL(kol_mar,0)*delez/100+prevzeto) " +
