@@ -289,7 +289,7 @@ String caseStr = " CASE month(CAST('"+datum_od+"' AS DATE)) " +
 		" WHEN 12 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)+ IFNULL(dej_okt,kol_okt)+ IFNULL(dej_nov,kol_nov)) * delez/100),0) " +
 		" END prevzeto_od, ";
 
- caseStr += " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
+String caseStr1 = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
 		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) " +
 		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) " +
 		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) " +
@@ -402,7 +402,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zb
 		" END) za_prevzeti " +*/
 		"from ( " +
 		"select a.*, if(a.zdruzi is null,a.koda,a.zdruzi) kkoda, b.naziv, IFNULL(SUM(kolicina),0) zbrano, " +
-		" caseStr " +
+		" caseStr " + " caseStr1 " +
 		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
@@ -429,8 +429,11 @@ if (session.getAttribute("komunalekolicine_hideEmpty").equals("1") &&
 strsql += " ORDER BY aa.sif_kupca, aa.koda";
 
 String sqlParam1 = URLEncoder.encode(strsql.toString());
-String sqlParam2 = URLEncoder.encode(caseStr.toString());
+String sqlParam2 = datum_od;
+String sqlParam3 = datum_fm;
+String sqlParam4 = mesec+"";
 
+strsql = strsql.replaceAll("caseStr1", caseStr1);
 strsql = strsql.replaceAll("caseStr", caseStr);
 
 //out.println(strsql);
@@ -499,7 +502,7 @@ function keyPressed(event) {
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" id="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="komunalekolicinelist.jsp?cmd=reset">Prikaži vse</a>
-			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>')";>
+			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>', '<%=sqlParam3%>', '<%=sqlParam4%>')";>
 			<% if (sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")) { %>
 				<input type="Submit" name="Submit" value="Skrij/Prikaži prazne" onClick='<%if (session.getAttribute("komunalekolicine_hideEmpty").equals("0")) {session.setAttribute("komunalekolicine_hideEmpty", "1");}else{session.setAttribute("komunalekolicine_hideEmpty", "0");}%>'>
 			<% } %>

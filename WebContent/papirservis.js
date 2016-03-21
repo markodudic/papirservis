@@ -168,8 +168,8 @@ function xls_create_prodaja(sql) {
 	document.getElementById('dobForm').action = 'prodajalist.jsp';
 }
 
-function xls_create_komunala(param1, param2) {
-	document.getElementById('komunalaForm').action = '/kovine/XLSCreateKomunalaServlet?param1='+param1+"&param2="+param2;
+function xls_create_komunala(param1, datum_od, datum_fm, mesec) {
+	document.getElementById('komunalaForm').action = '/kovine/XLSCreateKomunalaServlet?param1='+param1+"&datum_od="+datum_od+"&datum_fm="+datum_fm+"&mesec="+mesec;
 	document.getElementById('komunalaForm').submit();
 	document.getElementById('komunalaForm').action = 'komunalakolicinelist.jsp';
 }
