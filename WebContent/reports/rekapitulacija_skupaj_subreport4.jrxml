@@ -38,13 +38,12 @@
 	osnovna.cena_am as cena_am,
 	PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
 from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
-	FROM stranke ,  (SELECT sif_os, sif_str, max(veljavnost) veljavnost
+	FROM stranke ,  (SELECT sif_str, max(veljavnost) veljavnost
 			FROM stranke
 			WHERE veljavnost < CAST($P{do_datum} AS DATE) and
 				sif_kupca =  $P{sif_str}
-			GROUP BY sif_os, sif_str) zadnji
-	WHERE stranke.sif_os = zadnji.sif_os and
-	      stranke.sif_str = zadnji.sif_str and
+			GROUP BY sif_str) zadnji
+	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.veljavnost = zadnji.veljavnost) as str,
 	(SELECT osnovna.*
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os) zadnji
