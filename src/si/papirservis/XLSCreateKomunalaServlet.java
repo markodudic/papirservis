@@ -109,6 +109,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 		try{
 			String sql = param1.replaceAll("caseStr1", caseStr1);
 			sql = sql.replaceAll("caseStr", caseStr);
+			System.out.println(sql);
 			getXLS(sql);
 			
 			response.setContentType("application/octet-stream");

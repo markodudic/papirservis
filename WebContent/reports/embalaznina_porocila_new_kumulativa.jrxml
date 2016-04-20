@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="embalaznina_porocila_new_kumulativa"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="picture" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\WebContent\\images\\recikel.jpg"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer(2016)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["VSI"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["207"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-12-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_q1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_q1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-03-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_q2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-04-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_q2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-06-30"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_q3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-07-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_q3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-09-30"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="od_datum_q4" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-10-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum_q4" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2015-12-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="xls" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[new String("0")]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT now()]]></queryString>
+
+	<field name="now()" class="java.sql.Timestamp"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="686"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="22"
+						key="subreport-2"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LN") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(0)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["LN"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="28"
+						width="535"
+						height="22"
+						key="subreport-3"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q1") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["Q1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum_q1}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum_q1}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="58"
+						width="535"
+						height="22"
+						key="subreport-4"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q2") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["Q2"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum_q2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum_q2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="89"
+						width="535"
+						height="22"
+						key="subreport-5"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q3") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["Q3"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum_q3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum_q3}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="121"
+						width="535"
+						height="22"
+						key="subreport-6"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("Q4") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["Q4"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum_q4}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum_q4}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="150"
+						width="535"
+						height="22"
+						key="subreport-7"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($P{nacin_obracuna}.equals("LD") || $P{nacin_obracuna}.equals("VSI"))]]></printWhenExpression>
+						</reportElement>
+					<subreportParameter  name="aleto">
+						<subreportParameterExpression><![CDATA[$P{aleto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="nacin_obracuna">
+						<subreportParameterExpression><![CDATA[$P{nacin_obracuna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_zavezanca">
+						<subreportParameterExpression><![CDATA["-1"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tip">
+						<subreportParameterExpression><![CDATA[new Integer(1)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="naziv_racun">
+						<subreportParameterExpression><![CDATA["LD"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="od_datum">
+						<subreportParameterExpression><![CDATA[$P{od_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="do_datum">
+						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{xls}.equals("0") ? $P{SUBREPORT_DIR} + "embalaznina_porocila_new_subreport0.jasper" :  $P{SUBREPORT_DIR} + "embalaznina_porocila_xls_new_subreport0.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
