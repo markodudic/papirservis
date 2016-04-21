@@ -69,8 +69,8 @@ if (a != null && a.equals("Potrdi")) {
             	out.println("Neveljavna vrednost za: "+ paramValue+"<br>");
             	continue;
             }
-			String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
-					" set " + pKeys[2] + " = " + paramValue +
+            String sqlquery = "update recikel_embalaznina" + session.getAttribute("leto") +
+					" set " + pKeys[2] + " = " + (paramValue==null?0:paramValue) +
 					" WHERE id_zavezanca = " + pKeys[0] + " AND id_embalaza = " + pKeys[1];
 			stmt.executeUpdate(sqlquery);
         }
