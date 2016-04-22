@@ -465,7 +465,7 @@ group by BBB.tar_st, BBB.naziv
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tar_st}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="255"
 						y="0"
