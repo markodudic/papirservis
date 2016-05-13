@@ -75,7 +75,7 @@
 FROM
      recikel_zavezanci$P!{aleto}
 WHERE 
-    ((st_pogodbe = $P{sif_zavezanca}) OR ($P{sif_zavezanca} = -1))
+    ((id = $P{sif_zavezanca}) OR ($P{sif_zavezanca} = -1))
 	AND
     ((($P{nacin_obracuna} = "LN") AND (interval_pavsala != 'NS')) OR
       ($P{nacin_obracuna} != "LN"))]]></queryString>
