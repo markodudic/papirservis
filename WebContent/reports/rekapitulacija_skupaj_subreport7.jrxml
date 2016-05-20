@@ -90,7 +90,10 @@ from (
 	      		cenastrprod.id = c.ii)
 		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
 	   left join
-		materiali on (dob.`koda` = materiali.`koda`)) AS A
+		(SELECT materiali.*
+		FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
+		WHERE materiali.koda = zadnji.koda and
+	      		materiali.zacetek = zadnji.datum) materiali on (dob.`koda` = materiali.`koda`)) AS A
 GROUP BY dob_koda, pc_nizka
 ORDER BY dob_koda]]></queryString>
 
