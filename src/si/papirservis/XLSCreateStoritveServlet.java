@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -74,7 +75,11 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 		System.out.println("POST");
 
 		String datum_do = (String) request.getParameter("do_datum");
+		datum_do = EW_UnFormatDateTime((String)datum_do,"EURODATE", locale).toString();	
+		
 		String datum_od = (String) request.getParameter("od_datum");
+		datum_od = EW_UnFormatDateTime((String)datum_od,"EURODATE", locale).toString();	
+		
 		String sif_kupca = (String) request.getParameter("sif_kupca");
 		if (sif_kupca == null || sif_kupca.equals(""))
 			sif_kupca = "-1";
@@ -106,16 +111,16 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 						  "sum(dob_odstrani.`kolicina`) AS odstrani_kolicina,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) / sum(dob_odstrani.`kolicina`) AS odstrani_cena,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) AS odstrani_vrednost, " +
-						  "avg(najam.stranke_kom) as najem_kolicina, " +
-						  "avg(najam.stranke_najem) as najem_cena, " +
-						  "avg(najam.stranke_kom * najam.stranke_najem) as najem_vrednost		 " +
+						  "if(najam.najem = 'D', avg(najam.stranke_kom), 0) as najem_kolicina, " +
+						  "if(najam.najem = 'D', avg(najam.stranke_najem), 0) as najem_cena, " +
+						  "if(najam.najem = 'D', avg(najam.stranke_kom * najam.stranke_najem), 0) as najem_vrednost " +
 					"FROM kupci, skup, enote, dob"+leto+" dob_unici, dob"+leto+" dob_odstrani, (SELECT st_dob, pozicija, max(zacetek) datum  " +
 																		"FROM dob"+leto+" dob  " +
 																		"WHERE obdelana > 0 " +
 																		"	AND dob.datum >= CAST('"+datum_od+"' AS DATE)  " +
 																		"	AND dob.datum <= CAST('"+datum_do+"' AS DATE) " +
 																		"group by st_dob, pozicija) zadnji, " +
-					 			"(SELECT stranke.sif_kupca, " +
+					 			"(SELECT stranke.sif_kupca, stranke.najem, " +
 								"    			SUM(stranke.kol_os) as stranke_kom, " +
 								"				SUM(stranke.cena_naj) as stranke_najem, " +
 								"				SUM(stranke.kol_os * stranke.cena_naj) as stranke_vrednost " +
@@ -124,7 +129,6 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 								"			 	group by sif_str ) zadnji " +
 								"				WHERE stranke.sif_str = zadnji.sif_str and " +
 								"				      stranke.zacetek = zadnji.datum) stranke " +
-								"			WHERE stranke.najem = 'D' " +
 								"			group by sif_kupca) as najam	 " +											
 					"WHERE ((kupci.sif_kupca = "+sif_kupca+") or (("+sif_kupca+" = -1))) and  " +
 					"     kupci.skupina = skup.skupina and " +
@@ -140,7 +144,6 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 					"	  	dob_odstrani.st_dob = zadnji.st_dob and " +
 					"      dob_odstrani.pozicija = zadnji.pozicija and " +
 					"      dob_odstrani.zacetek = zadnji.datum and " +
-					"      dob_odstrani.sit_smet != 0 and " +
 					"		najam.sif_kupca = kupci.sif_kupca";
 
 
@@ -303,5 +306,31 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 		
 		return null;
 
+	}
+	
+	private java.sql.Timestamp EW_UnFormatDateTime(String ADate,String dateFormat, Locale locale){
+		if (ADate == null) return null;
+		DateFormat df = DateFormat.getInstance();
+		String format = "";
+		ADate = ADate.trim().replaceAll("  ", " ");
+
+		String [] arDateTime = ADate.split(" ");
+		if (arDateTime.length == 0) {
+			return null;
+		}
+		if (dateFormat.equals("USDATE")){format = "MM/dd/yyyy";}
+		else if (dateFormat.equals("DATE")){format = "yyyy/MM/dd";}
+		else if (dateFormat.equals("EURODATE")){format = "dd.MM.yyyy";}
+
+		try{
+			if (format.length() > 0) {
+				df = new SimpleDateFormat(format, locale);
+				return new java.sql.Timestamp(((SimpleDateFormat) df).parse(ADate).getTime());
+			}else{
+				return new java.sql.Timestamp(df.parse(ADate).getTime());
+			}
+		}catch (Exception e){
+			return null;
+		}
 	}
 }
