@@ -63,6 +63,8 @@ Object x_sif_os = null;
 Object x_kol_os = null;
 Object x_opomba = null;
 Object x_sif_kupca = null;
+Object x_stroskovno_mesto = null;
+Object x_rok_placila = null;
 Object x_cena = null;
 Object x_najem = null;
 Object x_cena_naj = null;
@@ -170,6 +172,13 @@ try{
 			}else{
 				x_sif_kupca = "";
 			}
+			// stroskovno_mesto
+			if (rs.getString("stroskovno_mesto") != null){
+				x_stroskovno_mesto = rs.getString("stroskovno_mesto");
+			}else{
+				x_stroskovno_mesto = "";
+			}
+			x_rok_placila = String.valueOf(rs.getInt("rok_placila"));
 			x_cena = String.valueOf(rs.getDouble("cena"));
 			if (rs.getString("najem") != null){
 				x_najem = rs.getString("najem");
@@ -301,6 +310,16 @@ try{
 		}
 		if (request.getParameter("x_sif_kupca") != null){
 			x_sif_kupca = request.getParameter("x_sif_kupca");
+		}
+		if (request.getParameter("x_stroskovno_mesto") != null){
+			x_stroskovno_mesto = (String) request.getParameter("x_stroskovno_mesto");
+		}else{
+			x_stroskovno_mesto = "";
+		}
+		if (request.getParameter("x_rok_placila") != null){
+			x_rok_placila = (String) request.getParameter("x_rok_placila");
+		}else{
+			x_rok_placila = "";
 		}
 		if (request.getParameter("x_cena") != null){
 			x_cena = (String) request.getParameter("x_cena");
@@ -543,6 +562,30 @@ try{
 			rs.updateString("sif_kupca", tmpfld);
 		}
 
+		// Field stroskovno_mesto
+		tmpfld = ((String) x_stroskovno_mesto);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("stroskovno_mesto");
+		}else{
+			rs.updateString("stroskovno_mesto", tmpfld);
+		}
+		
+		
+		// Field rok_placila
+		tmpfld = ((String) x_rok_placila);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("rok_placila");
+		}else{
+			rs.updateInt("rok_placila", Integer.parseInt(tmpfld));
+		}
+
+		
 		// Field cena
 		tmpfld = ((String) x_cena).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -946,6 +989,14 @@ return true;
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><a href="<%out.print("strankeedit.jsp?key=" + x_sif_str + "&prikaz_kupca=sif_kupca");%>">šifra</a>&nbsp;<a href="<%out.print("strankeedit.jsp?key=" + x_sif_str + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("strankeedit.jsp?key=" + x_sif_str + "&prikaz_kupca=naslov");%>">naslov</a></span>&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">Stroškovno mesto&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_stroskovno_mesto" size="30" value="<%= HTMLEncode((String)x_stroskovno_mesto) %>">&nbsp;</td>
+	</tr>
+		<tr>
+		<td class="ewTableHeader">Rok plačila&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_rok_placila" size="30" value="<%= HTMLEncode((String)x_rok_placila) %>">&nbsp;</td>
+	</tr>
+		<tr>
 		<td class="ewTableHeader">Cena&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">&nbsp;</td>
 	</tr>
