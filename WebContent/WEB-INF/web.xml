@@ -218,6 +218,16 @@
       <servlet-name>XLSCreateKomunalaServlet</servlet-name>
       <url-pattern>/XLSCreateKomunalaServlet</url-pattern>
     </servlet-mapping>    	
+
+    <servlet>
+		<servlet-name>XLSCreateStoritveServlet</servlet-name>
+		<servlet-class>si.papirservis.XLSCreateStoritveServlet</servlet-class>
+	</servlet>
+    <servlet-mapping>
+      <servlet-name>XLSCreateStoritveServlet</servlet-name>
+      <url-pattern>/XLSCreateStoritveServlet</url-pattern>
+    </servlet-mapping>    
+    
     
 	<servlet>
 		<servlet-name>ArsoPosiljanjeServlet</servlet-name>

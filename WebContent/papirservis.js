@@ -174,6 +174,19 @@ function xls_create_komunala(param1, datum_od, datum_fm, mesec) {
 	document.getElementById('komunalaForm').action = 'komunalekolicinelist.jsp';
 }
 
+function xls_create_storitve(leto) {
+	var datum_do = document.getElementById('do_datum').value;
+	var datum_od = document.getElementById('od_datum').value;
+	var sif_kupca = document.getElementById('x_sif_kupca').value;
+	var nadenota = document.getElementById('x_sif_nadenote').value;
+	var sif_enote = document.getElementById('x_sif_enote').value;
+	var sif_skupine = document.getElementById('x_sif_skupine').value;
+	
+	document.getElementById('porocila').action = "/kovine/XLSCreateStoritveServlet?leto="+leto+"&datum_od="+datum_od+"&datum_do="+datum_do+"&sif_kupca="+sif_kupca+"&nadenota="+nadenota+"&sif_enote="+sif_enote+"&sif_skupine="+sif_skupine;
+	document.getElementById('porocila').submit();
+	document.getElementById('porocila').action = 'porocila.jsp?report=12';
+}
+
 function sendEvls() {
 	alert("Po kliku počakajte da se EVL-ji pripravijo in pošljejo. Po končanju boste dobili obvestilo.");
 	

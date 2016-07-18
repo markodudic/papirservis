@@ -12,6 +12,7 @@ return;
 
 <script language="JavaScript" src="popcalendar.js"></script>
 <script language="JavaScript" src="ew.js"></script>
+<script language="JavaScript" src="papirservis.js"></script>
 
 <script language="JavaScript" >
 function disableSome(EW_this){
@@ -150,7 +151,7 @@ function updateRacun(){
 	
 	if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15))
 	{
-		x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
+		x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\" id=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_kupca = "SELECT distinct sif_kupca, naziv " +
 									"FROM kupci " +
 									"WHERE ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
@@ -223,7 +224,7 @@ function updateRacun(){
 
 	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24))  
 	{
-		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
+		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\" id=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
 		Statement stmtwrk_x_nadenota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_x_nadenota = stmtwrk_x_nadenota.executeQuery(sqlwrk_x_nadenota);
@@ -254,7 +255,7 @@ function updateRacun(){
 		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
 		 (reportID == 21) || (reportID == 22) || (reportID == 24))
 	{
-		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\"><option value=\"\">Izberi</option>");
+		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\" id=\"x_sif_enote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_enote = "SELECT * FROM enote ORDER BY `naziv` ASC";
 		Statement stmtwrk_x_sif_enote = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_x_sif_enote = stmtwrk_x_sif_enote.executeQuery(sqlwrk_x_sif_enote);
@@ -282,8 +283,8 @@ function updateRacun(){
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
 		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
 		 (reportID == 22) || (reportID == 24))
-	{
-		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
+	{ 
+		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\" id=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_skupine = "SELECT * FROM skup ORDER BY `tekst` ASC";
 		Statement stmtwrk_x_sif_skupine = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_x_sif_skupine = stmtwrk_x_sif_skupine.executeQuery(sqlwrk_x_sif_skupine);
@@ -463,7 +464,7 @@ function updateRacun(){
 </script>
 
 <p><span class="jspmaker">Poro&#269;ila: izbor parametrov</span></p>
-<form onSubmit="return EW_checkMyForm(this);" action="printDelovniNalog.jsp" name="porocila" method="post">
+<form onSubmit="return EW_checkMyForm(this);" action="printDelovniNalog.jsp" name="porocila" id="porocila" method="post">
 
 <input type="hidden" name="report" value=<%=report%>>
 <input type="hidden" name="reportID" value=<%=reportID%>>
@@ -552,14 +553,14 @@ function updateRacun(){
 	<tr>
 		<td class="ewTableHeader">Datum od:&nbsp;</td>
 		<td class="ewTableAltRow">
-			<input type="text" name="od_datum" value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
+			<input type="text" name="od_datum" id="od_datum"  value="<%= EW_FormatDateTime(od_datum,7, locale) %>">&nbsp;
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum od" onClick="popUpCalendar(this, this.form.od_datum,'dd.mm.yyyy');return false;">&nbsp;
 		</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Datum do:&nbsp;</td>
 		<td class="ewTableAltRow">
-			<input type="text" name="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
+			<input type="text" name="do_datum" id="do_datum" value="<%= EW_FormatDateTime(do_datum,7, locale) %>">&nbsp;
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum do" onClick="popUpCalendar(this, this.form.do_datum,'dd.mm.yyyy');return false;">&nbsp;
 		</td>
 	</tr>
@@ -704,6 +705,10 @@ function updateRacun(){
 	<%if ((reportID == 26) || (reportID == 27) || (reportID == 29) || (reportID == 30)) {%>
     		<INPUT type="radio" name="type" value="4">XLS
 	<%}%>
+	<%if ((reportID == 12)) {%>
+		<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_storitve('<%=session.getAttribute("leto")%>')";>
+	<%}%>
+	
 		</td>
 	</tr>
 	
