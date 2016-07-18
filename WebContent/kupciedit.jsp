@@ -67,6 +67,8 @@ Object x_sif_rac = null;
 Object x_opomba = null;
 Object x_skupina = null;
 Object x_sif_enote = null;
+Object x_stroskovno_mesto = null;
+Object x_rok_placila = null;
 
 Object x_pogodba  = null;
 Object x_davcna = null;
@@ -206,7 +208,13 @@ try{
 			}else{
 				x_dejavnost = "";
 			}
-
+			// stroskovno_mesto
+			if (rs.getString("stroskovno_mesto") != null){
+				x_stroskovno_mesto = rs.getString("stroskovno_mesto");
+			}else{
+				x_stroskovno_mesto = "";
+			}
+			x_rok_placila = String.valueOf(rs.getInt("rok_placila"));
 			if (rs.getString("opomba1") != null){
 				x_opomba1 = rs.getString("opomba1");
 			}else{
@@ -373,6 +381,16 @@ try{
 		}else{
 			x_dejavnost = "";
 		}
+		if (request.getParameter("x_stroskovno_mesto") != null){
+			x_stroskovno_mesto = (String) request.getParameter("x_stroskovno_mesto");
+		}else{
+			x_stroskovno_mesto = "";
+		}
+		if (request.getParameter("x_rok_placila") != null){
+			x_rok_placila = (String) request.getParameter("x_rok_placila");
+		}else{
+			x_rok_placila = "";
+		}		
 		if (request.getParameter("x_opomba1") != null){
 			x_opomba1 = (String) request.getParameter("x_opomba1");
 		}else{
@@ -668,6 +686,29 @@ try{
 			rs.updateNull("dejavnost");
 		}else{
 			rs.updateString("dejavnost", tmpfld);
+		}
+		
+		// Field stroskovno_mesto
+		tmpfld = ((String) x_stroskovno_mesto);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("stroskovno_mesto");
+		}else{
+			rs.updateString("stroskovno_mesto", tmpfld);
+		}
+		
+		
+		// Field rok_placila
+		tmpfld = ((String) x_rok_placila);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("rok_placila");
+		}else{
+			rs.updateInt("rok_placila", Integer.parseInt(tmpfld));
 		}
 
 
@@ -1036,6 +1077,14 @@ out.println(x_sif_enoteList);
 		<td class="ewTableHeader">Dejavnost&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_dejavnost" size="12" maxlength="10" value="<%= HTMLEncode((String)x_dejavnost) %>">&nbsp;</td>
 	</tr>
+	<tr>
+		<td class="ewTableHeader">Stroškovno mesto&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_stroskovno_mesto" size="30" value="<%= HTMLEncode((String)x_stroskovno_mesto) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Rok plačila&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_rok_placila" size="30" value="<%= HTMLEncode((String)x_rok_placila) %>">&nbsp;</td>
+	</tr>	
 	<tr>
 		<td class="ewTableHeader">Opomba 1&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba1" size="65" maxlength="60" value="<%= HTMLEncode((String)x_opomba1) %>">&nbsp;</td>

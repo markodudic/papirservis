@@ -433,6 +433,16 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("dejavnost")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("stroskovno_mesto")) ? "<b>" : ""%>
+<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("stroskovno_mesto","UTF-8") %>">Stroškovno mesto&nbsp;<% if (OrderBy != null && OrderBy.equals("stroskovno_mesto")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("stroskovno_mesto")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("rok_placila")) ? "<b>" : ""%>
+<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("rok_placila","UTF-8") %>">Rok plačila&nbsp;<% if (OrderBy != null && OrderBy.equals("rok_placila")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("rok_placila")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("opomba1","UTF-8") %>">Opomba 1&nbsp;<% if (OrderBy != null && OrderBy.equals("opomba1")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "</b>" : ""%>
@@ -545,6 +555,8 @@ while (rs.next() && recCount < stopRec) {
 	String x_opomba = "";
 	String x_skupina = "";
 	String x_sif_enote = "";
+	String x_stroskovno_mesto = "";
+	String x_rok_placila = "";
 
 	String x_pogodba  = "";
 	String x_davcna = "";
@@ -697,6 +709,17 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_dejavnost = "";
 	}
+
+	// stroskovno_mesto
+	if (rs.getString("stroskovno_mesto") != null){
+		x_stroskovno_mesto = rs.getString("stroskovno_mesto");
+	}else{
+		x_stroskovno_mesto = "";
+	}
+
+	// rok_placila
+	x_rok_placila = String.valueOf(rs.getInt("rok_placila"));
+
 
 	// opomba1
 	if (rs.getString("opomba1") != null){
@@ -886,6 +909,8 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print(x_davcna); %>&nbsp;</td>
 		<td><% out.print(x_maticna); %>&nbsp;</td>
 		<td><% out.print(x_dejavnost); %>&nbsp;</td>
+		<td><% out.print(x_stroskovno_mesto); %>&nbsp;</td>
+		<td><% out.print(x_rok_placila); %>&nbsp;</td>
 		<td><% out.print(x_opomba1); %>&nbsp;</td>
 		<td><% out.print(x_opomba2);  %>&nbsp;</td>
 		<td><% out.print(x_opomba3); %>&nbsp;</td>

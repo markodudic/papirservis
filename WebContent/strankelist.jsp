@@ -456,16 +456,6 @@ if (request.getParameter("start") != null && Integer.parseInt(request.getParamet
 <%=(OrderBy != null && OrderBy.equals("tekst")) ? "</b>" : ""%>
 		</td>
 		<td>
-<%=(OrderBy != null && OrderBy.equals("stroskovno_mesto")) ? "<b>" : ""%>
-<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("stroskovno_mesto","UTF-8") %>">Stroškovno mesto&nbsp;<% if (OrderBy != null && OrderBy.equals("stroskovno_mesto")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("stroskovno_mesto")) ? "</b>" : ""%>
-		</td>
-		<td>
-<%=(OrderBy != null && OrderBy.equals("rok_placila")) ? "<b>" : ""%>
-<a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("rok_placila","UTF-8") %>">Rok plačila&nbsp;<% if (OrderBy != null && OrderBy.equals("rok_placila")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("rok_placila")) ? "</b>" : ""%>
-		</td>
-		<td>
 <%=(OrderBy != null && OrderBy.equals("cena")) ? "<b>" : ""%>
 <a href="strankelist.jsp?order=<%= java.net.URLEncoder.encode("cena","UTF-8") %>">Cena&nbsp;<% if (OrderBy != null && OrderBy.equals("cena")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("stranke_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("stranke_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("cena")) ? "</b>" : ""%>
@@ -619,8 +609,6 @@ while (rs.next() && recCount < stopRec) {
 	String x_kol_os = "";
 	String x_opomba = "";
 	String x_sif_kupca = "";
-	String x_stroskovno_mesto = "";
-	String x_rok_placila = "";
 	String x_cena = "";
 	String x_najem = "";
 	String x_cena_naj = "";
@@ -737,16 +725,6 @@ while (rs.next() && recCount < stopRec) {
 	}else{
 		x_skupina = "";
 	}
-
-	// stroskovno_mesto
-	if (rs.getString("stroskovno_mesto") != null){
-		x_stroskovno_mesto = rs.getString("stroskovno_mesto");
-	}else{
-		x_stroskovno_mesto = "";
-	}
-
-	// rok_placila
-	x_rok_placila = String.valueOf(rs.getInt("rok_placila"));
 
 	
 	// cena
@@ -990,8 +968,6 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 %>
 &nbsp;</td>
 		<td><% out.print(x_skupina); %>&nbsp;</td>
-		<td><% out.print(x_stroskovno_mesto); %>&nbsp;</td>
-		<td><% out.print(x_rok_placila); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(x_najem); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_cena_naj, 4, 1, 1, 1,locale)); %>&nbsp;</td>
