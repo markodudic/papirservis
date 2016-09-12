@@ -113,6 +113,7 @@ StringBuffer cena_kg = new StringBuffer();
 StringBuffer c_km = new StringBuffer();
 StringBuffer c_ura = new StringBuffer();
 
+StringBuffer sif_kupac2 = new StringBuffer();
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
 StringBuffer sif_enote = new StringBuffer();
@@ -513,8 +514,8 @@ try{
 		}else{
 			x_sit_smet = "";
 		}
-		if (request.getParameter("x_skupina") != null){
-			x_skupina = request.getParameter("x_skupina");
+		if (request.getParameter("x_skupina_ll") != null){
+			x_skupina = request.getParameter("x_skupina_ll");
 		}
 		if (request.getParameter("x_skupina_text") != null){
 			x_skupina_text = (String) request.getParameter("x_skupina_text");
@@ -1073,7 +1074,7 @@ if(request.getParameter("prikaz_okolje")!= null){
 
 
 String cbo_x_sif_kupca_js = "";
-x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
+x_sif_kupcaList = new StringBuffer("<select onchange = \"updateDropDowns2(this);\" name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `" + session.getAttribute("dob_kupci_show")+ "` ASC";
 String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 ORDER BY `" + session.getAttribute("dob_kupci_show")+ "` ASC";
 
@@ -1095,6 +1096,7 @@ ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupc
 			tmpNaziv = rswrk_x_sif_kupca.getString("sif_kupca") + " " + rswrk_x_sif_kupca.getString("naziv") + " " + rswrk_x_sif_kupca.getString("naslov");
 		
 		kupac.append("kupac[").append(rswrk_x_sif_kupca.getString("sif_kupca")).append("]=").append(String.valueOf(rowcntwrk_x_sif_kupca)).append(";");
+		sif_kupac2.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append(rswrk_x_sif_kupca.getString("sif_kupca")).append(";");
 
 		if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 		x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
@@ -1134,7 +1136,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 String cbo_x_sif_str_js = "";
-x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
+x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : medium\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dob_stranke_show") + "` ASC";
 String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, k.sif_enote, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos  "+
 	"FROM (SELECT stranke.* "+
@@ -1399,7 +1401,8 @@ var c_km = new Array();
 var c_ura = new Array();
 <%=c_ura%>
 
-
+var sif_kupac2 = new Array();
+<%=sif_kupac2%>
 var sif_kupac = new Array();
 <%=sif_kupac%>
 var sif_skupina = new Array();
@@ -1479,10 +1482,25 @@ function updateDropDowns(EW_this){
 
 }
 
+function updateDropDowns2(EW_this){
+	document.dobadd.x_sif_str[0].selected = true;
+	
+	for (i=1; i<document.dobadd.x_sif_str.length; i++) {
+		if (sif_kupac[document.dobadd.x_sif_str[i].value] != sif_kupac2[document.dobadd.x_sif_kupca_ll.selectedIndex-1]) {
+			document.dobadd.x_sif_str[i].style.display = "none";
+		}
+		else {
+			document.dobadd.x_sif_str[i].style.display = "block";
+		}
+	
+	}
+	
+}
+
 
 function disableSome(){
-	document.dobadd.x_sif_kupca_ll.disabled=true;
-	document.dobadd.x_skupina_ll.disabled=true;
+	//document.dobadd.x_sif_kupca_ll.disabled=true;
+	//document.dobadd.x_skupina_ll.disabled=true;
 }
 
 function updateKoda(EW_this){
@@ -1653,17 +1671,17 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>
 	</tr>
 	<tr>
+		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobaddnew.jsp?prikaz_kupca=sif_kupca&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=vse&a=D&st_dob=" + x_st_dob);%>">vse&nbsp;</a></span-->&nbsp;</td>
+	</tr>
+	<tr>
 		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker">
 		<a href="<%out.print("dobaddnew.jsp?prikaz_stranke=sif_str&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_stranke=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_stranke=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a>&nbsp;</span>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Stranka&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="150" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobaddnew.jsp?prikaz_kupca=sif_kupca&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a>&nbsp;<a href="<%out.print("dobaddnew.jsp?prikaz_kupca=vse&a=D&st_dob=" + x_st_dob);%>">vse&nbsp;</a></span-->&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="100" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>

@@ -67,8 +67,8 @@ Object x_sif_sof = null;
 Object x_sofer = null;
 Object x_sif_kam = null;
 Object x_kamion = null;
-String[] x_koda = {"","","",""};
-String[] x_ewc = {"","","",""};
+String[] x_koda = {"","",""};
+String[] x_ewc = {"","",""};
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_sif_enote = null;
@@ -94,6 +94,7 @@ StringBuffer x_sif_kamList = null;
 StringBuffer x_skupinaList = null;
 StringBuffer x_enoteList = null;
 
+StringBuffer sif_kupac2 = new StringBuffer();
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
 StringBuffer sif_enote = new StringBuffer();
@@ -316,8 +317,8 @@ try{
 				ewc_cnt = (i+1);
 			}
 		}
-		if (request.getParameter("x_skupina") != null){
-			x_skupina = request.getParameter("x_skupina");
+		if (request.getParameter("x_skupina_ll") != null){
+			x_skupina = request.getParameter("x_skupina_ll");
 		}
 		if (request.getParameter("x_skupina_text") != null){
 			x_skupina_text = (String) request.getParameter("x_skupina_text");
@@ -750,7 +751,7 @@ for (int i=0; i<x_koda.length; i++) {
 }
 
 String cbo_x_sif_kupca_js = "";
-x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
+x_sif_kupcaList = new StringBuffer("<select onchange = \"updateDropDowns2(this);\" name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `naziv` ASC";
 String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 ORDER BY `naziv` ASC";
 
@@ -773,9 +774,7 @@ ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupc
 		}
 		
 		kupac.append("kupac[").append(rswrk_x_sif_kupca.getString("sif_kupca")).append("]=").append(String.valueOf(rowcntwrk_x_sif_kupca)).append(";");
-
-
-
+		sif_kupac2.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append(rswrk_x_sif_kupca.getString("sif_kupca")).append(";");
 
 		if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 		x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
@@ -814,7 +813,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : 12pt\"><option value=\"\">Izberi</option>");
+x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : medium\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
 String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.sif_enote, k.skupina, s.stev_km_norm, s.stev_ur_norm, enote.naziv as enota_naziv  "+
 	"FROM (SELECT stranke.* "+
@@ -871,7 +870,7 @@ stmtwrk_x_sif_str = null;
 x_sif_strList.append("</select>");
 
 String cbo_x_skupina_js = "";
-x_skupinaList = new StringBuffer("<select disabled name=\"x_skupina_ll\"><option value=\"\">Izberi</option>");
+x_skupinaList = new StringBuffer("<select name=\"x_skupina_ll\"><option value=\"\">Izberi</option>");
 
 String sqlwrk_x_skupina = "SELECT `skupina`, `tekst` FROM `skup`";
 Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -1110,7 +1109,8 @@ if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
 return true;
 }
 
-
+var sif_kupac2 = new Array();
+<%=sif_kupac2%>
 var sif_kupac = new Array();
 <%=sif_kupac%>
 var sif_skupina = new Array();
@@ -1161,12 +1161,12 @@ function updateKoda(EW_this){
 function updateDropDowns(EW_this){
 	document.dobedit.x_sif_kupca_ll.selectedIndex = 1 + kupac[sif_kupac[document.dobedit.x_sif_str.value]];
 	document.dobedit.x_sif_kupca.value = sif_kupac[document.dobedit.x_sif_str.value];
-	document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
-	document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
-	document.dobedit.x_enote_ll.selectedIndex = 1 + enota[sif_enote[document.dobedit.x_sif_str.value]];
-	document.dobedit.x_enote.value = sif_enote[document.dobedit.x_sif_str.value];
+	//document.dobedit.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobedit.x_sif_str.value]];
+	//document.dobedit.x_skupina.value = sif_skupina[document.dobedit.x_sif_str.value];
+	//document.dobedit.x_enote_ll.selectedIndex = 1 + enota[sif_enote[document.dobedit.x_sif_str.value]];
+	//document.dobedit.x_enote.value = sif_enote[document.dobedit.x_sif_str.value];
 	
-	document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
+	//document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
 
 	document.dobedit.x_cena.value = stranka_cena[document.dobedit.x_sif_str.value];
 
@@ -1174,10 +1174,23 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobedit.x_sif_str.value];
 }
 
-
+function updateDropDowns2(EW_this){
+	document.dobedit.x_sif_str[0].selected = true;
+	
+	for (i=1; i<document.dobedit.x_sif_str.length; i++) {
+		if (sif_kupac[document.dobedit.x_sif_str[i].value] != sif_kupac2[document.dobedit.x_sif_kupca_ll.selectedIndex-1]) {
+			document.dobedit.x_sif_str[i].style.display = "none";
+		}
+		else {
+			document.dobedit.x_sif_str[i].style.display = "block";
+		}
+	
+	}
+	
+} 
 function disableSome(){
-	document.dobedit.x_sif_kupca_ll.disabled=true;
-	document.dobedit.x_skupina_ll.disabled=true;
+	//document.dobedit.x_sif_kupca_ll.disabled=true;
+	//document.dobedit.x_skupina_ll.disabled=true;
 }
 
 // end JavaScript -->
@@ -1209,12 +1222,12 @@ function disableSome(){
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>	
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
-		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a></span>&nbsp;</td>
-	</tr>
-	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><!--a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a></span-->&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a></span>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>
@@ -1227,12 +1240,12 @@ function disableSome(){
 	<%for (int i=0; i<x_koda.length; i++) {%>
 		<tr>
 			<td class="ewTableHeader">Koda&nbsp;<%out.print(i+1);%></td>
-			<td class="ewTableAltRow"><%out.println(x_koda_List[i]);%>&nbsp;
+			<td class="ewTableAltRow"><%out.println(x_koda_List[i]);%>
 			<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_"+(i+1)+"=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_material_"+(i+1)+"=material");%>">material</a></td>
 		</tr>
 		<tr>
 			<td class="ewTableHeader">EWC&nbsp;<%out.print(i+1);%></td>
-			<td class="ewTableAltRow"><%out.println(x_ewc_List[i]);%>&nbsp;
+			<td class="ewTableAltRow"><%out.println(x_ewc_List[i]);%>
 			<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_okolje_"+(i+1)+"=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaedit.jsp?key=" + x_st_dob + "&prikaz_okolje_"+(i+1)+"=material");%>">material</a></td>
 		</tr>
 	<%}%>
@@ -1253,6 +1266,6 @@ function disableSome(){
 <input type="submit" name="Action" value="Potrdi">
 </form>
 <%@ include file="footer.jsp" %>
-<script language="JavaScript">
+<!-- script language="JavaScript">
 document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
-</script>
+</script-->

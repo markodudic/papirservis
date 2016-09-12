@@ -1728,7 +1728,7 @@ if (totalRecs > 0) {
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_smet","UTF-8") %>">sit smet&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_smet")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sit_smet")) ? "</b>" : ""%>
 		</td>
-		<td id="td1">
+		<td>
 <%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("skupina","UTF-8") %>">Skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("skupina")) ? "</b>" : ""%>
@@ -1738,7 +1738,7 @@ if (totalRecs > 0) {
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("skupina_text","UTF-8") %>">Skupina&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("skupina_text")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("skupina_text")) ? "</b>" : ""%>
 		</td>
-		<td id="td1">
+		<td>
 <%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "<b>" : ""%>
 <a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sif_enote","UTF-8") %>">Šifra enote&nbsp;<% if (OrderBy != null && OrderBy.equals("sif_enote")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sif_enote")) ? "</b>" : ""%>
@@ -2305,7 +2305,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_kg_sort); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_sort, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
-		<td><%out.print(rs.getString("skupina_text"));%>&nbsp;</td>
+		<td><%out.print(rs.getString("skupina"));%>&nbsp;</td>
 		<td><% out.print(x_skupina_text); %>&nbsp;</td>
 		<td><%out.print(rs.getString("sif_enote"));%>&nbsp;</td>
 		<td><% out.print(x_naziv_enote); %>&nbsp;</td>
