@@ -30,10 +30,21 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	private static HSSFWorkbook wb;
 	private static HSSFSheet s;
 	private static String[] rowNames = {"Št. dobavnice", "Pozicija", "Datum", "Šifra stranke", "Naziv stranke",
-										"Šifra kupca", "Naziv kupca", "Pošta", "Naselje", "Matična", "Skupina", "Enota", "Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion",
-										"Količina", "Cena", "Stroški", "Dod. stroški", "KM strošek", "Ure strošek", "Skupaj strošek", "Opomba", "Arso prenos"};
-	private static String[] rowTypes = {"S", "N", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "N", "D", "D", "D", "D", "D", "D", "S", "S"};
-	 
+										"Šifra kupca", "Naziv kupca", "Pošta", "Naselje", "Matična", "Skupina", "Enota", 
+										"Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion", "Šofer",
+										"Količina", "Cena", "Stroški", "Dod. stroški", "Cena KM", "KM strošek", "Cena ura", "Ure strošek", "Skupaj strošek", 
+										"Količina", 
+										"KG zaupno", "EUR zaupno", "KG sort", "EUR sort", "EUR smet",
+										"Arso prenos"};
+	private static String[] rowTypes = {"S", "N", "S", "S", "S", 
+										"S", "S", "S", "S", "S", "S", "S", 
+										"S", "S", "S", "S", "S", "S", "S", 
+										"N", "D", "D", "D", "D", "D", "D", "D", "D", 
+										"D", "D", "D", "D", "D",
+										"S", 
+										"S"};
+	
+	
 	/*
 	 * (non-Java-doc)
 	 * 
@@ -114,10 +125,14 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  rs.getString("sif_str"), rs.getString("stranka"), rs.getString("sif_kupca"),
 	    							  rs.getString("naziv"), rs.getString("posta"), rs.getString("kraj"), 
 	    							  rs.getString("maticna"), rs.getString("skupina_text"), rs.getString("naziv_enote"), rs.getInt("sif_kam")==0 ? "NE": "DA", 
-	    							  rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), 
+	    							  rs.getString("koda"), rs.getString("material"), rs.getString("ewc"), rs.getString("okoljemat"), rs.getString("kamion"), rs.getString("sofer"), 
 	    							  rs.getString("kolicina"), rs.getString("cena"), rs.getString("stroski"), rs.getString("dod_stroski"), 
+	    							  String.valueOf(rs.getDouble("cena_km")),
 	    							  String.valueOf(rs.getDouble("stev_km")*rs.getDouble("cena_km")), String.valueOf(rs.getDouble("stev_ur")*rs.getDouble("cena_ura")),
-	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), rs.getString("opomba"), 
+	    							  String.valueOf(rs.getDouble("cena_ura")),
+	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), 
+	    							  String.valueOf(rs.getDouble("kg_zaup")),String.valueOf(rs.getDouble("sit_zaup")),String.valueOf(rs.getDouble("kg_sort")),String.valueOf(rs.getDouble("sit_sort")),String.valueOf(rs.getDouble("sit_smet")),
+	    							  rs.getString("opomba"), 
 	    							  rs.getInt("arso_prenos")==0 ? "NE": rs.getInt("arso_prenos")==1 ? "DA": "TUJINA"};
 	    		createRow(dobavnica);
 	    	}

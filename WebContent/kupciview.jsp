@@ -484,10 +484,10 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td class="ewTableHeader">Opomba 5&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(x_opomba5); %>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Analiza&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatNumber("" + x_analiza, 1, 1,1, 1,locale)); %>&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>

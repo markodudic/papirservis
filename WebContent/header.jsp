@@ -46,7 +46,6 @@ if ((meni & ewSifers) ==  ewSifers){
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="cenastrprodlist.jsp?cmd=top">Cene stranke prodaja</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="enotelist.jsp?cmd=resetall">Enote</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="kamionlist.jsp?cmd=top">Kamion</a></span></td></tr>
-			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="kupcilist.jsp?cmd=resetall">Kupci</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="material_okoljelist.jsp?cmd=resetall">Material okolje</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="materialilist.jsp?cmd=top">Materiali</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="okoljelist.jsp?cmd=resetall">Okolje</a></span></td></tr>
@@ -54,6 +53,7 @@ if ((meni & ewSifers) ==  ewSifers){
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="postelist.jsp?cmd=resetall">Po&#353;te</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="skuplist.jsp?cmd=resetall">Skupine</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="soferlist.jsp?cmd=resetall">&#352;oferji</a></span></td></tr>
+			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="kupcilist.jsp?cmd=resetall">Stranke</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker"><a href="strankelist.jsp?cmd=top">Stranke (Lokacije)</a></span></td></tr>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>
@@ -108,12 +108,12 @@ if ((meni & ewProcess) == ewProcess){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=3">Osnovna</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=10">Osnovna vse stranke</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=16">Osnovna neodvoz</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=11">Sistem embalaza</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=24">Sistem embalaza nova</a></span></td></tr>
+				<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=11">Sistem embalaza</a></span></td></tr-->
+				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=24">Sistem embala&#382;a</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=4">Rekapitulacija</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=15">Rekapitulacija brez cen</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=12">Zara&#269;unavamo storitve</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=13">Eviden&#269;ni list</a></span></td></tr>
+				<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=13">Eviden&#269;ni list</a></span></td></tr-->
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport">&nbsp;</span></td></tr>
 			<% } %>
 <%}%>

@@ -68,7 +68,7 @@ function handleFileSelect(evt) {
     	var csv = e.target.result;
     	//alert(csv);  
 
-    	var result = syncAjax('/kovine/StrankeServlet', null, true, ('type=import&csv='+encodeURIComponent(csv)));
+    	var result = syncAjax('/salomon/StrankeServlet', null, true, ('type=import&csv='+encodeURIComponent(csv)));
     	if(result = true) {
     		alert("Podatki uspešno shranjeni.");
     		document.getElementById('strankelist').submit();
@@ -87,10 +87,10 @@ function strankeExport() {
 	var tipizvoza="vsi";
 	if (novi) tipizvoza="novi";
 	
-	document.getElementById('strankelist').action = '/kovine/StrankeServlet?type=export&tipizvoza='+tipizvoza;
+	document.getElementById('strankelist').action = '/salomon/StrankeServlet?type=export&tipizvoza='+tipizvoza;
 	document.getElementById('strankelist').submit();
 	
-//	var result = syncAjax('/kovine/StrankeServlet', 'text/csv', true, ('type=export&tipizvoza='+tipizvoza));
+//	var result = syncAjax('/salomon/StrankeServlet', 'text/csv', true, ('type=export&tipizvoza='+tipizvoza));
 //	alert(result);
 }
 
@@ -112,17 +112,17 @@ function arsoPrepareXML(keys, tabela, sif_upor, od_datum, do_datum, skupina, upo
 		}
 	}
 	
-	document.getElementById('arsopaketinew').action = '/kovine/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
+	document.getElementById('arsopaketinew').action = '/salomon/ArsoPrepareXMLServlet?key=null&tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina+'&uporabnik='+uporabnik+'&xml_create='+xml_create;
 	document.getElementById('arsopaketinew').submit();
 	
 	
-	/*var result = syncAjax('/kovine/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
+	/*var result = syncAjax('/salomon/ArsoPrepareXMLServlet', null, true, ('tabela='+tabela+'&sif_upor='+sif_upor+'&keyChecked='+keyChecked+'&od_datum='+od_datum+'&do_datum='+do_datum+'&skupina='+skupina));
 
 	if(result == "false") 
 		alert("Prišlo je do napake pri pripravi podatkov.");
 	else {
 		alert("Datoteka "+result+" je uspešno pripravljena.");
-		document.getElementById('arsopaketinew').action = '/kovine/paketi/'+result;
+		document.getElementById('arsopaketinew').action = '/salomon/paketi/'+result;
 		document.getElementById('arsopaketinew').submit();
 	}*/
 	
@@ -146,7 +146,7 @@ function izberiVse2(tip, id) {
 
 
 function zbrisiPaket(key) {
-	var result = syncAjax('/kovine/ArsoPrepareXMLServlet', null, true, ('key='+key));
+	var result = syncAjax('/salomon/ArsoPrepareXMLServlet', null, true, ('key='+key));
 
 	if(result == "false") {
 		alert("Prišlo je do napake pri brisanju paketa.");
@@ -157,19 +157,19 @@ function zbrisiPaket(key) {
 }
 
 function xls_create(sql) {
-	document.getElementById('dobForm').action = '/kovine/XLSCreateServlet?sql='+sql;
+	document.getElementById('dobForm').action = '/salomon/XLSCreateServlet?sql='+sql;
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'doblist.jsp';
 }
 
 function xls_create_prodaja(sql) {
-	document.getElementById('dobForm').action = '/kovine/XLSCreateProdajaServlet?sql='+sql;
+	document.getElementById('dobForm').action = '/salomon/XLSCreateProdajaServlet?sql='+sql;
 	document.getElementById('dobForm').submit();
 	document.getElementById('dobForm').action = 'prodajalist.jsp';
 }
 
 function xls_create_komunala(param1, datum_od, datum_fm, mesec) {
-	document.getElementById('komunalaForm').action = '/kovine/XLSCreateKomunalaServlet?param1='+param1+"&datum_od="+datum_od+"&datum_fm="+datum_fm+"&mesec="+mesec;
+	document.getElementById('komunalaForm').action = '/salomon/XLSCreateKomunalaServlet?param1='+param1+"&datum_od="+datum_od+"&datum_fm="+datum_fm+"&mesec="+mesec;
 	document.getElementById('komunalaForm').submit();
 	document.getElementById('komunalaForm').action = 'komunalekolicinelist.jsp';
 }
@@ -182,7 +182,7 @@ function xls_create_storitve(leto) {
 	var sif_enote = document.getElementById('x_sif_enote').value;
 	var sif_skupine = document.getElementById('x_sif_skupine').value;
 	
-	document.getElementById('porocila').action = "/kovine/XLSCreateStoritveServlet?leto="+leto+"&datum_od="+datum_od+"&datum_do="+datum_do+"&sif_kupca="+sif_kupca+"&nadenota="+nadenota+"&sif_enote="+sif_enote+"&sif_skupine="+sif_skupine;
+	document.getElementById('porocila').action = "/salomon/XLSCreateStoritveServlet?leto="+leto+"&datum_od="+datum_od+"&datum_do="+datum_do+"&sif_kupca="+sif_kupca+"&nadenota="+nadenota+"&sif_enote="+sif_enote+"&sif_skupine="+sif_skupine;
 	document.getElementById('porocila').submit();
 	document.getElementById('porocila').action = 'porocila.jsp?report=12';
 }
@@ -196,12 +196,12 @@ function sendEvls() {
 	prvic = true;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/kovine/ArsoPosiljanjeServlet', true);
+	xhr.open('POST', '/salomon/ArsoPosiljanjeServlet', true);
 	xhr.onload = function () {
 	  if (xhr.status === 200) {
 	    alert('Evl-ji uspešno poslani.');
 	    var res = xhr.responseText.split("|", 2);
-	    window.location.href = "/kovine/" + res[1];
+	    window.location.href = "/salomon/" + res[1];
 		setTimeout(function() {
 		    document.getElementById('arsoposiljanje').action = 'arsoposiljanjelist.jsp?a=U&evls='+str+'&arso_paket='+ res[0];
 			document.getElementById('arsoposiljanje').submit();
@@ -253,7 +253,7 @@ function mail(keys, receiver, msg, tabela, user, sender) {
 			}
 		}
 	}
-	document.getElementById('dobavnicalistform').action = '/kovine/MailServlet?tabela='+tabela+'&key='+keyChecked+'&receiver='+receiver+'&msg='+msg+'&user='+user+'&sender='+sender;
+	document.getElementById('dobavnicalistform').action = '/salomon/MailServlet?tabela='+tabela+'&key='+keyChecked+'&receiver='+receiver+'&msg='+msg+'&user='+user+'&sender='+sender;
 	document.getElementById('dobavnicalistform').submit();
 	//document.getElementById('dobavnicalistform').action = 'dobavnicalist.jsp';
 	

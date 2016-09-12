@@ -1105,10 +1105,10 @@ out.println(x_sif_enoteList);
 		<td class="ewTableHeader">Opomba 5&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba5" size="65" maxlength="60" value="<%= HTMLEncode((String)x_opomba5) %>">&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Analiza&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_analiza" size="65" maxlength="60" value="<%= x_analiza %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Datum&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_datum" value="<%= EW_FormatDateTime(x_datum,7, locale) %>">&nbsp;<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.x_datum,'dd.mm.yyyy');return false;">&nbsp;</td>	

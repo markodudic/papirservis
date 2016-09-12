@@ -467,11 +467,11 @@ function disableSome(EW_this){
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("opomba5","UTF-8") %>">Opomba 5&nbsp;<% if (OrderBy != null && OrderBy.equals("opomba5")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba5")) ? "</b>" : ""%>
 		</td>
-		<td>
+		<!-- td>
 <%=(OrderBy != null && OrderBy.equals("analiza")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("analiza","UTF-8") %>">Analiza&nbsp;<% if (OrderBy != null && OrderBy.equals("analiza")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("analiza")) ? "</b>" : ""%>
-		</td>
+		</td-->
 		<td>
 <%=(OrderBy != null && OrderBy.equals("datum")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("datum","UTF-8") %>">Datum&nbsp;<% if (OrderBy != null && OrderBy.equals("datum")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
@@ -916,7 +916,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print(x_opomba3); %>&nbsp;</td>
 		<td><% out.print(x_opomba4); %>&nbsp;</td>
 		<td><% out.print(x_opomba5); %>&nbsp;</td>
-		<td><% out.print(EW_FormatNumber("" + x_analiza, 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<!-- td><% out.print(EW_FormatNumber("" + x_analiza, 4, 1, 1, 1,locale)); %>&nbsp;</td-->
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>
 		<td><% out.print((x_arso_prenos == 0 ? "NE" : x_arso_prenos == 1 ? "DA" : "TUJINA")); %>&nbsp;</td>
 		<td><% out.print(x_arso_pslj_st); %>&nbsp;</td>
