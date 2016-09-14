@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA["2007-12-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`st_dob` AS dob_st_dob, 
@@ -55,7 +55,7 @@ when 8 then materiali.`ravnanje8`
 when 9 then materiali.`ravnanje9`
 else 0 end,
 IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
-IFNULL(dob.`kolicina` * materiali.str_dv * kupci.bala/100,0) * enote.strosek_proizvodnja AS dob_proizvodnja,
+IFNULL(dob.`kolicina` * materiali.str_dv * dob.bala/100,0) * enote.strosek_proizvodnja AS dob_proizvodnja,
 IFNULL(dob.`dod_stroski`,0) as dob_stroski,
 IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
 IFNULL(dob_pozicije.stev_km,0) as dob_stev_km,

@@ -1705,28 +1705,33 @@ if (totalRecs > 0) {
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("kg_zaup")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("kg_zaup","UTF-8") %>">kg zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("kg_zaup","UTF-8") %>">Kg zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("kg_zaup")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sit_zaup")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_zaup","UTF-8") %>">sit zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_zaup","UTF-8") %>">Sit zaup&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_zaup")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sit_zaup")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("kg_sort")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("kg_sort","UTF-8") %>">kg sort&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("kg_sort","UTF-8") %>">Kg sort&nbsp;<% if (OrderBy != null && OrderBy.equals("kg_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("kg_sort")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sit_sort")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_sort","UTF-8") %>">sit sort&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_sort","UTF-8") %>">Sit sort&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_sort")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sit_sort")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("sit_smet")) ? "<b>" : ""%>
-<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_smet","UTF-8") %>">sit smet&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_smet")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("sit_smet","UTF-8") %>">Sit smet&nbsp;<% if (OrderBy != null && OrderBy.equals("sit_smet")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("sit_smet")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("bala")) ? "<b>" : ""%>
+<a href="doblist.jsp?order=<%= java.net.URLEncoder.encode("bala","UTF-8") %>">Baliranje&nbsp;<% if (OrderBy != null && OrderBy.equals("bala")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("dob_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("dob_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("bala")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
@@ -1928,6 +1933,7 @@ while (rs.next() ){//&& recCount < stopRec) {
 	String x_naziv_enote = "";
 	String x_opomba = "";
 	String x_dod_stroski = "";
+	String x_bala = "";
 	String x_stev_km_sled = "";
 	String x_stev_ur_sled = "";
 	String x_krozna = "";
@@ -2100,6 +2106,8 @@ while (rs.next() ){//&& recCount < stopRec) {
 
 	// x_dod_stroski 
 	x_dod_stroski = String.valueOf(rs.getDouble("dod_stroski"));
+
+	x_bala = String.valueOf(rs.getInt("bala"));
 
 
 	// stev_km_sled
@@ -2305,6 +2313,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_kg_sort); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_sort, 4, 1, 1, 1,locale)); %>&nbsp;</td>
 		<td><% out.print(EW_FormatNumber("" + x_sit_smet, 4, 1, 1, 1,locale)); %>&nbsp;</td>
+		<td><% out.print(x_bala); %>&nbsp;</td>
 		<td><%out.print(rs.getString("skupina"));%>&nbsp;</td>
 		<td><% out.print(x_skupina_text); %>&nbsp;</td>
 		<td><%out.print(rs.getString("sif_enote"));%>&nbsp;</td>

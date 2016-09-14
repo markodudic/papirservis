@@ -33,14 +33,14 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 										"Šifra kupca", "Naziv kupca", "Pošta", "Naselje", "Matična", "Skupina", "Enota", 
 										"Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion", "Šofer",
 										"Količina", "Cena", "Stroški", "Dod. stroški", "Cena KM", "KM strošek", "Cena ura", "Ure strošek", "Skupaj strošek", 
-										"Količina", 
-										"KG zaupno", "EUR zaupno", "KG sort", "EUR sort", "EUR smet",
+										"KG zaupno", "EUR zaupno", "KG sort", "EUR sort", "EUR smet", "Baliranje", 
+										"Opomba",
 										"Arso prenos"};
 	private static String[] rowTypes = {"S", "N", "S", "S", "S", 
 										"S", "S", "S", "S", "S", "S", "S", 
 										"S", "S", "S", "S", "S", "S", "S", 
 										"N", "D", "D", "D", "D", "D", "D", "D", "D", 
-										"D", "D", "D", "D", "D",
+										"D", "D", "D", "D", "D", "D",
 										"S", 
 										"S"};
 	
@@ -132,6 +132,7 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  String.valueOf(rs.getDouble("cena_ura")),
 	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), 
 	    							  String.valueOf(rs.getDouble("kg_zaup")),String.valueOf(rs.getDouble("sit_zaup")),String.valueOf(rs.getDouble("kg_sort")),String.valueOf(rs.getDouble("sit_sort")),String.valueOf(rs.getDouble("sit_smet")),
+	    							  rs.getString("bala"), 
 	    							  rs.getString("opomba"), 
 	    							  rs.getInt("arso_prenos")==0 ? "NE": rs.getInt("arso_prenos")==1 ? "DA": "TUJINA"};
 	    		createRow(dobavnica);

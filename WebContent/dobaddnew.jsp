@@ -76,6 +76,7 @@ Object x_sit_zaup = null;
 Object x_kg_sort = null;
 Object x_sit_sort = null;
 Object x_sit_smet = null;
+Object x_bala = null;
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_sif_enote = null;
@@ -113,6 +114,7 @@ StringBuffer cena_kg = new StringBuffer();
 StringBuffer c_km = new StringBuffer();
 StringBuffer c_ura = new StringBuffer();
 
+StringBuffer bala = new StringBuffer();
 StringBuffer sif_kupac2 = new StringBuffer();
 StringBuffer sif_kupac = new StringBuffer();
 StringBuffer sif_skupina = new StringBuffer();
@@ -288,6 +290,7 @@ try{
 		x_kg_sort = String.valueOf(rs.getLong("kg_sort"));
 		x_sit_sort = String.valueOf(rs.getDouble("sit_sort"));
 		x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
+		x_bala = String.valueOf(rs.getDouble("bala"));
 		x_skupina = String.valueOf(rs.getLong("skupina"));
 		if (rs.getString("skupina_text") != null){
 			x_skupina_text = rs.getString("skupina_text");
@@ -514,6 +517,11 @@ try{
 		}else{
 			x_sit_smet = "";
 		}
+		if (request.getParameter("x_bala") != null){
+			x_bala = (String) request.getParameter("x_bala");
+		}else{
+			x_bala = "";
+		}
 		if (request.getParameter("x_skupina_ll") != null){
 			x_skupina = request.getParameter("x_skupina_ll");
 		}
@@ -618,7 +626,7 @@ try{
 		}		
 
 
-		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, sif_enote, naziv_enote, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, uporabnik) values(";
+		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, bala, skupina, skupina_text, sif_enote, naziv_enote, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, uporabnik) values(";
 //		String strsql = "insert into dob (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, obdelana, uporabnik) values(" + x_st_dob  + ", ";
 
 
@@ -863,6 +871,11 @@ try{
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
 		strsql += tmpfld + ", ";
 
+		// Field bala
+		tmpfld = ((String) x_bala).trim();
+		if (!IsNumeric(tmpfld)) { tmpfld = null;}
+		strsql += tmpfld + ", ";
+
 		// Field skupina
 		tmpfld = ((String) x_skupina).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -1076,7 +1089,7 @@ if(request.getParameter("prikaz_okolje")!= null){
 String cbo_x_sif_kupca_js = "";
 x_sif_kupcaList = new StringBuffer("<select onchange = \"updateDropDowns2(this);\" name=\"x_sif_kupca_ll\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `" + session.getAttribute("dob_kupci_show")+ "` ASC";
-String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 ORDER BY `" + session.getAttribute("dob_kupci_show")+ "` ASC";
+String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov`, bala FROM `kupci`  where blokada = 0 ORDER BY `" + session.getAttribute("dob_kupci_show")+ "` ASC";
 
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
@@ -1097,6 +1110,7 @@ ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupc
 		
 		kupac.append("kupac[").append(rswrk_x_sif_kupca.getString("sif_kupca")).append("]=").append(String.valueOf(rowcntwrk_x_sif_kupca)).append(";");
 		sif_kupac2.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append(rswrk_x_sif_kupca.getString("sif_kupca")).append(";");
+		bala.append("bala[").append(rowcntwrk_x_sif_kupca).append("]=").append(rswrk_x_sif_kupca.getString("bala")).append(";");
 
 		if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 		x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
@@ -1401,6 +1415,8 @@ var c_km = new Array();
 var c_ura = new Array();
 <%=c_ura%>
 
+var bala = new Array();
+<%=bala%>
 var sif_kupac2 = new Array();
 <%=sif_kupac2%>
 var sif_kupac = new Array();
@@ -1495,6 +1511,8 @@ function updateDropDowns2(EW_this){
 	
 	}
 	
+	document.dobadd.x_bala.value = bala[document.dobadd.x_sif_kupca_ll.selectedIndex-1];
+
 }
 
 
@@ -1710,11 +1728,11 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_cena_ura" size="30" value="<%= a.equals("C") ? "0" : HTMLEncode((String)x_cena_ura)%>" <%= a.equals("C") ? "readonly" : ""%> >&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">c km&nbsp;</td>
+		<td class="ewTableHeader">C km&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_c_km" size="30" value="<%= a.equals("C") ? "0" : HTMLEncode((String)x_c_km)%>" <%= a.equals("C") ? "readonly" : ""%>>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">c ura&nbsp;</td>
+		<td class="ewTableHeader">C ura&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_c_ura" size="30" value="<%= a.equals("C") ? "0" : HTMLEncode((String)x_c_ura)%>" <%= a.equals("C") ? "readonly" : ""%>>&nbsp;</td>
 	</tr>
 	<tr>
@@ -1748,24 +1766,28 @@ return true;
 		<td class="ewTableAltRow"><input type="text" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">kg zaup&nbsp;</td>
+		<td class="ewTableHeader">Kg zaup&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kg_zaup" size="30" value="<%= HTMLEncode((String)x_kg_zaup) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">sit zaup&nbsp;</td>
+		<td class="ewTableHeader">Sit zaup&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_zaup" size="30" value="<%= HTMLEncode((String)x_sit_zaup) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">kg sort&nbsp;</td>
+		<td class="ewTableHeader">Kg sort&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kg_sort" size="30" value="<%= HTMLEncode((String)x_kg_sort) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">sit sort&nbsp;</td>
+		<td class="ewTableHeader">Sit sort&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_sort" size="30" value="<%= HTMLEncode((String)x_sit_sort) %>">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">sit smet&nbsp;</td>
+		<td class="ewTableHeader">Sit smet&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sit_smet" size="30" value="<%= HTMLEncode((String)x_sit_smet) %>">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Baliranje&nbsp;</td>
+		<td class="ewTableAltRow"><input type="text" name="x_bala" size="30" value="<%= HTMLEncode((String)x_bala) %>">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
