@@ -62,10 +62,13 @@ Object x_sif_kam = null;
 Object x_kamion = null;
 String[] x_koda = {"","",""};
 String[] x_ewc = {"","",""};
+String[] x_skupina = {"","",""};
+String[] x_sif_enote = {"","",""};
+/*
 Object x_skupina = null;
 Object x_skupina_text = null;
 Object x_sif_enote = null;
-Object x_enote = null;
+Object x_enote = null;*/
 Object x_opomba = null;
 Object x_zacetek = null;
 Object x_uporabnik = null;
@@ -85,8 +88,10 @@ String x_arso_prenos = "";
 
 StringBuffer x_sif_strList = null;
 StringBuffer x_sif_kupcaList = null;
-StringBuffer[] x_koda_List = new StringBuffer[4];;
-StringBuffer[] x_ewc_List = new StringBuffer[4];;
+StringBuffer[] x_koda_List = new StringBuffer[3];
+StringBuffer[] x_ewc_List = new StringBuffer[3];
+StringBuffer[] x_skupina_List = new StringBuffer[3];
+StringBuffer[] x_enote_List = new StringBuffer[3];
 StringBuffer x_sif_sofList = null;
 StringBuffer x_sif_kamList = null;
 StringBuffer x_skupinaList = null;
@@ -262,19 +267,34 @@ try{
 		x_cena_ura = String.valueOf(rs.getDouble("cena_ura"));
 		x_c_km = String.valueOf(rs.getDouble("c_km"));
 		x_c_ura = String.valueOf(rs.getDouble("c_ura"));
-		x_skupina = String.valueOf(rs.getLong("skupina"));
+
+		if (rs.getString("skupina") != null){
+			x_skupina[0] = rs.getString("skupina");
+		}else{
+			x_skupina[0] = "";
+		}
+
+		//x_skupina = String.valueOf(rs.getLong("skupina"));
 		
-		if (rs.getString("skupina_text") != null){
+		/*if (rs.getString("skupina_text") != null){
 			x_skupina_text = rs.getString("skupina_text");
 		}else{
 			x_skupina_text = "";
+		}*/
+
+		
+		if (rs.getString("sif_enote") != null){
+			x_sif_enote[0] = rs.getString("sif_enote");
+		}else{
+			x_sif_enote[0] = "";
 		}
-		x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
-		if (rs.getString("naziv_enote") != null){
+
+		//x_sif_enote = String.valueOf(rs.getLong("sif_enote"));
+		/*if (rs.getString("naziv_enote") != null){
 			x_enote = rs.getString("naziv_enote");
 		}else{
 			x_enote = "";
-		}
+		}*/
 		if (rs.getString("opomba") != null){
 			x_opomba = rs.getString("opomba");
 		}else{
@@ -335,6 +355,16 @@ try{
 			}else{
 				x_ewc[cnt] = "";
 			}
+			if (rs.getString("skupina") != null){
+				x_skupina[cnt] = rs.getString("skupina");
+			}else{
+				x_skupina[cnt] = "";
+			}
+			if (rs.getString("sif_enote") != null){
+				x_sif_enote[cnt] = rs.getString("sif_enote");
+			}else{
+				x_sif_enote[cnt] = "";
+			}
 			cnt++;
 		}
 
@@ -389,24 +419,24 @@ try{
 		}else{
 			x_kamion = "";
 		}
-		if (request.getParameter("x_skupina_ll") != null){
-			x_skupina = request.getParameter("x_skupina_ll");
-		}
-		if (request.getParameter("x_skupina_text") != null){
+		/*if (request.getParameter("x_skupina_ll") != null){
+			x_skupina = (String) request.getParameter("x_skupina_ll");
+		}*/
+		/*if (request.getParameter("x_skupina_text") != null){
 			x_skupina_text = (String) request.getParameter("x_skupina_text");
 		}else{
 			x_skupina_text = "";
-		}
-		if (request.getParameter("x_enote_ll") != null){
+		}*/
+		/*if (request.getParameter("x_enote_ll") != null){
 			x_sif_enote = request.getParameter("x_enote_ll");
 		}else{
 			x_sif_enote = "";
-		}
-		if (request.getParameter("x_enote") != null){
+		}*/
+		/*if (request.getParameter("x_enote") != null){
 			x_enote = (String) request.getParameter("x_enote");
 		}else{
 			x_enote = "";
-		}
+		}*/
 		if (request.getParameter("x_cena") != null){
 			x_cena = (String) request.getParameter("x_cena");
 		}else{
@@ -427,6 +457,8 @@ try{
 		}
 		int koda_cnt = 0;
 		int ewc_cnt = 0;
+		int skupina_cnt = 0;
+		int enote_cnt = 0;
 		for (int i=0; i<x_koda.length; i++) {
 			if ((request.getParameter("x_koda_"+(i+1)) != null) && (!request.getParameter("x_koda_"+(i+1)).equals(""))){
 				x_koda[i] = request.getParameter("x_koda_"+(i+1));
@@ -435,6 +467,14 @@ try{
 			if ((request.getParameter("x_ewc_"+(i+1)) != null) && (!request.getParameter("x_ewc_"+(i+1)).equals(""))){
 				x_ewc[i] = request.getParameter("x_ewc_"+(i+1));
 				ewc_cnt = (i+1);
+			}
+			if ((request.getParameter("x_skupina_"+(i+1)) != null) && (!request.getParameter("x_skupina_"+(i+1)).equals(""))){
+				x_skupina[i] = request.getParameter("x_skupina_"+(i+1));
+				skupina_cnt = (i+1);
+			}
+			if ((request.getParameter("x_sif_enote_"+(i+1)) != null) && (!request.getParameter("x_sif_enote_"+(i+1)).equals(""))){
+				x_sif_enote[i] = request.getParameter("x_sif_enote_"+(i+1));
+				enote_cnt = (i+1);
 			}
 		}
 		if (request.getParameter("x_cena_km") != null){
@@ -569,18 +609,32 @@ try{
 			}
 	
 			// Field skupina
-			tmpfld = ((String) x_skupina).trim();
+			tmpfld = ((String) x_skupina[i]);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			strsql += tmpfld + ", ";
+
+			// Field enota
+			tmpfld = ((String) x_sif_enote[i]);
+			if (tmpfld == null || tmpfld.trim().length() == 0) {
+				tmpfld = null;
+			}
+			strsql += tmpfld + ", ";
+
+			
+			// Field skupina
+			/*tmpfld = ((String) x_skupina).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
 			if (tmpfld == null) {
-				//rs.updateNull("sif_str");
 			} else {
 				strsql += tmpfld + ",";
-			}
+			}*/
 	
 			// Field enota
-			tmpfld = ((String) x_sif_enote).trim();
+			/*tmpfld = ((String) x_sif_enote).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
-			strsql += tmpfld + ", ";
+			strsql += tmpfld + ", ";*/
 	
 			// Field cena
 			tmpfld = ((String) x_cena).trim();
@@ -727,7 +781,6 @@ String sqlwrk_x_sif_kupca = "SELECT kupci.sif_kupca, naziv, naslov, dob1.skupina
 							"where kupci.sif_kupca = dob1.sif_kupca and blokada = 0 " +
 							"ORDER BY naziv ASC";
 
-
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
 	int rowcntwrk_x_sif_kupca = 0;
@@ -873,6 +926,7 @@ String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osn
 	"where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.sif_enote = enote.sif_enote and "+ 
 	"k.skupina = sk.skupina  and k.blokada = 0 " + subQuery  + 
 	" ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
+
 Statement stmtwrk_x_sif_str = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 	int rowcntwrk_x_sif_str = 0;
@@ -918,6 +972,42 @@ stmtwrk_x_sif_str.close();
 stmtwrk_x_sif_str = null;
 x_sif_strList.append("</select>");
 
+
+
+for (int i=0; i<x_skupina.length; i++) {
+	String sqlwrk_x_skupina = "SELECT `skupina`, `tekst` FROM `skup` ORDER BY tekst";
+
+	StringBuffer x_skupina_List_ALL = new StringBuffer();
+
+	Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk_x_skupina = stmtwrk_x_skupina.executeQuery(sqlwrk_x_skupina);
+		int rowcntwrk_x_skupina = 0;
+		while (rswrk_x_skupina.next()) {
+			x_skupina_List_ALL.append("<option value=\"").append(rswrk_x_skupina.getString("skupina")).append("\"");
+			if (rswrk_x_skupina.getString("skupina").equals(x_skupina[i])) {
+				x_skupina_List_ALL.append(" selected");
+			}
+			
+			skupina.append("skupina[").append(rswrk_x_skupina.getString("skupina")).append("]=").append(String.valueOf(rowcntwrk_x_skupina)).append(";");
+
+			String tmpValue_x_skupina = "";
+			if (rswrk_x_skupina.getString("tekst")!= null) tmpValue_x_skupina = rswrk_x_skupina.getString("tekst");
+			x_skupina_List_ALL.append(">").append(tmpValue_x_skupina).append("</option>");
+	
+			rowcntwrk_x_skupina++;
+		}
+	rswrk_x_skupina.close();
+	rswrk_x_skupina = null;
+	stmtwrk_x_skupina.close();
+	stmtwrk_x_skupina = null;
+	x_skupina_List_ALL.append("</select>");
+	
+	String s = "<select name=\"x_skupina_"+(i+1)+"\" ><option value=\"\">Izberi</option>";
+	x_skupina_List[i] = new StringBuffer(s);
+	x_skupina_List[i].append(x_skupina_List_ALL);
+}
+
+/*
 String cbo_x_skupina_js = "";
 x_skupinaList = new StringBuffer("<select name=\"x_skupina_ll\"><option value=\"\">Izberi</option>");
 
@@ -943,8 +1033,44 @@ rswrk_x_skupina.close();
 rswrk_x_skupina = null;
 stmtwrk_x_skupina.close();
 stmtwrk_x_skupina = null;
-x_skupinaList.append("</select>");
+x_skupinaList.append("</select>");*/
 
+
+
+for (int i=0; i<x_sif_enote.length; i++) {
+	String sqlwrk_x_sif_enote = "SELECT `sif_enote`, `naziv` FROM `enote` ORDER BY naziv";
+
+	StringBuffer x_enote_List_ALL = new StringBuffer();
+
+	Statement stmtwrk_x_sif_enote = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet rswrk_x_sif_enote = stmtwrk_x_sif_enote.executeQuery(sqlwrk_x_sif_enote);
+		int rowcntwrk_x_sif_enote = 0;
+		while (rswrk_x_sif_enote.next()) {
+			x_enote_List_ALL.append("<option value=\"").append(rswrk_x_sif_enote.getString("sif_enote")).append("\"");
+			if (rswrk_x_sif_enote.getString("sif_enote").equals(x_sif_enote[i])) {
+				x_enote_List_ALL.append(" selected");
+			}
+			
+			enote.append("enota[").append(rswrk_x_sif_enote.getString("sif_enote")).append("]=").append(String.valueOf(rowcntwrk_x_sif_enote)).append(";");
+
+			String tmpValue_x_sif_enote = "";
+			if (rswrk_x_sif_enote.getString("naziv")!= null) tmpValue_x_sif_enote = rswrk_x_sif_enote.getString("naziv");
+			x_enote_List_ALL.append(">").append(tmpValue_x_sif_enote).append("</option>");
+	
+			rowcntwrk_x_sif_enote++;
+		}
+	rswrk_x_sif_enote.close();
+	rswrk_x_sif_enote = null;
+	stmtwrk_x_sif_enote.close();
+	stmtwrk_x_sif_enote = null;
+	x_enote_List_ALL.append("</select>");
+	
+	String s = "<select name=\"x_sif_enote_"+(i+1)+"\" ><option value=\"\">Izberi</option>";
+	x_enote_List[i] = new StringBuffer(s);
+	x_enote_List[i].append(x_enote_List_ALL);
+}
+
+/*
 String cbo_x_enota_js = "";
 x_enoteList = new StringBuffer("<select name=\"x_enote_ll\"><option value=\"\">Izberi</option>");
 
@@ -971,6 +1097,8 @@ rswrk_x_enota = null;
 stmtwrk_x_enota.close();
 stmtwrk_x_enota = null;
 x_enoteList.append("</select>");
+*/
+
 
 String cbo_x_sif_sof_js = "";
 x_sif_sofList = new StringBuffer("<select name=\"x_sif_sof\"><option value=\"\">Izberi</option>");
@@ -1108,18 +1236,16 @@ function updateDropDowns(EW_this){
 	document.dobavnicaadd.x_sif_kupca.value = sif_kupac[document.dobavnicaadd.x_sif_str.value];
 	
 	if (sif_kupac_skupine[sif_kupac[document.dobavnicaadd.x_sif_str.value]] != undefined) {
-		document.dobavnicaadd.x_skupina_ll.selectedIndex = 1 + skupina[sif_kupac_skupine[sif_kupac[document.dobavnicaadd.x_sif_str.value]]];		
+		document.dobavnicaadd.x_skupina_1.selectedIndex = 1 + skupina[sif_kupac_skupine[sif_kupac[document.dobavnicaadd.x_sif_str.value]]];		
 	}
 	else {
-		document.dobavnicaadd.x_skupina_ll.selectedIndex = 1 + skupina[sif_skupina[document.dobavnicaadd.x_sif_str.value]];
-		//document.dobavnicaadd.x_skupina.value = sif_skupina[document.dobavnicaadd.x_sif_str.value];
+		document.dobavnicaadd.x_skupina_1.selectedIndex = 1 + skupina[sif_skupina[document.dobavnicaadd.x_sif_str.value]];
 	}
 	if (sif_kupac_enote[sif_kupac[document.dobavnicaadd.x_sif_str.value]] != undefined) {
-		document.dobavnicaadd.x_enote_ll.selectedIndex = 1 + enota[sif_kupac_enote[sif_kupac[document.dobavnicaadd.x_sif_str.value]]];		
+		document.dobavnicaadd.x_sif_enote_1.selectedIndex = 1 + enota[sif_kupac_enote[sif_kupac[document.dobavnicaadd.x_sif_str.value]]];		
 	}
 	else {
-		document.dobavnicaadd.x_enote_ll.selectedIndex = 1 + enota[sif_enote[document.dobavnicaadd.x_sif_str.value]];
-		//document.dobavnicaadd.x_enote.value = sif_enote[document.dobavnicaadd.x_sif_str.value];
+		document.dobavnicaadd.x_sif_enote_1.selectedIndex = 1 + enota[sif_enote[document.dobavnicaadd.x_sif_str.value]];
 	}
 	
 	document.dobavnicaadd.kupec_enota.value = sif_kupec_enota[document.dobavnicaadd.x_sif_str.value];
@@ -1205,7 +1331,6 @@ return true;
 <p>
 <input type="hidden" name="a" value="A">
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
-<input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
 <input type="hidden" name="x_stev_km_norm" size="30" value="<%= HTMLEncode((String)x_stev_km_norm) %>">
 <input type="hidden" name="x_stev_ur_norm" size="30" value="<%= HTMLEncode((String)x_stev_ur_norm) %>">
 <input type="hidden" name="x_cena" size="30" value="<%= HTMLEncode((String)x_cena) %>">
@@ -1219,6 +1344,9 @@ return true;
 <input type="hidden" name="x_arso_odp_embalaza_shema" size="30" value="<%= HTMLEncode((String)x_arso_odp_embalaza_shema) %>">
 <input type="hidden" name="x_arso_odp_dej_nastanka" size="30" value="<%= HTMLEncode((String)x_arso_odp_dej_nastanka) %>">
 <input type="hidden" name="x_arso_prenos" size="30" value="<%= HTMLEncode((String)x_arso_prenos) %>">
+<input type="hidden" name="x_ewc_1" size="30" value="">
+<input type="hidden" name="x_ewc_2" size="30" value="">
+<input type="hidden" name="x_ewc_3" size="30" value="">
 
 <table class="ewTable">
 	<tr>
@@ -1239,7 +1367,7 @@ return true;
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
-		<td class="ewTableAltRow"><input type="text" id="kupec_enota" name="kupec_enota" value="" readonly></td>
+		<td class="ewTableAltRow"><input type="text" id="kupec_enota" name="kupec_enota" value="" size="81"  readonly></td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Šofer&nbsp;</td>
@@ -1255,20 +1383,28 @@ return true;
 			<td class="ewTableAltRow"><%out.println(x_koda_List[i]);%>
 			<a href="<%out.print("dobavnicaadd.jsp?key=" + x_st_dob + "&prikaz_material_"+(i+1)+"=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?key=" + x_st_dob + "&prikaz_material_"+(i+1)+"=material");%>">material</a></td>
 		</tr>
-		<tr>
+		<!-- tr>
 			<td class="ewTableHeader">EWC&nbsp;<%out.print(i+1);%></td>
 			<td class="ewTableAltRow"><%out.println(x_ewc_List[i]);%>
 			<a href="<%out.print("dobavnicaadd.jsp?key=" + x_st_dob + "&prikaz_okolje_"+(i+1)+"=koda");%>">koda</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?key=" + x_st_dob + "&prikaz_okolje_"+(i+1)+"=material");%>">material</a></td>
+		</tr-->
+		<tr>
+			<td class="ewTableHeader">Skupina&nbsp;<%out.print(i+1);%></td>
+			<td class="ewTableAltRow"><%out.println(x_skupina_List[i]);%>
+		</tr>
+		<tr>
+			<td class="ewTableHeader">Enota&nbsp;<%out.print(i+1);%></td>
+			<td class="ewTableAltRow"><%out.println(x_enote_List[i]);%>
 		</tr>
 	<%}%>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_skupinaList);%>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_enoteList);%>&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
