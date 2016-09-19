@@ -246,7 +246,7 @@ else{
 if (OrderBy != null && OrderBy.length() > 0) {
 	strsql = strsql + " ORDER BY " + OrderBy + " " + (String) session.getAttribute("cenastr_OT");
 } else {
-	strsql = strsql + " ORDER BY sif_kupca";
+	strsql = strsql + " ORDER BY sif_kupca, material_koda, veljavnost";
 }
 
 

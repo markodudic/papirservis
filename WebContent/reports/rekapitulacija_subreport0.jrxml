@@ -57,7 +57,7 @@ FROM
 	      	stranke.zacetek = zadnji.datum) stranke,
 	(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str, cenastr.cena
 from
-((select max(cenastr.veljavnost) v, max(cenastr.id) i, dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str
+((select max(cenastr.veljavnost) v, dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
 from ((SELECT dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
 	FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
@@ -75,7 +75,8 @@ left join cenastr
 group by dob.st_dob, dob.pozicija) c
 left join cenastr on
 cenastr.veljavnost = c.v and
-      cenastr.id = c.i)) as dob,
+       cenastr.sif_kupca = c.sif_kupca and 
+	cenastr.material_koda = c.koda)) as dob,
      (SELECT materiali.*
 	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
 	WHERE materiali.koda = zadnji.koda and
