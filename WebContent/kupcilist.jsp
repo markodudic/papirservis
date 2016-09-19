@@ -443,6 +443,11 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("rok_placila")) ? "</b>" : ""%>
 		</td>
 		<td>
+<%=(OrderBy != null && OrderBy.equals("prodaja")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("prodaja","UTF-8") %>">Prodaja&nbsp;<% if (OrderBy != null && OrderBy.equals("prodaja")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("prodaja")) ? "</b>" : ""%>
+		</td>
+		<td>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "<b>" : ""%>
 <a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("opomba1","UTF-8") %>">Opomba 1&nbsp;<% if (OrderBy != null && OrderBy.equals("opomba1")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("opomba1")) ? "</b>" : ""%>
@@ -562,6 +567,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_davcna = "";
 	String x_maticna = "";
 	String x_dejavnost = "";
+	int x_prodaja = 0;
 	String x_opomba1 = "";
 	String x_opomba2 = "";
 	String x_opomba3 = "";
@@ -720,6 +726,7 @@ while (rs.next() && recCount < stopRec) {
 	// rok_placila
 	x_rok_placila = String.valueOf(rs.getInt("rok_placila"));
 
+	x_prodaja = rs.getInt("prodaja");
 
 	// opomba1
 	if (rs.getString("opomba1") != null){
@@ -911,6 +918,7 @@ if (x_sif_enote!=null && ((String)x_sif_enote).length() > 0) {
 		<td><% out.print(x_dejavnost); %>&nbsp;</td>
 		<td><% out.print(x_stroskovno_mesto); %>&nbsp;</td>
 		<td><% out.print(x_rok_placila); %>&nbsp;</td>
+		<td><% out.print(x_prodaja == 0 ? "NE" : "DA"); %>&nbsp;</td>
 		<td><% out.print(x_opomba1); %>&nbsp;</td>
 		<td><% out.print(x_opomba2);  %>&nbsp;</td>
 		<td><% out.print(x_opomba3); %>&nbsp;</td>

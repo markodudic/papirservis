@@ -1,2 +1,7 @@
 ALTER TABLE `dob2016`
 	ADD COLUMN `bala` INT(11) NULL DEFAULT '0' AFTER `dod_stroski`;
+	
+ALTER TABLE `kupci`
+	ADD COLUMN `prodaja` `prodaja` TINYINT(1) NULL DEFAULT '0' AFTER `dejavnost`;	
+
+update kupci set prodaja = 1 where potnik = 20;

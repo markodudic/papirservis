@@ -72,6 +72,7 @@ Object x_pogodba  = null;
 Object x_davcna = null;
 String x_maticna = "";
 String x_dejavnost = "";
+int x_prodaja = 0;
 Object x_opomba1 = null;
 Object x_opomba2 = null;
 Object x_opomba3 = null;
@@ -215,6 +216,8 @@ try{
 			}else{
 				x_dejavnost = "";
 			}
+
+			x_prodaja = rs.getInt("prodaja");
 
 			if (rs.getString("opomba1") != null){
 				x_opomba1 = rs.getString("opomba1");
@@ -394,6 +397,9 @@ try{
 			x_rok_placila = (String) request.getParameter("x_rok_placila");
 		}else{
 			x_rok_placila = "";
+		}
+		if (request.getParameter("x_prodaja") != null){
+			x_prodaja = Integer.parseInt(request.getParameter("x_prodaja"));
 		}
 		if (request.getParameter("x_opomba1") != null){
 			x_opomba1 = (String) request.getParameter("x_opomba1");
@@ -689,6 +695,8 @@ try{
 			rs.updateInt("rok_placila",Integer.parseInt(tmpfld));
 		}
 		
+		rs.updateInt("prodaja", x_prodaja);
+
 		// Field opomba
 		tmpfld = ((String) x_opomba1);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -1091,6 +1099,10 @@ out.println(x_sif_enoteList);
 		<td class="ewTableHeader">Rok plačila&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_rok_placila" size="30" value="<%= HTMLEncode((String)x_rok_placila) %>">&nbsp;</td>
 	</tr>	
+	<tr>
+		<td class="ewTableHeader">Prodaja&nbsp;</td>
+		<td class="ewTableAltRow"><input type="radio" name="x_prodaja"  <%= x_prodaja == 0? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_prodaja"  <%= x_prodaja == 1? "checked" : "" %> value = "1">DA&nbsp;</td>
+	</tr>
 	<tr>
 		<td class="ewTableHeader">Opomba 1&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba1" size="65" maxlength="60" value="<%= HTMLEncode((String)x_opomba1) %>">&nbsp;</td>
