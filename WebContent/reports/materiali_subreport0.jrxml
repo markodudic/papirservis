@@ -75,13 +75,12 @@ LEFT JOIN
 	WHERE cenastr.material_koda = zadnji.material_koda and 
 		cenastr.zacetek = zadnji.datum) cenastr 
 ON (dob.koda = cenastr.material_koda and dob.sif_kupca = cenastr.sif_kupca),
-     kupci, enote
+     enote
 WHERE dob.`koda` = materiali.`koda` and
-	dob.sif_kupca = kupci.sif_kupca and
-       dob.sif_enote = enote.sif_enote and
+	dob.sif_enote = enote.sif_enote and
 	((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
 	((dob.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
-	((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
+	((dob.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
 GROUP BY dob.`koda`, materiali.`material`
 ORDER BY dob.`koda`]]></queryString>
 

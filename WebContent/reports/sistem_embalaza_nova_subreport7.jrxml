@@ -98,7 +98,7 @@ FROM
 WHERE dob.`koda` = materiali.`koda` and
       dob.sif_kupca = kupci.sif_kupca and
      ((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     ((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      ((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1))
 GROUP BY dob.`koda`, materiali.`material`
 ORDER BY dob.`koda`]]></queryString>

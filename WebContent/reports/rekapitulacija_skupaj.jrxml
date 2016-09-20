@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2203732"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2203840"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\papirservis\\WebContent\\images\\ps.jpg"]]></defaultValueExpression>
@@ -33,10 +33,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2014-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2014-6-31"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2016-9-30"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
@@ -45,7 +45,7 @@
 		<defaultValueExpression ><![CDATA["1.12.2007"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2015"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
@@ -123,6 +123,9 @@ $V{sum_ravnanje}.doubleValue() + $V{sum_prevoz}.doubleValue()
 $V{sum_proizvodnja}.doubleValue() +
 $V{sum_stroski}.doubleValue() + $V{skupaj_odvoz}.doubleValue() +
 $V{sum_all}.doubleValue()))]]></variableExpression>
+	</variable>
+	<variable name="sum_all_najem" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_all_najem} != null ? $V{sum_all_najem} : new Double (0.0)]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -601,8 +604,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<subreportParameter  name="do_datum">
 						<subreportParameterExpression><![CDATA[$P{do_datum}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="dobLeto">
+						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="sum_all" toVariable="sum_all"/>
+					<returnValue subreportVariable="sum_all_najem" toVariable="sum_all_najem"/>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_skupaj_subreport4.jasper"]]></subreportExpression>
 				</subreport>
 				<staticText>
@@ -729,7 +736,6 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<returnValue subreportVariable="sum_ravnanje" toVariable="sum_ravnanje"/>
 					<returnValue subreportVariable="sum_odvoz" toVariable="sum_odvoz"/>
 					<returnValue subreportVariable="sum_prevoz" toVariable="sum_prevoz"/>
-					<returnValue subreportVariable="sum_najem" toVariable="sum_najem"/>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "rekapitulacija_skupaj_subreport8.jasper"]]></subreportExpression>
 				</subreport>
 				<staticText>
@@ -1102,7 +1108,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_najem} != null ? $V{sum_najem} : new Double (0.0)]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_all_najem} != null ? $V{sum_all_najem} : new Double (0.0)]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1293,7 +1299,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(
 ($V{sum_odvoz} != null ? $V{sum_odvoz}.doubleValue() : 0) +
-($V{sum_najem} != null ? $V{sum_najem}.doubleValue() : 0) + 
+($V{sum_all_najem} != null ? $V{sum_all_najem}.doubleValue() : 0) + 
 ($V{sum_zaup} != null ? $V{sum_zaup}.doubleValue() : 0) +
 ($V{sum_smeti} != null ? $V{sum_smeti}.doubleValue() : 0) + 
 ($V{sum_ravnanje} != null ? $V{sum_ravnanje}.doubleValue() : 0) + 
@@ -1317,7 +1323,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(
 ($V{sum_odvoz} != null ? $V{sum_odvoz}.doubleValue() : 0) +
-($V{sum_najem} != null ? $V{sum_najem}.doubleValue() : 0) + 
+($V{sum_all_najem} != null ? $V{sum_all_najem}.doubleValue() : 0) + 
 ($V{sum_zaup} != null ? $V{sum_zaup}.doubleValue() : 0) +
 ($V{sum_smeti} != null ? $V{sum_smeti}.doubleValue() : 0) + 
 ($V{sum_ravnanje} != null ? $V{sum_ravnanje}.doubleValue() : 0) + 
