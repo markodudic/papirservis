@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rekapitulacija_total_2_subreport0"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="802"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2016-09-21"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("99")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vse nadenote"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select 
+	sum(main.skupaj) skupaj, 
+	
+	sum(main.amortizacija) as amortizacija, 
+	sum(main.mesecev) as mesecev, 
+	
+	sum(main.nab_vrednost) AS nab_vrednost, 
+	sum(main.prod_vrednost)  AS prod_vrednost, 
+	
+	sum(dob_kolicina) AS dob_kolicina,
+	sum(dob_cena) AS dob_cena,
+	sum(dob_zaup)  AS dob_zaup,
+	sum(dob_smet)  AS dob_smet,
+	sum(ravnanje_param),
+	sum(dob_ravnanje) AS dob_ravnanje,
+	sum(dob_proizvodnja) AS dob_proizvodnja,
+	sum(dob_stroski) as dob_stroski,
+	sum(dob_prevoz) AS dob_prevoz,
+	sum(dob_stev_km) as dob_stev_km,
+	sum(ravnanje) AS ravnanje,
+	sum(prevoz_kamion) AS prevoz_kamion,
+	sum(prevoz_material) AS prevoz_material,
+	sum(prevoz1) AS prevoz1,
+	sum(prevoz2) AS prevoz2,
+	sum(prevoz3) AS prevoz3,
+	sum(prevoz4) AS prevoz4,
+	sum(najem) AS najem,
+	sum(obracun_km) AS obracun_km,
+	
+	main.skupina, 
+	main.skupina_text
+from (
+
+SELECT 
+	-(SUM(dob.`stev_km` * dob.cena_km + dob.`stev_ur` * dob.cena_ura + IFNULL(dob.stroski, 0))) as skupaj,
+	0 amortizacija,
+	0 mesecev,
+	0 nab_vrednost,
+	0 prod_vrednost,
+	0 dob_kolicina,
+	0 dob_cena,
+	0 dob_zaup,
+	0 dob_smet,
+	0 ravnanje_param,
+	0 dob_ravnanje,
+	0 dob_proizvodnja,
+	0 dob_stroski,
+	0 dob_prevoz,
+	0 dob_stev_km,
+	0 ravnanje,
+	0 prevoz_kamion,
+	0 prevoz_material,
+	0 prevoz1,
+	0 prevoz2,
+	0 prevoz3,
+	0 prevoz4,
+	0 najem,
+	0 obracun_km,
+	dob.skupina, 
+	dob.skupina_text
+from (SELECT dob.*
+	FROM $P!{dobLeto} dob 
+	      left join enote on (dob.sif_enote = enote.sif_enote)
+			left join skup on (dob.skupina = skup.skupina)
+			left join kupci on (dob.sif_kupca = kupci.sif_kupca), 
+			(SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+	WHERE dob.st_dob = zadnji.st_dob and
+	      dob.pozicija = zadnji.pozicija and
+	      dob.zacetek = zadnji.datum and
+		((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+     		((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
+     		((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     		((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)))  dob
+
+UNION ALL
+
+SELECT 
+	0 skupaj,
+	IFNULL(-sum(str.kol_os * osnovna.cena_am), 0) as amortizacija,
+	PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev,
+	0 nab_vrednost,
+	0 prod_vrednost,
+	0 dob_kolicina,
+	0 dob_cena,
+	0 dob_zaup,
+	0 dob_smet,
+	0 ravnanje_param,
+	0 dob_ravnanje,
+	0 dob_proizvodnja,
+	0 dob_stroski,
+	0 dob_prevoz,
+	0 dob_stev_km,
+	0 ravnanje,
+	0 prevoz_kamion,
+	0 prevoz_material,
+	0 prevoz1,
+	0 prevoz2,
+	0 prevoz3,
+	0 prevoz4,
+	0 najem,
+	0 obracun_km,
+	str.skupina, 
+	str.tekst skupina_text
+from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost, skup.skupina, skup.tekst
+	FROM stranke 
+			left join kupci on (stranke.sif_kupca = kupci.sif_kupca) 
+			left join skup on (kupci.skupina = skup.skupina)
+			left join enote on (kupci.sif_enote = enote.sif_enote),
+			(SELECT sif_str, max(veljavnost) veljavnost
+			FROM stranke
+			WHERE veljavnost < CAST($P{do_datum}  AS DATE) 
+			group by sif_str) zadnji
+	WHERE stranke.veljavnost = zadnji.veljavnost and
+         stranke.sif_str = zadnji.sif_str and
+			((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+     		((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
+     		((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     		((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     		kupci.sif_kupca IN (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE))) as str,
+	(SELECT osnovna.*
+	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os) zadnji
+	WHERE osnovna.sif_os = zadnji.sif_os and
+	      osnovna.zacetek = zadnji.datum)  osnovna
+WHERE str.sif_os = osnovna.sif_os 
+group by mesecev
+
+UNION ALL
+
+Select 	
+   0 skupaj,
+	0 amortizacija,
+	0 mesecev,
+	IFNULL(sum(-A.`kolicina` * A.`cena`), 0) AS nab_vrednost,
+	IFNULL(sum((SELECT A.`kolicina` * IFNULL(A.strcenaprod, materiali.pc_nizka)
+	FROM materiali
+	WHERE materiali.koda = A.dob_koda and
+	      materiali.zacetek = A.zacetek)), 0) AS prod_vrednost,
+	0 dob_kolicina,
+	0 dob_cena,
+	0 dob_zaup,
+	0 dob_smet,
+	0 ravnanje_param,
+	0 dob_ravnanje,
+	0 dob_proizvodnja,
+	0 dob_stroski,
+	0 dob_prevoz,
+	0 dob_stev_km,
+	0 ravnanje,
+	0 prevoz_kamion,
+	0 prevoz_material,
+	0 prevoz1,
+	0 prevoz2,
+	0 prevoz3,
+	0 prevoz4,
+	0 najem,
+	0 obracun_km,
+	A.skupina,
+	A.tekst
+from (
+	SELECT distinct dob.st_dob,
+	dob.`koda` AS dob_koda, 
+	dob.kolicina,
+	dob.`cena`,
+	dob.`strcenaprod`,
+	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek,
+	dob.skupina,
+	skup.tekst
+	FROM 
+		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena,  max(cenastrprod.cena) as strcenaprod, c.skupina, c.sif_enote, c.sif_kupca
+		from
+		((select max(cenastr.veljavnost) v, max(cenastr.id) i,  max(cenastrprod.veljavnost) vv, max(cenastrprod.id) ii, dob.*
+		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca, dob.skupina, dob.sif_enote
+			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+         					from $P!{dobLeto} dob
+				           	where dob.datum >= CAST($P{od_datum} AS DATE) AND
+					      		dob.datum <= CAST($P{do_datum}  AS DATE) 
+						group by st_dob, pozicija) zadnji
+			WHERE dob.st_dob = zadnji.st_dob and
+		      		dob.pozicija = zadnji.pozicija and
+		      		dob.zacetek = zadnji.datum ) dob 
+		        	left join cenastr
+	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
+		    	     cenastr.material_koda = dob.koda and
+		     	     cenastr.veljavnost <= dob.datum)
+		        	left join cenastrprod
+	        	        	on (dob.sif_kupca = cenastrprod.sif_kupca and
+		    	     cenastrprod.material_koda = dob.koda and
+		     	     cenastrprod.veljavnost <= dob.datum))
+		group by dob.st_dob, dob.pozicija) c
+		left join cenastr on
+			cenastr.veljavnost = c.v and
+	      		cenastr.id = c.i
+		left join cenastrprod on
+			cenastrprod.veljavnost = c.vv and
+	      		cenastrprod.id = c.ii)
+		group by c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str) as dob
+	   left join materiali on (dob.`koda` = materiali.`koda`)
+		left join skup on (dob.skupina = skup.skupina)
+		left join enote on (dob.sif_enote = enote.sif_enote)
+		left join kupci on (dob.sif_kupca = kupci.sif_kupca) 
+		where ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+     		((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
+     		((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+     		((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) ) AS A
+
+UNION ALL
+
+SELECT 
+   0 skupaj,
+	0 amortizacija,
+	0 mesecev,
+	0 nab_vrednost,
+	0 prod_vrednost,
+	dob.`kolicina` AS dob_kolicina, 
+	IFNULL(dob.`cena` * dob.use_it, 0) AS dob_cena,
+	IFNULL(dob.`kg_zaup` * dob.`sit_zaup`, 0)  AS dob_zaup, 
+	IFNULL(dob.`kolicina` * dob.`sit_smet`, 0)  AS dob_smet, 
+	@ravnanje:=case skup.ravnanje
+	when 1 then materiali.`ravnanje1`
+	when 2 then materiali.`ravnanje2`
+	when 3 then materiali.`ravnanje3`
+	when 4 then materiali.`ravnanje4`
+	when 5 then materiali.`ravnanje5`
+	when 6 then materiali.`ravnanje6`
+	when 7 then materiali.`ravnanje7`
+	when 8 then materiali.`ravnanje8`
+	when 9 then materiali.`ravnanje9`
+	else 0 end,
+	IFNULL(dob.`kolicina` * @ravnanje,0) AS dob_ravnanje,
+	IFNULL(-dob.`kolicina` * materiali.str_dv * dob.bala/100, 0) * enote.strosek_proizvodnja AS dob_proizvodnja,
+	IFNULL(-dob.`dod_stroski`, 0) as dob_stroski,
+	IFNULL((dob_pozicije.c_km * dob_pozicije.stev_km) + (dob_pozicije.c_ura * dob_pozicije.stev_ur),0) AS dob_prevoz,
+	IFNULL(dob_pozicije.stev_km,0) as dob_stev_km,
+	skup.ravnanje,
+	skup.prevoz_kamion,
+	skup.prevoz_material,
+	materiali.prevoz1,
+	materiali.prevoz2,
+	materiali.prevoz3,
+	materiali.prevoz4,
+	IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem,
+	stranke.obracun_km,
+	skup.skupina,
+	skup.tekst
+FROM (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+		WHERE dob.st_dob = zadnji.st_dob and
+		      dob.pozicija = zadnji.pozicija and
+		      dob.zacetek = zadnji.datum)  dob
+    left join enote on (dob.sif_enote = enote.sif_enote)
+	 left join skup on (dob.skupina = skup.skupina)
+	 left join kupci on (dob.sif_kupca = kupci.sif_kupca) 
+    left join (SELECT stranke.*
+		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 		group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),	      		
+    (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.pozicija = 1
+				AND dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+		WHERE dob.st_dob = zadnji.st_dob and
+		      dob.pozicija = zadnji.pozicija and
+		      dob.zacetek = zadnji.datum) dob_pozicije,		      
+     (SELECT materiali.*
+	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
+	WHERE materiali.koda = zadnji.koda and
+	      materiali.zacetek = zadnji.datum) materiali,
+	      
+	(SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem 
+	FROM (SELECT stranke.*
+		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+	 	group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+		      stranke.zacetek = zadnji.datum) stranke
+	WHERE ((stranke.najem = "D") 
+	and 
+     	(stranke.sif_kupca IN (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE))))) as b,
+(SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz 
+FROM (SELECT stranke.*
+	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+ 	group by sif_str ) zadnji
+	WHERE stranke.sif_str = zadnji.sif_str and
+	      stranke.zacetek = zadnji.datum) stranke
+WHERE stranke.najem = "X" and
+      NOT EXISTS (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where dob.sif_str = stranke.sif_str and 
+				datum >= CAST($P{od_datum} AS DATE) 
+				AND datum <= CAST($P{do_datum} AS DATE))) as c
+WHERE dob.`koda` = materiali.`koda` and
+	dob.skupina = skup.skupina and
+	dob.st_dob = dob_pozicije.st_dob and
+	dob.sif_kupca = kupci.sif_kupca and
+	((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
+	((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
+	((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+	((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1))
+
+) as main
+group by main.skupina, main.skupina_text]]></queryString>
+
+	<field name="skupaj" class="java.lang.Double"/>
+	<field name="amortizacija" class="java.lang.Double"/>
+	<field name="mesecev" class="java.math.BigDecimal"/>
+	<field name="nab_vrednost" class="java.lang.Double"/>
+	<field name="prod_vrednost" class="java.lang.Double"/>
+	<field name="dob_kolicina" class="java.math.BigDecimal"/>
+	<field name="dob_cena" class="java.lang.Double"/>
+	<field name="dob_zaup" class="java.lang.Double"/>
+	<field name="dob_smet" class="java.lang.Double"/>
+	<field name="sum(ravnanje_param)" class="java.lang.Double"/>
+	<field name="dob_ravnanje" class="java.lang.Double"/>
+	<field name="dob_proizvodnja" class="java.lang.Double"/>
+	<field name="dob_stroski" class="java.math.BigDecimal"/>
+	<field name="dob_prevoz" class="java.lang.Double"/>
+	<field name="dob_stev_km" class="java.math.BigDecimal"/>
+	<field name="ravnanje" class="java.lang.Boolean"/>
+	<field name="prevoz_kamion" class="java.math.BigDecimal"/>
+	<field name="prevoz_material" class="java.math.BigDecimal"/>
+	<field name="prevoz1" class="java.lang.Double"/>
+	<field name="prevoz2" class="java.lang.Double"/>
+	<field name="prevoz3" class="java.lang.Double"/>
+	<field name="prevoz4" class="java.lang.Double"/>
+	<field name="najem" class="java.lang.Double"/>
+	<field name="obracun_km" class="java.math.BigDecimal"/>
+	<field name="skupina" class="java.lang.Integer"/>
+	<field name="skupina_text" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="29"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="283"
+						height="13"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{skupina_text}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="127"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-3"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dob_proizvodnja}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="169"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-4"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double($F{dob_stroski}.doubleValue())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="253"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-5"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dob_cena}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="295"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-6"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{COLUMN_COUNT}.doubleValue()/1 == 1 ? $F{najem} : new Double(0)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="337"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-7"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dob_zaup}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="421"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-8"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ravnanje}.booleanValue() ? $F{dob_ravnanje} : new Double ("0.00")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="379"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-9"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dob_smet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="463"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-10"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dob_prevoz}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="85"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-11"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{nab_vrednost}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="211"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-12"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{prod_vrednost}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="1"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-13"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{skupaj}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="43"
+						y="13"
+						width="42"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-14"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double($F{amortizacija}.doubleValue()  * $F{mesecev}.doubleValue() )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="505"
+						y="13"
+						width="62"
+						height="16"
+						backcolor="#FFFFFF"
+						key="textField-15"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(
+$F{skupaj}.doubleValue() +
+($F{amortizacija}.doubleValue()  * $F{mesecev}.doubleValue()) +
+$F{nab_vrednost}.doubleValue() +
+$F{dob_proizvodnja}.doubleValue() +
+$F{dob_stroski}.doubleValue() +
+$F{prod_vrednost}.doubleValue() +
+$F{dob_cena}.doubleValue() +
+($V{COLUMN_COUNT}.doubleValue()/1 == 1 ? $F{najem}.doubleValue() : 0.0) +
+$F{dob_zaup}.doubleValue() +
+$F{dob_smet}.doubleValue() +
+($F{ravnanje}.booleanValue() ? $F{dob_ravnanje}.doubleValue() : 0.0) +
+$F{dob_prevoz}.doubleValue())]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

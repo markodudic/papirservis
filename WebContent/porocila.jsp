@@ -123,7 +123,8 @@ function updateRacun(){
 							"/reports/embalaznina_rekapitulacija",
 							"/reports/embalaznina_racuni_new",
 							"/reports/embalaznina_porocila_new",
-							"/reports/embalaznina_rekapitulacija_new"
+							"/reports/embalaznina_rekapitulacija_new",
+							"/reports/rekapitulacija_total_2"
 							};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
@@ -149,7 +150,7 @@ function updateRacun(){
 	//preberem vse kupce iz baze
 	StringBuffer x_sif_kupcaList = null;
 	
-	if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15))
+	if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15) || (reportID == 31))
 	{
 		x_sif_kupcaList = new StringBuffer("<select name=\"x_sif_kupca\" id=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_kupca = "SELECT distinct sif_kupca, naziv " +
@@ -222,7 +223,7 @@ function updateRacun(){
 	//preberem vse nadenote iz baze
 	StringBuffer x_sif_nadenoteList = null;
 
-	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24))  
+	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24) || (reportID == 31))  
 	{
 		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\" id=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
@@ -253,7 +254,7 @@ function updateRacun(){
 	
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
 		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
-		 (reportID == 21) || (reportID == 22) || (reportID == 24))
+		 (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31))
 	{
 		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\" id=\"x_sif_enote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_enote = "SELECT * FROM enote ORDER BY `naziv` ASC";
@@ -282,7 +283,7 @@ function updateRacun(){
 
 	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
 		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
-		 (reportID == 22) || (reportID == 24))
+		 (reportID == 22) || (reportID == 24) || (reportID == 31))
 	{ 
 		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\" id=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_skupine = "SELECT * FROM skup ORDER BY `tekst` ASC";
@@ -371,7 +372,7 @@ function updateRacun(){
 	//preberem potnik iz baze
 	StringBuffer x_sif_potnikList = null;
 
-	if ((reportID == 14) || (reportID == 18) || (reportID == 22))
+	if ((reportID == 14) || (reportID == 18) || (reportID == 22) || (reportID == 31))
 	{
 		x_sif_potnikList = new StringBuffer("<select name=\"x_sif_potnik\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_potnik = "SELECT `sif_upor`, `ime_in_priimek` FROM `uporabniki` where aktiven=1 order by `ime_in_priimek`";
@@ -486,7 +487,7 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_dobList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15)) {%>
+	<%if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15) || (reportID == 31)) {%>
 	<tr>
 		<td class="ewTableHeader">&#352;ifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
@@ -498,7 +499,7 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_zavezanciList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24))  {%>
+	<%	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24) || (reportID == 31))  {%>
 	<tr>
 		<td class="ewTableHeader">Nadenota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_nadenoteList);%>&nbsp;</td>
@@ -506,7 +507,7 @@ function updateRacun(){
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
 			(reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
-			 || (reportID == 21) || (reportID == 22) || (reportID == 24)) {%>
+			 || (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
@@ -514,7 +515,7 @@ function updateRacun(){
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
 			(reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
-			 || (reportID == 22) || (reportID == 24)) {%>
+			 || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_skupineList);%>&nbsp;
@@ -637,7 +638,7 @@ function updateRacun(){
 	</tr>
 	<%}%>
 	
-	<%if ((reportID == 14) || (reportID == 18)) {%>
+	<%if ((reportID == 14) || (reportID == 18) || (reportID == 31)) {%>
 	<!-- tr>
 		<td class="ewTableHeader">Sortiranje:&nbsp;</td>
 		<td class="ewTableAltRow">

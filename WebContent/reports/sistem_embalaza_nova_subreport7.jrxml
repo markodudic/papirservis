@@ -41,6 +41,9 @@
 	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`koda` AS dob_koda, 
 materiali.`material` AS material,
@@ -99,6 +102,7 @@ WHERE dob.`koda` = materiali.`koda` and
       dob.sif_kupca = kupci.sif_kupca and
      ((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      ((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
      ((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1))
 GROUP BY dob.`koda`, materiali.`material`
 ORDER BY dob.`koda`]]></queryString>
