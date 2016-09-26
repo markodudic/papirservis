@@ -776,9 +776,9 @@ x_sif_kupcaList = new StringBuffer("<select onchange = \"updateDropDowns2(this);
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 and potnik = " + session.getAttribute("papirservis1_status_UserID")  + " ORDER BY `naziv` ASC";
 //String sqlwrk_x_sif_kupca = "SELECT `sif_kupca`, `naziv`, `naslov` FROM `kupci`  where blokada = 0 ORDER BY `naziv` ASC";
 String sqlwrk_x_sif_kupca = "SELECT kupci.sif_kupca, naziv, naslov, dob1.skupina, dob1.sif_enote " +
-							"FROM kupci, (select skupina, sif_enote, dob.sif_kupca from " + session.getAttribute("letoTabela") + " dob, (select max(st_dob) st, sif_kupca from " + session.getAttribute("letoTabela") + " group by sif_kupca) as max " +
-							"				where st_dob = max.st and pozicija = 1) as dob1 " +
-							"where kupci.sif_kupca = dob1.sif_kupca and blokada = 0 " +
+							"FROM kupci left join (select skupina, sif_enote, dob.sif_kupca from " + session.getAttribute("letoTabela") + " dob, (select max(st_dob) st, sif_kupca from " + session.getAttribute("letoTabela") + " group by sif_kupca) as max " +
+							"				where st_dob = max.st and pozicija = 1) as dob1 ON (kupci.sif_kupca = dob1.sif_kupca) " +
+							"where blokada = 0 " +
 							"ORDER BY naziv ASC";
 
 Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -911,7 +911,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 String cbo_x_sif_str_js = "";
 String fiftyBlanks ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-x_sif_strList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : medium\"><option value=\"\">Izberi</option>");
+x_sif_strList = new StringBuffer("<select onchange=\"updateDropDowns(this);\" name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : medium\"><option value=\"\">Izberi</option>");
 //String sqlwrk_x_sif_str = "SELECT `sif_str`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina FROM `stranke` s, `osnovna` o, `kupci` k, `skup` sk where s.sif_os = o.sif_os and k.sif_kupca = s.sif_kupca and k.skupina = sk.skupina  and k.blokada = 0 " + subQuery   + " ORDER BY `" + session.getAttribute("dobavnica_stranke_show") + "` ASC";
 String sqlwrk_x_sif_str = "SELECT `sif_str`, `cena`, s.`naziv`, s.`naslov`, `osnovna`, `kol_os`, s.sif_kupca, k.skupina, k.sif_enote, s.stev_km_norm, s.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, enote.naziv as enota_naziv  "+
 	"FROM (SELECT stranke.* "+
