@@ -39,14 +39,14 @@
 			</band>
 		</title>
 		<pageHeader>
-			<band height="80"  isSplitAllowed="true" >
+			<band height="75"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						mode="Opaque"
 						x="452"
 						y="18"
 						width="83"
-						height="62"
+						height="56"
 						key="staticText-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -75,7 +75,7 @@ Fax: 01 588 08 53]]></text>
 						x="369"
 						y="18"
 						width="83"
-						height="62"
+						height="56"
 						key="staticText-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -93,7 +93,7 @@ Fax: 02 720 78 14]]></text>
 						x="286"
 						y="18"
 						width="83"
-						height="62"
+						height="56"
 						key="staticText-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -128,7 +128,7 @@ Fax: 01 588 08 53]]></text>
 						x="203"
 						y="18"
 						width="83"
-						height="62"
+						height="56"
 						key="staticText-5"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>

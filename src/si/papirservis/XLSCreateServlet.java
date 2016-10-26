@@ -34,15 +34,16 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 										"Prevoz", "Koda", "Material", "EWC Koda", "Material", "Kamion", "Šofer",
 										"Količina", "Cena", "Stroški", "Dod. stroški", "Cena KM", "KM strošek", "Cena ura", "Ure strošek", "Skupaj strošek", 
 										"KG zaupno", "EUR zaupno", "KG sort", "EUR sort", "EUR smet", "Baliranje", 
-										"Opomba",
-										"Arso prenos"};
+										"Obdelana", "Dodatni stroški", "Opomba",
+										"Arso vrts emb.", "Arso št. enot emb.", "Arso fizikalna lastnost", "Arso tip odpadka", "Arso aktivnost nastanka", "Arso status prejemnika", "Arso postopek ravnanja", "Arso embalaža shema", "Arso dejavnost nastanka", "Arso prenos", "Arso status", "Arso datum"
+										};
 	private static String[] rowTypes = {"S", "N", "S", "S", "S", 
 										"S", "S", "S", "S", "S", "S", "S", 
 										"S", "S", "S", "S", "S", "S", "S", 
 										"N", "D", "D", "D", "D", "D", "D", "D", "D", 
 										"D", "D", "D", "D", "D", "D",
-										"S", 
-										"S"};
+										"S", "S", "S", 
+										"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S"};
 	
 	
 	/*
@@ -133,8 +134,11 @@ public class XLSCreateServlet extends InitServlet implements Servlet {
 	    							  String.valueOf(rs.getDouble("stroski")+(rs.getDouble("stev_km")*rs.getDouble("cena_km"))+(rs.getDouble("stev_ur")*rs.getDouble("cena_ura"))), 
 	    							  String.valueOf(rs.getDouble("kg_zaup")),String.valueOf(rs.getDouble("sit_zaup")),String.valueOf(rs.getDouble("kg_sort")),String.valueOf(rs.getDouble("sit_sort")),String.valueOf(rs.getDouble("sit_smet")),
 	    							  rs.getString("bala"), 
-	    							  rs.getString("opomba"), 
-	    							  rs.getInt("arso_prenos")==0 ? "NE": rs.getInt("arso_prenos")==1 ? "DA": "TUJINA"};
+	    							  rs.getInt("obdelana")==0 ? "NE": "DA", rs.getString("dod_stroski"), rs.getString("opomba"), 
+									  rs.getString("arso_odp_embalaza"), rs.getString("arso_emb_st_enot"), rs.getString("arso_odp_fiz_last"), rs.getString("arso_odp_tip"),
+									  rs.getString("arso_aktivnost_pslj"), rs.getString("arso_prjm_status"), rs.getString("arso_aktivnost_prjm"), rs.getString("arso_odp_embalaza_shema"),
+									  rs.getString("arso_odp_dej_nastanka"),rs.getInt("arso_prenos")==0 ? "NE": rs.getInt("arso_prenos")==1 ? "DA": "TUJINA", rs.getInt("arso_status")==0 ? "ni poslan-ni potrjen": rs.getInt("arso_status")==1 ? "poslan-ni potrjen": "poslan-potrjen", rs.getString("arso_datum")
+	    							};
 	    		createRow(dobavnica);
 	    	}
 	    	

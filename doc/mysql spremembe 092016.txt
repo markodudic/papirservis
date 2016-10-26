@@ -6,3 +6,51 @@ ALTER TABLE `kupci`
 
 update kupci set prodaja = 1 where potnik = 20;
 
+//brisanje zgodovine
+
+CREATE TABLE `delete_id` (
+	`id` INT(11) NULL DEFAULT NULL
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+;
+
+    truncate table delete_id;
+    
+	insert into delete_id
+	SELECT kamion.id
+					FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam ) zadnji
+					WHERE kamion.sif_kam = zadnji.sif_kam and
+					kamion.zacetek = zadnji.datum;
+					
+					
+	delete from kamion where id not in (select * from delete_id);
+	
+	truncate table delete_id;
+	 
+	insert into delete_id
+	SELECT stranke.id
+	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji
+	WHERE stranke.sif_str = zadnji.sif_str and
+	stranke.zacetek = zadnji.datum;
+
+					
+					
+	delete from stranke where id not in (select * from delete_id);
+	
+	    truncate table delete_id;
+	 
+	 insert into delete_id
+	 SELECT materiali.id
+	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda ) zadnji
+	WHERE materiali.koda = zadnji.koda and
+	materiali.zacetek = zadnji.datum;
+
+					
+	ALTER TABLE `material_okolje`
+	DROP FOREIGN KEY `FK_material_okolje_materiali`;
+					
+	delete from materiali where id not in (select * from delete_id);
+	
+	ALTER TABLE material_okolje ADD CONSTRAINT `FK_material_okolje_materiali` FOREIGN KEY (`material_koda`) REFERENCES `materiali` (`koda`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+

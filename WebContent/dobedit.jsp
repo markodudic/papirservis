@@ -222,7 +222,7 @@ try{
 			x_kg_sort = String.valueOf(rs.getLong("kg_sort"));
 			x_sit_sort = String.valueOf(rs.getDouble("sit_sort"));
 			x_sit_smet = String.valueOf(rs.getDouble("sit_smet"));
-			x_bala = String.valueOf(rs.getDouble("bala"));
+			x_bala = String.valueOf(rs.getLong("bala"));
 			x_skupina = String.valueOf(rs.getLong("skupina"));
 			if (rs.getString("skupina_text") != null){
 				x_skupina_text = rs.getString("skupina_text");
@@ -351,8 +351,8 @@ try{
 		}else{
 			x_stranka = "";
 		}
-		if (request.getParameter("x_sif_kupca") != null){
-			x_sif_kupca = request.getParameter("x_sif_kupca");
+		if (request.getParameter("x_sif_kupca_ll") != null){
+			x_sif_kupca = request.getParameter("x_sif_kupca_ll");
 		}
 		if (request.getParameter("x_sif_sof") != null){
 			x_sif_sof = request.getParameter("x_sif_sof");
@@ -640,7 +640,6 @@ try{
 		}
 		//updateSql += "sif_kupca= " + tmpfld + ", ";
 
-
 		// Field sif_sof
 		tmpfld = ((String) x_sif_sof);
 		if (tmpfld == null || tmpfld.trim().length() == 0) {
@@ -652,6 +651,7 @@ try{
 			rs.updateString("sif_sof", tmpfld);
 		}
 		//updateSql += "sif_sof= " + tmpfld + ", ";
+
 
 		// Field sofer
 		tmpfld = ((String) x_sofer);
@@ -917,27 +917,7 @@ try{
 		}
 		//updateSql += "opomba= '" + tmpfld + "', ";
 
-		// Field stev_km_sled
-		/*tmpfld = ((String) x_stev_km_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-		if (tmpfld == null) {
-			rs.updateNull("stev_km_sled");
-		} else {
-			rs.updateDouble("stev_km_sled",Double.parseDouble(tmpfld));
-		}
-		updateSql += "stev_km_sled= " + tmpfld + ", ";
 
-		// Field stev_ur_sled
-		tmpfld = ((String) x_stev_ur_sled).trim();
-		if (!IsNumeric(tmpfld)) { tmpfld = null;}
-
-		if (tmpfld == null) {
-			rs.updateNull("stev_ur_sled");
-		} else {
-			rs.updateDouble("stev_ur_sled",Double.parseDouble(tmpfld));
-		}
-		updateSql += "stev_ur_sled= " + tmpfld + ", ";
-*/
 		// Field stev_km_norm
 		tmpfld = ((String) x_stev_km_norm).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -1078,8 +1058,6 @@ try{
 
 		rs.updateInt("arso_status",x_arso_status);
 		
-		//Set it as dobavnica
-		//updateSql += "obdelana=1  where id = " + tkey;
 		
 		rs.updateBoolean("obdelana",true);
 		
@@ -1703,30 +1681,30 @@ return true;
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><!--span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=sif_kupca");%>">Ĺˇifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=naslov");%>">naslov</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kupca=vse");%>">vse</a>&nbsp;</span-->&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="ewTableHeader">Šifra stranke&nbsp;</td> 
+		<td class="ewTableHeader">Stranke&nbsp;</td> 
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=sif_str");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naziv");%>">naziv</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_stranke=naslov");%>">naslov</a>&nbsp;</span>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Stranka&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_stranka" size="150" maxlength="255" value="<%= HTMLEncode((String)x_stranka) %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
-		<td class="ewTableHeader">Šifra šoferja&nbsp;</td>
+		<td class="ewTableHeader">Šoferja&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sif_sof");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_sofer=sofer");%>">šofer</a>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Šofer&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_sofer" size="30" maxlength="255" value="<%= HTMLEncode((String)x_sofer) %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
-		<td class="ewTableHeader">Šifra kamiona&nbsp;</td>
+		<td class="ewTableHeader">Kamiona&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kamList);%><a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=sif_kam");%>">šifra</a>&nbsp;<a href="<%out.print("dobedit.jsp?key=" + x_id + "&prikaz_kamion=kamion");%>">kamion</a>&nbsp;</td>
 
 	</tr>
-	<tr>
+	<!--tr>
 		<td class="ewTableHeader">Kamion&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_kamion" size="30" maxlength="255" value="<%= HTMLEncode((String)x_kamion) %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Cena na km&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_cena_km" size="30" value="<%= HTMLEncode((String)x_cena_km) %>">&nbsp;</td>
@@ -1801,18 +1779,18 @@ return true;
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_skupinaList);%>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_enoteList);%>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Enote&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_enote" size="30" maxlength="255" value="<%= HTMLEncode((String)x_enote) %>">&nbsp;</td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Opomba&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;</td>
