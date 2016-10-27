@@ -92,7 +92,7 @@ FROM kupci
 	      stranke.zacetek = zadnji.datum) stranke
 WHERE ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
  	((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     	((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+     	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      	((kupci.potnik  = $P{sif_potnik}) or ($P{sif_potnik} = -1)) and
      	kupci.sif_kupca = stranke.sif_kupca and
      	stranke.sif_os is not null and
@@ -676,6 +676,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="sum_proizvodnja" toVariable="sum_proizvodnja"/>
 					<returnValue subreportVariable="sum_stroski" toVariable="sum_stroski"/>
@@ -836,6 +842,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="sum_nab" toVariable="sum_nab"/>
 					<returnValue subreportVariable="sum_prod" toVariable="sum_prod"/>
@@ -892,6 +904,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="skupaj" toVariable="skupaj"/>

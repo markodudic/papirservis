@@ -72,11 +72,11 @@ FROM kupci
 	left join enote on (kupci.sif_enote = enote.sif_enote)
 WHERE ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
      ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
-     ((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     ((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.sif_kupca IN (select sif_kupca 
 			from $P!{dobLeto} dob 
-			where datum >= CAST($P{od_datum} AS DATE) 
+			where 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+			((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+			datum >= CAST($P{od_datum} AS DATE) 
 			AND datum <= CAST($P{do_datum} AS DATE))
 order by kupci_naziv]]></queryString>
 
@@ -225,7 +225,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="176"
+						x="175"
 						y="135"
 						width="70"
 						height="17"

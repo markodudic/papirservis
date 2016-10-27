@@ -35,6 +35,12 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 sum(dob.`kolicina`) AS dob_kolicina, 
 SUM(dob.`kolicina` * dob.`sit_smet`) / sum(dob.`kolicina`) AS dob_cena, 
@@ -46,7 +52,9 @@ FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum
 	      dob.datum >= CAST($P{od_datum} AS DATE) 
      	     AND dob.datum <= CAST($P{do_datum} AS DATE)
 	group by st_dob, pozicija) zadnji
-WHERE dob.st_dob = zadnji.st_dob and
+WHERE 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+	((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+	dob.st_dob = zadnji.st_dob and
       dob.pozicija = zadnji.pozicija and
       dob.zacetek = zadnji.datum and
       dob.sit_smet != 0]]></queryString>

@@ -75,13 +75,13 @@ FROM
 WHERE 
      ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
      ((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-     ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
      kupci.skupina = skup.skupina and
      kupci.sif_enote = enote.sif_enote and
      kupci.potnik = uporabniki.sif_upor  and
      exists (select * 
 			from $P!{dobLeto} dob 
 			where kupci.sif_kupca = dob.sif_kupca and
+			((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
 			datum >= CAST($P{od_datum} AS DATE) 
 			AND datum <= CAST($P{do_datum} AS DATE)) and
     kupci.sif_kupca IN (select sif_kupca 

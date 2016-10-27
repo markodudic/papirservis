@@ -83,7 +83,9 @@ FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum
      			AND dob.datum >= CAST($P{od_datum} AS DATE) 
      			AND dob.datum <= CAST($P{do_datum} AS DATE)
 		group by st_dob, pozicija) zadnji
-WHERE dob.st_dob = zadnji.st_dob and
+WHERE 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+	((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+	dob.st_dob = zadnji.st_dob and
       dob.pozicija = zadnji.pozicija and
       dob.zacetek = zadnji.datum 
 group by sif_kupca) as a on (kupci.sif_kupca = a.sif_kupca)
@@ -122,11 +124,15 @@ where IFNULL(a.acena, 0) + IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) > 0
 WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and 
      kupci.skupina = skup.skupina and
      ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
-	((enote.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 	kupci.sif_enote = enote.sif_enote and
-     ((skup.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
-     kupci.potnik = uporabniki.sif_upor and
-    kupci.sif_kupca = imajoceno.sif_kupca]]></queryString>
+      kupci.potnik = uporabniki.sif_upor and
+    kupci.sif_kupca = imajoceno.sif_kupca and
+     kupci.sif_kupca IN (select sif_kupca 
+			from $P!{dobLeto} dob 
+			where 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+			((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+			datum >= CAST($P{od_datum} AS DATE) 
+			AND datum <= CAST($P{do_datum} AS DATE))]]></queryString>
 
 	<field name="sif_kupca" class="java.lang.String"/>
 	<field name="kupci_naziv" class="java.lang.String"/>
@@ -349,6 +355,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport4.jasper"]]></subreportExpression>
 				</subreport>
@@ -389,6 +401,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport5.jasper"]]></subreportExpression>
 				</subreport>
@@ -411,6 +429,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport6.jasper"]]></subreportExpression>
@@ -732,6 +756,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport7.jasper"]]></subreportExpression>
 				</subreport>
@@ -770,6 +800,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport9.jasper"]]></subreportExpression>
 				</subreport>
@@ -792,6 +828,12 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "zaracunavamo_storitve_subreport11.jasper"]]></subreportExpression>

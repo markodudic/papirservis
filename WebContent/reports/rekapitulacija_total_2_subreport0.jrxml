@@ -606,7 +606,7 @@ group by main.skupina, main.skupina_text]]></queryString>
 						mode="Opaque"
 						x="505"
 						y="13"
-						width="62"
+						width="24"
 						height="16"
 						backcolor="#FFFFFF"
 						key="textField-15"/>

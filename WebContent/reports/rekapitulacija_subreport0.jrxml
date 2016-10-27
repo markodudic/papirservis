@@ -38,6 +38,12 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`st_dob` AS dob_st_dob, 
 dob.`pozicija` AS dob_pozicija, 
@@ -67,7 +73,9 @@ from ((SELECT dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.s
 			group by st_dob, pozicija) zadnji
 	WHERE dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum ) dob 
+	      ((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+		((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+		dob.zacetek = zadnji.datum ) dob 
 left join cenastr 
 	on (dob.sif_kupca = cenastr.sif_kupca and
 	    cenastr.material_koda = dob.koda and

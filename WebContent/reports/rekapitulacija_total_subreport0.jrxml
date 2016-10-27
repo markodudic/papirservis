@@ -35,6 +35,12 @@
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`kolicina` AS dob_kolicina, 
 IFNULL(dob.`cena` * dob.use_it, 0) AS dob_cena,
@@ -69,7 +75,9 @@ FROM kupci, skup,
     (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
-			WHERE dob.sif_kupca = $P{sif_str}
+			WHERE 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+				((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+				dob.sif_kupca = $P{sif_str}
 				AND dob.datum >= CAST($P{od_datum} AS DATE) 
 				AND dob.datum <= CAST($P{do_datum} AS DATE)
 			group by st_dob, pozicija) zadnji
