@@ -585,7 +585,8 @@ function disableSome(EW_this){
 	        //Excel specific parameter
 	        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
 	        exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-	        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);	        
+	        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+	        exporter.setParameter(JRXlsExporterParameter.SHEET_NAMES, new String[]{"porocilo"}); 
 	        
 	    	try {
 				exporter.exportReport();
@@ -603,7 +604,7 @@ function disableSome(EW_this){
 			    else {
 			    	f = "EmabalazaRekapitulacija_"+sif_zavezanca.replace("/", "_").replace("-1", "vse")+".xls";			    	
 			    }
-				response.setHeader("Content-Disposition","attachment; filename=\""+f+"\"");
+			    response.setHeader("Content-Disposition","attachment; filename=\""+f+"\"");
 				response.setContentType("application/vnd.ms-excel");
 		        ServletOutputStream ouputStream = response.getOutputStream();
 		        ouputStream.write(output.toByteArray());

@@ -38,7 +38,7 @@ public class Init {
   public Connection connectionMake()
   {
     driver = "org.gjt.mm.mysql.Driver";
-    url = "jdbc:mysql://localhsot:3306/kovine";
+    url = "jdbc:mysql://195.95.158.147:3306/salomon";
     user = "root";
     pass = "papirservis";
     

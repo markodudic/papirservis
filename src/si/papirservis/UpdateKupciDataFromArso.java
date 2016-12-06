@@ -241,11 +241,11 @@ public class UpdateKupciDataFromArso  extends Init {
 			stmt = con.createStatement();   	
 
 	    	String	sql = "update kupci " +
-						 "set naziv = '" + kupec.get(ITEM_NAZIV) + "'  COLLATE  utf8_general_ci," +
-						 "    naslov = '" + kupec.get(ITEM_NASLOV) + "'  COLLATE  utf8_general_ci," +
-						 "    posta = '" + kupec.get(ITEM_POSTA) + "'," +
-						 "    kraj = '" + kupec.get(ITEM_KRAJ) + "'  COLLATE  utf8_general_ci," +
-						 "    davcna = '" + kupec.get(ITEM_DAVCNA) + "'" +
+						 "set naziv_ajpes = '" + kupec.get(ITEM_NAZIV) + "'  COLLATE  utf8_general_ci," +
+						 "    naslov_ajpes = '" + kupec.get(ITEM_NASLOV) + "'  COLLATE  utf8_general_ci," +
+						 "    posta_ajpes = '" + kupec.get(ITEM_POSTA) + "'," +
+						 "    kraj_ajpes = '" + kupec.get(ITEM_KRAJ) + "'  COLLATE  utf8_general_ci," +
+						 "    davcna_ajpes = '" + kupec.get(ITEM_DAVCNA) + "'" +
 						 " where maticna = '" + maticna +"'";
 	    		
     		//System.out.println("setIdZavezanca="+sql);

@@ -69,7 +69,7 @@
 		<defaultValueExpression ><![CDATA["2015-12-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="xls" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA[new String("0")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new String("1")]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT *
 FROM

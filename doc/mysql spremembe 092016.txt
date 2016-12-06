@@ -18,6 +18,31 @@ ENGINE=InnoDB
     truncate table delete_id;
     
 	insert into delete_id
+	SELECT cenastrprod.id
+					FROM cenastrprod, (SELECT sif_kupca, material_koda, max(zacetek) datum FROM cenastrprod group by sif_kupca, material_koda ) zadnji
+					WHERE cenastrprod.sif_kupca = zadnji.sif_kupca and
+					cenastrprod.material_koda = zadnji.material_koda and
+					cenastrprod.zacetek = zadnji.datum;
+					
+					
+	delete from cenastrprod where id not in (select * from delete_id);
+
+    truncate table delete_id;
+    
+	insert into delete_id
+	SELECT cenastr.id
+					FROM cenastr, (SELECT sif_kupca, material_koda, max(zacetek) datum FROM cenastr group by sif_kupca, material_koda ) zadnji
+					WHERE cenastr.sif_kupca = zadnji.sif_kupca and
+					cenastr.material_koda = zadnji.material_koda and
+					cenastr.zacetek = zadnji.datum;
+					
+					
+	delete from cenastr where id not in (select * from delete_id);
+	
+	
+    truncate table delete_id;
+    
+	insert into delete_id
 	SELECT kamion.id
 					FROM kamion, (SELECT sif_kam, max(zacetek) datum FROM kamion group by sif_kam ) zadnji
 					WHERE kamion.sif_kam = zadnji.sif_kam and
@@ -38,7 +63,7 @@ ENGINE=InnoDB
 					
 	delete from stranke where id not in (select * from delete_id);
 	
-	    truncate table delete_id;
+	truncate table delete_id;
 	 
 	 insert into delete_id
 	 SELECT materiali.id
