@@ -103,6 +103,7 @@ function updateRacun(){
 							"/reports/rekapitulacija_prodaja",
 							"/reports/rekapitulacija_skupaj",
 							"/reports/dobavnica_obdobje",
+							//10
 							"/reports/osnovna_stranke",
 							"/reports/sistem_embalaza",
 							"/reports/zaracunavamo_storitve",
@@ -113,6 +114,7 @@ function updateRacun(){
 							"/reports/vozniki_sumarno",
 							"/reports/rekapitulacija_total_neodvoz",
 							"/reports/evidencni_list_prodaja",
+							//20
 							"/reports/vozniki_planirane_dobavnice",
 							"/reports/rekapitulacija_prodaja_skupaj",
 							"/reports/kupci_izpis",
@@ -123,6 +125,7 @@ function updateRacun(){
 							"/reports/embalaznina_rekapitulacija",
 							"/reports/embalaznina_racuni_new",
 							"/reports/embalaznina_porocila_new",
+							//30
 							"/reports/embalaznina_rekapitulacija_new",
 							"/reports/rekapitulacija_total_2"
 							};
@@ -252,8 +255,8 @@ function updateRacun(){
 	//preberem vse enote iz baze
 	StringBuffer x_sif_enoteList = null;
 	
-	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
-		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
+	if ((reportID == 2) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 11) || 
+		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18) || 
 		 (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31))
 	{
 		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\" id=\"x_sif_enote\"><option value=\"\">Izberi</option>");
@@ -281,8 +284,8 @@ function updateRacun(){
 	//preberem vse skupine iz baze
 	StringBuffer x_sif_skupineList = null;
 
-	if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
-		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18) || 
+	if ((reportID == 2) || (reportID == 4) || (reportID == 11) || (reportID == 12) || 
+		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18) || 
 		 (reportID == 22) || (reportID == 24) || (reportID == 31))
 	{ 
 		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\" id=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
@@ -505,16 +508,16 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_nadenoteList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 10) || (reportID == 11) || 
-			(reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
+	<%if ((reportID == 2) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 11) || 
+			(reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18)
 			 || (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 2) || (reportID == 3) || (reportID == 4) || (reportID == 10) || (reportID == 11) || (reportID == 12) || 
-			(reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 16) || (reportID == 18)
+	<%if ((reportID == 2) || (reportID == 4) || (reportID == 11) || (reportID == 12) || 
+			(reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18)
 			 || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>

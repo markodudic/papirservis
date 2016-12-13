@@ -94,7 +94,7 @@ if ((meni & ewSell) == ewSell){
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=6">Materiali</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=7">Rekapitulacija kupec</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=21">Rekapitulacija</a></span></td></tr>
-				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=19">Eviden&#269;ni list</a></span></td></tr>
+				<!-- tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=19">Eviden&#269;ni list</a></span></td></tr-->
 			<% } %>
 			<tr class="ewTableHeader"><td nowrap><span class="jspmaker">&nbsp;</span></td></tr>
 <%}%>

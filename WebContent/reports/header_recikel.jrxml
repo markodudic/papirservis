@@ -63,9 +63,9 @@
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Recikel d.o.o.
-Vevška cesta 52
-Si - 1250 Ljubljana - Polje
+				<text><![CDATA[Recikel, d.o.o.
+Brnčičeva ulica 31
+SI - 1231 Ljubljana - Črnuče
 Slovenija]]></text>
 				</staticText>
 			</band>

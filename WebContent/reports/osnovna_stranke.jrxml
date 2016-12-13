@@ -29,18 +29,6 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="naziv_enote" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="sif_osnovna" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2A"]]></defaultValueExpression>
 	</parameter>
@@ -51,11 +39,7 @@
 from (SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	stranke.zacetek = zadnji.datum) stranke,
-     kupci
-WHERE stranke.sif_kupca = kupci.sif_kupca and
-	((kupci.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
-	((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
+	stranke.zacetek = zadnji.datum) stranke
 order by stranke.sif_os]]></queryString>
 
 	<field name="kol_os" class="java.math.BigDecimal"/>
@@ -86,7 +70,7 @@ order by stranke.sif_os]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="600"  isSplitAllowed="true" >
+			<band height="500"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="110"
@@ -106,7 +90,7 @@ order by stranke.sif_os]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="10"
-						y="200"
+						y="129"
 						width="90"
 						height="19"
 						forecolor="#000000"
@@ -122,17 +106,11 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="0"
-						y="230"
+						y="159"
 						width="535"
 						height="38"
 						backcolor="#FFFFFF"
 						key="subreport-1"/>
-					<subreportParameter  name="sif_enote">
-						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="sif_skupine">
-						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="sif_osnovna">
 						<subreportParameterExpression><![CDATA[$P{sif_osnovna}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -157,67 +135,7 @@ order by stranke.sif_os]]></queryString>
 				<staticText>
 					<reportElement
 						x="250"
-						y="160"
-						width="40"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[Enota:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="313"
-						y="160"
-						width="217"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-6"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_enote}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="250"
-						y="180"
-						width="50"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-2"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[Skupina:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="313"
-						y="180"
-						width="217"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-7"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_skupine}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="250"
-						y="200"
+						y="129"
 						width="60"
 						height="17"
 						forecolor="#000000"
@@ -232,7 +150,7 @@ order by stranke.sif_os]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="313"
-						y="200"
+						y="129"
 						width="217"
 						height="17"
 						forecolor="#000000"
@@ -244,6 +162,53 @@ order by stranke.sif_os]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_osnovna}]]></textFieldExpression>
 				</textField>
+				<rectangle radius="0" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="198"
+						width="534"
+						height="17"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-1"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</rectangle>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="459"
+						y="198"
+						width="75"
+						height="16"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField-9"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{kol_os}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="198"
+						width="459"
+						height="16"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="element-2"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Skupaj]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>

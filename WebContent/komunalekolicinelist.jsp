@@ -539,6 +539,10 @@ function keyPressed(event) {
 		</td>
 	</tr>	
 	<tr>
+		<td class="jspmaker"></td>
+		<td class="jspmaker">Podatki se filtrirajo samo po skupini RECIKEL-KOMUNALE</td>
+	</tr>	
+	<tr>
 		<td class="jspmaker">Datum od:&nbsp;</td>
 		<td class="jspmaker">
 			<input type="text" name="datum_od" value="<%= EW_FormatDateTime(datum_od,7, locale) %>">&nbsp;

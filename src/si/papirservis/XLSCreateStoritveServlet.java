@@ -111,9 +111,9 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 						  "sum(dob_odstrani.`kolicina`) AS odstrani_kolicina,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) / sum(dob_odstrani.`kolicina`) AS odstrani_cena,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) AS odstrani_vrednost, " +
-						  "if(najam.najem = 'D', avg(najam.stranke_kom), 0) as najem_kolicina, " +
-						  "if(najam.najem = 'D', avg(najam.stranke_najem), 0) as najem_cena, " +
-						  "if(najam.najem = 'D', avg(najam.stranke_kom * najam.stranke_najem), 0) as najem_vrednost " +
+						  "if(najam.najem = 'D', najam.stranke_kom, 0) as najem_kolicina, " +
+						  "if(najam.najem = 'D', najam.stranke_najem, 0) as najem_cena, " +
+						  "if(najam.najem = 'D', najam.stranke_kom * najam.stranke_najem, 0) as najem_vrednost " +
 					"FROM kupci, skup, enote, dob"+leto+" dob_unici, dob"+leto+" dob_odstrani, (SELECT st_dob, pozicija, max(zacetek) datum  " +
 																		"FROM dob"+leto+" dob  " +
 																		"WHERE obdelana > 0 " +
@@ -144,7 +144,8 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 					"	  	dob_odstrani.st_dob = zadnji.st_dob and " +
 					"      dob_odstrani.pozicija = zadnji.pozicija and " +
 					"      dob_odstrani.zacetek = zadnji.datum and " +
-					"		najam.sif_kupca = kupci.sif_kupca";
+					"		najam.sif_kupca = kupci.sif_kupca " +
+					"group by kupci.`sif_kupca`, kupci.`naziv` , kupci.`naslov`, kupci.`posta`, kupci.`kraj` , kupci.`rok_placila`, kupci.`stroskovno_mesto` ";
 
 
 		

@@ -23,12 +23,6 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
-	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
-	</parameter>
 	<parameter name="sif_osnovna" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
 	</parameter>
@@ -68,12 +62,10 @@ ON
  	group by sif_os) zadnji
 	WHERE osnovna.sif_os = zadnji.sif_os and
 	      osnovna.zacetek = zadnji.datum) osnovna,
-     kupci
+	kupci
 WHERE stranke.sif_kupca = kupci.sif_kupca and
-      ((kupci.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
       stranke.sif_os = osnovna.sif_os and
       ((stranke.sif_os LIKE $P{sif_osnovna}) OR ($P{sif_osnovna} = -1)) and
-      ((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1)) and
       (stranke.sif_os <> 0 or (stranke.sif_os = 0 and stranke.kol_os <> 0)) and
        kupci.sif_kupca NOT IN (select sif_kupca 
 			from $P!{dobLeto} dob 

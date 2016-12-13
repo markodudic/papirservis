@@ -23,18 +23,6 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
-	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("8")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("1")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="naziv_enote" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
-	</parameter>
 	<queryString><![CDATA[select stranke.sif_os, sum(stranke.kol_os), osnovna.osnovna
 from 
 	(SELECT stranke.*
@@ -46,12 +34,8 @@ from
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna
  	group by sif_os) zadnji
 	WHERE osnovna.sif_os = zadnji.sif_os and
-	      osnovna.zacetek = zadnji.datum) osnovna,
-     kupci
-WHERE stranke.sif_kupca = kupci.sif_kupca and
-      ((kupci.sif_enote = $P{sif_enote}) OR ($P{sif_enote} = -1)) and
-      stranke.sif_os = osnovna.sif_os and
-      ((kupci.skupina = $P{sif_skupine}) OR ($P{sif_skupine} = -1))
+	      osnovna.zacetek = zadnji.datum) osnovna
+WHERE stranke.sif_os = osnovna.sif_os
 group by stranke.sif_os, osnovna.osnovna
 order by stranke.sif_os]]></queryString>
 

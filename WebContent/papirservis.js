@@ -182,7 +182,7 @@ function xls_create_storitve(leto) {
 	var sif_enote = document.getElementById('x_sif_enote').value;
 	var sif_skupine = document.getElementById('x_sif_skupine').value;
 	
-	document.getElementById('porocila').action = "/salomon/XLSCreateStoritveServlet?leto="+leto+"&datum_od="+datum_od+"&datum_do="+datum_do+"&sif_kupca="+sif_kupca+"&nadenota="+nadenota+"&sif_enote="+sif_enote+"&sif_skupine="+sif_skupine;
+	document.getElementById('porocila').action = "/salomon/XLSCreateStoritveServlet?leto="+leto+"&od_datum="+datum_od+"&do_datum="+datum_do+"&sif_kupca="+sif_kupca+"&nadenota="+nadenota+"&sif_enote="+sif_enote+"&sif_skupine="+sif_skupine;
 	document.getElementById('porocila').submit();
 	document.getElementById('porocila').action = 'porocila.jsp?report=12';
 }

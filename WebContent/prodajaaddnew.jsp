@@ -69,9 +69,18 @@ StringBuffer x_ewcList = null;
 StringBuffer sif_ewc = new StringBuffer();
 
 try{
+	if (a.equals("C") || a.equals("I")) {
+		Statement stmt2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String strsql2 = "update dob_bianco set st_dob = st_dob + 1 where id = '" + session.getAttribute("letoTabelaProdaja") + "'";
+		stmt2.executeUpdate(strsql2);
+	
+		stmt2.close();
+		stmt2 = null;
+	}
+
 	Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	ResultSet rs = null;
-		String strsql = "SELECT IFNULL(max(st_dob) + 1,1) cnt FROM " + session.getAttribute("letoTabelaProdaja") + " prodaja";
+		String strsql = "SELECT max(st_dob) cnt FROM `dob_bianco` where id = '" + session.getAttribute("letoTabelaProdaja") + "'";
 		rs = stmt1.executeQuery(strsql);
 		if (!rs.next()){
 			rs.close();
@@ -96,7 +105,7 @@ try{
 	stmt1 = null;
 	//conn.close();
 	//conn = null;
-
+	
 
 } catch(Exception e){
 	System.out.println(e.toString());

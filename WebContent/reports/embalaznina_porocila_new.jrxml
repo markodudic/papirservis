@@ -30,13 +30,13 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="aleto" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(2016)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(2017)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nacin_obracuna" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["VSI"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_zavezanca" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["207"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["175"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2015-01-01"]]></defaultValueExpression>
