@@ -74,13 +74,13 @@
 						x="0"
 						y="90"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" isUnderline="false" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" isUnderline="false" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[DELOVNI NALOG ŠT.]]></text>
 				</staticText>
@@ -89,150 +89,30 @@
 						x="0"
 						y="109"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[DATUM DOBAVNICE  ]]></text>
+				<text><![CDATA[DATUM]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
 						y="128"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[STRANKA ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="286"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ŠT. ŠOFERJA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="310"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ŠT. KAMIONA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="358"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[KOLIČINA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="334"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[KODA MATERIALA ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="382"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[KM PREVOŽENI]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="434"
-						width="123"
-						height="32"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[OSTALI STROŠKI cestnina, parkiranje]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="407"
-						width="120"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[ČAS (ura):]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="473"
-						width="123"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[OPOMBA]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
@@ -246,7 +126,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="501"
+						y="450"
 						width="534"
 						height="0"
 						key="line-2"/>
@@ -255,7 +135,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="558"
+						y="507"
 						width="534"
 						height="0"
 						key="line-3"/>
@@ -264,7 +144,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="650"
+						y="599"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -275,12 +155,12 @@
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PODPIS ŠOFERJA:]]></text>
+				<text><![CDATA[PODPIS:]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="215"
+						y="212"
 						width="534"
 						height="0"
 						key="line-4"/>
@@ -288,8 +168,8 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="466"
+						x="141"
+						y="325"
 						width="385"
 						height="0"
 						key="line-5"/>
@@ -297,21 +177,8 @@
 				</line>
 				<staticText>
 					<reportElement
-						x="0"
-						y="570"
-						width="534"
-						height="54"
-						key="staticText-4"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da med odpadke predane Salomonu d.o.o., ne bo odlagal drugih, še posebno nevarnih in zdravju škodljivih odpadkov (radioktivnih, eksplozivnih, ...) kot je to določeno v Pravilniku o ravnanju z nevarnimi odpadki. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
 						x="397"
-						y="652"
+						y="601"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -326,8 +193,8 @@
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="490"
+						x="141"
+						y="436"
 						width="385"
 						height="0"
 						key="line-6"/>
@@ -336,7 +203,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="140"
-						y="424"
+						y="418"
 						width="385"
 						height="0"
 						key="line-7"/>
@@ -344,8 +211,8 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="303"
+						x="141"
+						y="289"
 						width="385"
 						height="0"
 						key="line-8"/>
@@ -353,8 +220,8 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="327"
+						x="141"
+						y="307"
 						width="385"
 						height="0"
 						key="line-9"/>
@@ -362,8 +229,8 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="351"
+						x="141"
+						y="342"
 						width="385"
 						height="0"
 						key="line-10"/>
@@ -371,7 +238,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
+						x="141"
 						y="399"
 						width="385"
 						height="0"
@@ -380,8 +247,8 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="140"
-						y="375"
+						x="141"
+						y="380"
 						width="385"
 						height="0"
 						key="line-12"/>
@@ -401,7 +268,7 @@
 						x="141"
 						y="90"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-6"/>
@@ -416,7 +283,7 @@
 						x="141"
 						y="109"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-7"/>
@@ -431,7 +298,7 @@
 						x="141"
 						y="128"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-8"/>
@@ -444,9 +311,9 @@
 				<staticText>
 					<reportElement
 						x="141"
-						y="152"
+						y="148"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-9"/>
@@ -459,9 +326,9 @@
 				<staticText>
 					<reportElement
 						x="141"
-						y="176"
+						y="169"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-10"/>
@@ -474,9 +341,9 @@
 				<staticText>
 					<reportElement
 						x="141"
-						y="198"
+						y="190"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-11"/>
@@ -489,120 +356,120 @@
 				<staticText>
 					<reportElement
 						x="124"
-						y="286"
+						y="275"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-12"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="310"
+						y="292"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-13"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="334"
+						y="330"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-14"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="358"
+						y="366"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-15"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="382"
+						y="384"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-16"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="407"
+						y="403"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-17"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="449"
+						y="311"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-18"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="124"
-						y="473"
+						y="422"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-19"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
@@ -624,29 +491,14 @@
 						x="158"
 						y="90"
 						width="120"
-						height="17"
+						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Top">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[new java.lang.Integer(  ($F{stev}.intValue()) +($V{PAGE_NUMBER}.intValue()) )]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement
-						x="140"
-						y="407"
-						width="100"
-						height="17"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText-20"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<text><![CDATA[0.5    1     1.5     2]]></text>
-				</staticText>
 				<staticText>
 					<reportElement
 						x="470"
@@ -661,6 +513,226 @@
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[OB 7.4-1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="141"
+						y="347"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-22"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[DA / NE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="329"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-23"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KOLIČINA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="366"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-24"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[KM PREVOŽENI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="405"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-25"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[OSTALI STROŠKI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="385"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-26"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PORABLJEN ČAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="423"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-27"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[OPOMBA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="347"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-28"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[BALIRANJE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="275"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-29"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[VOZNIK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="293"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-30"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[PREVOZNIK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="311"
+						width="135"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-31"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ARSO ŠT.PREVOZNIKA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="124"
+						y="347"
+						width="11"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-32"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="513"
+						width="534"
+						height="25"
+						key="staticText-33"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="539"
+						width="534"
+						height="45"
+						key="staticText-34"
+						positionType="Float"
+						isRemoveLineWhenBlank="true"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnti stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="148"
+						width="141"
+						height="15"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-35"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[STRANKA LOKACIJA]]></text>
 				</staticText>
 			</band>
 		</detail>

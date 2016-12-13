@@ -168,7 +168,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="265"
+						y="228"
 						width="534"
 						height="0"
 						key="line-2"
@@ -178,7 +178,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="556"
+						y="497"
 						width="534"
 						height="0"
 						key="line-4"
@@ -187,8 +187,8 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						x="0"
-						y="637"
+						x="2"
+						y="568"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -199,12 +199,12 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PODPIS ŠOFERJA:]]></text>
+				<text><![CDATA[PODPIS:]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="209"
+						y="191"
 						width="534"
 						height="0"
 						key="line-5"
@@ -213,8 +213,8 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						x="397"
-						y="639"
+						x="399"
+						y="570"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -230,215 +230,215 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="18"
-						y="216"
+						y="198"
 						width="150"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-60"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[OSNOVNA SREDSTVA : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="168"
-						y="216"
+						y="198"
 						width="273"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-13"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_osnovna}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="442"
-						y="216"
+						y="198"
 						width="14"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-61"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[  -]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="457"
-						y="216"
+						y="198"
 						width="64"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-14"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stranke_kol_os}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="193"
-						y="273"
+						y="236"
 						width="341"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-21"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sofer_sofer}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="273"
+						y="236"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-68"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[VOZNIK]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="144"
-						y="273"
+						y="236"
 						width="42"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-22"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sofer_sif_sof}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="293"
+						y="254"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-69"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[PREVOZNIK]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="359"
+						y="320"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-70"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[KOLIČINA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="404"
+						y="356"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-71"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[KM PREVOŽENI]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="448"
+						y="392"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-72"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[OSTALI STROŠKI]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="426"
+						y="374"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-73"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[PORABLJEN ČAS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="469"
+						y="410"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-74"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[OPOMBA]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
-						x="0"
-						y="518"
+						x="2"
+						y="463"
 						width="534"
 						height="0"
 						key="line-7"
@@ -448,7 +448,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="144"
-						y="469"
+						y="410"
 						width="391"
 						height="47"
 						forecolor="#000000"
@@ -457,14 +457,14 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Top">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{opomba}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="465"
+						y="407"
 						width="391"
 						height="0"
 						key="line-8"
@@ -474,119 +474,119 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="134"
-						y="273"
+						y="236"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-75"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="293"
+						y="254"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-76"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="359"
+						y="320"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-77"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="404"
+						y="356"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-78"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="426"
+						y="374"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-79"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="448"
+						y="392"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-80"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="469"
+						y="410"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-81"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12"/>
+						<font fontName="Arial" size="10"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="376"
+						y="335"
 						width="391"
 						height="0"
 						key="line-9"
@@ -596,7 +596,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="421"
+						y="371"
 						width="390"
 						height="0"
 						key="line-10"
@@ -606,7 +606,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="443"
+						y="389"
 						width="389"
 						height="0"
 						key="line-11"
@@ -616,7 +616,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="522"
+						y="466"
 						width="534"
 						height="31"
 						forecolor="#000000"
@@ -625,7 +625,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_opomba}]]></textFieldExpression>
 				</textField>
@@ -633,7 +633,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="330"
+						y="292"
 						width="534"
 						height="25"
 						forecolor="#FFFFFF"
@@ -652,16 +652,16 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="144"
-						y="293"
+						y="254"
 						width="42"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-25"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kamion_sif_kam}]]></textFieldExpression>
 				</textField>
@@ -669,23 +669,23 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<reportElement
 						mode="Transparent"
 						x="193"
-						y="293"
+						y="254"
 						width="340"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-26"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" isUnderline="false" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" isUnderline="false" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kamion_kamion}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="310"
+						y="269"
 						width="391"
 						height="0"
 						key="line-12"
@@ -695,7 +695,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="290"
+						y="251"
 						width="391"
 						height="0"
 						key="line-13"
@@ -705,39 +705,39 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="313"
+						y="272"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-84"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ARSO ŠT. PREVOZNIKA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="313"
+						y="272"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-85"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="144"
-						y="330"
+						y="287"
 						width="391"
 						height="0"
 						key="line-14"
@@ -747,23 +747,23 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="144"
-						y="313"
+						y="272"
 						width="390"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-27"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_prvz_st}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="560"
+						y="501"
 						width="534"
 						height="25"
 						key="staticText-86"
@@ -777,9 +777,9 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="586"
+						y="527"
 						width="534"
-						height="45"
+						height="37"
 						key="staticText-87"
 						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
@@ -787,21 +787,21 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnti stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
 						y="50"
 						width="84"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-28"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{dob_st_dob}]]></textFieldExpression>
 				</textField>
@@ -810,174 +810,174 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="1"
 						y="50"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-88"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[DELOVNI NALOG ŠT.]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="dd.MM.yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="69"
+						y="67"
 						width="84"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-29"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.sql.Timestamp"><![CDATA[$F{dob_datum}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="1"
-						y="69"
+						y="67"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-89"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[DATUM DOBAVNICE]]></text>
+				<text><![CDATA[DATUM]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="109"
+						y="103"
 						width="84"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-30"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{dob_sif_str}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="1"
-						y="109"
+						y="103"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-90"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[STRANKA LOKACIJA]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="128"
+						y="120"
 						width="367"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-31"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_naziv}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="147"
+						y="137"
 						width="367"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-32"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_naslov}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="166"
+						y="154"
 						width="52"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-33"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_posta}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="217"
-						y="166"
+						y="154"
 						width="309"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-34"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stranke_kraj}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="142"
-						y="109"
+						y="103"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-91"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="69"
+						y="67"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-92"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
@@ -986,110 +986,110 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="142"
 						y="50"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-93"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="128"
+						y="120"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-94"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="147"
+						y="137"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-95"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="166"
+						y="154"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-96"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="1"
-						y="185"
+						y="171"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-97"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[POTNIK]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="185"
+						y="171"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-98"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="185"
+						y="171"
 						width="366"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-35"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{potnik}]]></textFieldExpression>
 				</textField>
@@ -1098,14 +1098,14 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="321"
 						y="50"
 						width="125"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-99"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ARSO ŠT. STRANKE]]></text>
 				</staticText>
@@ -1114,14 +1114,14 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="446"
 						y="50"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-100"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
@@ -1130,158 +1130,158 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="463"
 						y="50"
 						width="60"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-36"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_pslj_st}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="321"
-						y="69"
+						y="67"
 						width="125"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-101"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ARSO ŠT. LOKACIJE]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="446"
-						y="69"
+						y="67"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-102"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="463"
-						y="69"
+						y="67"
 						width="60"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-37"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{arso_odp_loc_id}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="1"
-						y="88"
+						y="84"
 						width="141"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-103"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[STRANKA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="142"
-						y="88"
+						y="84"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-104"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="159"
-						y="88"
-						width="84"
-						height="17"
+						y="84"
+						width="364"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-38"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{kupci_naziv}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="383"
+						y="338"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-105"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[BALIRANJE]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="134"
-						y="383"
+						y="338"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-106"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="144"
-						y="383"
+						y="338"
 						width="135"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-107"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[DA / NE]]></text>
 				</staticText>

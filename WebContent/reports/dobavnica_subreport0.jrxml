@@ -62,17 +62,17 @@ WHERE dob.koda = materiali.koda]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="40"  isSplitAllowed="true" >
+			<band height="34"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="141"
 						y="0"
 						width="71"
-						height="17"
+						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{koda}]]></textFieldExpression>
 				</textField>
@@ -81,18 +81,18 @@ WHERE dob.koda = materiali.koda]]></queryString>
 						x="211"
 						y="0"
 						width="322"
-						height="17"
+						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{material}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
 						x="141"
-						y="17"
+						y="16"
 						width="392"
 						height="0"
 						key="line-1"
@@ -102,13 +102,13 @@ WHERE dob.koda = materiali.koda]]></queryString>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="141"
-						y="20"
+						y="18"
 						width="392"
-						height="17"
+						height="15"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{skupina}]]></textFieldExpression>
 				</textField>
@@ -117,14 +117,14 @@ WHERE dob.koda = materiali.koda]]></queryString>
 						x="0"
 						y="0"
 						width="130"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-1"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[KODA MATERIALA]]></text>
 				</staticText>
@@ -133,46 +133,46 @@ WHERE dob.koda = materiali.koda]]></queryString>
 						x="130"
 						y="0"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-2"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="20"
+						y="18"
 						width="129"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-3"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[SKUPINA / ENOTA]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="130"
-						y="20"
+						y="18"
 						width="11"
-						height="17"
+						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-4"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>

@@ -54,7 +54,7 @@
 		<defaultValueExpression ><![CDATA["31.8.2009"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2012"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sort" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["st_dob"]]></defaultValueExpression>
