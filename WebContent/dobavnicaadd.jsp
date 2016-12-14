@@ -546,7 +546,8 @@ try{
 		int koda_cnt_vse = 1;
 		if (koda_cnt>0) koda_cnt_vse = koda_cnt;
 		for (int i=0; i<koda_cnt_vse; i++) {
-			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, sif_enote, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) values (";
+			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, sif_enote, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm) values (";
+//			String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, sif_sof, sif_kam, cena_km, cena_ura, c_km, c_ura, sif_str, sif_kupca, skupina, sif_enote, cena, opomba, uporabnik, datum, koda, ewc, stev_km_norm, stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) values (";
 
 			// Field st_dob
 			tmpfld = ((String) x_st_dob).trim();
@@ -677,10 +678,10 @@ try{
 			// Field stev_ur_norm
 			tmpfld = ((String) x_stev_ur_norm).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
-			strsql += tmpfld + ", ";
+			strsql += tmpfld + ")";
 	
 			// Field arso_prjm_status
-			tmpfld = ((String) x_arso_prjm_status);
+			/*tmpfld = ((String) x_arso_prjm_status);
 			if (tmpfld == null || tmpfld.trim().length() == 0) {
 				tmpfld = "";
 			}
@@ -720,9 +721,9 @@ try{
 			// Field arso_prenos
 			tmpfld = ((String) x_arso_prenos).trim();
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
-			strsql += tmpfld + ")";
+			strsql += tmpfld + ")";*/
 			
-			//out.println(strsql);
+			out.println(strsql);
 			
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
@@ -1314,10 +1315,14 @@ if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
                 return false; 
         }
-//if (EW_this.x_sif_sof && !EW_hasValue(EW_this.x_sif_sof, "SELECT" )) {
-//            if (!EW_onError(EW_this, EW_this.x_sif_sof, "SELECT", "Napačan vnos - sif sof"))
-//                return false; 
-//        }
+if (EW_this.x_sif_sof && !EW_hasValue(EW_this.x_sif_sof, "SELECT" )) {
+            if (!EW_onError(EW_this, EW_this.x_sif_sof, "SELECT", "Napačan vnos - sif sof"))
+                return false; 
+        }
+if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
+    if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "Napačan vnos - sif kamiona"))
+        return false; 
+}
 if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
             if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
                 return false; 
@@ -1365,10 +1370,10 @@ return true;
 		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_strList);%><span class="jspmaker"><a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=sif_str&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=naziv&a=D&st_dob=" + x_st_dob);%>">naziv</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_stranke=naslov&a=D&st_dob=" + x_st_dob);%>">naslov</a></span>&nbsp;</td>
 	</tr>
-	<tr>
+	<!-- tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><input type="text" id="kupec_enota" name="kupec_enota" value="" size="81"  readonly></td>
-	</tr>
+	</tr-->
 	<tr>
 		<td class="ewTableHeader">Šofer&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_sofList);%><a href="<%out.print("dobavnicaadd.jsp?prikaz_sofer=sif_sof&a=D&st_dob=" + x_st_dob);%>">šifra</a>&nbsp;<a href="<%out.print("dobavnicaadd.jsp?prikaz_sofer=sofer&a=D&st_dob=" + x_st_dob);%>">šofer</a>&nbsp;</td>

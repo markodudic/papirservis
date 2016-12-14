@@ -1185,34 +1185,42 @@ function disableSome(EW_this){
 
 function  EW_checkMyForm(EW_this) {
 if (EW_this.x_pozicija && !EW_hasValue(EW_this.x_pozicija, "TEXT" )) {
-            if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
-                return false; 
-        }
+    if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
+        return false; 
+}
 if (EW_this.x_pozicija && !EW_checkinteger(EW_this.x_pozicija.value)) {
-        if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
-            return false; 
-        }
+    if (!EW_onError(EW_this, EW_this.x_pozicija, "TEXT", "Napačna številka - pozicija"))
+        return false; 
+}
 if(EW_this.x_datum.value.length == 0 ){
-        if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
-            return false; 
+    if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
+        return false; 
 }
 
 if (EW_this.x_datum && !EW_checkeurodate(EW_this.x_datum.value)) {
-        if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
-            return false; 
-        }
+	if (!EW_onError(EW_this, EW_this.x_datum, "TEXT", "Napačen datum (dd.mm.yyyy) - datum"))
+   	 return false; 
+}
 if (EW_this.x_sif_str && !EW_hasValue(EW_this.x_sif_str, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "Napačna številka - sif str"))
-                return false; 
-        }
+    if (!EW_onError(EW_this, EW_this.x_sif_str, "SELECT", "Napačna številka - sif str"))
+        return false; 
+}
 if (EW_this.x_sif_kupca && !EW_hasValue(EW_this.x_sif_kupca, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
-                return false; 
-        }
+    if (!EW_onError(EW_this, EW_this.x_sif_kupca, "SELECT", "Napačan vnos - sif kupca"))
+        return false; 
+}
+if (EW_this.x_sif_sof && !EW_hasValue(EW_this.x_sif_sof, "SELECT" )) {
+    if (!EW_onError(EW_this, EW_this.x_sif_sof, "SELECT", "Napačan vnos - sif sof"))
+        return false; 
+}
+if (EW_this.x_sif_kam && !EW_hasValue(EW_this.x_sif_kam, "SELECT" )) {
+	if (!EW_onError(EW_this, EW_this.x_sif_kam, "SELECT", "Napačan vnos - sif kamiona"))
+		return false; 
+}
 if (EW_this.x_skupina && !EW_hasValue(EW_this.x_skupina, "SELECT" )) {
-            if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
-                return false; 
-        }
+    if (!EW_onError(EW_this, EW_this.x_skupina, "SELECT", "Napačna številka - skupina"))
+        return false; 
+}
 return true;
 }
 
@@ -1295,10 +1303,25 @@ function updateDropDowns2(EW_this){
 	}
 	
 } 
+function updateDropDownsStart(EW_this){
+	for (i=1; i<document.dobedit.x_sif_str.length; i++) {
+		if (sif_kupac[document.dobedit.x_sif_str[i].value] != sif_kupac2[document.dobedit.x_sif_kupca_ll.selectedIndex-1]) {
+			document.dobedit.x_sif_str[i].style.display = "none";
+		}
+		else {
+			document.dobedit.x_sif_str[i].style.display = "block";
+		}
+	
+	}
+	
+} 
+
 function disableSome(){
 	//document.dobedit.x_sif_kupca_ll.disabled=true;
 	//document.dobedit.x_skupina_ll.disabled=true;
 }
+
+
 
 // end JavaScript -->
 </script>
@@ -1383,6 +1406,6 @@ function disableSome(){
 <input type="submit" name="Action" value="Potrdi">
 </form>
 <%@ include file="footer.jsp" %>
-<!-- script language="JavaScript">
-document.dobedit.kupec_enota.value = sif_kupec_enota[document.dobedit.x_sif_str.value];
-</script-->
+<script language="JavaScript">
+updateDropDownsStart();
+</script>

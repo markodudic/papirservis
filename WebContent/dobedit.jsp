@@ -1474,10 +1474,10 @@ function updateDropDowns(EW_this){
 	document.dobedit.x_arso_aktivnost_prjm.value = arso_aktivnost_prjm[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_embalaza_shema.value = arso_odp_embalaza_shema[document.dobedit.x_sif_str.value];
 	document.dobedit.x_arso_odp_dej_nastanka.value = arso_odp_dej_nastanka[document.dobedit.x_sif_str.value];
-	if(arso_prenos[document.dobadd.x_sif_str.value] == "0") {
-		document.dobadd.x_arso_prenos[0].checked = true;
+	if(arso_prenos[document.dobedit.x_sif_str.value] == "0") {
+		document.dobedit.x_arso_prenos[0].checked = true;
 	} else {
-		document.dobadd.x_arso_prenos[1].checked = true;		
+		document.dobedit.x_arso_prenos[1].checked = true;		
 	}
 
 }
@@ -1497,6 +1497,19 @@ function updateDropDowns2(EW_this){
 	
 	document.dobedit.x_bala.value = bala[document.dobedit.x_sif_kupca_ll.selectedIndex-1];	
 }
+
+function updateDropDownsStart(EW_this){
+	for (i=1; i<document.dobedit.x_sif_str.length; i++) {
+		if (sif_kupac[document.dobedit.x_sif_str[i].value] != sif_kupac2[document.dobedit.x_sif_kupca_ll.selectedIndex-1]) {
+			document.dobedit.x_sif_str[i].style.display = "none";
+		}
+		else {
+			document.dobedit.x_sif_str[i].style.display = "block";
+		}
+	
+	}
+	
+} 
 
 function updateKoda(EW_this){
 	document.dobedit.x_sit_sort.value = material_sit_sort[document.dobedit.x_koda.selectedIndex - 1];
@@ -2058,3 +2071,6 @@ return true;
 <input type="submit" name="Action" value="Potrdi" tabindex=1>
 </form>
 <%@ include file="footer.jsp" %>
+<script language="JavaScript">
+updateDropDownsStart();
+</script>
