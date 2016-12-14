@@ -56,6 +56,13 @@ int startRec = 0, stopRec = 0, totalRecs = 0, recCount = 0;
 
 String datum_od = request.getParameter("datum_od");
 String datum_do = request.getParameter("datum_do");
+int dodatni_mesec = 0;
+if (request.getParameter("dodatni_mesec") == null) {
+	dodatni_mesec = 0;
+}
+else {
+	dodatni_mesec = Integer.parseInt(request.getParameter("dodatni_mesec"));
+}
 int mesec = 0;
 if ((request.getParameter("mesec") == null) || request.getParameter("mesec").equals("izbrani")) {
 	mesec = 1;
@@ -289,7 +296,7 @@ String caseStr = " CASE month(CAST('"+datum_od+"' AS DATE)) " +
 		" WHEN 12 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)+ IFNULL(dej_okt,kol_okt)+ IFNULL(dej_nov,kol_nov)) * delez/100),0) " +
 		" END prevzeto_od, ";
 
-String caseStr1 = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
+String caseStr1 = " CASE if(month(CAST('"+datum_fm+"' AS DATE)) + " + dodatni_mesec + " > 12, 12, month(CAST('"+datum_fm+"' AS DATE)) + " + dodatni_mesec + ") "+
 		" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) " +
 		" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) " +
 		" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) " +
@@ -556,6 +563,15 @@ function keyPressed(event) {
 			<input type="image" src="images/ew_calendar.gif" alt="Izberi datum" onClick="popUpCalendar(this, this.form.datum_do,'dd.mm.yyyy');return false;">&nbsp;
 		</td>		
 	</tr>	
+	<tr>
+		<td class="jspmaker">Dodatni meseci:&nbsp;</td>
+		<td class="jspmaker">
+    		<INPUT type="radio" name="dodatni_mesec" value="0" <%if (dodatni_mesec==0) out.println("checked");%>>0
+    		<INPUT type="radio" name="dodatni_mesec" value="1" <%if (dodatni_mesec==1) out.println("checked");%>>1
+    		<INPUT type="radio" name="dodatni_mesec" value="2" <%if (dodatni_mesec==2) out.println("checked");%>>2
+    		<INPUT type="radio" name="dodatni_mesec" value="3" <%if (dodatni_mesec==3) out.println("checked");%>>3
+		</td>
+	</tr>
 	<!-- tr>
 		<td class="jspmaker">Izbrani mesec:&nbsp;</td>
 		<td class="jspmaker">
