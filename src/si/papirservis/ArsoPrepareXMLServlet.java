@@ -235,7 +235,7 @@ public class ArsoPrepareXMLServlet extends InitServlet implements Servlet {
 	    		evidencni_listi.appendChild(ODPADKI_EVL_PODATKI_1);
 	    		
 	    		Element EVLS_INT_ID = doc.createElement("EVLS_INT_ID");
-	    		EVLS_INT_ID.appendChild(doc.createTextNode(rs.getString("st_dob")));
+	    		EVLS_INT_ID.appendChild(doc.createTextNode(rs.getString("st_dob")+"_"+rs.getString("pozicija")));
 	    		ODPADKI_EVL_PODATKI_1.appendChild(EVLS_INT_ID);
 	    		
 	    		Element POSILJATELJ = doc.createElement("POSILJATELJ");
