@@ -80,6 +80,7 @@ function  EW_checkMyForm(EW_this)
 						 "WHERE st.sif_kupca = kupci.sif_kupca and (" + day + " = " + type + " or " + day + " = 3) " +
 						 "		 and kupci.sif_enote = enote.sif_enote and kupci.skupina = skup.skupina";
 
+			System.out.println(sql);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 	
@@ -126,6 +127,7 @@ function  EW_checkMyForm(EW_this)
 				String sqlI = "insert into " + session.getAttribute("letoTabela") + "(st_dob, pozicija, datum, sif_str, cena, uporabnik, sif_kupca, skupina, sif_enote, stev_ur_norm, stev_km_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos) " +
 							" VALUES (" + biancoSifra + ", 1, CAST('" + datumEU + "' AS DATE), " + sif + ",  " + cena + ", " + userID + ", '" + sif_kupca + "', " + skupina + ", " + sif_enote + ", " + stev_ur_norm + ", " + stev_km_norm + ", '" + arso_prjm_status + "', '" + arso_aktivnost_prjm + "', '" + arso_aktivnost_pslj + "', " + arso_odp_embalaza_shema + " , '" + arso_odp_dej_nastanka + "', " + arso_prenos + ")";
 
+				System.out.println(sqlI);
 				stmtI.executeUpdate(sqlI);
 				i++;
 			}

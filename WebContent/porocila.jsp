@@ -159,6 +159,7 @@ function updateRacun(){
 		String sqlwrk_x_sif_kupca = "SELECT distinct sif_kupca, naziv " +
 									"FROM kupci " +
 									"WHERE ((potnik = " +userID + ") || (" + stranke + " = 1)) and " +
+									(reportID == 7 ? "prodaja = 1 and " : "") +
 									"	   ((kupci.sif_enote = " + enotaID + ") || (" + enote + " = 1))  " +
 									"ORDER BY `naziv` ASC";
 		
@@ -229,7 +230,7 @@ function updateRacun(){
 	if ((reportID == 2) || (reportID == 4) || (reportID == 12) || (reportID == 14) || (reportID == 15) || (reportID == 18) || (reportID == 22) || (reportID == 24) || (reportID == 31))  
 	{
 		x_sif_nadenoteList = new StringBuffer("<select name=\"x_sif_nadenote\" id=\"x_sif_nadenote\"><option value=\"\">Izberi</option>");
-		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
+		String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND TABLE_SCHEMA='salomon' AND COLUMN_NAME = 'nadenota'";
 		Statement stmtwrk_x_nadenota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rswrk_x_nadenota = stmtwrk_x_nadenota.executeQuery(sqlwrk_x_nadenota);
 			if (rswrk_x_nadenota.next()) {

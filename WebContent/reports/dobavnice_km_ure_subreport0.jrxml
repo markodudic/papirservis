@@ -93,8 +93,7 @@ ON
       	(dob.sif_kam = kamion.sif_kam),
    sofer, sofer as sofer1
 WHERE dob.sif_sof = sofer.sif_sof and
-	dob.sofer_sled = sofer1.kljuc and
-      ((sofer.sif_sof = $P{sif_sofer}) OR ($P{sif_sofer} = -1)) and
+	((sofer.sif_sof = $P{sif_sofer}) OR ($P{sif_sofer} = -1)) and
       ((kamion.sif_kam = $P{sif_kamion}) OR ($P{sif_kamion} = -1)) 
 order by $P!{sort}]]></queryString>
 

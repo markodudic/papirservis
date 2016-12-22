@@ -1250,6 +1250,7 @@ function updateDropDowns(EW_this){
 	}
 	
 	document.dobavnicaadd.kupec_enota.value = sif_kupec_enota[document.dobavnicaadd.x_sif_str.value];
+	
 	document.dobavnicaadd.x_cena.value = stranka_cena[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_km_norm.value = stranka_stev_km_norm[document.dobavnicaadd.x_sif_str.value];
 	document.dobavnicaadd.x_stev_ur_norm.value = stranka_stev_ur_norm[document.dobavnicaadd.x_sif_str.value];

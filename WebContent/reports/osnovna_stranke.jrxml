@@ -40,6 +40,7 @@ from (SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
 	stranke.zacetek = zadnji.datum) stranke
+where ((stranke.sif_os LIKE $P{sif_osnovna}) OR ($P{sif_osnovna} = -1))
 order by stranke.sif_os]]></queryString>
 
 	<field name="kol_os" class="java.math.BigDecimal"/>

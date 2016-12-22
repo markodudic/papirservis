@@ -188,7 +188,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="2"
-						y="568"
+						y="576"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -214,7 +214,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				<staticText>
 					<reportElement
 						x="399"
-						y="570"
+						y="578"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -779,7 +779,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 						x="0"
 						y="527"
 						width="534"
-						height="37"
+						height="46"
 						key="staticText-87"
 						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
@@ -787,7 +787,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnti stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnati stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

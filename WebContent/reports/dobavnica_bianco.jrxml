@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA[new Integer(5)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT $P{biancoSifra} as stev from $P!{dobLeto} dob where true limit $P{stevBianco}]]></queryString>
 
@@ -522,8 +522,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-22"
-						positionType="Float"/>
+						key="staticText-22"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -538,8 +537,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-23"
-						positionType="Float"/>
+						key="staticText-23"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -554,8 +552,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-24"
-						positionType="Float"/>
+						key="staticText-24"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -570,8 +567,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-25"
-						positionType="Float"/>
+						key="staticText-25"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -586,8 +582,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-26"
-						positionType="Float"/>
+						key="staticText-26"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -602,8 +597,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-27"
-						positionType="Float"/>
+						key="staticText-27"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -618,8 +612,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-28"
-						positionType="Float"/>
+						key="staticText-28"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -634,8 +627,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-29"
-						positionType="Float"/>
+						key="staticText-29"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -650,8 +642,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-30"
-						positionType="Float"/>
+						key="staticText-30"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -666,8 +657,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-31"
-						positionType="Float"/>
+						key="staticText-31"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -716,7 +706,7 @@
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnti stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
+				<text><![CDATA[Imetnik odpadkov se obvezuje, da predani odpadki ne bodo mešani z nevarnimi in zdravju škodljivimi odpadki, kot je opredeljeno v veljavni zakonodaji. V kolikor bi do tega prišlo je imetnik dolžan poravnati stroške odvoza, deponiranja in uničenja odpadkov oziroma mora prevzeti odpadke nazaj. Imetnik odpadkov se obvezuje, da bo odgovarjal za morebitne posledice pri predaji zgoraj omenjenih odpadkov. ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement

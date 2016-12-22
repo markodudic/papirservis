@@ -59,7 +59,8 @@ from
 	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.zacetek = zadnji.datum) stranke,
 	kupci
-WHERE stranke.sif_kupca = kupci.sif_kupca and
+WHERE ((stranke.sif_os LIKE $P{sif_osnovna}) OR ($P{sif_osnovna} = -1)) and
+	stranke.sif_kupca = kupci.sif_kupca and
       kupci.sif_kupca NOT IN (select sif_kupca 
 			from $P!{dobLeto} dob 
 			where datum >= CAST($P{od_datum} AS DATE) 

@@ -60,7 +60,7 @@
 		<defaultValueExpression ><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nadenota" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse nadenote"]]></defaultValueExpression>
@@ -446,7 +446,7 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 				<staticText>
 					<reportElement
 						x="310"
-						y="180"
+						y="200"
 						width="60"
 						height="17"
 						forecolor="#000000"
@@ -476,7 +476,7 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 				<staticText>
 					<reportElement
 						x="370"
-						y="180"
+						y="200"
 						width="11"
 						height="17"
 						forecolor="#000000"
@@ -491,7 +491,7 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="390"
-						y="180"
+						y="200"
 						width="140"
 						height="17"
 						forecolor="#000000"
@@ -516,7 +516,7 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{skupina}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_skupine}]]></textFieldExpression>
 				</textField>
 				<subreport  isUsingCache="true">
 					<reportElement
@@ -634,6 +634,51 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 							<printWhenExpression><![CDATA[new Boolean($P{sif_str}.equals("-1"))]]></printWhenExpression>
 						</reportElement>
 				</break>
+				<staticText>
+					<reportElement
+						x="310"
+						y="179"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-37"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ENOTA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="370"
+						y="179"
+						width="11"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-38"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[ : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="390"
+						y="179"
+						width="140"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_enote}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>

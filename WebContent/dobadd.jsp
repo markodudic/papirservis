@@ -1099,7 +1099,7 @@ x_sif_sofList.append("</select>");
 
 
 String cbo_x_skupina_js = "";
-x_skupinaList = new StringBuffer("<select disabled name=\"x_skupina\"><option value=\"\">Izberi</option>");
+x_skupinaList = new StringBuffer("<select name=\"x_skupina\"><option value=\"\">Izberi</option>");
 String sqlwrk_x_skupina = "SELECT `skupina`, `tekst` FROM `skup`";
 Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_skupina = stmtwrk_x_skupina.executeQuery(sqlwrk_x_skupina);
@@ -1324,7 +1324,7 @@ return true;
 <input type="hidden" name="x_sif_kupca" size="30" value="<%= HTMLEncode((String)x_sif_kupca) %>">
 <input type="hidden" name="x_sif_sof" size="30" value="<%= HTMLEncode((String)x_sif_sof) %>">
 <input type="hidden" name="x_sif_kam" size="30" value="<%= HTMLEncode((String)x_sif_kam) %>">
-<input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>">
+<!-- input type="hidden" name="x_skupina" size="30" value="<%= HTMLEncode((String)x_skupina) %>"-->
 <input type="hidden" name="x_st_dob" size="30" value="<%= HTMLEncode((String)x_st_dob) %>">
 <input type="hidden" name="x_pozicija" size="30" value="<%= HTMLEncode((String)x_pozicija) %>">
 
@@ -1700,7 +1700,7 @@ return true;
 		<td class="ewTableAltRow"><input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("0")? "checked" : "" %> value = "0" >NE&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("1")? "checked" : "" %> value = "1">DA&nbsp;<input type="radio" name="x_arso_prenos"  <%= x_arso_prenos.equals("2")? "checked" : "" %> value = "2">TUJINA&nbsp;</td>
 	</tr>
 	
-	<input type="hidden" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>">&nbsp;
+	<!-- input type="hidden" name="x_skupina_text" size="30" maxlength="255" value="<%= HTMLEncode((String)x_skupina_text) %>"-->&nbsp;
 	<input type="hidden" name="x_opomba" size="30" maxlength="255" value="<%= HTMLEncode((String)x_opomba) %>">&nbsp;
 </table>
 <p>

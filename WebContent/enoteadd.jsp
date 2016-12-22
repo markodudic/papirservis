@@ -524,7 +524,7 @@ function  EW_checkMyForm(EW_this) {
 		<td class="ewTableAltRow">
 			<select name="x_nadenota">
 			<%
-			String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND COLUMN_NAME = 'nadenota'";
+			String sqlwrk_x_nadenota = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enote' AND TABLE_SCHEMA='salomon' AND COLUMN_NAME = 'nadenota'";
 			Statement stmtwrk_x_nadenota = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet rswrk_x_nadenota = stmtwrk_x_nadenota.executeQuery(sqlwrk_x_nadenota);
 				if (rswrk_x_nadenota.next()) {
