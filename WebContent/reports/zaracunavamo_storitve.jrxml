@@ -126,13 +126,7 @@ WHERE ((kupci.sif_kupca = $P{sif_str}) or (($P{sif_str} = -1))) and
      ((enote.nadenota = $P{nadenota}) OR ($P{nadenota} = "Vse nadenote")) and
 	kupci.sif_enote = enote.sif_enote and
       kupci.potnik = uporabniki.sif_upor and
-    kupci.sif_kupca = imajoceno.sif_kupca and
-     kupci.sif_kupca IN (select sif_kupca 
-			from $P!{dobLeto} dob 
-			where 	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
-			((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
-			datum >= CAST($P{od_datum} AS DATE) 
-			AND datum <= CAST($P{do_datum} AS DATE))]]></queryString>
+    kupci.sif_kupca = imajoceno.sif_kupca]]></queryString>
 
 	<field name="sif_kupca" class="java.lang.String"/>
 	<field name="kupci_naziv" class="java.lang.String"/>
