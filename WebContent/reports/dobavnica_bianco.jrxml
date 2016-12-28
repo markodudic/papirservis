@@ -135,7 +135,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="0"
-						y="608"
+						y="592"
 						width="534"
 						height="0"
 						key="line-3"/>
@@ -144,7 +144,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="700"
+						y="673"
 						width="134"
 						height="17"
 						forecolor="#000000"
@@ -177,9 +177,9 @@
 				</line>
 				<staticText>
 					<reportElement
-						x="397"
-						y="702"
-						width="134"
+						x="333"
+						y="674"
+						width="199"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -189,7 +189,7 @@
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PODPIS STRANKE:]]></text>
+				<text><![CDATA[ŽIG IN PODPIS STRANKE:]]></text>
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
@@ -682,7 +682,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="614"
+						y="598"
 						width="534"
 						height="25"
 						key="staticText-33"
@@ -691,12 +691,12 @@
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
+				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Brnčičeva ulica 31, 1231 Ljubljana-Črnuče, davčna št. : 73432911, matična št : 5540585000.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="640"
+						y="624"
 						width="534"
 						height="45"
 						key="staticText-34"
@@ -732,8 +732,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-36"
-						positionType="Float"/>
+						key="staticText-36"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -748,8 +747,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-37"
-						positionType="Float"/>
+						key="staticText-37"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -764,8 +762,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-38"
-						positionType="Float"/>
+						key="staticText-38"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -780,8 +777,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-39"
-						positionType="Float"/>
+						key="staticText-39"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -796,8 +792,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-40"
-						positionType="Float"/>
+						key="staticText-40"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -812,8 +807,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-41"
-						positionType="Float"/>
+						key="staticText-41"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -828,8 +822,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-42"
-						positionType="Float"/>
+						key="staticText-42"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -844,8 +837,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-43"
-						positionType="Float"/>
+						key="staticText-43"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -860,8 +852,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-44"
-						positionType="Float"/>
+						key="staticText-44"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -876,8 +867,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-45"
-						positionType="Float"/>
+						key="staticText-45"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -892,8 +882,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-46"
-						positionType="Float"/>
+						key="staticText-46"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
@@ -908,8 +897,7 @@
 						height="15"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText-47"
-						positionType="Float"/>
+						key="staticText-47"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
