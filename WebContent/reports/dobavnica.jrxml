@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(400037)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(700046)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\WebContent\\images\\kovine.jpg"]]></defaultValueExpression>
