@@ -27,19 +27,20 @@
 		<defaultValueExpression ><![CDATA[new Integer("30851")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      dob.`koda` AS koda,
      CONCAT(dob.`skupina_text`, ' / ', dob.naziv_enote) AS skupina,
      materiali.material as material
 FROM
-     (select *, max(dob.zacetek) from $P!{dobLeto}  dob where  dob.st_dob =  $P{st_dob}  group by st_dob, pozicija) dob LEFT JOIN sofer ON (dob.`sif_sof` = sofer.`sif_sof`),
+     (select *, max(dob.zacetek) from $P!{dobLeto}  dob where  dob.st_dob =  $P{st_dob}  group by st_dob, pozicija) dob 
+LEFT JOIN
 	(SELECT materiali.*
 	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
 	WHERE materiali.koda = zadnji.koda and
 	      materiali.zacetek = zadnji.datum) materiali	     
-WHERE dob.koda = materiali.koda]]></queryString>
+ON (dob.koda = materiali.koda)]]></queryString>
 
 	<field name="koda" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>

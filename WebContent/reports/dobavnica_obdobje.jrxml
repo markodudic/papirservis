@@ -213,19 +213,19 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 				</line>
 				<staticText>
 					<reportElement
-						x="399"
+						x="336"
 						y="578"
-						width="134"
+						width="197"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-42"
 						positionType="Float"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
+					<textElement textAlignment="Left">
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PODPIS STRANKE:]]></text>
+				<text><![CDATA[ŽIG IN PODPIS STRANKE:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -772,7 +772,7 @@ ORDER BY dob.sofer, dob.st_dob]]></queryString>
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
+				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Brnčičeva ulica 31, 1231 Ljubljana-Črnuče, davčna št. : 73432911, matična št : 5540585000.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement

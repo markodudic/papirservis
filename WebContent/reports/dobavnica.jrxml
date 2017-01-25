@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="st_dob" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer(400037)]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer(700046)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:\\projects\\Monolit\\PapirServis\\WebContent\\images\\kovine.jpg"]]></defaultValueExpression>
@@ -570,9 +570,9 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement
-						x="397"
+						x="359"
 						y="534"
-						width="134"
+						width="172"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -582,7 +582,7 @@ WHERE
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[PODPIS STRANKE:]]></text>
+				<text><![CDATA[ŽIG IN PODPIS STRANKE:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -1189,7 +1189,7 @@ WHERE
 					<textElement>
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Pod Ježami 3, 1000 Ljubljana, davčna št. : 73432911, matična št : 5540585000.]]></text>
+				<text><![CDATA[Računi za opravljene prevoze se po pogodbi, izstavijo na podjetje Papir Servis Prevozi d.o.o., Brnčičeva ulica 31, 1231 Ljubljana-Črnuče, davčna št. : 73432911, matična št : 5540585000.]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
