@@ -76,7 +76,7 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
         	
 	        int xPaket = 315;
             int yPaket = 160;
-            Rectangle rect = new Rectangle( xPaket, yPaket, 50, 60 ); 
+            Rectangle rect = new Rectangle( xPaket, yPaket, 48, 60 ); 
             PDFTextStripperByArea stripper = new PDFTextStripperByArea(); 
             stripper.setSortByPosition( true ); 
             stripper.addRegion( "class", rect ); 
@@ -408,7 +408,7 @@ public class ArsoPDFParser extends PDFTextStripperByArea {
 	        if (join) {
 		        int xMaticna = 260;
 	            int yMaticna = 20;
-	            Rectangle rect = new Rectangle( xMaticna, yMaticna, 50, 10 ); 
+	            Rectangle rect = new Rectangle( xMaticna, yMaticna, 48, 10 ); 
 	            PDFTextStripperByArea stripper = new PDFTextStripperByArea(); 
 	            stripper.setSortByPosition( true ); 
 	            stripper.addRegion( "class", rect ); 
