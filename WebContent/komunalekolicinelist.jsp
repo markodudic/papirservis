@@ -439,6 +439,7 @@ String sqlParam1 = URLEncoder.encode(strsql.toString());
 String sqlParam2 = datum_od;
 String sqlParam3 = datum_fm;
 String sqlParam4 = mesec+"";
+String sqlParam5 = dodatni_mesec+"";
 
 strsql = strsql.replaceAll("caseStr1", caseStr1);
 strsql = strsql.replaceAll("caseStr", caseStr);
@@ -509,7 +510,7 @@ function keyPressed(event) {
 			<input type="text" name="psearch" size="20">
 			<input type="Submit" name="Submit" id="Submit" value="Išči">
 		&nbsp;&nbsp;<a href="komunalekolicinelist.jsp?cmd=reset">Prikaži vse</a>
-			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>', '<%=sqlParam3%>', '<%=sqlParam4%>')";>
+			<input type="button" name="btnExport" value="Izvoz v XLS" onClick="xls_create_komunala('<%=sqlParam1%>', '<%=sqlParam2%>', '<%=sqlParam3%>', '<%=sqlParam4%>', '<%=sqlParam5%>')";>
 			<% if (sif_kupca==null || sif_kupca.equals("-1") || sif_kupca.equals("")) { %>
 				<input type="Submit" name="Submit" value="Skrij/Prikaži prazne" onClick='<%if (session.getAttribute("komunalekolicine_hideEmpty").equals("0")) {session.setAttribute("komunalekolicine_hideEmpty", "1");}else{session.setAttribute("komunalekolicine_hideEmpty", "0");}%>'>
 			<% } %>

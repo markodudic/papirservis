@@ -74,6 +74,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 		String datum_od = (String) request.getParameter("datum_od");
 		String datum_fm = (String) request.getParameter("datum_fm");
 		String mesec = (String) request.getParameter("mesec");
+		String dodatni_mesec = (String) request.getParameter("dodatni_mesec");
 		
 		String caseStr = " CASE month(CAST('"+datum_od+"' AS DATE)) " +
 				" WHEN 1 THEN 0 " +
@@ -90,7 +91,7 @@ public class XLSCreateKomunalaServlet extends InitServlet implements Servlet {
 				" WHEN 12 THEN IFNULL(((IFNULL(dej_jan,kol_jan)+ IFNULL(dej_feb,kol_feb)+ IFNULL(dej_mar,kol_mar)+ IFNULL(dej_apr,kol_apr)+ IFNULL(dej_maj,kol_maj)+ IFNULL(dej_jun,kol_jun)+ IFNULL(dej_jul,kol_jul)+ IFNULL(dej_avg,kol_avg)+ IFNULL(dej_sep,kol_sep)+ IFNULL(dej_okt,kol_okt)+ IFNULL(dej_nov,kol_nov)) * delez/100),0) " +
 				" END prevzeto_od, ";
 
-		String caseStr1 = " CASE month(CAST('"+datum_fm+"' AS DATE)) " +
+		String caseStr1 = " CASE if(month(CAST('"+datum_fm+"' AS DATE)) + " + dodatni_mesec + " > 12, 12, month(CAST('"+datum_fm+"' AS DATE)) + " + dodatni_mesec + ") "+
 				" WHEN 1 THEN IFNULL(((if("+mesec+"=1,ifnull(dej_jan,kol_jan),kol_jan)) * delez/100),0) " +
 				" WHEN 2 THEN IFNULL(((ifnull(dej_jan,kol_jan)+if("+mesec+"=1,ifnull(dej_feb,kol_feb),kol_feb)) * delez/100),0) " +
 				" WHEN 3 THEN IFNULL(((ifnull(dej_jan,kol_jan)+ifnull(dej_feb,kol_feb)+if("+mesec+"=1,ifnull(dej_mar,kol_mar),kol_mar)) * delez/100),0) " +
