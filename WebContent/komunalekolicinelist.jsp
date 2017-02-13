@@ -339,7 +339,7 @@ String strsql = "SELECT DISTINCT aa.id, aa.sif_kupca, aa.koda, aa.zdruzi, aa.del
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
 		" left join okolje as c on a.koda = c.koda "+
 		" left join uporabniki on a.uporabnik = sif_upor " +
-		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.skupina = 502 and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
 
 if (dbwhere.length() > 0) {
 	whereClause += " (" + dbwhere + ") AND ";
@@ -412,7 +412,7 @@ strsql += "(SELECT DISTINCT sif_kupca, ifnull(zdruzi, koda) koda, sum(zbrano) zb
 		" caseStr " + " caseStr1 " +
 		"from " + session.getAttribute("letoTabelaKomunale") + " as a "+
 		" left join kupci as b on a.sif_kupca = b.sif_kupca "+
-		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
+		" left join dob"+session.getAttribute("leto")+" as d on a.sif_kupca = d.sif_kupca and a.koda = d.ewc and d.skupina = 502 and d.datum >= CAST('"+datum_fmod+"' AS DATE) and d.datum <= CAST('"+datum_fm+"' AS DATE) ";
 		
 if (sif_kupca!=null && !sif_kupca.equals("-1") && !sif_kupca.equals("")) {
 	if(whereClause.length() > 0)
