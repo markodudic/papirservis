@@ -602,11 +602,11 @@ try{
 	
 	// Field sif_kupca
 			tmpfld = ((String) x_sif_kupca).trim();
-			if (!IsNumeric(tmpfld)) { tmpfld = null;}
+			//if (!IsNumeric(tmpfld)) { tmpfld = null;}
 			if (tmpfld == null) {
 				//rs.updateNull("sif_str");
 			} else {
-				strsql += tmpfld + ",";
+				strsql += "'" + tmpfld + "',";
 			}
 	
 			// Field skupina
@@ -723,7 +723,7 @@ try{
 			if (!IsNumeric(tmpfld)) { tmpfld = null;}
 			strsql += tmpfld + ")";
 			
-			//out.println(strsql);
+			out.println(strsql);
 			
 			Statement stmt1 = conn.createStatement();
 			stmt1.executeUpdate(strsql);
@@ -797,8 +797,8 @@ ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupc
 		//tmpNaziv = rswrk_x_sif_kupca.getString("sif_kupca") + " " + rswrk_x_sif_kupca.getString("naziv") + " " + rswrk_x_sif_kupca.getString("naslov");
 		tmpNaziv = rswrk_x_sif_kupca.getString("naziv") + " " + rswrk_x_sif_kupca.getString("naslov");
 		
-		kupac.append("kupac[").append(rswrk_x_sif_kupca.getString("sif_kupca")).append("]=").append(String.valueOf(rowcntwrk_x_sif_kupca)).append(";");
-		sif_kupac2.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append(rswrk_x_sif_kupca.getString("sif_kupca")).append(";");
+		kupac.append("kupac[").append("'"+rswrk_x_sif_kupca.getString("sif_kupca")+"'").append("]=").append(String.valueOf(rowcntwrk_x_sif_kupca)).append(";");
+		sif_kupac2.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append("'"+rswrk_x_sif_kupca.getString("sif_kupca")+"'").append(";");
 
 		if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
 		x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
@@ -940,7 +940,7 @@ ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
 		}
 		
 		sif_kupec_enota.append("sif_kupec_enota[").append(tmpSif).append("]='").append(rswrk_x_sif_str.getString("enota_naziv")).append("';");
-		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append(rswrk_x_sif_str.getString("sif_kupca")).append(";");
+		sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append("'"+rswrk_x_sif_str.getString("sif_kupca")+"'").append(";");
 		sif_skupina.append("sif_skupina[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("skupina"))).append(";");
 		sif_enote.append("sif_enote[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getLong("sif_enote"))).append(";");
 		stranka_cena.append("stranka_cena[").append(tmpSif).append("]=").append(String.valueOf(rswrk_x_sif_str.getDouble("cena"))).append(";");
