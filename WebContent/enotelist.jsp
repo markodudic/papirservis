@@ -297,8 +297,13 @@ function disableSome(EW_this){
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("strosek")) ? "<b>" : ""%>
-<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("blokada","UTF-8") %>">Strošek proizvodnja&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("strosek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("strosek","UTF-8") %>">Strošek proizvodnja&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("strosek")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
 <%=(OrderBy != null && OrderBy.equals("strosek")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("ewc")) ? "<b>" : ""%>
+<a href="kupcilist.jsp?order=<%= java.net.URLEncoder.encode("ewc","UTF-8") %>">EWC kontrola&nbsp;(*)<% if (OrderBy != null && OrderBy.equals("ewc")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("kupci_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("kupci_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("ewc")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("arso_prjm_st")) ? "<b>" : ""%>
@@ -379,6 +384,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_dovoljenje = "";
 	String x_nadenota = "";
 	int x_strosek = 0;
+	int x_ewc = 0;
 	String x_arso_prjm_st = "";
 	String x_arso_prjm_status = "";
 	String x_arso_aktivnost_prjm = "";
@@ -432,6 +438,8 @@ while (rs.next() && recCount < stopRec) {
 	
 	// blokada
 	x_strosek = rs.getInt("strosek_proizvodnja");
+
+	x_ewc = rs.getInt("ewc_kontrola");
 
 	// arso_prjm_st
 	if (rs.getString("arso_prjm_st") != null){
@@ -526,6 +534,7 @@ if (key != null && key.length() > 0) {
 		<td><% out.print(x_dovoljenje); %>&nbsp;</td>
 		<td><% out.print(x_nadenota); %>&nbsp;</td>
 		<td><% out.print((x_strosek == 1 ? "DA" : "NE")); %>&nbsp;</td>
+		<td><% out.print((x_ewc == 1 ? "DA" : "NE")); %>&nbsp;</td>
 		<td><% out.print(x_arso_prjm_st); %>&nbsp;</td>
 		<td><% out.print(x_arso_prjm_status); %>&nbsp;</td>
 		<td><% out.print(x_arso_aktivnost_prjm); %>&nbsp;</td>

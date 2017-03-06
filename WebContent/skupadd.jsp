@@ -336,7 +336,7 @@ return true;
 		<td class="ewTableAltRow">
 			<select name="x_arso_odp_embalaza_shema">
 			<%
-				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'skup' AND COLUMN_NAME = 'arso_odp_embalaza_shema'";
+				String sqlwrk_x_arso_status = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'skup' AND COLUMN_NAME = 'arso_odp_embalaza_shema' AND TABLE_SCHEMA='salomon'";
 				Statement stmtwrk_x_arso_status = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				ResultSet rswrk_x_arso_status = stmtwrk_x_arso_status.executeQuery(sqlwrk_x_arso_status);
 					if (rswrk_x_arso_status.next()) {

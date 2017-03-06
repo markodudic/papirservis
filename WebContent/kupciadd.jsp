@@ -1173,7 +1173,7 @@ out.println(x_sif_enoteList);
 		<td class="ewTableAltRow">
 			<select name="x_arso_aktivnost_pslj">
 			<%
-				String sqlwrk_x_arso_aktivnost = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'kupci' AND COLUMN_NAME = 'arso_aktivnost_pslj'";
+				String sqlwrk_x_arso_aktivnost = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'kupci' AND COLUMN_NAME = 'arso_aktivnost_pslj' AND TABLE_SCHEMA='salomon'";
 				Statement stmtwrk_x_arso_aktivnost = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				ResultSet rswrk_x_arso_aktivnost = stmtwrk_x_arso_aktivnost.executeQuery(sqlwrk_x_arso_aktivnost);
 					if (rswrk_x_arso_aktivnost.next()) {
