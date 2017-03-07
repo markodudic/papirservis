@@ -200,12 +200,12 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 
 
 // Build SQL
-String strsql = "SELECT  cenastr.*, skup.tekst FROM cenastr, kupci, skup ";
+String strsql = "SELECT  cenastr.*, skup.tekst FROM cenastr left join skup on (cenastr.skupina = skup.skupina), kupci ";
 
 if (searchwhere1 != null && searchwhere1.length() > 0)
 	strsql += " , (SELECT sif_kupca, material_koda, max(zacetek) datum FROM `cenastr` group by sif_kupca, material_koda) zadnji";
 
-whereClause = "  cenastr.sif_kupca = kupci.sif_kupca and kupci.skupina = skup.skupina "  + subQuery ;
+whereClause = "  cenastr.sif_kupca = kupci.sif_kupca "  + subQuery ;
 if (DefaultFilter.length() > 0) {
 	whereClause = whereClause + "(" + DefaultFilter + ") AND ";
 }
@@ -343,9 +343,14 @@ function disableSome(EW_this){
 <%=(OrderBy != null && OrderBy.equals("kupci.naziv")) ? "</b>" : ""%>
 		</td>
 		<td>
-<%=(OrderBy != null && OrderBy.equals("skup.tekst")) ? "<b>" : ""%>
-<a href="cenastrlist.jsp?order=<%= java.net.URLEncoder.encode("skup.tekst","utf-8") %>">Skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("skup.tekst")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("cenastr_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("cenastr_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
-<%=(OrderBy != null && OrderBy.equals("skup.tekst")) ? "</b>" : ""%>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
+<a href="cenastrlist.jsp?order=<%= java.net.URLEncoder.encode("skupina","utf-8") %>">Šifra skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("cenastr_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("cenastr_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "</b>" : ""%>
+		</td>
+		<td>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "<b>" : ""%>
+<a href="cenastrlist.jsp?order=<%= java.net.URLEncoder.encode("skupina","utf-8") %>">Skupina&nbsp;<% if (OrderBy != null && OrderBy.equals("skupina")) { %><span class="ewTableOrderIndicator"><% if (((String) session.getAttribute("cenastr_OT")).equals("ASC")) { %>(^)<% }else if (((String) session.getAttribute("cenastr_OT")).equals("DESC")) { %>(v)<% } %></span><% } %></a>
+<%=(OrderBy != null && OrderBy.equals("skupina")) ? "</b>" : ""%>
 		</td>
 		<td>
 <%=(OrderBy != null && OrderBy.equals("material_koda")) ? "<b>" : ""%>
@@ -416,6 +421,7 @@ while (rs.next() && recCount < stopRec) {
 	String x_sif_kupca = "";
 	String x_material_koda = "";
 	String x_skupina = "";
+	String x_tekst = "";
 	String x_cena = "";
 	Object x_zacetek = null;
 	String x_uporabnik = "";
@@ -442,10 +448,16 @@ while (rs.next() && recCount < stopRec) {
 	}
 
 	// skupina
-	if (rs.getString("tekst") != null){
-		x_skupina = rs.getString("tekst");
+	if (rs.getString("skupina") != null){
+		x_skupina = rs.getString("skupina");
 	}else{
 		x_skupina = "";
+	}
+	
+	if (rs.getString("tekst") != null){
+		x_tekst = rs.getString("tekst");
+	}else{
+		x_tekst = "";
 	}
 
 	
@@ -520,6 +532,7 @@ if (x_sif_kupca!=null && ((String)x_sif_kupca).length() > 0) {
 %>
 &nbsp;</td>
 		<td><% out.print(x_skupina); %>&nbsp;</td>
+		<td><% out.print(x_tekst); %>&nbsp;</td>
 		<td><% out.print(x_material_koda); %>&nbsp;</td>
 		<td><%
 if (x_material_koda!=null && ((String)x_material_koda).length() > 0) {

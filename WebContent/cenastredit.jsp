@@ -56,11 +56,13 @@ if (a == null || a.length() == 0) {
 
 // Get fields from form
 Object x_sif_kupca = null;
+Object x_skupina = null;
 Object x_material_koda = null;
 Object x_cena = null;
 Object x_zacetek = null;
 Object x_veljavnost = null;
 Object x_uporabnik = null;
+StringBuffer x_skupinaList = null;
 StringBuffer x_sif_kupcaList = null;
 StringBuffer x_material_kodaList = null;
 
@@ -97,6 +99,11 @@ try{
 			}else{
 				x_material_koda = "";
 			}
+			if (rs.getString("skupina") != null){
+				x_skupina = rs.getString("skupina");
+			}else{
+				x_skupina = "";
+			}
 
 			//Veljavnost	
 			if (rs.getTimestamp("veljavnost") != null){
@@ -123,6 +130,9 @@ try{
 		}
 		if (request.getParameter("x_material_koda") != null){
 			x_material_koda = request.getParameter("x_material_koda");
+		}
+		if (request.getParameter("x_skupina") != null){
+			x_skupina = request.getParameter("x_skupina");
 		}
 		if (request.getParameter("x_cena") != null){
 			x_cena = (String) request.getParameter("x_cena");
@@ -175,6 +185,15 @@ try{
 			rs.updateString("material_koda", tmpfld);
 		}
 
+		tmpfld = ((String) x_skupina);
+		if (tmpfld == null || tmpfld.trim().length() == 0) {
+			tmpfld = null;
+		}
+		if (tmpfld == null) {
+			rs.updateNull("skupina");
+		}else{
+			rs.updateString("skupina", tmpfld);
+		}
 		// Field cena
 		tmpfld = ((String) x_cena).trim();
 		if (!IsNumeric(tmpfld)) { tmpfld = null;}
@@ -223,6 +242,10 @@ if(request.getParameter("prikaz_material_koda")!= null){
 	session.setAttribute("cenastr_material_koda",  request.getParameter("prikaz_material_koda"));
 }
 
+if(request.getParameter("prikaz_skupina")!= null){
+	session.setAttribute("cenastr_skupina",  request.getParameter("prikaz_skupina"));
+}
+
 
 String stranke = (String) session.getAttribute("vse");
 String kupciQueryFilter = "";
@@ -257,6 +280,30 @@ stmtwrk_x_sif_kupca.close();
 stmtwrk_x_sif_kupca = null;
 x_sif_kupcaList.append("</select>");
 
+String cbo_x_skupina_js = "";
+x_skupinaList = new StringBuffer("<select name=\"x_skupina\"><option value=\"\">Izberi</option>");
+String sqlwrk_x_skupina = "SELECT skupina, tekst " +
+								"FROM skup " +
+								"order by " + session.getAttribute("cenastr_skupina") + " asc";
+Statement stmtwrk_x_skupina = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_skupina = stmtwrk_x_skupina.executeQuery(sqlwrk_x_skupina);
+	int rowcntwrk_x_skupina = 0;
+	while (rswrk_x_skupina.next()) {
+		x_skupinaList.append("<option value=\"").append(rswrk_x_skupina.getString("skupina")).append("\"");
+		if (rswrk_x_skupina.getString("skupina").equals(x_skupina)) {
+			x_skupinaList.append(" selected");
+		}
+		String tmpValue_x_skupina = "";
+		String tmpNaziv = rswrk_x_skupina.getString((String)session.getAttribute("cenastr_skupina"));
+		if (tmpNaziv != null) tmpValue_x_skupina = tmpNaziv;
+		x_skupinaList.append(">").append(tmpValue_x_skupina).append("</option>");
+		rowcntwrk_x_skupina++;
+	}
+rswrk_x_skupina.close();
+rswrk_x_skupina = null;
+stmtwrk_x_skupina.close();
+stmtwrk_x_skupina = null;
+x_skupinaList.append("</select>");
 
 
 String cbo_x_material_koda_js = "";
@@ -329,6 +376,10 @@ return true;
 	<tr>
 		<td class="ewTableHeader">Šifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%><span class="jspmaker"><a href="<%out.print("cenastredit.jsp?prikaz_kupca=sif_kupca&key=" + key);%>">šifra</a>&nbsp;<a href="<%out.print("cenastredit.jsp?prikaz_kupca=naziv&key=" + key );%>">naziv</a>&nbsp;<a href="<%out.print("cenastredit.jsp?prikaz_kupca=naslov&key=" + key );%>">naslov</a></span>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="ewTableHeader">Skupina&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_skupinaList);%><span class="jspmaker"><a href="<%out.print("cenastradd.jsp?prikaz_skupina=skupina");%>">skupina</a>&nbsp;<a href="<%out.print("cenastradd.jsp?prikaz_skupina=tekst");%>">naziv</a>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="ewTableHeader">Material koda&nbsp;</td>
