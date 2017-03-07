@@ -2271,19 +2271,21 @@ if (key != null && key.length() > 0) {
 <td>&nbsp;</td>
 <% } %>
 		<td class=<% List<String> enoteList = Arrays.asList("50", "60", "70", "80", "90", "100", "110", "120");
-						out.print((x_obdelana.equals("1") ? 
-								((rs.getString("dob.koda").indexOf("D")==0 || (enoteList.contains(rs.getString("sif_enote")))) ? "ewCellDinosRow" :	
-									(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
-										(x_arso_prenos.equals("0") &&  !x_kolicina.equals("0") &&  x_arso_status.equals("0") ? "ewCellNoPrenosRow" : 
-											(x_arso_prenos.equals("1") &&  x_arso_status.equals("0") ? "ewCellDontSendRow" : 
-												(x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : 
-													(x_arso_status.equals("2") ? "ewCellConfirmedRow" : "")
+						out.print((x_arso_prenos.equals("2") ? "ewCellTujinaPrenosRow" : 
+									(x_obdelana.equals("1") ? 
+										((rs.getString("dob.koda").indexOf("D")==0 || (enoteList.contains(rs.getString("sif_enote")))) ? "ewCellDinosRow" :	
+											(x_kolicina.equals("0") ? "ewCellNoKolicinaRow" : 
+												(x_arso_prenos.equals("0") &&  !x_kolicina.equals("0") &&  x_arso_status.equals("0") ? "ewCellNoPrenosRow" : 
+													(x_arso_prenos.equals("1") &&  x_arso_status.equals("0") ? "ewCellDontSendRow" : 
+														(x_arso_status.equals("1") ? "ewCellDontConfirmedRow" : 
+															(x_arso_status.equals("2") ? "ewCellConfirmedRow" : "")	
+														)
+													)
 												)
 											)
-										)
+										):""
 									)
-								) : ""
-							   )
+								)
 							 ); %> ><% out.print(x_st_dob); %>&nbsp;</td>
 		<td><% out.print(x_pozicija); %>&nbsp;</td>
 		<td><% out.print(EW_FormatDateTime(x_datum,7,locale)); %>&nbsp;</td>

@@ -124,6 +124,10 @@ a {
 	background-color: #0583f8; /* arso_prenos = 0  */		
 }
 
+.ewCellTujinaPrenosRow {
+	background-color: #ff9900; /* arso prenos tujina */	
+}
+
 .ewCellDontSendRow {
 	background-color: #FF0000; /* arso dont send  */	
 }
@@ -135,6 +139,8 @@ a {
 .ewCellConfirmedRow {
 	background-color: #00FF00; /* arso confirmed */	
 }
+
+
 
 .ewCellDinosRow {
 	background-color: #006600; /* dinos */	

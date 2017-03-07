@@ -58,7 +58,6 @@ dob.stev_ur,
 dob.stev_km_sled, 
 dob.stev_ur_sled, 
 if(dob.krozna=0,'N','D') krozna,
-sofer1.sofer as sofer_sled, 
 dob.stev_km_norm,
 dob.stev_ur_norm,
 dob.stev_km/dob.stev_km_sled as delta,
@@ -91,7 +90,7 @@ LEFT JOIN
 	      kamion.zacetek = zadnji.datum) kamion
 ON
       	(dob.sif_kam = kamion.sif_kam),
-   sofer, sofer as sofer1
+   sofer
 WHERE dob.sif_sof = sofer.sif_sof and
 	((sofer.sif_sof = $P{sif_sofer}) OR ($P{sif_sofer} = -1)) and
       ((kamion.sif_kam = $P{sif_kamion}) OR ($P{sif_kamion} = -1)) 
@@ -113,7 +112,6 @@ order by $P!{sort}]]></queryString>
 	<field name="stev_km_sled" class="java.lang.Integer"/>
 	<field name="stev_ur_sled" class="java.lang.Double"/>
 	<field name="krozna" class="java.lang.String"/>
-	<field name="sofer_sled" class="java.lang.String"/>
 	<field name="stev_km_norm" class="java.lang.Integer"/>
 	<field name="stev_ur_norm" class="java.lang.Double"/>
 	<field name="delta" class="java.math.BigDecimal"/>
@@ -148,9 +146,9 @@ order by $P!{sort}]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="406"
+						x="447"
 						y="0"
-						width="76"
+						width="95"
 						height="22"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -356,25 +354,9 @@ order by $P!{sort}]]></queryString>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="482"
-						y="0"
-						width="60"
-						height="22"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="element-104"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
-					</textElement>
-				<text><![CDATA[ŠOFER SLEDENJE]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
 						x="346"
 						y="0"
-						width="60"
+						width="101"
 						height="22"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -418,9 +400,9 @@ order by $P!{sort}]]></queryString>
 				</line>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="407"
+						x="448"
 						y="0"
-						width="76"
+						width="95"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -587,22 +569,9 @@ order by $P!{sort}]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="483"
-						y="0"
-						width="60"
-						height="15"
-						key="textField-14"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Arial" size="8" pdfEncoding ="Cp1250"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sofer_sled}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
 						x="347"
 						y="0"
-						width="60"
+						width="101"
 						height="15"
 						key="textField-15"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>

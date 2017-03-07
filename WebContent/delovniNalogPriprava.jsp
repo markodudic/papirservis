@@ -67,20 +67,21 @@ function  EW_checkMyForm(EW_this)
 			
 			//generiram delovne naloge
 	//		String sql = "SELECT sif_str FROM stranke WHERE " + day + " = " + type + " or " + day + " = 3";
-			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, kupci.skupina, kupci.sif_enote, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, kupci.arso_prenos "+
+			String sql = "SELECT sif_str, st.cena, kupci.sif_kupca, IFNULL(dob.skupina,kupci.skupina) as skupina, IFNULL(dob.sif_enote,kupci.sif_enote) as sif_enote, st.stev_km_norm, st.stev_ur_norm, arso_prjm_status, arso_aktivnost_prjm, arso_aktivnost_pslj, arso_odp_embalaza_shema, arso_odp_dej_nastanka, kupci.arso_prenos "+
 						 "FROM (SELECT stranke.* "+
 						 "		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji "+
 						 "		WHERE stranke.sif_str = zadnji.sif_str and "+
 						 "		      stranke.zacetek = zadnji.datum) st, "+
 						 "		(select sif_kupca, skupina, sif_enote, arso_prenos, arso_aktivnost_pslj " +
 						 "		from kupci " +
-						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1))) kupci, " +
-//						 "			  (kupci.sif_enote = " + x_sif_enote + ")) kupci, " +
+						 "		where ((potnik = " +userID + ") || (" + stranke + " = 1))) kupci " +
+						 "		left join (SELECT max(st_dob) sd, sif_kupca, skupina, sif_enote FROM " + session.getAttribute("letoTabela") + " where koda is not null GROUP BY sif_kupca) as dob" +
+						 "			on (kupci.sif_kupca = dob.sif_kupca)," +
 						 "		enote, skup  " +
 						 "WHERE st.sif_kupca = kupci.sif_kupca and (" + day + " = " + type + " or " + day + " = 3) " +
 						 "		 and kupci.sif_enote = enote.sif_enote and kupci.skupina = skup.skupina";
 
-			System.out.println(sql);
+			//System.out.println(sql);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 	
