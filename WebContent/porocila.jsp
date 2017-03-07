@@ -376,7 +376,7 @@ function updateRacun(){
 	//preberem potnik iz baze
 	StringBuffer x_sif_potnikList = null;
 
-	if ((reportID == 14) || (reportID == 18) || (reportID == 22) || (reportID == 31))
+	if ((reportID == 10) || (reportID == 14) || (reportID == 18) || (reportID == 22) || (reportID == 31))
 	{
 		x_sif_potnikList = new StringBuffer("<select name=\"x_sif_potnik\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_potnik = "SELECT `sif_upor`, `ime_in_priimek` FROM `uporabniki` where aktiven=1 order by `ime_in_priimek`";
@@ -529,7 +529,7 @@ function updateRacun(){
 		</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 14) || (reportID == 18) || (reportID == 22)) {%>
+	<%if ((reportID == 10) || (reportID == 14) || (reportID == 18) || (reportID == 22)) {%>
 	<tr>
 		<td class="ewTableHeader">Potnik&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_potnikList);%>&nbsp;</td>

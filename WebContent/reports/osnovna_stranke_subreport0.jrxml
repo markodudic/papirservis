@@ -26,6 +26,9 @@
 	<parameter name="sif_osnovna" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["2A"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("55")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[select 
 stranke.sif_str,
 stranke.naziv,
@@ -40,7 +43,8 @@ from
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
  	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke, 
+	      stranke.zacetek = zadnji.datum) stranke
+left join kupci on stranke.sif_kupca = kupci.sif_kupca, 
 	(SELECT osnovna.*
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna
  	group by sif_os) zadnji
@@ -49,6 +53,7 @@ from
 WHERE stranke.sif_os = osnovna.sif_os and
       ((stranke.sif_os LIKE $P{sif_osnovna}) OR ($P{sif_osnovna} = -1)) and
       (stranke.sif_os <> 0 or (stranke.sif_os = 0 and stranke.kol_os <> 0))
+and ((kupci.potnik = $P{sif_potnik}) OR ($P{sif_potnik} = -1))
 order by stranke.naziv]]></queryString>
 
 	<field name="sif_str" class="java.lang.Integer"/>

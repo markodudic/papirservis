@@ -35,12 +35,20 @@
 	<parameter name="naziv_osnovna" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vsa osnovna"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_potnik" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("55")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="naziv_potnik" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Vsi potniki"]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[select sum(stranke.kol_os) kol_os
 from (SELECT stranke.*
 	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
 	stranke.zacetek = zadnji.datum) stranke
+left join kupci on stranke.sif_kupca = kupci.sif_kupca
 where ((stranke.sif_os LIKE $P{sif_osnovna}) OR ($P{sif_osnovna} = -1))
+and ((kupci.potnik = $P{sif_potnik}) OR ($P{sif_potnik} = -1))
 order by stranke.sif_os]]></queryString>
 
 	<field name="kol_os" class="java.math.BigDecimal"/>
@@ -74,14 +82,13 @@ order by stranke.sif_os]]></queryString>
 			<band height="500"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="110"
-						y="78"
+						x="100"
+						y="117"
 						width="370"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="staticText"
-						positionType="Float"/>
+						key="staticText"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
@@ -91,7 +98,7 @@ order by stranke.sif_os]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="10"
-						y="129"
+						y="146"
 						width="90"
 						height="19"
 						forecolor="#000000"
@@ -107,13 +114,16 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="0"
-						y="159"
+						y="203"
 						width="535"
 						height="38"
 						backcolor="#FFFFFF"
 						key="subreport-1"/>
 					<subreportParameter  name="sif_osnovna">
 						<subreportParameterExpression><![CDATA[$P{sif_osnovna}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_potnik">
+						<subreportParameterExpression><![CDATA[$P{sif_potnik}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "osnovna_stranke_subreport0.jasper"]]></subreportExpression>
@@ -136,7 +146,7 @@ order by stranke.sif_os]]></queryString>
 				<staticText>
 					<reportElement
 						x="250"
-						y="129"
+						y="146"
 						width="60"
 						height="17"
 						forecolor="#000000"
@@ -151,7 +161,7 @@ order by stranke.sif_os]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="313"
-						y="129"
+						y="146"
 						width="217"
 						height="17"
 						forecolor="#000000"
@@ -167,7 +177,7 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="0"
-						y="198"
+						y="242"
 						width="534"
 						height="17"
 						forecolor="#000000"
@@ -180,7 +190,7 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="459"
-						y="198"
+						y="242"
 						width="75"
 						height="16"
 						forecolor="#000000"
@@ -197,7 +207,7 @@ order by stranke.sif_os]]></queryString>
 					<reportElement
 						mode="Opaque"
 						x="0"
-						y="198"
+						y="242"
 						width="459"
 						height="16"
 						forecolor="#000000"
@@ -210,6 +220,36 @@ order by stranke.sif_os]]></queryString>
 					</textElement>
 				<text><![CDATA[Skupaj]]></text>
 				</staticText>
+				<staticText>
+					<reportElement
+						x="250"
+						y="170"
+						width="60"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<text><![CDATA[Potnik:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="313"
+						y="170"
+						width="217"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{naziv_potnik}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
