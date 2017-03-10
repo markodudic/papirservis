@@ -116,6 +116,7 @@ StringBuffer material_sit_zaup = new StringBuffer();
 StringBuffer material_sit_smet = new StringBuffer();
 StringBuffer sif_ewc = new StringBuffer();
 StringBuffer arso_prenos = new StringBuffer();
+StringBuffer dovoljenje = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -1146,6 +1147,18 @@ stmtwrk_x_enota.close();
 stmtwrk_x_enota = null;
 x_enoteList.append("</select>");
 
+
+String sqlwrk_x_dovoljenje = "SELECT sif_enote, ewc FROM `dovoljenje`";
+Statement stmtwrk_x_dovoljenje = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_dovoljenje = stmtwrk_x_dovoljenje.executeQuery(sqlwrk_x_dovoljenje);
+	while (rswrk_x_dovoljenje.next()) {
+		dovoljenje.append(rswrk_x_dovoljenje.getString("sif_enote")+","+rswrk_x_dovoljenje.getString("ewc")+";");
+	}
+rswrk_x_dovoljenje.close();
+rswrk_x_dovoljenje = null;
+stmtwrk_x_dovoljenje.close();
+stmtwrk_x_dovoljenje = null;
+
 }catch (SQLException ex){
 	out.println(ex.toString());
 }
@@ -1176,7 +1189,7 @@ var material_sit_zaup = new Array();
 <%=material_sit_zaup%>
 var material_sit_smet = new Array();
 <%=material_sit_smet%>
-
+var dovoljenje = "<%=dovoljenje%>";
 
 function disableSome(EW_this){
 }
@@ -1204,6 +1217,12 @@ function updateKoda(EW_this){
 }
 
 function  EW_checkMyForm(EW_this) {
+	if (dovoljenje.indexOf(EW_this.x_enote_ll.value + "," + EW_this.x_ewc_ll.value) < 0) {
+		alert("EWC koda ne ustreza dovoljenju na tej kodi");	
+        return false; 
+    }
+
+	
 if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
             if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
                 return false; 

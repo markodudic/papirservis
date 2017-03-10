@@ -137,6 +137,7 @@ StringBuffer arso_aktivnost_pslj = new StringBuffer();
 StringBuffer arso_odp_embalaza_shema = new StringBuffer();
 StringBuffer arso_odp_dej_nastanka = new StringBuffer();
 StringBuffer arso_prenos = new StringBuffer();
+StringBuffer dovoljenje = new StringBuffer();
 
 // Open Connection to the database
 try{
@@ -624,7 +625,6 @@ try{
 		}else{
 			x_arso_prenos = "";
 		}		
-
 
 		String strsql = "insert into " + session.getAttribute("letoTabela") + " (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, ewc, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, bala, skupina, skupina_text, sif_enote, naziv_enote, opomba, stev_km_sled, stev_ur_sled, stev_km_norm, stev_ur_norm, obdelana, arso_odp_embalaza, arso_emb_st_enot, arso_odp_fiz_last, arso_odp_tip, arso_aktivnost_pslj, arso_prjm_status, arso_aktivnost_prjm, arso_odp_embalaza_shema, arso_odp_dej_nastanka, arso_prenos, uporabnik) values(";
 //		String strsql = "insert into dob (st_dob, pozicija, datum, sif_str, stranka, sif_kupca, sif_sof, sofer, sif_kam, kamion	, cena_km, cena_ura, c_km, c_ura, stev_km, stev_ur, stroski, dod_stroski, koda, kolicina, cena, kg_zaup, sit_zaup, kg_sort, sit_sort, sit_smet, skupina, skupina_text, opomba, stev_km_sled, stev_ur_sled, obdelana, uporabnik) values(" + x_st_dob  + ", ";
@@ -1394,6 +1394,20 @@ stmtwrk_x_enota.close();
 stmtwrk_x_enota = null;
 x_enoteList.append("</select>");
 
+
+String sqlwrk_x_dovoljenje = "SELECT sif_enote, ewc FROM `dovoljenje`";
+Statement stmtwrk_x_dovoljenje = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_dovoljenje = stmtwrk_x_dovoljenje.executeQuery(sqlwrk_x_dovoljenje);
+	while (rswrk_x_dovoljenje.next()) {
+		dovoljenje.append(rswrk_x_dovoljenje.getString("sif_enote")+","+rswrk_x_dovoljenje.getString("ewc")+";");
+	}
+rswrk_x_dovoljenje.close();
+rswrk_x_dovoljenje = null;
+stmtwrk_x_dovoljenje.close();
+stmtwrk_x_dovoljenje = null;
+
+
+
 }catch (SQLException ex){
 	out.println(ex.toString());
 }
@@ -1460,6 +1474,7 @@ var arso_odp_dej_nastanka = new Array();
 <%=arso_odp_dej_nastanka%>
 var arso_prenos = new Array();
 <%=arso_prenos%>
+var dovoljenje = "<%=dovoljenje%>";
 
 function updateSubfileds(EW_this){
 <%if(!a.equals("C")){%>
@@ -1534,6 +1549,11 @@ function updateKoda(EW_this){
 
 
 function  EW_checkMyForm(EW_this) {
+	if (dovoljenje.indexOf(EW_this.x_enote_ll.value + "," + EW_this.x_ewc_ll.value) < 0) {
+		alert("EWC koda ne ustreza dovoljenju na tej kodi");	
+        return false; 
+    }
+	
 if (EW_this.x_st_dob && !EW_checkinteger(EW_this.x_st_dob.value)) {
         if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "Napačna številka - st dob"))
             return false; 

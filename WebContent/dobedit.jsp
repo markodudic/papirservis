@@ -133,6 +133,7 @@ StringBuffer arso_aktivnost_prjm = new StringBuffer();
 StringBuffer arso_odp_embalaza_shema = new StringBuffer();
 StringBuffer arso_odp_dej_nastanka = new StringBuffer();
 StringBuffer arso_prenos = new StringBuffer();
+StringBuffer dovoljenje = new StringBuffer();
 
 String opomba = "/";
 
@@ -1393,6 +1394,17 @@ stmtwrk_x_enota = null;
 x_enoteList.append("</select>");
 
 
+String sqlwrk_x_dovoljenje = "SELECT sif_enote, ewc FROM `dovoljenje`";
+Statement stmtwrk_x_dovoljenje = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rswrk_x_dovoljenje = stmtwrk_x_dovoljenje.executeQuery(sqlwrk_x_dovoljenje);
+	while (rswrk_x_dovoljenje.next()) {
+		dovoljenje.append(rswrk_x_dovoljenje.getString("sif_enote")+","+rswrk_x_dovoljenje.getString("ewc")+";");
+	}
+rswrk_x_dovoljenje.close();
+rswrk_x_dovoljenje = null;
+stmtwrk_x_dovoljenje.close();
+stmtwrk_x_dovoljenje = null;
+
 }catch (SQLException ex){
 		out.println(ex.toString());
 }
@@ -1451,6 +1463,7 @@ var arso_odp_dej_nastanka = new Array();
 <%=arso_odp_dej_nastanka%>
 var arso_prenos = new Array();
 <%=arso_prenos%>
+var dovoljenje = "<%=dovoljenje%>";
 
 function updateSubfileds(EW_this){
 	document.dobedit.x_c_km.value = c_km[document.dobedit.x_sif_kam.value];
@@ -1526,8 +1539,14 @@ function disableSome(){
 	//document.dobedit.x_sif_kupca_ll.disabled=true;
 	//document.dobedit.x_skupina_ll.disabled=true;
 }
+
 function  EW_checkMyForm(EW_this) {
-if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
+	if (dovoljenje.indexOf(EW_this.x_enote_ll.value + "," + EW_this.x_ewc_ll.value) < 0) {
+		alert("EWC koda ne ustreza dovoljenju na tej kodi");	
+        return false; 
+    }
+
+	if (EW_this.x_st_dob && !EW_hasValue(EW_this.x_st_dob, "TEXT" )) {
             if (!EW_onError(EW_this, EW_this.x_st_dob, "TEXT", "NapaÄŤna Ĺˇtevilka - st dob"))
                 return false; 
         }
