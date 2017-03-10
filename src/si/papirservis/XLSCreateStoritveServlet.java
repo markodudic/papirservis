@@ -34,13 +34,13 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 								"Datum opr. storitve", "Rok plačila", "Stroškovno mesto", "Odvoz cena", 
 								"Uničevanje kol.", "Uničevanje cena", "Uničevanje vrednost", 
 								"Odstrani kol.", "Odstrani cena", "Odstrani vrednost", 
-								"Najem kol.", "Najem cena", "Najem vrednost" 
+								"Najem kol.", "Najem vrednost" 
 								};
 	private static String[] rowTypes = {"S", "S", "S", "S", "S", 
 								"S", "S", "S", "D", 
 								"D", "D", "D", 
 								"D", "D", "D", 
-								"D", "D", "D"
+								"D", "D"
 								};
 	 
 	/*
@@ -111,19 +111,17 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 						  "sum(dob_odstrani.`kolicina`) AS odstrani_kolicina,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) / sum(dob_odstrani.`kolicina`) AS odstrani_cena,  " +
 						  "SUM(dob_odstrani.`kolicina` * dob_odstrani.`sit_smet`) AS odstrani_vrednost, " +
-						  "if(najam.najem = 'D', najam.stranke_kom, 0) as najem_kolicina, " +
-						  "if(najam.najem = 'D', najam.stranke_najem, 0) as najem_cena, " +
-						  "if(najam.najem = 'D', najam.stranke_kom * najam.stranke_najem, 0) as najem_vrednost " +
+						  "stranke_kom as najem_kolicina, " +
+						  "stranke_vrednost as najem_vrednost " +
 					"FROM kupci, skup, enote, dob"+leto+" dob_unici, dob"+leto+" dob_odstrani, (SELECT st_dob, pozicija, max(zacetek) datum  " +
 																		"FROM dob"+leto+" dob  " +
 																		"WHERE obdelana > 0 " +
 																		"	AND dob.datum >= CAST('"+datum_od+"' AS DATE)  " +
 																		"	AND dob.datum <= CAST('"+datum_do+"' AS DATE) " +
 																		"group by st_dob, pozicija) zadnji, " +
-					 			"(SELECT stranke.sif_kupca, stranke.najem, " +
-								"    			SUM(stranke.kol_os) as stranke_kom, " +
-								"				SUM(stranke.cena_naj) as stranke_najem, " +
-								"				SUM(stranke.kol_os * stranke.cena_naj) as stranke_vrednost " +
+					 			"(SELECT stranke.sif_kupca, " +
+								"    			SUM(if(stranke.najem = 'D' OR stranke.najem = 'X', stranke.kol_os, 0)) as stranke_kom, " +
+								"				SUM(if(stranke.najem = 'D' OR stranke.najem = 'X', stranke.cena_naj, 0)) as stranke_vrednost " +
 								"			FROM (SELECT stranke.* " +
 								"				FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke " +
 								"			 	group by sif_str ) zadnji " +
@@ -192,7 +190,7 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 	    							  rs.getString("rok_placila"), rs.getString("stroskovno_mesto"), rs.getString("datum_storitve"), rs.getString("odvoz_cena"), 
 	    							  rs.getString("unici_kolicina"), rs.getString("unici_cena"), rs.getString("unici_vrednost"), 
 	    							  rs.getString("odstrani_kolicina"), rs.getString("odstrani_cena"), rs.getString("odstrani_vrednost"), 
-	    							  rs.getString("najem_kolicina"), rs.getString("najem_cena"), rs.getString("najem_vrednost")};
+	    							  rs.getString("najem_kolicina"), rs.getString("najem_vrednost")};
 
 	    		createRow(vrstica);
 	    	}

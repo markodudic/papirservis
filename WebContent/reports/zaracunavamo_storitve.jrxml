@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2203570"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2000021"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./images/ps.jpg"]]></defaultValueExpression>
@@ -33,10 +33,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2017-01-11"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-02-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2017-01-11"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-02-28"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>
@@ -51,7 +51,7 @@
 		<defaultValueExpression ><![CDATA["Vse enote"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("99")]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="naziv_skupine" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse skupine"]]></defaultValueExpression>
