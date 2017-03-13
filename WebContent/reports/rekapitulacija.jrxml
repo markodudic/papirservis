@@ -24,7 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["6001469"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["1044534"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="picture" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./images/ps.jpg"]]></defaultValueExpression>
@@ -33,10 +33,10 @@
 		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2016-2-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-2-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2016-4-11"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-4-11"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["1.1.2007"]]></defaultValueExpression>

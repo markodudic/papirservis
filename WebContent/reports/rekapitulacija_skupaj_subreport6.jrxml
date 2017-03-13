@@ -33,7 +33,7 @@
 		<defaultValueExpression ><![CDATA["2009-11-30"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2009"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[Select 	A.`dob_st_dob` AS dob_st_dob, 
 	A.`dob_pozicija` AS dob_pozicija, 
@@ -68,7 +68,7 @@ from (
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena,  max(cenastrprod.cena) as strcenaprod
 		from
 		((select max(cenastr.veljavnost) v, max(cenastr.id) i,  max(cenastrprod.veljavnost) vv, max(cenastrprod.id) ii, dob.*
-		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca
+		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca, dob.skupina
 			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 	         					from $P!{dobLeto} dob
 					           where dob.sif_kupca = $P{sif_str}  and
@@ -79,7 +79,8 @@ from (
 		      		dob.pozicija = zadnji.pozicija and
 		      		dob.zacetek = zadnji.datum ) dob 
 		        	left join cenastr
-	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
+	        	        	on (dob.skupina = cenastr.skupina and
+				dob.sif_kupca = cenastr.sif_kupca and
 		    	     cenastr.material_koda = dob.koda and
 		     	     cenastr.veljavnost <= dob.datum)
 		        	left join cenastrprod
