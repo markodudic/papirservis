@@ -203,7 +203,7 @@ if(strankeQueryFilter.length() > 0 || enoteQueryFilter.length() > 0){
 String strsql = "SELECT  cenastrprod.*, skup.tekst, enote.naziv FROM cenastrprod left join enote on (cenastrprod.sif_enote = enote.sif_enote), kupci, skup ";
 
 if (searchwhere1 != null && searchwhere1.length() > 0)
-	strsql += " , (SELECT sif_kupca, material_koda, max(zacetek) datum FROM `cenastrprod` group by sif_kupca, material_koda) zadnji";
+	strsql += " , (SELECT sif_kupca, material_koda, max(zacetek) datum FROM `cenastrprod` group by sif_kupca, material_koda, sif_enote) zadnji";
 
 whereClause = "  cenastrprod.sif_kupca = kupci.sif_kupca and kupci.skupina = skup.skupina  "  + subQuery ;
 if (DefaultFilter.length() > 0) {
