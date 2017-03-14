@@ -670,29 +670,29 @@ group by BBB.tar_st, BBB.naziv
 						mode="Opaque"
 						x="0"
 						y="12"
-						width="480"
+						width="465"
 						height="12"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="element-102"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<text><![CDATA[ZNESEK]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="480"
+						x="465"
 						y="12"
-						width="54"
+						width="69"
 						height="12"
 						backcolor="#CCCCCC"
 						key="textField-15"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="7" isBold="true" pdfEncoding ="Cp1250"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[new java.text.DecimalFormat("#,##0.00").format($V{ZNESEK})]]></textFieldExpression>
 				</textField>
@@ -728,7 +728,7 @@ group by BBB.tar_st, BBB.naziv
 						x="534"
 						y="0"
 						width="0"
-						height="22"
+						height="24"
 						key="line-22"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>

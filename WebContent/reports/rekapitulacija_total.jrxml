@@ -819,6 +819,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
 					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
+					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="sum_nab" toVariable="sum_nab"/>
 					<returnValue subreportVariable="sum_prod" toVariable="sum_prod"/>
@@ -875,6 +881,12 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_enote">
+						<subreportParameterExpression><![CDATA[$P{sif_enote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_skupine">
+						<subreportParameterExpression><![CDATA[$P{sif_skupine}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="skupaj" toVariable="skupaj"/>

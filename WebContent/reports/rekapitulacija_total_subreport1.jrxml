@@ -57,7 +57,7 @@ from (
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as cena,  max(cenastrprod.cena) as strcenaprod
 		from
 		((select max(cenastr.veljavnost) v, max(cenastr.id) i,  max(cenastrprod.veljavnost) vv, max(cenastrprod.id) ii, dob.*
-		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca, dob.skupina
+		from ((select dob.st_dob, dob.pozicija, dob.datum, dob.koda, dob.kolicina, dob.sif_str, dob.sif_kupca, dob.skupina, dob.sif_enote
 			FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
          					from $P!{dobLeto} dob
 				           	where dob.sif_kupca = $P{sif_str}  and
@@ -75,7 +75,8 @@ from (
 		    	     cenastr.material_koda = dob.koda and
 		     	     cenastr.veljavnost <= dob.datum)
 		        	left join cenastrprod
-	        	        	on (dob.sif_kupca = cenastrprod.sif_kupca and
+	        	        	on (dob.sif_enote = cenastrprod.sif_enote and
+					dob.sif_kupca = cenastrprod.sif_kupca and
 		    	     cenastrprod.material_koda = dob.koda and
 		     	     cenastrprod.veljavnost <= dob.datum))
 		group by dob.st_dob, dob.pozicija) c
