@@ -36,7 +36,7 @@
 		<defaultValueExpression ><![CDATA[new Integer("99")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["-1"]]></defaultValueExpression>
@@ -232,11 +232,13 @@ from (
 		      		dob.pozicija = zadnji.pozicija and
 		      		dob.zacetek = zadnji.datum ) dob 
 		        	left join cenastr
-	        	        	on (dob.sif_kupca = cenastr.sif_kupca and
+	        	        	on (dob.skupina = cenastr.skupina and
+				dob.sif_kupca = cenastr.sif_kupca and
 		    	     cenastr.material_koda = dob.koda and
 		     	     cenastr.veljavnost <= dob.datum)
 		        	left join cenastrprod
-	        	        	on (dob.sif_kupca = cenastrprod.sif_kupca and
+	        	        	on (dob.sif_enote = cenastrprod.sif_enote and
+					dob.sif_kupca = cenastrprod.sif_kupca and
 		    	     cenastrprod.material_koda = dob.koda and
 		     	     cenastrprod.veljavnost <= dob.datum))
 		group by dob.st_dob, dob.pozicija) c
@@ -333,7 +335,8 @@ FROM (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
 	 	group by sif_str ) zadnji
 		WHERE stranke.sif_str = zadnji.sif_str and
 		      stranke.zacetek = zadnji.datum) stranke
-	WHERE ((stranke.najem = "D") 
+	WHERE stranke.sif_kupca = $P{sif_str} and
+	((stranke.najem = "D") 
 	and 
      	(stranke.sif_kupca IN (select sif_kupca 
 			from $P!{dobLeto} dob 
@@ -345,7 +348,8 @@ FROM (SELECT stranke.*
  	group by sif_str ) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
 	      stranke.zacetek = zadnji.datum) stranke
-WHERE stranke.najem = "X" and
+WHERE stranke.sif_kupca = $P{sif_str} and
+	stranke.najem = "X" and
       NOT EXISTS (select sif_kupca 
 			from $P!{dobLeto} dob 
 			where dob.sif_str = stranke.sif_str and 
@@ -378,7 +382,7 @@ group by main.skupina, main.skupina_text]]></queryString>
 	<field name="dob_stroski" class="java.math.BigDecimal"/>
 	<field name="dob_prevoz" class="java.lang.Double"/>
 	<field name="dob_stev_km" class="java.math.BigDecimal"/>
-	<field name="ravnanje" class="java.lang.Boolean"/>
+	<field name="ravnanje" class="java.math.BigDecimal"/>
 	<field name="prevoz_kamion" class="java.math.BigDecimal"/>
 	<field name="prevoz_material" class="java.math.BigDecimal"/>
 	<field name="prevoz1" class="java.lang.Double"/>
@@ -509,7 +513,7 @@ group by main.skupina, main.skupina_text]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ravnanje}.booleanValue() ? $F{dob_ravnanje} : new Double ("0.00")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ravnanje}.intValue()>0 ? $F{dob_ravnanje} : new Double ("0.00")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -606,7 +610,7 @@ group by main.skupina, main.skupina_text]]></queryString>
 						mode="Opaque"
 						x="505"
 						y="13"
-						width="24"
+						width="60"
 						height="16"
 						backcolor="#FFFFFF"
 						key="textField-15"/>
@@ -625,7 +629,7 @@ $F{dob_cena}.doubleValue() +
 ($V{COLUMN_COUNT}.doubleValue()/1 == 1 ? $F{najem}.doubleValue() : 0.0) +
 $F{dob_zaup}.doubleValue() +
 $F{dob_smet}.doubleValue() +
-($F{ravnanje}.booleanValue() ? $F{dob_ravnanje}.doubleValue() : 0.0) +
+($F{ravnanje}.intValue()>0 ? $F{dob_ravnanje}.doubleValue() : 0.0) +
 $F{dob_prevoz}.doubleValue())]]></textFieldExpression>
 				</textField>
 			</band>

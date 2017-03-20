@@ -153,6 +153,7 @@ if ((meni & ewCalculations) == ewCalculations){
 			<% if (Integer.parseInt(reports) == 1) { %>	
 				<tr class="ewTableHeaderMeni"><td nowrap><span class="jspmaker">KALKULACIJE</span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=8">Rekapitulacija</a></span></td></tr>
+				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=32">Rekapitulacija 2</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=14">Rekapitulacija skupaj</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=31">Rekapitulacija skupaj 2</a></span></td></tr>
 				<tr class="ewTableHeader"><td nowrap><span class="jspmakerReport"><a href="porocila.jsp?report=18">Rekapitulacija neodvoz</a></span></td></tr>

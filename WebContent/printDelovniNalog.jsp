@@ -98,6 +98,31 @@ function disableSome(EW_this){
 		x_sif_enote = "-1";
 	}
 		
+    String x_sif_str = request.getParameter("x_sif_str");
+	if ((x_sif_str != null) && (x_sif_str != ""))
+	{
+		String naziv_str_lok = "";
+		String sqlwrk_str_lok = "SELECT naziv FROM stranke where sif_str = " + x_sif_str;
+		Statement stmtwrk_str_lok = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_str_lok = stmtwrk_str_lok.executeQuery(sqlwrk_str_lok);
+		
+		while (rswrk_str_lok.next()) {
+			naziv_str_lok = rswrk_str_lok.getString(1);
+		}
+		rswrk_str_lok.close();
+		rswrk_str_lok = null;
+		stmtwrk_str_lok.close();
+		stmtwrk_str_lok = null;
+
+		parameters.put("sif_str_lok", new Integer(x_sif_str));
+		parameters.put("naziv_str_lok", naziv_str_lok);
+	}
+	else
+	{
+		parameters.put("sif_str_lok", new Integer("-1"));
+		parameters.put("naziv_str_lok", "Vse lokacije");
+		x_sif_str = "-1";
+	}
 
     String x_sif_skupine = request.getParameter("x_sif_skupine");
 	if ((x_sif_skupine != null) && (x_sif_skupine != ""))

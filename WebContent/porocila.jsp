@@ -15,6 +15,7 @@ return;
 <script language="JavaScript" src="papirservis.js"></script>
 
 <script language="JavaScript" >
+
 function disableSome(EW_this){
 }
 
@@ -92,7 +93,11 @@ function updateRacun(){
 	String userID = (String)session.getAttribute("papirservis1_status_UserID");
 	String enotaID = (String)session.getAttribute("papirservis1_status_Enota");
 
-
+	StringBuffer sif_kupac2 = new StringBuffer();
+	StringBuffer sif_kupac = new StringBuffer();
+	StringBuffer x_sif_strList = null;
+	
+	
 	String[] reportsList = {"/reports/dobavnica", 
 							"/reports/dobavnica_bianco",
 							"/reports/materiali",
@@ -127,8 +132,9 @@ function updateRacun(){
 							"/reports/embalaznina_porocila_new",
 							//30
 							"/reports/embalaznina_rekapitulacija_new",
-							"/reports/rekapitulacija_total_2"
-							};
+							"/reports/rekapitulacija_total_2",
+							"/reports/rekapitulacija_skupaj_2"
+						};
 	
 	int reportID = (new Integer(request.getParameter("report"))).intValue();
 	String report = reportsList[reportID];
@@ -183,6 +189,66 @@ function updateRacun(){
 		x_sif_kupcaList.append("</select>");
 	}
 
+	if ((reportID == 32))
+	{
+		x_sif_kupcaList = new StringBuffer("<select onchange = \"updateDropDowns(this);\" name=\"x_sif_kupca\" id=\"x_sif_kupca\"><option value=\"\">Izberi</option>");
+		String sqlwrk_x_sif_kupca = "SELECT distinct sif_kupca, naziv " +
+									"FROM kupci " +
+									"ORDER BY `naziv` ASC";
+		
+		Statement stmtwrk_x_sif_kupca = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_sif_kupca = stmtwrk_x_sif_kupca.executeQuery(sqlwrk_x_sif_kupca);
+		
+		int rowcntwrk_x_sif_kupca = 0;
+		while (rswrk_x_sif_kupca.next()) {
+			String tmpSifra = rswrk_x_sif_kupca.getString("sif_kupca");
+			x_sif_kupcaList.append("<option value=\"").append(tmpSifra).append("\"");
+			String tmpValue_x_sif_kupca = "";
+			String tmpNaziv = rswrk_x_sif_kupca.getString("naziv");
+			
+			sif_kupac.append("sif_kupac2[").append(rowcntwrk_x_sif_kupca).append("]=").append("'"+rswrk_x_sif_kupca.getString("sif_kupca")+"'").append(";");
+
+			
+			if (tmpNaziv!= null) tmpValue_x_sif_kupca = tmpNaziv;
+			x_sif_kupcaList.append(">").append(tmpValue_x_sif_kupca).append("</option>");
+			rowcntwrk_x_sif_kupca++;
+		}
+		rswrk_x_sif_kupca.close();
+		rswrk_x_sif_kupca = null;
+		stmtwrk_x_sif_kupca.close();
+		stmtwrk_x_sif_kupca = null;
+		x_sif_kupcaList.append("</select>");
+		
+		x_sif_strList = new StringBuffer("<select name=\"x_sif_str\" STYLE=\"font-family : monospace;  font-size : medium\"><option value=\"\">Izberi</option>");
+		String sqlwrk_x_sif_str = "SELECT sif_str, naziv, sif_kupca " +
+			"FROM stranke " +
+			" ORDER BY naziv ASC";
+
+		Statement stmtwrk_x_sif_str = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet rswrk_x_sif_str = stmtwrk_x_sif_str.executeQuery(sqlwrk_x_sif_str);
+			int rowcntwrk_x_sif_str = 0;
+			while (rswrk_x_sif_str.next()) {
+				//x_sif_strList += "<option value=\"" + HTMLEncode(rswrk_x_sif_str.getString("sif_str")) + "\"";
+				String tmpSif = rswrk_x_sif_str.getString("sif_str");
+				x_sif_strList.append("<option value=\"").append(tmpSif).append("\"");
+				String tmpValue_x_sif_str = "";
+				String tmpNaziv = rswrk_x_sif_str.getString("naziv");
+				
+				sif_kupac.append("sif_kupac[").append(tmpSif).append("]=").append("'"+rswrk_x_sif_str.getString("sif_kupca")+"'").append(";");
+
+				if (tmpNaziv!= null) tmpValue_x_sif_str = tmpNaziv;
+				x_sif_strList.append(">").append(tmpValue_x_sif_str).append("</option>");
+				rowcntwrk_x_sif_str++;
+			}
+		rswrk_x_sif_str.close();
+		rswrk_x_sif_str = null;
+		stmtwrk_x_sif_str.close();
+		stmtwrk_x_sif_str = null;
+		x_sif_strList.append("</select>");
+		
+	}
+
+	
 	StringBuffer x_sif_zavezanciList = null;
 	
 	if ((reportID == 25) || (reportID == 28))
@@ -258,7 +324,7 @@ function updateRacun(){
 	
 	if ((reportID == 2) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 11) || 
 		 (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18) || 
-		 (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31))
+		 (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31) || (reportID == 32))
 	{
 		x_sif_enoteList = new StringBuffer("<select name=\"x_sif_enote\" id=\"x_sif_enote\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_enote = "SELECT * FROM enote ORDER BY `naziv` ASC";
@@ -287,7 +353,7 @@ function updateRacun(){
 
 	if ((reportID == 2) || (reportID == 4) || (reportID == 11) || (reportID == 12) || 
 		 (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18) || 
-		 (reportID == 22) || (reportID == 24) || (reportID == 31))
+		 (reportID == 22) || (reportID == 24) || (reportID == 31) || (reportID == 32))
 	{ 
 		x_sif_skupineList = new StringBuffer("<select name=\"x_sif_skupine\" id=\"x_sif_skupine\"><option value=\"\">Izberi</option>");
 		String sqlwrk_x_sif_skupine = "SELECT * FROM skup ORDER BY `tekst` ASC";
@@ -459,13 +525,35 @@ function updateRacun(){
 		stmtwrk_x_sif_vozniki = null;
 		x_sif_voznikiList.append("</select>");
 	}
-	
-	
 %>
+	
+<script language="JavaScript">		
 
-<script language="JavaScript">
+	var sif_kupac2 = new Array();
+	<%=sif_kupac2%>
+
+	var sif_kupac = new Array();
+	<%=sif_kupac%>
+
 	var zavezanci_interval = new Array();
 	<%=zavezanci_interval%>
+	
+	function updateDropDowns(EW_this){
+		document.porocila.x_sif_str[0].selected = true;
+		
+		for (i=1; i<document.porocila.x_sif_str.length; i++) {
+			if (sif_kupac[document.porocila.x_sif_str[i].value] != sif_kupac2[document.porocila.x_sif_kupca.selectedIndex-1]) {
+				document.porocila.x_sif_str[i].style.display = "none";
+			}
+			else {
+				document.porocila.x_sif_str[i].style.display = "block";
+			}
+		
+		}
+		
+		
+	}	
+	
 </script>
 
 <p><span class="jspmaker">Poro&#269;ila: izbor parametrov</span></p>
@@ -491,10 +579,16 @@ function updateRacun(){
 		<td class="ewTableAltRow"><%out.println(x_sif_dobList);%>&nbsp;</td>
 	</tr>
 	<%}%>
-	<%if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15) || (reportID == 31)) {%>
+	<%if ((reportID == 4) || (reportID == 7) || (reportID == 8) || (reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 15) || (reportID == 31) || (reportID == 32)) {%>
 	<tr>
 		<td class="ewTableHeader">&#352;ifra kupca&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_kupcaList);%>&nbsp;</td>
+	</tr>
+	<%}%>
+	<%if ((reportID == 32)) {%>
+	<tr>
+		<td class="ewTableHeader">Šifra stranke&nbsp;</td>
+		<td class="ewTableAltRow"><%out.println(x_sif_strList);%>&nbsp;</td>
 	</tr>
 	<%}%>
 	<%if ((reportID == 25) || (reportID == 26) || (reportID == 27) || (reportID == 28) || (reportID == 29) || (reportID == 30)) {%>
@@ -511,7 +605,7 @@ function updateRacun(){
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 4) || (reportID == 6) || (reportID == 7) || (reportID == 11) || 
 			(reportID == 12) || (reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18)
-			 || (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
+			 || (reportID == 21) || (reportID == 22) || (reportID == 24) || (reportID == 31) || (reportID == 32)) {%>
 	<tr>
 		<td class="ewTableHeader">Enota&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_enoteList);%>&nbsp;</td>
@@ -519,7 +613,7 @@ function updateRacun(){
 	<%}%>
 	<%if ((reportID == 2) || (reportID == 4) || (reportID == 11) || (reportID == 12) || 
 			(reportID == 13) || (reportID == 19) || (reportID == 14) || (reportID == 15) || (reportID == 18)
-			 || (reportID == 22) || (reportID == 24) || (reportID == 31)) {%>
+			 || (reportID == 22) || (reportID == 24) || (reportID == 31) || (reportID == 32)) {%>
 	<tr>
 		<td class="ewTableHeader">Skupina&nbsp;</td>
 		<td class="ewTableAltRow"><%out.println(x_sif_skupineList);%>&nbsp;
