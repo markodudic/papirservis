@@ -41,6 +41,9 @@
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[Select 	A.dob_koda AS dob_koda, 
 	A.dob_material as dob_material,
 	sum(IFNULL(A.`kolicina`,0)) AS dob_kolicina,
@@ -64,6 +67,7 @@ from (
 	dob.kolicina,
 	dob.`strcena`,
 	dob.`strcenaprod`,
+	dob.sif_str,
 	(select max(zacetek) as datum from materiali where veljavnost <= dob.datum and dob.`koda` = materiali.`koda`)  zacetek
 	FROM 
 		(select c.st_dob, c.pozicija, c.datum, c.koda, c.kolicina, c.sif_str,  max(cenastr.cena) as strcena,  max(cenastrprod.cena) as strcenaprod
@@ -103,7 +107,12 @@ from (
 		(SELECT materiali.*
 		FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
 		WHERE materiali.koda = zadnji.koda and
-	      		materiali.zacetek = zadnji.datum) materiali on (dob.`koda` = materiali.`koda`)) AS A
+	      		materiali.zacetek = zadnji.datum) materiali on (dob.`koda` = materiali.`koda`)) AS A,
+	(select stranke.sif_str 
+	from stranke 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as str
+	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija
+WHERE A.sif_str = lokacija.sif_str
 GROUP BY dob_koda, pc_nizka
 ORDER BY dob_koda]]></queryString>
 

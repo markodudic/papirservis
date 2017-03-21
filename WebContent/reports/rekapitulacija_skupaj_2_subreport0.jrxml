@@ -41,6 +41,9 @@
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`st_dob` AS dob_st_dob, 
 dob.`datum` AS dob_datum, 
@@ -68,8 +71,12 @@ from  (SELECT stranke.*
 		((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 		dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum)  dob
-WHERE dob.sif_str = stranke.sif_str
+	      dob.zacetek = zadnji.datum)  dob,
+	(select stranke.sif_str 
+	from stranke 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as str
+	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija
+WHERE dob.sif_str = stranke.sif_str and dob.sif_str = lokacija.sif_str
 ORDER BY dob.st_dob]]></queryString>
 
 	<field name="dob_st_dob" class="java.lang.Integer"/>

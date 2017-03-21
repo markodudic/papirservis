@@ -41,6 +41,9 @@
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 dob.`st_dob` AS dob_st_dob, 
 dob.`pozicija` AS dob_pozicija, 
@@ -124,8 +127,13 @@ WHERE stranke.sif_kupca = $P{sif_str}  and
 			from $P!{dobLeto} dob 
 			where dob.sif_str = stranke.sif_str and 
 				datum >= CAST($P{od_datum} AS DATE) 
-				AND datum <= CAST($P{do_datum} AS DATE))) as c
-WHERE ((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+				AND datum <= CAST($P{do_datum} AS DATE))) as c,
+	(select stranke.sif_str 
+	from stranke 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as str
+	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija
+WHERE dob.sif_str = lokacija.sif_str and 
+	((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
 	((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 	dob.`koda` = materiali.`koda` and
 	dob.skupina = skup.skupina and

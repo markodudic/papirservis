@@ -41,6 +41,9 @@
 	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
 	<queryString><![CDATA[SELECT 
 SUM(dob.`stev_km`) AS dob_stev_km, 
 SUM(dob.`stev_ur`) AS dob_stev_ur, 
@@ -56,7 +59,12 @@ from (SELECT dob.*
 		((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 		dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
-	      dob.zacetek = zadnji.datum)  dob]]></queryString>
+	      dob.zacetek = zadnji.datum)  dob,
+	(select stranke.sif_str 
+	from stranke 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as str
+	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija
+WHERE dob.sif_str = lokacija.sif_str]]></queryString>
 
 	<field name="dob_stev_km" class="java.math.BigDecimal"/>
 	<field name="dob_stev_ur" class="java.lang.Double"/>
