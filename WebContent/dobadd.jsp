@@ -1148,11 +1148,12 @@ stmtwrk_x_enota = null;
 x_enoteList.append("</select>");
 
 
-String sqlwrk_x_dovoljenje = "SELECT sif_enote, ewc FROM `dovoljenje`";
+String sqlwrk_x_dovoljenje = "SELECT enote.sif_enote, if(ewc_kontrola=0, 0, ifnull(ewc,0)) ewc FROM dovoljenje right join enote on (dovoljenje.sif_enote = enote.sif_enote)";
 Statement stmtwrk_x_dovoljenje = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 ResultSet rswrk_x_dovoljenje = stmtwrk_x_dovoljenje.executeQuery(sqlwrk_x_dovoljenje);
+	dovoljenje.append(";");
 	while (rswrk_x_dovoljenje.next()) {
-		dovoljenje.append(rswrk_x_dovoljenje.getString("sif_enote")+","+rswrk_x_dovoljenje.getString("ewc")+";");
+		dovoljenje.append(rswrk_x_dovoljenje.getString("sif_enote")+";"+rswrk_x_dovoljenje.getString("ewc")+";");
 	}
 rswrk_x_dovoljenje.close();
 rswrk_x_dovoljenje = null;
@@ -1217,7 +1218,8 @@ function updateKoda(EW_this){
 }
 
 function  EW_checkMyForm(EW_this) {
-	if (dovoljenje.indexOf(EW_this.x_enote_ll.value + "," + EW_this.x_ewc_ll.value) < 0) {
+	if ((dovoljenje.indexOf(";" + EW_this.x_enote_ll.value + ";" + EW_this.x_ewc_ll.value + ";") < 0) &&
+		(dovoljenje.indexOf(";" + EW_this.x_enote_ll.value + ";0;") < 0))	{
 		alert("EWC koda ne ustreza dovoljenju na tej kodi");	
         return false; 
     }
