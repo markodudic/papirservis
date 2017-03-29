@@ -93,10 +93,11 @@ FROM
 	      dob.zacetek = zadnji.datum)  dob
 	left join skup on (skup.skupina = dob.skupina)
 	left join (SELECT stranke.*
-		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 		group by sif_str ) zadnji
+		FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke
+		WHERE veljavnost <= CAST($P{do_datum} AS DATE) 
+		group by sif_str ) zadnji
 		WHERE stranke.sif_str = zadnji.sif_str and
-	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str)
+			  stranke.veljavnost = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str)
 	left join okolje on (okolje.koda = dob.ewc),
   	kupci
 WHERE dob.`koda` = materiali.`koda` and

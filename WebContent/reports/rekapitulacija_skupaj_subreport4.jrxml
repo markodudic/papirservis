@@ -56,17 +56,19 @@ from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os
 	left join
 	(SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem, stranke.sif_os
 	FROM (SELECT stranke.*
-		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+		FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke
+		WHERE veljavnost <= CAST($P{do_datum} AS DATE) 
 		group by sif_str ) zadnji
 		WHERE stranke.sif_str = zadnji.sif_str and
-			  stranke.zacetek = zadnji.datum) stranke
+			  stranke.veljavnost = zadnji.datum) stranke
 	WHERE stranke.sif_kupca = $P{sif_str}  and
 		((stranke.najem = "D") 
 		and 
 			(stranke.sif_kupca IN (select sif_kupca 
 				from $P!{dobLeto} dob 
 				where datum >= CAST($P{od_datum} AS DATE) 
-				AND datum <= CAST($P{do_datum} AS DATE))))) as anajem
+				AND datum <= CAST($P{do_datum} AS DATE))))
+		group by stranke.sif_os) as anajem
 	on (anajem.sif_os = osnovna.sif_os)
 	left join
 	(SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz, stranke.sif_os 

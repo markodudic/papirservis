@@ -78,7 +78,7 @@ FROM
      kupci left join uporabniki on (potnik = sif_upor),
       (select stranke.sif_str, stranke.sif_kupca, stranke.naziv from stranke where sif_str = $P{sif_str_lok} or ($P{sif_str_lok} = -1)) as lokacija
 WHERE 
-     kupci.`sif_kupca` = 2203570 and
+     kupci.`sif_kupca` = $P{sif_str} and
      (kupci.sif_kupca = lokacija.sif_kupca)]]></queryString>
 
 	<field name="sif_kupca" class="java.lang.String"/>

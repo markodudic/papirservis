@@ -69,7 +69,7 @@ materiali.prevoz1,
 materiali.prevoz2,
 materiali.prevoz3,
 materiali.prevoz4,
-IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem,
+(IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0))* PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as najem,
 stranke.obracun_km
 FROM kupci, skup,
     (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
@@ -86,15 +86,17 @@ FROM kupci, skup,
 		      dob.zacetek = zadnji.datum)  dob
     left join enote on (dob.sif_enote = enote.sif_enote)
     left join (SELECT stranke.*
-		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 		group by sif_str ) zadnji
-		WHERE stranke.sif_kupca = $P{sif_str} and
-			stranke.sif_str = zadnji.sif_str and
-	      		stranke.zacetek = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),
+		FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke
+		WHERE veljavnost <= CAST($P{do_datum} AS DATE) 
+		group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+			  stranke.veljavnost = zadnji.datum) stranke on (stranke.sif_str = dob.sif_str),
     (SELECT dob.st_dob, dob.c_km, dob.stev_km, dob.c_ura, dob.stev_ur
 		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
 			FROM $P!{dobLeto} dob 
-			WHERE dob.sif_kupca = $P{sif_str} and 
+			WHERE ((dob.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) and
+				((dob.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
+				dob.sif_kupca = $P{sif_str} and 
 	      			pozicija = 1
 				AND dob.datum >= CAST($P{od_datum} AS DATE) 
 				AND dob.datum <= CAST($P{do_datum} AS DATE)
@@ -108,10 +110,11 @@ FROM kupci, skup,
 	      materiali.zacetek = zadnji.datum) materiali,
 (SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem 
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 	group by sif_str ) zadnji
-	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
+		FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke
+		WHERE veljavnost <= CAST($P{do_datum} AS DATE) 
+		group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+			  stranke.veljavnost = zadnji.datum) stranke
 WHERE stranke.sif_kupca = $P{sif_str} and
 	((stranke.najem = "D") 
 	and 
@@ -121,10 +124,11 @@ WHERE stranke.sif_kupca = $P{sif_str} and
 			AND datum <= CAST($P{do_datum} AS DATE))))) as b,
 (SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz 
 FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 	group by sif_str ) zadnji
-	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
+		FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke
+		WHERE veljavnost <= CAST($P{do_datum} AS DATE) 
+		group by sif_str ) zadnji
+		WHERE stranke.sif_str = zadnji.sif_str and
+			  stranke.veljavnost = zadnji.datum) stranke
 WHERE stranke.sif_kupca = $P{sif_str} and
 	stranke.najem = "X" and
       NOT EXISTS (select sif_kupca 
