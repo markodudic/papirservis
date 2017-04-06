@@ -27,13 +27,16 @@
 		<defaultValueExpression ><![CDATA["2203840"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2016-1-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-2-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2016-9-30"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-2-28"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["dob2016"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("1068")]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT osnovna.sif_os as sif_os,
 	osnovna.osnovna as osnovna,
@@ -41,14 +44,17 @@
 	osnovna.cena_am as cena_am,
 	IFNULL(anajem.najem, 0) + IFNULL(aneodvoz.neodvoz, 0) as najem,
 	PERIOD_DIFF(DATE_FORMAT(DATE_ADD(CAST($P{do_datum} AS DATE), INTERVAL 1 DAY),'%Y%m'), DATE_FORMAT(CAST($P{od_datum} AS DATE),'%Y%m')) as mesecev
-from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost
-	FROM stranke ,  (SELECT sif_str, max(veljavnost) veljavnost
+from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os, stranke.veljavnost, stranke.arso_odp_loc_id
+	FROM stranke ,  
+	(SELECT sif_str, max(veljavnost) veljavnost
 			FROM stranke
 			WHERE veljavnost < CAST($P{do_datum} AS DATE) and
 				sif_kupca =  $P{sif_str}
 			GROUP BY sif_str) zadnji
 	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.veljavnost = zadnji.veljavnost) as str,
+	      stranke.veljavnost = zadnji.veljavnost) as str 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as lokcaija
+		on str.arso_odp_loc_id = lokcaija.arso_odp_loc_id and str.sif_kupca = lokcaija.sif_kupca,
 	(SELECT osnovna.*
 	FROM osnovna, (SELECT sif_os, max(zacetek) datum FROM osnovna group by sif_os) zadnji
 	WHERE osnovna.sif_os = zadnji.sif_os and
@@ -94,7 +100,7 @@ order by osnovna.sif_os]]></queryString>
 	<field name="kol_os" class="java.math.BigDecimal"/>
 	<field name="cena_am" class="java.lang.Double"/>
 	<field name="najem" class="java.lang.Double"/>
-	<field name="mesecev" class="java.lang.Long"/>
+	<field name="mesecev" class="java.lang.Integer"/>
 
 	<variable name="sum_all" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[new Double(  $F{kol_os}.doubleValue() * $F{cena_am}.doubleValue() * $F{mesecev}.doubleValue() )]]></variableExpression>

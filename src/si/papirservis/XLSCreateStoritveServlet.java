@@ -121,7 +121,7 @@ public class XLSCreateStoritveServlet extends InitServlet implements Servlet {
 																		"group by st_dob, pozicija) zadnji, " +
 					 			"(SELECT stranke.sif_kupca, " +
 								"    			SUM(if(stranke.najem = 'D' OR stranke.najem = 'X', stranke.kol_os, 0)) as stranke_kom, " +
-								"				SUM(if(stranke.najem = 'D' OR stranke.najem = 'X', stranke.cena_naj, 0)) as stranke_vrednost " +
+								"				SUM(if(stranke.najem = 'D' OR stranke.najem = 'X', stranke.kol_os * stranke.cena_naj, 0)) as stranke_vrednost " +
 								"			FROM (SELECT stranke.* " +
 								"				FROM stranke, (SELECT sif_str, max(veljavnost) datum FROM stranke " +
 								"			 	WHERE veljavnost <= CAST('"+datum_do+"' AS DATE) " +

@@ -24,27 +24,27 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="sif_str" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2201066"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2203840"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="od_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-11-1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-1-1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="do_datum" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["2009-11-30"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["2017-11-30"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="dobLeto" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["dob2017"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sif_enote" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("17")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
-		<defaultValueExpression ><![CDATA[new Integer("501")]]></defaultValueExpression>
-	</parameter>
-	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[Select 	A.`dob_st_dob` AS dob_st_dob, 
+	<parameter name="sif_skupine" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression ><![CDATA[new Integer("469")]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[Select distinct	A.`dob_st_dob` AS dob_st_dob, 
 	A.`dob_pozicija` AS dob_pozicija, 
 	A.`dob_datum` AS dob_datum, 
 	A.`dob_koda` AS dob_koda, 

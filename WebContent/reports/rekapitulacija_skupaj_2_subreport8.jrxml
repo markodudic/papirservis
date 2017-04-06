@@ -44,7 +44,7 @@
 	<parameter name="sif_str_lok" isForPrompting="false" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer("-1")]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT 
+	<queryString><![CDATA[SELECT distinct
 dob.`st_dob` AS dob_st_dob, 
 dob.`pozicija` AS dob_pozicija, 
 dob.`datum` AS dob_datum, 

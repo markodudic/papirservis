@@ -65,21 +65,26 @@
 	<parameter name="naziv_str_lok" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["Vse lokacije"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT kupci.`sif_kupca` AS sif_kupca,
+	<queryString><![CDATA[SELECT distinct kupci.`sif_kupca` AS sif_kupca,
      kupci.`naziv` AS kupci_naziv,
      kupci.`naslov` AS kupci_naslov,
      kupci.`posta` AS kupci_posta,
      kupci.`kraj` AS kupci_kraj,
      uporabniki.ime_in_priimek as potnik,
      kupci.razred as razred,
-     lokacija.naziv as lokacija,
-     lokacija.sif_str as sif_str_lok
+     max(lokacija.naziv) as lokacija,
+     max(lokacija.sif_str) as sif_str_lok,
+     lokacija.arso_odp_loc_id
 FROM
      kupci left join uporabniki on (potnik = sif_upor),
-      (select stranke.sif_str, stranke.sif_kupca, stranke.naziv from stranke where sif_str = $P{sif_str_lok} or ($P{sif_str_lok} = -1)) as lokacija
+	(select stranke.* 
+	from stranke 
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok} or ($P{sif_str_lok} = -1)) as str
+	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija
 WHERE 
      kupci.`sif_kupca` = $P{sif_str} and
-     (kupci.sif_kupca = lokacija.sif_kupca)]]></queryString>
+     (kupci.sif_kupca = lokacija.sif_kupca)
+group by lokacija.arso_odp_loc_id;]]></queryString>
 
 	<field name="sif_kupca" class="java.lang.String"/>
 	<field name="kupci_naziv" class="java.lang.String"/>
@@ -90,6 +95,7 @@ WHERE
 	<field name="razred" class="java.lang.String"/>
 	<field name="lokacija" class="java.lang.String"/>
 	<field name="sif_str_lok" class="java.lang.Integer"/>
+	<field name="arso_odp_loc_id" class="java.lang.Integer"/>
 
 	<variable name="sum_proizvodnja" class="java.lang.Double" resetType="Report" calculation="Nothing">
 		<variableExpression><![CDATA[$V{sum_proizvodnja} != null ? $V{sum_proizvodnja} : new Double (0.0)]]></variableExpression>
@@ -157,15 +163,6 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 		</background>
 		<title>
 			<band height="0"  isSplitAllowed="false" >
-				<line direction="TopDown">
-					<reportElement
-						x="0"
-						y="-2"
-						width="534"
-						height="0"
-						key="line"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
 			</band>
 		</title>
 		<pageHeader>
@@ -666,6 +663,9 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</subreportParameter>
 					<subreportParameter  name="dobLeto">
 						<subreportParameterExpression><![CDATA[$P{dobLeto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="sif_str_lok">
+						<subreportParameterExpression><![CDATA[$F{sif_str_lok}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<returnValue subreportVariable="sum_all" toVariable="sum_all"/>
@@ -1384,7 +1384,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</textElement>
 				<text><![CDATA[SKUPAJ STROŠKI]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="401"
@@ -1412,7 +1412,8 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 						y="864"
 						width="526"
 						height="0"
-						key="line-1"/>
+						key="line-1"
+						positionType="Float"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
@@ -1448,7 +1449,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 					</textElement>
 				<text><![CDATA[SKUPAJ PRIHODKI]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="421"
@@ -1472,7 +1473,7 @@ $V{sum_all}.doubleValue()))]]></variableExpression>
 ($V{sum_prod} != null ? $V{sum_prod}.doubleValue() : 0) 
 )]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="401"
