@@ -257,6 +257,7 @@ from (
      		((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
      		((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
      		((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1)) ) AS A
+group by A.skupina
 
 UNION ALL
 
