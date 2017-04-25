@@ -31,6 +31,7 @@
 	</parameter>
 	<queryString><![CDATA[SELECT distinct
      dob.`koda` AS koda,
+     dob.ewc as ewc,
      CONCAT(dob.`skupina_text`, ' / ', dob.naziv_enote) AS skupina,
      materiali.material as material
 FROM
@@ -43,6 +44,7 @@ LEFT JOIN
 ON (dob.koda = materiali.koda)]]></queryString>
 
 	<field name="koda" class="java.lang.String"/>
+	<field name="ewc" class="java.lang.String"/>
 	<field name="skupina" class="java.lang.String"/>
 	<field name="material" class="java.lang.String"/>
 
@@ -81,7 +83,7 @@ ON (dob.koda = materiali.koda)]]></queryString>
 					<reportElement
 						x="211"
 						y="0"
-						width="322"
+						width="250"
 						height="15"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -177,6 +179,19 @@ ON (dob.koda = materiali.koda)]]></queryString>
 					</textElement>
 				<text><![CDATA[ : ]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="461"
+						y="0"
+						width="71"
+						height="15"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" pdfEncoding ="Cp1250"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ewc}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
