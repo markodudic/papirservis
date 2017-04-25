@@ -64,7 +64,7 @@ from (SELECT dob.*
 		dob.st_dob = zadnji.st_dob and
 	      dob.pozicija = zadnji.pozicija and
 	      dob.zacetek = zadnji.datum)  dob,
-	(select stranke.sif_str 
+	(select distinct stranke.sif_str 
 	from stranke 
 	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as str
 	on stranke.arso_odp_loc_id = str.arso_odp_loc_id and stranke.sif_kupca = str.sif_kupca) as lokacija

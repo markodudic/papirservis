@@ -67,6 +67,8 @@ from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os
 		group by sif_str ) zadnji
 		WHERE stranke.sif_str = zadnji.sif_str and
 			  stranke.veljavnost = zadnji.datum) stranke
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as lokcaija
+		on stranke.arso_odp_loc_id = lokcaija.arso_odp_loc_id and stranke.sif_kupca = lokcaija.sif_kupca
 	WHERE stranke.sif_kupca = $P{sif_str}  and
 		((stranke.najem = "D") 
 		and 
@@ -83,6 +85,8 @@ from  (SELECT stranke.sif_os, stranke.sif_str, stranke.sif_kupca, stranke.kol_os
 		group by sif_str ) zadnji
 		WHERE stranke.sif_str = zadnji.sif_str and
 			  stranke.zacetek = zadnji.datum) stranke
+	right join (select arso_odp_loc_id, sif_kupca from stranke where sif_str = $P{sif_str_lok}) as lokcaija
+		on stranke.arso_odp_loc_id = lokcaija.arso_odp_loc_id and stranke.sif_kupca = lokcaija.sif_kupca
 	WHERE stranke.sif_kupca = $P{sif_str}  and
 		stranke.najem = "X" and
 		  NOT EXISTS (select sif_kupca 
