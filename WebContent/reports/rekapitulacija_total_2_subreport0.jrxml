@@ -295,7 +295,7 @@ SELECT
 	materiali.prevoz2,
 	materiali.prevoz3,
 	materiali.prevoz4,
-	IFNULL(b.najem, 0) + IFNULL(c.neodvoz, 0) as najem,
+	0 najem,
 	stranke.obracun_km,
 	skup.skupina,
 	skup.tekst
@@ -329,34 +329,7 @@ FROM (SELECT dob.*, IF(dob.pozicija=1,1,0) use_it
      (SELECT materiali.*
 	FROM materiali, (SELECT koda, max(zacetek) datum FROM materiali group by koda) zadnji
 	WHERE materiali.koda = zadnji.koda and
-	      materiali.zacetek = zadnji.datum) materiali,
-	      
-	(SELECT SUM(stranke.kol_os * stranke.cena_naj) as najem 
-	FROM (SELECT stranke.*
-		FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
-	 	group by sif_str ) zadnji
-		WHERE stranke.sif_str = zadnji.sif_str and
-		      stranke.zacetek = zadnji.datum) stranke
-	WHERE stranke.sif_kupca = $P{sif_str} and
-	((stranke.najem = "D") 
-	and 
-     	(stranke.sif_kupca IN (select sif_kupca 
-			from $P!{dobLeto} dob 
-			where datum >= CAST($P{od_datum} AS DATE) 
-			AND datum <= CAST($P{do_datum} AS DATE))))) as b,
-(SELECT SUM(stranke.kol_os * stranke.cena_naj) as neodvoz 
-FROM (SELECT stranke.*
-	FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
- 	group by sif_str ) zadnji
-	WHERE stranke.sif_str = zadnji.sif_str and
-	      stranke.zacetek = zadnji.datum) stranke
-WHERE stranke.sif_kupca = $P{sif_str} and
-	stranke.najem = "X" and
-      NOT EXISTS (select sif_kupca 
-			from $P!{dobLeto} dob 
-			where dob.sif_str = stranke.sif_str and 
-				datum >= CAST($P{od_datum} AS DATE) 
-				AND datum <= CAST($P{do_datum} AS DATE))) as c
+	      materiali.zacetek = zadnji.datum) materiali
 WHERE dob.`koda` = materiali.`koda` and
 	dob.skupina = skup.skupina and
 	dob.st_dob = dob_pozicije.st_dob and
@@ -365,6 +338,61 @@ WHERE dob.`koda` = materiali.`koda` and
 	((kupci.sif_kupca = $P{sif_str}) or ($P{sif_str} = -1)) and
 	((kupci.sif_enote = $P{sif_enote}) or ($P{sif_enote} = -1)) and
 	((kupci.skupina = $P{sif_skupine}) or ($P{sif_skupine} = -1))
+
+UNION ALL 
+
+SELECT 
+   0 skupaj,
+	0 amortizacija,
+	0 mesecev,
+	0 nab_vrednost,
+	0 prod_vrednost,
+	0 dob_kolicina,
+	0 dob_cena,
+	0 dob_zaup,
+	0 dob_smet,
+	0 ravnanje_param,
+	0 dob_ravnanje,
+	0 dob_proizvodnja,
+	0 dob_stroski,
+	0 dob_prevoz,
+	0 dob_stev_km,
+	0 ravnanje,
+	0 prevoz_kamion,
+	0 prevoz_material,
+	0 prevoz1,
+	0 prevoz2,
+	0 prevoz3,
+	0 prevoz4,
+	b.najem,
+	0 obracun_km,
+	dob.skupina,
+	dob.skupina_text
+	FROM (SELECT distinct SUM(stranke.kol_os * stranke.cena_naj) as najem, stranke.sif_str
+					FROM (SELECT stranke.*
+						FROM stranke, (SELECT sif_str, max(zacetek) datum FROM stranke
+					 	group by sif_str ) zadnji
+						WHERE stranke.sif_str = zadnji.sif_str and
+						      stranke.zacetek = zadnji.datum) stranke
+					WHERE stranke.sif_kupca = $P{sif_str} and
+					((stranke.najem = "D") 
+					and 
+				     	(stranke.sif_str IN (select sif_str 
+							from $P!{dobLeto} dob 
+							where datum >= CAST($P{od_datum} AS DATE) 
+							AND datum <= CAST($P{do_datum} AS DATE)))) group by stranke.sif_str) as b
+    left join 
+							(SELECT distinct dob.sif_str, dob.skupina, dob.skupina_text
+		FROM $P!{dobLeto} dob, (SELECT st_dob, pozicija, max(zacetek) datum 
+			FROM $P!{dobLeto} dob 
+			WHERE dob.datum >= CAST($P{od_datum} AS DATE) 
+				AND dob.datum <= CAST($P{do_datum} AS DATE)
+			group by st_dob, pozicija) zadnji
+		WHERE dob.sif_kupca = $P{sif_str} AND
+				dob.st_dob = zadnji.st_dob and
+		      dob.pozicija = zadnji.pozicija and
+		      dob.zacetek = zadnji.datum)  dob
+	on (b.sif_str = dob.sif_str)	
 
 ) as main
 group by main.skupina, main.skupina_text]]></queryString>
@@ -485,7 +513,7 @@ group by main.skupina, main.skupina_text]]></queryString>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" size="9" pdfEncoding ="Cp1250"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{COLUMN_COUNT}.doubleValue()/1 == 1 ? $F{najem} : new Double(0)]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{najem}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" evaluationTime="Band" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
