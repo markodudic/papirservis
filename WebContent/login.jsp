@@ -197,6 +197,7 @@ for (int i = 0; i < ar_cookie.length; i++){
 		<td><span class="jspmaker">
 			<select style="width: 100px" name="leto">
 				<option value="2017" <%= year.equals("2017") ? "selected=\"selected\"" : "" %>>2017</option>
+				<option value="2018" <%= year.equals("2018") ? "selected=\"selected\"" : "" %>>2018</option>
 			</select>
 		</span></td>
 	</tr>
